@@ -50,7 +50,7 @@ export const department = [
 ]
 
 export const option = department.sort(function(a,b) {                           //객체 정렬 형식 (오름차순), 실제로 import 시키는 값
-    return a.value < b.value ? -1 : a.value > b.value ? 1 : 0;
+    return a - b;
 })
 
 
