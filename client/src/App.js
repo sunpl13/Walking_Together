@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
+import Register from './user/register/Register'
 
 import './styles/app.scss';
 
@@ -13,7 +14,7 @@ import Map from './user/Mapsj/Map';
 
 function App() {
   return (
-    <div id="app">
+    <div id="app" className="App">
   
       <Switch>
         <Route path="/admin" component={Admin} />
