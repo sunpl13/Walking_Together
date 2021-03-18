@@ -1,0 +1,41 @@
+@import './valiables.scss';
+
+#app {
+    height: 100%;
+    position: absolute;
+}
+
+#menu {
+    width: 270px;
+    height: 100%;
+    left: 130px;
+    display: inline-block;
+    background: $BackSky;
+    position: absolute;
+    box-shadow: 4px 0px 2px $shadowGray;
+}
+
+#userInfo {
+    width: 1000px;
+    top: 60px;
+    left: 399px;
+    position: absolute;
+    p, button {
+        position: relative;
+        float: right;
+        margin: 2px;
+    }
+}
+
+#route {
+    width: 1000px;
+    height: calc(100% - 150px);
+    background-color: $white;
+    display: inline-block;
+    top: 90px;
+    left: 399px;
+    position: absolute;
+    border-radius: 0px 10px 10px 0px;
+    border: 1px solid $shadowGray;
+    box-shadow: 4px 4px 2px $shadowGray;
+}
