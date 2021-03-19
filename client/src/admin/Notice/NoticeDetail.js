@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import { selectNotice, deleteNotice } from '../../modules/notice';
 
 const NoticeDetail = ({match}) => {
     const dispatch = useDispatch();
-    const noticeId = match.params.noticeId;
+    const noticeId = match.params;
 
-    const [notice,setNotice] = useState({});
+    const notice = useSelector(state => state.notice.selectedNotice);
     
     useEffect(() => {
-        const res = selNotice();
-        setNotice(res)
+        dispatch(selectNotice(noticeId))  //공지글 불러오기
     },[noticeId])
 
     //action
-    const selNotice = async () => {
-        await dispatch(selectNotice(noticeId))
-        const state = await useSelector(state => state.notice.selectedNotice)
-        return state
-    }
-
-    const delNotice = () => {
+    const delNotice = () => {              //공지글 삭제
         dispatch(deleteNotice(noticeId))
     }
 
     return (
         <div>
-            <button><Link to="/admin/notice-action?type=update">수정</Link></button>
+            <button><Link to="/admin/notice-action/update">수정</Link></button>
             <button onClick={delNotice}>삭제</button>
 
             <h3>{notice.title}</h3>
             <h4>{notice.createTime}</h4>
             <p>{notice.content}</p>
             {notice.attachedFiles.map((file) => {
-                return (<a href={file}></a>)
+                return (<a href={file}>첨부파일다운</a>)
             })}
         </div>
     );
