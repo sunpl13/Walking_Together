@@ -4,6 +4,7 @@ import axios from 'axios'
 const SIGNUP_USER = 'SIGNUP_USER';
 const LOGIN_USER = "LOGIN_USER";
 const LOGOUT_USER = 'LOGOUT_USER';
+const AUTH_USER = 'AUTH_USER';
 
 
 //로그인
@@ -76,4 +77,54 @@ export const logoutHandler = () => async(dispatch) => {
     await dispatch({
         type : LOGOUT_USER
     });
+}
+
+//페이지간 인증
+export const authHandler = (token) => async(dispatch) => {
+
+    const data = await axios.post('/auth', {token : token})
+    console.log(data)
+
+    if(data.data.isAuth == true) {
+        await dispatch({
+            type : AUTH_USER,
+            payload : data
+        });
+    }
+}
+
+const initialstate = {
+    isLogin : {},     //로그인 정보를 저장
+    result : {},      //회원가입 결과를 저장
+    authResult : {},  //인증 결과 저장
+    isAuth : false    //인증 결과 저장 (추후 수정 예정)
+};
+
+export default function user(state = initialstate, action) {
+    switch (action.type) {
+        case LOGIN_USER:
+          return {
+            ...state,
+            isLogin: action.payload,
+          };
+        case SIGNUP_USER:
+              return {
+                  ...state,
+                result : action.payload,
+                isAuth: false
+              };
+        case LOGOUT_USER:
+            return {
+                ...state,
+                isAuth : false
+            };
+        case AUTH_USER:
+            return {
+                ...state,
+                authResult : action.payload,
+                isAuth : true
+            }
+          default :
+          return state;
+}
 }

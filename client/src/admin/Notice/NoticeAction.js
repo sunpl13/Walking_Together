@@ -33,22 +33,18 @@ const NoticeAction = ({match}) => {
     const submit = () => {
         if(type=="update"){     //update
             if((title=="")&&(content=="")&&(fileState==true)){
-                alert("변경된 내용이 없습니다.")
-                break;
+                alert("변경된 내용이 없습니다.");
             } else {
-                const res = dispatch(updateNotice(title, content, imageFiles, attachedFiles))
-                break;
+                const res = dispatch(updateNotice(title, content, imageFiles, attachedFiles));
             }
         } else {    //insert
             if((content!="")&&(title!="")) {
-                const res = dispatch(insertNotice(title, content, imageFiles, attachedFiles))
-                break;
+                const res = dispatch(insertNotice(title, content, imageFiles, attachedFiles));
+
             } else if((title=="")) {
                 alert("제목을 입력해주세요.");
-                break;
             } else {
                 alert("내용을 입력해주세요.");
-                break;
             }
         }
     }
