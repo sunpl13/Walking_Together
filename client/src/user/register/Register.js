@@ -1,4 +1,4 @@
-import {React,useState, useEffect} from 'react'
+import {React,useState, useEffect, useCallback} from 'react'
 
 function Register() {
     
@@ -8,19 +8,17 @@ function Register() {
     const [agree3, setAgree3] = useState(false);                                //위치정보 동의
     const [total, settotal] = useState(false);                                   //전체 동의
   
-    useEffect(() => {
-      buttonState();
-    }, [agree1,agree2,agree3])
-  
-    const buttonState = () => {
+
+    const buttonState = useCallback(() => {
       if((agree1===true)&&(agree2===true)&&(agree3===true)){
         setDisabled('');
       }
       else {
         setDisabled('disabled');
       }
-    };
+    },[agree1,agree2,agree3]);
 
+ 
     const totalchange = () => {
         if(total ===true) {                                                         //전체동의가 true라면 다시 클릭 했을때 전부 unchecked
             settotal(!total);
@@ -51,6 +49,11 @@ function Register() {
       alert('완료');
     }
   
+    useEffect(() => {
+      buttonState();
+    }, [buttonState])
+  
+
 
     return (
         <div>

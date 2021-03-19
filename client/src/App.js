@@ -1,8 +1,9 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
-import Register from './user/register/Register'
-
+//인증 가능할 시에 인증
+// import Auth from './hoc/Auth';
 import './styles/app.scss';
+import Nav from './utils/Nav'
 
 //admin
 import Admin from './admin/Admin';
@@ -22,7 +23,7 @@ function App() {
         <Route path="/user/certification" component={Certification} />
         <Route path="/user/map" component={Map} />
       </Switch>
-
+      <div style = "z-index:99;bottom:0px;left:0px;right:0px;position:absoulte !important; position:fixed"><Nav/></div>
     </div>
   )
 }
