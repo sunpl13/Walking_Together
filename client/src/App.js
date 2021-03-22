@@ -14,6 +14,16 @@ import Certification from './user/Certification/Certification';
 import Map from './user/Mapsj/Map';
 
 function App() {
+
+  const style = {
+    "z-index" : "99",
+    bottom: "0px",
+    left: "0px",
+    right:"0px",
+    position:"absoulte !important", 
+    position:"fixed"
+  }
+
   return (
     <div id="app" className="App">
   
@@ -23,7 +33,7 @@ function App() {
         <Route path="/user/certification" component={Certification} />
         <Route path="/user/map" component={Map} />
       </Switch>
-      <div style = "z-index:99;bottom:0px;left:0px;right:0px;position:absoulte !important; position:fixed"><Nav/></div>
+      <div style = {style}><Nav/></div>
     </div>
   )
 }
