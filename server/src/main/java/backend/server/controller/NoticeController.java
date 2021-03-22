@@ -27,7 +27,7 @@ public class NoticeController {
     private final FileUploadService fileUploadService;
 
     // 공지사항 게시물 출력
-    @GetMapping("/noticeList")
+    @PostMapping("/noticeList")
     public Map<String, Object> list(@RequestBody PageRequestDTO pageRequestDTO) {
 
         PageResultDTO<NoticeListDTO, Notice> result = noticeService.getList(pageRequestDTO);
@@ -62,7 +62,7 @@ public class NoticeController {
     @PostMapping("/admin/createpost")
     public void uploadImage(@RequestPart @Nullable List<MultipartFile> imageFiles,
                             @RequestPart @Nullable List<MultipartFile> attachedFiles,
-                            NoticeDTO noticeDto)
+                            @RequestBody NoticeDTO noticeDto)
     {
         Long noticeId = noticeService.saveNotice(noticeDto);
 
@@ -160,7 +160,7 @@ public class NoticeController {
     @PostMapping("/admin/update")
     public Map<String, Object> update(@RequestPart @Nullable List<MultipartFile> imageFiles,
                        @RequestPart @Nullable List<MultipartFile> attachedFiles,
-                       NoticeDTO noticeDTO) {
+                       @RequestBody NoticeDTO noticeDTO) {
 
         Map<String, Object> response = new HashMap<>();
         response.put("status", 200);

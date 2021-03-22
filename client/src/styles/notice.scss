@@ -1,0 +1,44 @@
+@import './valiables.scss';
+
+.pagination-ul {
+    width:100%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 25px;
+    text-align: center;
+    * {
+        display: inline-block;
+        margin: 0 auto;
+        width: 30px;
+        height: 30px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 30px;
+        line-height: 30px;
+        :hover {
+            background-color: $BackGray;
+            color: $fontWhite;
+        }
+    }
+    .pageLabel-btn {
+        width: 60px;
+        margin: 0 5px;
+        padding: 0;
+        border: 1px solid $BackGray;
+        * {
+            width: 60px;
+        }
+    }
+    .page-li {
+        padding: 0;
+        margin: 0 3px;
+    }
+    .currentPage {
+        background-color: $BackSkyBlue;
+        * {
+            color: $fontWhite;
+        }
+    }
+}
