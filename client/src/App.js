@@ -16,6 +16,16 @@ import Register from './user/register/Register';
 import RegisterAuth from './user/register/RegisterAuth';
 
 function App() {
+
+  const style = {
+    "z-index" : "99",
+    bottom: "0px",
+    left: "0px",
+    right:"0px",
+    position:"absoulte !important", 
+    position:"fixed"
+  }
+
   return (
     <div id="app" className="App">
   
@@ -27,7 +37,8 @@ function App() {
         <Route path="/signup" component={Register}/>
         <Route path="/registerauth" component={RegisterAuth}/>
       </Switch>
-      <div><Nav/></div>
+    
+      <div style = {style}><Nav/></div>
     </div>
   )
 }

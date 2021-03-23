@@ -3,27 +3,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
+import '../../styles/notice.scss';
 
-const Notice = () => {
+import { selectNotice } from '../../modules/notice';
+
+const Notice = ({history}) => {
     const dispatch = useDispatch();
 
     //page
-    const [current, setCurrent] = useState(1);  //현재 페이지
+    const [current, setCurrent] = useState(0);  //현재 페이지
     const pageInfo = useSelector(state => state.noticeReducer.pageInfo)  //전체 페이지 정보
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
-        setCurrent(page)
+        setCurrent(page.selected)
     }
 
     const noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
 
     useEffect(() => {
-        dispatch(getNoticeList(current))
+        return (
+            dispatch(getNoticeList(current+1,null))
+        )
     }, [current])
+
+    const clickAction = (noticeId) => {
+        dispatch(selectNotice(noticeId))
+        history.push(`/admin/notice-detail/${noticeId}`);
+    }
 
     return (
         <div>
-            <p>test</p>
             <Link to='/admin/notice-action/insert'>글쓰기</Link>
             
             <table>
@@ -35,12 +44,10 @@ const Notice = () => {
                 {
                     noticeList.map((notice) => {
                         return (
-                            <tr>
-                                <Link to={`admin/notice-detail?noticeId=${notice.noticeId}`}>
-                                    <td>{notice.noticeId}</td>
-                                    <td>{notice.title}</td>
-                                    <td>{notice.date}</td>
-                                </Link>
+                            <tr key={notice.noticeId} onClick={() => clickAction(notice.noticeId)}>
+                                <td>{notice.noticeId}</td>
+                                <td>{notice.title}</td>
+                                <td>{notice.date}</td>
                             </tr>
                         )
                     })
@@ -48,12 +55,11 @@ const Notice = () => {
             </table>
 
             <ReactPaginate 
-            pageCount={Math.ceil(pageInfo.page / 10)}  //총 게시글 수
+            pageCount={pageInfo.totalPage}  //총 페이지 수
             pageRangeDisplayed={10}  //한 페이지에 표시할 게시글 수
-            marginPagesDisplayed={1} //여백을 표시 할 페이지 수
-            initialPage={1}  //선택한 초기 페이지
-            previousLabel={pageInfo.prev===true ? "이전" : null}  //이전 라벨
-            nextLabel={pageInfo.next===true ? "다음" : null}  //다음 라벨
+            initialPage={current}  //선택한 초기 페이지
+            previousLabel={"이전"}  //이전 라벨
+            nextLabel={"다음"}  //다음 라벨
             onPageChange={changePage}  //클릭 할 때 호출 할 메서드
             containerClassName={"pagination-ul"}  //페이지 매김 컨테이너의 클래스 이름
             pageClassName={"page-li"}  //각 페이지 요소의 li태그에 있는 클래스 이름

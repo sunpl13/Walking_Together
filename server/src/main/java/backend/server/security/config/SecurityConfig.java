@@ -56,11 +56,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 세션 사용 x
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and().authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
-                .antMatchers("/noticeList").permitAll().antMatchers("/admin/*").permitAll().antMatchers("/hello")
-                .permitAll().antMatchers("/login").permitAll().antMatchers("/signup").permitAll()
-                .antMatchers("/findpassword").permitAll().antMatchers("/signup/authNum").permitAll()
-                .antMatchers("/auth").permitAll().anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
+
+                .and()
+                .authorizeRequests()    // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
+                .antMatchers("/noticeList").permitAll()
+                .antMatchers("/notice").permitAll()
+                .antMatchers("/admin/*").permitAll()
+                .antMatchers("/hello").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/findpassword").permitAll()
+                .antMatchers("/signup/authNum").permitAll()
+                .antMatchers("/auth").permitAll()
+                .anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
 
                 // JwtSecurityConfig 클래스 적용
                 .and().apply(new JwtSecurityConfig(tokenProvider));
