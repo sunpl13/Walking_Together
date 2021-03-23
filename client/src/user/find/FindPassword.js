@@ -23,10 +23,34 @@ function FindPassword() {
         setstdId(e.currentTarget.value)
     };
 
+<<<<<<< Updated upstream
     const EmailHandler = (e) => {
         setEmail(e.currentTarget.value)
     };
 
+=======
+    const findpasswordHandler = () => {
+        axios.post('/findpassword', {
+            stdId : stdId,
+            name : Name,
+            birth : birth
+        })
+        .then(res => {if(res.data.status === "200") {
+            if(window.confirm(res.data.message)) {
+                history.push({
+                    pathname : '/findresult',
+                    state : {email : res.data.email}
+                })
+            }
+        } else {
+            alert(res.data.message)
+        }}
+            
+        )
+        .catch(err => err)
+    }
+    
+>>>>>>> Stashed changes
     return (
     
         <div style = {style}>

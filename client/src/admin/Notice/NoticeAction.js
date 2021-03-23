@@ -54,7 +54,12 @@ const NoticeAction = ({match}) => {
         setAttachedFiles(...attachedFiles, e.target.value);
         setFileState(true);
     }
+<<<<<<< Updated upstream
 
+=======
+    console.log(content)
+    console.log(attachedFiles);
+>>>>>>> Stashed changes
     return (
         <div>
             <button onClick={cancel}>취소</button>

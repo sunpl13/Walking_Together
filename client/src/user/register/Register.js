@@ -2,7 +2,7 @@ import {React,useState, useEffect, useCallback} from 'react'
 
 function Register() {
     
-    const [disabled, setDisabled] = useState('disabled');
+    // const [disabled, setDisabled] = useState('disabled');
     const [agree1, setAgree1] = useState(false);                                //회원정보 동의
     const [agree2, setAgree2] = useState(false);                                //개인정보 수집 및 이용동의
     const [agree3, setAgree3] = useState(false);                                //위치정보 동의
@@ -30,6 +30,10 @@ function Register() {
         setAgree1(true);
         setAgree2(true);
         setAgree3(true);
+<<<<<<< Updated upstream
+=======
+        // setDisabled('');
+>>>>>>> Stashed changes
     }
     }
   

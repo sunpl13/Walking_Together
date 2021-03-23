@@ -1,4 +1,11 @@
 import React from 'react'
+<<<<<<< Updated upstream
+=======
+// import {getNoticeList} from '../../modules/notice';
+// import {useSelector} from 'react-redux'
+import { useHistory } from 'react-router';
+
+>>>>>>> Stashed changes
 
 function Home() {
     return (
