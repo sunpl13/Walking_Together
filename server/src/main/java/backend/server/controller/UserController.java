@@ -27,7 +27,7 @@ public class UserController {
     public Map<String, Object> signup(@Valid @RequestBody UserDTO userDto) throws Exception {
 
         Map<String, Object> response = new HashMap<>();
-        response.put("status",200);
+        response.put("status", 200);
 
         if (userService.signup(userDto) == null) {
             response.put("status", "406");
@@ -36,15 +36,15 @@ public class UserController {
         }
 
         if (userService.signup(userDto) == "emailDup") {
-            response.put("status", "406");
+            response.put("status", "407");
             response.put("message", "이미 가입된 이메일입니다.");
             return response;
         }
 
         userService.signup(userDto);
-            response.put("status", "200");
-            response.put("message", "회원가입이 성공적으로 완료되었습니다.");
-            return response;
+        response.put("status", "200");
+        response.put("message", "회원가입이 성공적으로 완료되었습니다.");
+        return response;
     }
 
     // 회원가입시 인증코드 전송
@@ -59,11 +59,11 @@ public class UserController {
 
         Random random = new Random();
         Long l = abs(random.nextLong());
-        authNumber += String.valueOf(l).substring(0,7);
+        authNumber += String.valueOf(l).substring(0, 7);
 
         try {
             userService.sendAuthNumber(email, authNumber);
-        } catch(Exception e) {
+        } catch (Exception e) {
             response.put("status", 400);
             response.put("message", "인증번호 전송에 실패했습니다.");
             return response;
@@ -89,8 +89,7 @@ public class UserController {
     @PostMapping("/findpassword")
     public Map<String, Object> findPassword(@RequestBody FindPasswordDTO findPasswordDTO) {
 
-        String email = userService.findPassword(findPasswordDTO.getStdId(),
-                findPasswordDTO.getName(),
+        String email = userService.findPassword(findPasswordDTO.getStdId(), findPasswordDTO.getName(),
                 findPasswordDTO.getBirth());
 
         Map<String, Object> response = new HashMap<>();

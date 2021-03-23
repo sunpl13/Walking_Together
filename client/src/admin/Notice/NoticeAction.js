@@ -55,9 +55,9 @@ const NoticeAction = ({match}) => {
     useMemo(() => setUpdateState(true), [changeState])
 
     const attach = (e) => {  //파일 첨부
-        setAttachedFiles(...attachedFiles, e.target.value);
+        setAttachedFiles(...attachedFiles, e.target.value); 
     }
-
+    console.log(content)
     return (
         <div>
             <button onClick={cancel}>취소</button>
@@ -79,14 +79,7 @@ const NoticeAction = ({match}) => {
             />
 
             <h4>첨부파일</h4>
-            {attachedFiles.map((file, index) => {
-                return (
-                    <div id={index}>
-                        <a href={file}>첨부파일다운</a>
-                        <button onClick={() => setAttachedFiles(attachedFiles.filter(attachedFiles => attachedFiles !== file))}>삭제</button>
-                    </div>
-                )
-             })}
+            {content}
             <input type="file" onChange={attach}></input>
         </div>
     );

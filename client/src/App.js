@@ -7,11 +7,13 @@ import Nav from './utils/Nav'
 
 //admin
 import Admin from './admin/Admin';
-import Login from './admin/Login/Login';
 
 //user
-import Certification from './user/Certification/Certification';
-import Map from './user/Mapsj/Map';
+import RegisterPage from './user/register/RegisterPage';
+import Login from './user/login/Login'
+import Mypage from './user/Mypage/Mypage';
+import Register from './user/register/Register';
+import RegisterAuth from './user/register/RegisterAuth';
 
 function App() {
   return (
@@ -20,10 +22,12 @@ function App() {
       <Switch>
         <Route path="/admin" component={Admin} />
         <Route path="/login" component={Login} />
-        <Route path="/user/certification" component={Certification} />
-        <Route path="/user/map" component={Map} />
+        <Route path="/register" component={RegisterPage}/>
+        <Route path="/mypage" component={Mypage}/>
+        <Route path="/signup" component={Register}/>
+        <Route path="/registerauth" component={RegisterAuth}/>
       </Switch>
-      <div style = "z-index:99;bottom:0px;left:0px;right:0px;position:absoulte !important; position:fixed"><Nav/></div>
+      <div><Nav/></div>
     </div>
   )
 }

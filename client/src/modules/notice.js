@@ -39,7 +39,7 @@ export const insertNotice = (       //공지글 등록
     imageFiles, 
     attachedFiles
     ) => async() => {
-        await axios.post(`${url}/admin/createpost`, {
+        await axios.post('/admin/createpost', {
             title: title,
             content: content,
             imageFiles: imageFiles,
