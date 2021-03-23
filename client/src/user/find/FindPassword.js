@@ -27,6 +27,12 @@ function FindPassword() {
         setstdId(e.currentTarget.value)
     };
 
+
+    const EmailHandler = (e) => {
+        setEmail(e.currentTarget.value)
+    };
+
+
     const findpasswordHandler = () => {
         axios.post('/findpassword', {
             stdId : stdId,
@@ -47,6 +53,7 @@ function FindPassword() {
         )
         .catch(err => err)
     }
+
     /*
     if(res.data.status == 200) {
         if(window.confirm(res.data.message)) {

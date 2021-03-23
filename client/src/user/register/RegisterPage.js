@@ -1,12 +1,13 @@
+
 import {React, useState} from 'react';
 import {signupHanlder} from '../../modules/user';
-import axios from 'axios'
 import {useDispatch} from 'react-redux';
 import {useHistory, useLocation} from 'react-router-dom' 
 import moment from 'moment'
 import {option} from '../../utils/options'
 
 function RegisterPage() {
+
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
@@ -24,6 +25,7 @@ function RegisterPage() {
 
 
         
+
     const [Email, setEmail] = useState(location.state.email);
     const [Name, setName] = useState("");
     const [Password, setPassword] = useState("");
@@ -59,7 +61,9 @@ function RegisterPage() {
 
     const register = async(e) => {
         e.preventDefault();     
-        if(Password == PasswordConfrim) {                    
+
+        if(Password === PasswordConfrim) {                    
+
     //      await axios.post('/signup', {
     //      name : Name,
     //      email : Email,

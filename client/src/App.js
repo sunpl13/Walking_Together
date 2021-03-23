@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
 //인증 가능할 시에 인증
-// import Auth from './hoc/Auth';
+import Auth from './hoc/Auth';
 import './styles/app.scss';
 import Nav from './utils/Nav'
 
@@ -34,15 +34,17 @@ function App() {
   
       <Switch>
         <Route path="/admin" component={Admin} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={RegisterPage}/>
-        <Route path="/mypage" component={Mypage}/>
-        <Route path="/signup" component={Register}/>
-        <Route path="/registerauth" component={RegisterAuth}/>
-        <Route path="/home" component={Home}/>
-        <Route path="/noticelist" component={UserNotice}/>
-        <Route path="/findpassword" component={FindPassword}/>
-        <Route path="/findresult" component={FindPasswordResult}/>
+
+        <Route path="/login" component={Auth(Login,false)} />
+        <Route path="/register" component={Auth(RegisterPage,false)}/>
+        <Route path="/mypage" component={Auth(Mypage,true)}/>
+        <Route path="/signup" component={Auth(Register,false)}/>
+        <Route path="/registerauth" component={Auth(RegisterAuth,false)}/>
+        <Route path="/home" component={Auth(Home,true)}/>
+        <Route path="/noticelist" component={Auth(UserNotice,true)}/>
+        <Route path="/findpassword" component={Auth(FindPassword,false)}/>
+        <Route path="/findresult" component={Auth(FindPasswordResult,false)}/>
+
       </Switch>
     
       <div style = {style}><Nav/></div>

@@ -1,8 +1,10 @@
 import React from 'react'
+
+// import {getNoticeList} from '../../modules/notice';
+// import {useSelector} from 'react-redux'
+import { useHistory } from 'react-router';
 import {getNoticeList} from '../../modules/notice';
 import {useSelector} from 'react-redux'
-import { useHistory } from 'react-router';
-
 
 function Home() {
 
