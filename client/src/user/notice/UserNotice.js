@@ -1,9 +1,16 @@
 import {React, useState} from 'react'
-import {FaSearch} from 'react-icons'
+import {FaSearch} from 'react-icons/fa';
 
-function Notice() {
-    
-    const [notice, setnotice] = useState([])
+function UserNotice() {
+
+    const [search, setsearch] = useState("");
+    const [notice, setnotice] = useState([]);
+
+    const onChangeHandler = e => {
+        setsearch(e.target.value)
+    }
+
+
 
     const allList = notice.map(
         item => (
@@ -26,4 +33,4 @@ function Notice() {
     )
 }
 
-export default Notice
+export default UserNotice

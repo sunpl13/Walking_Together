@@ -14,11 +14,14 @@ import Login from './user/login/Login'
 import Mypage from './user/Mypage/Mypage';
 import Register from './user/register/Register';
 import RegisterAuth from './user/register/RegisterAuth';
+import Home from './user/home/Home';
+import UserNotice from './user/notice/UserNotice';
+import FindPassword from './user/find/FindPassword';
+import FindPasswordResult from './user/find/FindPasswordResult';
 
 function App() {
 
   const style = {
-    "z-index" : "99",
     bottom: "0px",
     left: "0px",
     right:"0px",
@@ -36,6 +39,10 @@ function App() {
         <Route path="/mypage" component={Mypage}/>
         <Route path="/signup" component={Register}/>
         <Route path="/registerauth" component={RegisterAuth}/>
+        <Route path="/home" component={Home}/>
+        <Route path="/noticelist" component={UserNotice}/>
+        <Route path="/findpassword" component={FindPassword}/>
+        <Route path="/findresult" component={FindPasswordResult}/>
       </Switch>
     
       <div style = {style}><Nav/></div>

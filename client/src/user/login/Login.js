@@ -1,8 +1,10 @@
 import {React,useState} from 'react'
 import {useDispatch} from 'react-redux'
+import { useHistory } from 'react-router';
 import {loginHandler} from '../../modules/user'
 function Login() {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const style = {
         display : "flex",
@@ -26,6 +28,7 @@ function Login() {
         e.preventDefault();
     };
 
+
     const login = () => {                                                //회원정보를 서버에 전송
         // axios.post('/api/login', {
         //     stdId : stdId,
@@ -45,7 +48,7 @@ function Login() {
         // }
         // });
 
-        dispatch(loginHandler(stdId, Password));
+        dispatch(loginHandler(stdId, Password, history));
     }
 
     return (
@@ -59,6 +62,7 @@ function Login() {
                 <input type = "password" value = {Password} onChange = {PasswordHandler}/>
                 <br/>
                 <button type = "submit" onClick = {login}>Login</button>
+        <button onClick = {() => {history.push('/findpassword')}}>비밀번호 찾기</button>
             </form>
         </div>
         </div>
