@@ -9,9 +9,10 @@ const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
 const AUTH_USER_FAIL = 'AUTH_USER_FAIL';
 
 
+
 //로그인
-export const loginHandler = (stdId, password) => async(dispatch) => {
-    const data = await axios.post('/api/login', {
+export const loginHandler = (stdId, password, history) => async(dispatch) => {
+    await axios.post('/login', {
         stdId : stdId,
         password : password
     })
@@ -20,7 +21,15 @@ export const loginHandler = (stdId, password) => async(dispatch) => {
         if (response.data.token) {
             console.log(response);
             localStorage.setItem("token", JSON.stringify(response.data.token));                         //유저토큰 로컬스토리지에 user로 저장
-            localStorage.setItem("user_info", JSON.stringify(response.data.stdiId));                    //유저정보 user_info로 로컬스토리지에 저장
+            localStorage.setItem("user_info", JSON.stringify(response.data.stdId));                    //유저정보 user_info로 로컬스토리지에 저장
+            dispatch({
+                type: LOGIN_USER,
+                payload : response.data,
+            })
+            
+            if(window.confirm("환영합니다!")) {
+                history.push('/home')
+            }
         } 
         return response.data;
     } else {
@@ -29,28 +38,21 @@ export const loginHandler = (stdId, password) => async(dispatch) => {
     }
     })
     .catch(err => console.log(err));
-    console.log(data)
  
-    if(data.success) {
-        await dispatch({
-            type: LOGIN_USER,
-            payload : data,
-        });
-    } else {
-        alert("로그인 정보가 일치하지 않습니다.");
-    }
-};
+    
+    } 
 
 //회원가입
 export const signupHanlder = (
-    email, 
     name, 
+    email, 
     password, 
     stdId, 
     birth, 
-    department
+    department,
+    history
 ) => async(dispatch) => {
-    const data = axios.post('/api/signup', {
+     await axios.post('/signup', {
         email : email,
         name : name,
         password : password,
@@ -58,18 +60,26 @@ export const signupHanlder = (
         birth : birth,
         department : department
     })
-    .then((response) => {console.log(response)})
-    .catch(err => alert(err));
+    .then((res) =>{if(res.data.status === "200") {
+        dispatch({
+            type : SIGNUP_USER
+        })
+        console.log(res)
+         if (window.confirm(res.data.message)){
+             history.push("/login")
+         }
+    } else if(res.data.status === "406"){          //학번 중복
+        console.log(res);
+        return alert(res.data.message)
+    } else if(res.data.state === "407"){           //이메일 중복
+        console.log(res);
 
-    if(data.success) {
-        await dispatch({
-            type : SIGNUP_USER,
-            payload : data
-        });
-    } else {
-        alert("학번 또는 이메일이 중복 되었습니다.")
+        return alert(res.data.message)
+    }} 
+)
+    .catch(err => alert(err)); 
     }
-}
+
 
 //로그아웃
 export const logoutHandler = () => async(dispatch) => {
@@ -88,11 +98,8 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
     .then(res => res.data)
     .catch(err => console.log(err));
 
-<<<<<<< Updated upstream
-    if(data.data.isAuth == true) {
-        await dispatch({
-            type : AUTH_USER,
-=======
+
+    if(data.data.isAuth === true) {
     dispatch({
         type : AUTH_USER_PANDING,
         payload : data
@@ -100,7 +107,6 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
     try{
         dispatch({
             type : AUTH_USER_SUCCESS,
->>>>>>> Stashed changes
             payload : data
         });
     if(adminRoute === null){
@@ -163,7 +169,6 @@ export default function user(state = initialstate, action) {
         case SIGNUP_USER:
               return {
                   ...state,
-                result : action.payload,
                 isAuth: false
               };
         case LOGOUT_USER:

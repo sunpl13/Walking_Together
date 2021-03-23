@@ -7,23 +7,34 @@ import Nav from './utils/Nav'
 
 //admin
 import Admin from './admin/Admin';
-import Login from './admin/Login/Login';
 
 //user
-import Certification from './user/Certification/Certification';
-import Map from './user/Mapsj/Map';
+import RegisterPage from './user/register/RegisterPage';
+import Login from './user/login/Login'
+import Mypage from './user/Mypage/Mypage';
+import Register from './user/register/Register';
+import RegisterAuth from './user/register/RegisterAuth';
+import Home from './user/home/Home';
+import UserNotice from './user/notice/UserNotice';
+import FindPassword from './user/find/FindPassword';
+import FindPasswordResult from './user/find/FindPasswordResult';
 
 function App() {
+
+  const style = {
+    bottom: "0px",
+    left: "0px",
+    right:"0px",
+    position:"absoulte !important", 
+    position:"fixed"
+  }
+
   return (
     <div id="app" className="App">
   
       <Switch>
         <Route path="/admin" component={Admin} />
-<<<<<<< Updated upstream
-        <Route path="/login" component={Login} />
-        <Route path="/user/certification" component={Certification} />
-        <Route path="/user/map" component={Map} />
-=======
+
         <Route path="/login" component={Auth(Login,false)} />
         <Route path="/register" component={Auth(RegisterPage,false)}/>
         <Route path="/mypage" component={Auth(Mypage,true)}/>
@@ -33,9 +44,10 @@ function App() {
         <Route path="/noticelist" component={Auth(UserNotice,true)}/>
         <Route path="/findpassword" component={Auth(FindPassword,false)}/>
         <Route path="/findresult" component={Auth(FindPasswordResult,false)}/>
->>>>>>> Stashed changes
+
       </Switch>
-      <div style = "z-index:99;bottom:0px;left:0px;right:0px;position:absoulte !important; position:fixed"><Nav/></div>
+    
+      <div style = {style}><Nav/></div>
     </div>
   )
 }

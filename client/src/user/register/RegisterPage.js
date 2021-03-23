@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-import React from 'react'
 
-function RegisterPage() {
-=======
 import {React, useState} from 'react';
 import {signupHanlder} from '../../modules/user';
 import {useDispatch} from 'react-redux';
@@ -11,6 +7,7 @@ import moment from 'moment'
 import {option} from '../../utils/options'
 
 function RegisterPage() {
+
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
@@ -28,7 +25,8 @@ function RegisterPage() {
 
 
         
-    const Email = location.state.email;
+
+    const [Email, setEmail] = useState(location.state.email);
     const [Name, setName] = useState("");
     const [Password, setPassword] = useState("");
     const [PasswordConfrim, setPasswordConfrim] = useState("");
@@ -36,12 +34,15 @@ function RegisterPage() {
     const [birth, setbirth] = useState("");
     const [department, setdepartment] = useState("");
 
-
     const depList = option.map(
         item => {
             return ( <option key = {item.label} value = {item.value}>{item.label}</option>)
         }
     )
+
+    const EmailHandler = (e) => {
+        setEmail(e.currentTarget.value)
+    };
     const stdIdHandler = (e) => {
         setstdId(e.currentTarget.value)
     };
@@ -60,7 +61,9 @@ function RegisterPage() {
 
     const register = async(e) => {
         e.preventDefault();     
+
         if(Password === PasswordConfrim) {                    
+
     //      await axios.post('/signup', {
     //      name : Name,
     //      email : Email,
@@ -79,17 +82,36 @@ function RegisterPage() {
 
 }
 
->>>>>>> Stashed changes
     return (
-        <form>
-            <input type = "text"/>
-            <input type = "date"/>
-           <Select/>
-           <input type = "text"/>
-           <label>연락처</label>
-           <input type = "number"/>
-           <button>회원가입</button>
-        </form>
+
+<div style ={style}>
+            <form onSubmit ={register} style = {{display : "flex", flexDirection : "column"}}>
+                <label>Email</label>
+                <span>{Email}</span>
+
+                <label>Name</label>
+                <input type = "text" value = {Name} onChange = {NameHandler}/>
+
+                <label>학번</label>
+                <input type = "text" value = {stdId} onChange = {stdIdHandler}/>
+
+                <label>생년월일</label>
+                <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}}/>
+
+                <label>학과</label>
+                <select onChange = {departmentHandler}>
+                    {depList}
+                </select>
+
+                <label>Password</label>
+                <input type = "password" value = {Password} onChange = {PasswordHandler}/>
+
+                <label>PasswordConfrim</label>
+                <input type = "Password" value = {PasswordConfrim} onChange = {PasswordConfrimHandler}/>
+                <br/>
+                <button type = "submit">회원가입</button>
+            </form>
+            </div>
     )
 }
 
