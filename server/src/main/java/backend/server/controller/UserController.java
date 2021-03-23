@@ -94,7 +94,7 @@ public class UserController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("status", "200");
-        response.put("message", "임시 비밀번호 전송 완료");
+        response.put("message", "임시 비밀번호가 입력하신 이메일로 발송 되었습니다.");
         response.put("email", email);
 
         if (email == "noMember") {

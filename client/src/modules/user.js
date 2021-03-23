@@ -9,8 +9,8 @@ const AUTH_USER = 'AUTH_USER';
 
 
 //로그인
-export const loginHandler = (stdId, password) => async(dispatch) => {
-    const data = await axios.post('/login', {
+export const loginHandler = (stdId, password, history) => async(dispatch) => {
+    await axios.post('/login', {
         stdId : stdId,
         password : password
     })
@@ -20,6 +20,14 @@ export const loginHandler = (stdId, password) => async(dispatch) => {
             console.log(response);
             localStorage.setItem("token", JSON.stringify(response.data.token));                         //유저토큰 로컬스토리지에 user로 저장
             localStorage.setItem("user_info", JSON.stringify(response.data.stdId));                    //유저정보 user_info로 로컬스토리지에 저장
+            dispatch({
+                type: LOGIN_USER,
+                payload : response.data,
+            })
+            
+            if(window.confirm("환영합니다!")) {
+                history.push('/home')
+            }
         } 
         return response.data;
     } else {
@@ -28,12 +36,8 @@ export const loginHandler = (stdId, password) => async(dispatch) => {
     }
     })
     .catch(err => console.log(err));
-    console.log(data)
  
-        await dispatch({
-            type: LOGIN_USER,
-            payload : data,
-        });
+    
     } 
 
 //회원가입
@@ -54,7 +58,7 @@ export const signupHanlder = (
         birth : birth,
         department : department
     })
-    .then((res) =>{if(res.data.status == 200) {
+    .then((res) =>{if(res.data.status === "200") {
         dispatch({
             type : SIGNUP_USER
         })
@@ -62,10 +66,10 @@ export const signupHanlder = (
          if (window.confirm(res.data.message)){
              history.push("/login")
          }
-    } else if(res.data.status == 406){          //학번 중복
+    } else if(res.data.status === "406"){          //학번 중복
         console.log(res);
         return alert(res.data.message)
-    } else if(res.data.state == 407){           //이메일 중복
+    } else if(res.data.state === "407"){           //이메일 중복
         console.log(res);
 
         return alert(res.data.message)
