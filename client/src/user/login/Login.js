@@ -1,7 +1,6 @@
 import {React,useState} from 'react'
-import axios from 'axios'
 import {useDispatch} from 'react-redux'
-import {loginHandler} from './modules/user'
+import {loginHandler} from '../../modules/user'
 function Login() {
     const dispatch = useDispatch();
 

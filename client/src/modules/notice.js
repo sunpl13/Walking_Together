@@ -34,6 +34,7 @@ const INITSELECTEDNOTICE = 'INITSELECTEDNOTICE';
 
 //action
 export const insertNotice = (       //공지글 등록
+
     title,
     content,
     formData

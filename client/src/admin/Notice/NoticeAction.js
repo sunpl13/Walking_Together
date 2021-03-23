@@ -56,7 +56,7 @@ const NoticeAction = ({match}) => {
         const files = e.target.files;
         setAttachedFiles([files]);
     }
-
+    console.log(content)
     return (
         <div>
             <form onSubmit={submit} enctype="multipart/form-data">
