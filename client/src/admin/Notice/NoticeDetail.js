@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
 
 import { deleteNotice } from '../../modules/notice';
 
 const NoticeDetail = ({match}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const noticeId = match.params.noticeId;
 
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
     //action
-    const delNotice = () => {              //공지글 삭제
-        dispatch(deleteNotice(noticeId))
+    const delNotice = async() => {              //공지글 삭제
+        const delConfirm = window.confirm("삭제하시겠습니까?");
+        if (delConfirm == true) {
+            await dispatch(deleteNotice(noticeId))
+            .then(()=>history.push('/admin/notice'))
+        }
     }
 
     return (
@@ -26,7 +31,12 @@ const NoticeDetail = ({match}) => {
             <p>{ReactHtmlParser(notice.content)}</p>
             {notice.attachedFiles[0]==undefined ? null 
             : notice.attachedFiles.map((file) => {
-                return (<a href={file}>첨부파일다운</a>)
+                return (
+                    <div>
+                        <a href={file} download>첨부파일다운</a>
+                        <br />
+                    </div>
+                    )
             })}
         </div>
     );

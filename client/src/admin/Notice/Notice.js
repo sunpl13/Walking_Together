@@ -5,7 +5,7 @@ import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
 import '../../styles/notice.scss';
 
-import { selectNotice } from '../../modules/notice';
+import { selectNotice, initSelectedNotice } from '../../modules/notice';
 
 const Notice = ({history}) => {
     const dispatch = useDispatch();
@@ -22,18 +22,23 @@ const Notice = ({history}) => {
 
     useEffect(() => {
         return (
-            dispatch(getNoticeList(current+1,null))
+            dispatch(getNoticeList(current+1,null))  //공지사항 목록 받아오기
         )
     }, [current])
 
-    const clickAction = (noticeId) => {
+    const goDetail = (noticeId) => {  //공지사항 세부로 이동
         dispatch(selectNotice(noticeId))
         history.push(`/admin/notice-detail/${noticeId}`);
     }
 
+    const goAction = async() => {  //공지사항 액션(삽입)으로 이동
+        await dispatch(initSelectedNotice())
+        .then(()=>history.push('/admin/notice-action/createpost'))
+    }
+
     return (
         <div>
-            <Link to='/admin/notice-action/insert'>글쓰기</Link>
+            <button onClick={()=>goAction()}>글쓰기</button>
             
             <table>
                 <tr>
@@ -44,7 +49,7 @@ const Notice = ({history}) => {
                 {
                     noticeList.map((notice) => {
                         return (
-                            <tr key={notice.noticeId} onClick={() => clickAction(notice.noticeId)}>
+                            <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>
                                 <td>{notice.noticeId}</td>
                                 <td>{notice.title}</td>
                                 <td>{notice.date}</td>
