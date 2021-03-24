@@ -66,6 +66,7 @@ const NoticeAction = ({match}) => {
         setAttachedFiles(files);
     }
 
+    console.log(content)
 
     return (
         <div>

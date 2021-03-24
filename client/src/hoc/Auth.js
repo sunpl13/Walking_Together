@@ -1,7 +1,7 @@
 import {React, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch, shallowEqual} from 'react-redux'
 import {authHandler} from '../modules/user'
-import {withRouter} from 'react-router-dom'
+import {useHistory, withRouter} from 'react-router-dom'
 
 //SpecialComponent : 감쌀 컴포넌트
 //option : null - 아무나 출입가능한 페이지, true - 로그인한 유저만 출입가능, false - 로그인한 유저는 접속 불가
@@ -11,22 +11,29 @@ export default (SpecialComponent, option, adminRoute = null) => {
     const AuthCheck = (props) => {
         const dispatch = useDispatch();
         const token = JSON.parse(localStorage.getItem('token'));
-        const aaa = useSelector(state => state.user.isAuth);
-    
+        const {pending, error} = useSelector(state => ({
+            pending : state.user.pending,
+            error : state.user.error
+        }),
+        shallowEqual
+        )
+        const history = useHistory();   
+
+        console.log(pending)
   
 
 
         useEffect(() => {
-            if(!token) {                        //토큰이 없다면 로그인페이지로 이동
-                props.history.push('/login')
-            } else {
-            dispatch(authHandler(token))        // 있다면 인증
-            console.log(aaa)
-            }
+            dispatch(authHandler(token, option, adminRoute, history))        // 페이지간 인증
         }, []);
-        
-        return <SpecialComponent {...props}/>
+
+
+        if(pending) return <div>로딩중...</div>;
+        if(error) return <div>에러발생!</div>;
+        return <SpecialComponent {...props}/>    
     };
 
+
+    
     return withRouter(AuthCheck);
 }
