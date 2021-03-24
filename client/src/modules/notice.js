@@ -33,21 +33,16 @@ const INITSELECTEDNOTICE = 'INITSELECTEDNOTICE';
 
 
 //action
-export const insertNotice = (       //공지글 등록
-
-    title,
-    content,
+export const insertNotice = (       //공지글 등록 (==>form에서 직접 submit해야 파일 전송돼서 사용 안 했음 ㅠ)
     formData
     ) => async(dispatch) => {
-        await axios.post('/admin/createpost', formData, {
-            title: title,
-            content: content
-        }).then((response) => {
+        await axios.post('/admin/createpost' ,formData)
+        .then((response) => {
             console.log(response)
         }).catch((err) => alert(err));
 
         dispatch({
-            type: INSERTNOTICE,
+            type: INSERTNOTICE
         })
     }
 
@@ -80,7 +75,7 @@ export const updateNotice = (       //공지글 수정
 export const deleteNotice = (           //공지글 삭제
     noticeId
     ) => async(dispatch) => {   
-        await axios.post(`/admin/delete`, noticeId)
+        await axios.get(`/admin/delete?noticeId=${noticeId}`)
 
         dispatch({
             type: DELETENOTICE
@@ -142,7 +137,7 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
 
         case INSERTNOTICE:
             return {
-
+                state
             }
 
         case UPDATENOTICE:
@@ -158,7 +153,14 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
         case DELETENOTICE:
             return {
                 ...state,
-                selectedNotice: {}
+                selectedNotice: {
+                    noticeId: '',
+                    title: '',
+                    content: '',
+                    createTime: '',
+                    imageFiles: [],
+                    attachedFiles: {}
+                }
             }
 
         case SELECTNOTICE:

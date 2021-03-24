@@ -1,5 +1,6 @@
 package backend.server.controller;
 
+import backend.server.DTO.notice.FormData;
 import backend.server.DTO.notice.NoticeDTO;
 import backend.server.DTO.notice.NoticeListDTO;
 import backend.server.DTO.page.PageRequestDTO;
@@ -60,10 +61,16 @@ public class NoticeController {
 
     // 공지사항 등록 (이미지, 첨부파일 받아서 다른 DB에 각각 저장)
     @PostMapping("/admin/createpost")
-    public void uploadImage(@RequestPart @Nullable List<MultipartFile> imageFiles,
-                            @RequestPart @Nullable List<MultipartFile> attachedFiles,
-                            @RequestBody NoticeDTO noticeDto)
+    public void uploadImage(@RequestParam(value="attachedFiles") @Nullable List<MultipartFile> attachedFiles,
+                            @RequestParam(value="imageFiles") @Nullable List<MultipartFile> imageFiles,
+                            @RequestParam(value="title") String title,
+                            @RequestParam(value="content") String content)
     {
+        NoticeDTO noticeDto = NoticeDTO.builder()
+        .title(title)
+        .content(content)
+        .build();
+        
         Long noticeId = noticeService.saveNotice(noticeDto);
 
         if(imageFiles != null) {
@@ -159,8 +166,8 @@ public class NoticeController {
     // 공지사항 게시물 수정
     @PostMapping("/admin/update")
     public Map<String, Object> update(@RequestPart @Nullable List<MultipartFile> imageFiles,
-                       @RequestPart @Nullable List<MultipartFile> attachedFiles,
-                       @RequestBody NoticeDTO noticeDTO) {
+                                        @RequestPart @Nullable List<MultipartFile> attachedFiles,
+                                        @ModelAttribute NoticeDTO noticeDTO){
 
         Map<String, Object> response = new HashMap<>();
         response.put("status", 200);
