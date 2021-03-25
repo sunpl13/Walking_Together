@@ -42,7 +42,7 @@ function Register() {
         setAgree3(true);
         // setDisabled('');
     }
-    
+  }
 
     const clickFunction = () => {
       axios.get(`/signup/authNum?email=${email}`)

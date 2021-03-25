@@ -99,22 +99,19 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
     .catch(err => console.log(err));
 
 
-    if(data.data.isAuth === true) {
     dispatch({
         type : AUTH_USER_PANDING,
         payload : data
     });
+    console.log(data);
     try{
+
         dispatch({
             type : AUTH_USER_SUCCESS,
             payload : data
         });
     if(adminRoute === null){
     if(data.isAuth === false) {                 // 토큰이 일치하지 않을 때
-        history.push('/login')
-        alert("로그인 정보가 유효하지 않습니다.");
-
-    } else if(data.isAuth === null) {           // 로그인 안되어 있을 때
         if(option) {
             alert("로그인을 해주시기 바랍니다.");
             history.push('/login')
@@ -123,10 +120,11 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
         } else {   
             return;
         }
-    } else if(data.isAuth === true) {           // 로그인이 되었을 때
+    }  else if(data.isAuth === true) {           // 로그인이 되었을 때
         if(option) {
             return;
         } else if(option === false) {
+            alert("접근 권한이 없습니다.")
             history.push('/home');
         } else {
             return;
@@ -147,8 +145,8 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
         payload : err
     });
     throw err;
-}
-}
+
+}}
 
 const initialstate = {
     isLogin : {},     //로그인 정보를 저장
@@ -180,7 +178,7 @@ export default function user(state = initialstate, action) {
             return {
                 ...state,
                 authResult : action.payload,
-                pending : false,
+                pending : true,
                 error : false
             };
         case AUTH_USER_SUCCESS:
@@ -193,7 +191,7 @@ export default function user(state = initialstate, action) {
             return {
                 ...state,
                 authResult : action.payload,
-                pending : true,
+                pending : false,
                 error : true
             }
           default :

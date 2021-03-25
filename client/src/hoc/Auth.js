@@ -30,7 +30,7 @@ export default (SpecialComponent, option, adminRoute = null) => {
 
         if(pending) return <div>로딩중...</div>;
         if(error) return <div>에러발생!</div>;
-        return <SpecialComponent {...props}/>    
+        return <SpecialComponent {...props}/>
     };
 
 
