@@ -17,8 +17,8 @@ const INIT_NOTICE_STATE = {
         title: '',
         content: '',
         createTime: '',
-        imageFiles: [],
-        attachedFiles: []
+        imageFiles: null,
+        attachedFiles: null
     }
 };
 
@@ -109,7 +109,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             }).then((res) => {
                 dispatch({
                     type: GETLIST,
-                    payload: res.data.data
+                    payload: res.data
                 })
             })
         }else {
@@ -158,8 +158,8 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     title: '',
                     content: '',
                     createTime: '',
-                    imageFiles: [],
-                    attachedFiles: {}
+                    imageFiles: null,
+                    attachedFiles: null
                 }
             }
 
@@ -184,8 +184,8 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     title: '',
                     content: '',
                     createTime: '',
-                    imageFiles: [],
-                    attachedFiles: {}
+                    imageFiles: null,
+                    attachedFiles: null
                 }
             }
             

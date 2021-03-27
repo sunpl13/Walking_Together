@@ -80,11 +80,10 @@ export const getLocation = async(latitude, longitude, time) => {
     }
 }
 
-export const finishActivity = async(activityId, map, startTime, finishTime, distance, finishPhoto) => {
+export const finishActivity = async(activityId, map, finishTime, distance, finishPhoto) => {
     const res = await axios.post(`${url}/activity/finish`, {
         activityId: activityId,
         map: map,
-        startTime: startTime,
         finishTime: finishTime,
         distance: distance,
         finishPhoto: finishPhoto,

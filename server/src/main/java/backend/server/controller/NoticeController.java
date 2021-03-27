@@ -73,17 +73,20 @@ public class NoticeController {
         
         Long noticeId = noticeService.saveNotice(noticeDto);
 
-        if(imageFiles != null) {
-            for (MultipartFile file : imageFiles) {
+        for (MultipartFile file : imageFiles) {
+            if(file.getSize()!=0) {
                 fileUploadService.uploadImage(file, noticeId);
+                System.out.println("file:" + file.getSize());
             }
         }
 
-        if(attachedFiles != null) {
-            for (MultipartFile file : attachedFiles) {
+        for (MultipartFile file : attachedFiles) {
+            if(file.getSize()!=0) {
                 fileUploadService.uploadAttached(file, noticeId);
+                System.out.println("file:" + file.getSize());
             }
         }
+
     }
 
     // 공지사항 게시물 상세
@@ -185,14 +188,14 @@ public class NoticeController {
         fileUploadService.deleteAttachedFile(noticeDTO.getNoticeId());
         noticeService.deleteAttachedFiles(noticeDTO.getNoticeId());
 
-        if(imageFiles != null) {
-            for (MultipartFile file : imageFiles) {
+        for (MultipartFile file : imageFiles) {
+            if(file.getSize()!=0) {
                 fileUploadService.uploadImage(file, noticeDTO.getNoticeId());
             }
         }
 
-        if(attachedFiles != null) {
-            for (MultipartFile file : attachedFiles) {
+        for (MultipartFile file : attachedFiles) {
+            if(file.getSize()!=0) {
                 fileUploadService.uploadAttached(file, noticeDTO.getNoticeId());
             }
         }
