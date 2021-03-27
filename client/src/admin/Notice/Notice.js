@@ -40,22 +40,27 @@ const Notice = ({history}) => {
             <button onClick={()=>goAction()}>글쓰기</button>
             
             <table>
-                <tr>
-                    <th>no</th>
-                    <th>제목</th>
-                    <th>등록일</th>
-                </tr>
-                {
-                    noticeList.map((notice) => {
-                        return (
-                            <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>
-                                <td>{notice.noticeId}</td>
-                                <td>{notice.title}</td>
-                                <td>{notice.date}</td>
-                            </tr>
-                        )
-                    })
-                }
+                <thead>
+                    <tr>
+                        <th>no</th>
+                        <th>제목</th>
+                        <th>등록일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        noticeList.map((notice) => {
+                            return (
+                                <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>
+                                    <td>{notice.noticeId}</td>
+                                    <td>{notice.title}</td>
+                                    <td>{(notice.date).substring(0,10)}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+                <tfoot></tfoot>
             </table>
 
             <ReactPaginate 
