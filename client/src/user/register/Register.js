@@ -42,6 +42,7 @@ function Register() {
         setAgree3(true);
         // setDisabled('');
     }
+  }
     
 
     const clickFunction = () => {

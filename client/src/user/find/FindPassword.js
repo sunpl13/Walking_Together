@@ -28,11 +28,6 @@ function FindPassword() {
     };
 
 
-    const EmailHandler = (e) => {
-        setEmail(e.currentTarget.value)
-    };
-
-
     const findpasswordHandler = () => {
         axios.post('/findpassword', {
             stdId : stdId,
