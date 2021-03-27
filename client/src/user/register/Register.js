@@ -43,7 +43,6 @@ function Register() {
         // setDisabled('');
     }
   }
-    
 
     const clickFunction = () => {
       axios.get(`/signup/authNum?email=${email}`)

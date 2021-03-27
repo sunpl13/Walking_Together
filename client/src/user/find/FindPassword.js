@@ -27,7 +27,6 @@ function FindPassword() {
         setstdId(e.currentTarget.value)
     };
 
-
     const findpasswordHandler = () => {
         axios.post('/findpassword', {
             stdId : stdId,
