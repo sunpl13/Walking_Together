@@ -56,15 +56,4 @@ public class Certification {
 총이동거리
 
      */
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "certification", optional = false)
-    private Activity activity;
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
 }
