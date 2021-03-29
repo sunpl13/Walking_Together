@@ -3,12 +3,14 @@ import activityReducer from '../activity';
 import feedReducer from '../feed';
 import noticeReducer from '../notice';
 import user from '../user';
+import partner from '../partner'
 
 const rootReducer = combineReducers({
   activityReducer,
   feedReducer,
   noticeReducer,
-  user
+  user,
+  partner
 });
 
 export default rootReducer;

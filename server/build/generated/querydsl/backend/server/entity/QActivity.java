@@ -24,15 +24,15 @@ public class QActivity extends EntityPathBase<Activity> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final DateTimePath<java.time.LocalDateTime> activityDate = createDateTime("activityDate", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> activityDate = createDate("activityDate", java.time.LocalDate.class);
 
-    public final NumberPath<Integer> activityDivision = createNumber("activityDivision", Integer.class);
+    public final BooleanPath activityDivision = createBoolean("activityDivision");
 
     public final NumberPath<Long> activityId = createNumber("activityId", Long.class);
 
     public final BooleanPath activityStatus = createBoolean("activityStatus");
 
-    public final QCertification certification;
+    public final NumberPath<Long> certificationId = createNumber("certificationId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
@@ -78,7 +78,6 @@ public class QActivity extends EntityPathBase<Activity> {
 
     public QActivity(Class<? extends Activity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.certification = inits.isInitialized("certification") ? new QCertification(forProperty("certification"), inits.get("certification")) : null;
         this.map = inits.isInitialized("map") ? new QMap(forProperty("map"), inits.get("map")) : null;
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.partner = inits.isInitialized("partner") ? new QPartner(forProperty("partner"), inits.get("partner")) : null;

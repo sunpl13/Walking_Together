@@ -26,11 +26,15 @@ public class QPartner extends EntityPathBase<Partner> {
 
     public final StringPath disabilityDivision = createString("disabilityDivision");
 
+    public final StringPath gender = createString("gender");
+
     public final QMember member;
 
     public final StringPath partnerBirth = createString("partnerBirth");
 
-    public final StringPath partnerDivision = createString("partnerDivision");
+    public final StringPath partnerDetail = createString("partnerDetail");
+
+    public final BooleanPath partnerDivision = createBoolean("partnerDivision");
 
     public final NumberPath<Long> partnerId = createNumber("partnerId", Long.class);
 

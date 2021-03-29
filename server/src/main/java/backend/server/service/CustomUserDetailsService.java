@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException(username + "-> 활성화되어 있지 않습니다.");
         }
         List<GrantedAuthority> grantedAuthorities = member.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority("ROLE_USER"))
+                .map(authority -> new SimpleGrantedAuthority(authority.name()))
                 .collect(Collectors.toList());
 
         // 유저 권한 정보들, Username, Password를 가지고 User 객체를 생성하여 리턴하게된다.

@@ -1,28 +1,36 @@
-import React from 'react'
-
-// import {getNoticeList} from '../../modules/notice';
-// import {useSelector} from 'react-redux'
+import {React, useEffect} from 'react'
 import { useHistory } from 'react-router';
 import {getNoticeList} from '../../modules/notice';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 function Home() {
 
     const history = useHistory();
+    const dispatch = useDispatch();
+    const pages = 1;    //공지사항 최근 페이지를 불러옴
 
-    /*
-    //redux에서 notice데이터를 받아옴
-const notice = useSelector(state => state.noticeReducer.pageInfo);
+    useEffect(() => {
+        dispatch(getNoticeList(pages, null));
+        //redux에서 notice데이터를 받아옴
+    }, [dispatch])
 
-const noticeList = notice.slice(0,3);       //받아온 데이터를 홈에 필요한 갯수만큼 자르기
+    const notice = useSelector(state => state.noticeReducer.list);
+    console.log(notice)
+    //console.log(notice[0].date.substring(0,10));
+
 
 //화면에 출력하기 위해 map 함수를 활용
-const homeNotice = noticeList.pageList.map(
-    item => (
-    <tr key = "item.notice_id">{item.title}<br/>사회봉사단 | {item.regdate}</tr>
-    )
+const homeNotice = notice.map(
+    item => {
+   return (
+            <tbody key = {item.noticeId}>
+                <tr><td>{item.title}사회봉사단 | {item.date.substring(0,10)}</td></tr>
+            </tbody>
+   )
+}
 )
-*/
+
+console.log(homeNotice)
 
 
     return (
@@ -33,7 +41,9 @@ const homeNotice = noticeList.pageList.map(
                 <span>공지사항</span>
                 <button onClick = {() => {history.push('/noticelist')}}> 더보기</button>
             </div>
-            여기에 notice 컴포넌트 넣기
+            <table>
+                {homeNotice}
+            </table>
             </div>
         </div>
     )

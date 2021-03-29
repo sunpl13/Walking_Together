@@ -3,6 +3,7 @@ package backend.server.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Activity extends BaseEntity {
 
     private String endImage;    // 종료 사진
 
-    private LocalDateTime activityDate; // 활동 날짜
+    private LocalDate activityDate; // 활동 날짜
 
     private boolean activityStatus; // 활동 상태
 
@@ -46,10 +47,10 @@ public class Activity extends BaseEntity {
 
     private LocalDateTime endTime;   // 종료 시간
 
-    private int activityDivision;   // 활동 구분 (돌봄, 일반)
+    private boolean activityDivision;   // 활동 구분 (돌봄, 일반)
 
     private Long distance;  // 총 이동거리
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    private Certification certification;
+
+    private Long certificationId;
 
 }

@@ -26,13 +26,14 @@ function RegisterPage() {
 
         
 
-    const [Email, setEmail] = useState(location.state.email);
+    const Email = location.state.email;
     const [Name, setName] = useState("");
     const [Password, setPassword] = useState("");
     const [PasswordConfrim, setPasswordConfrim] = useState("");
     const [stdId, setstdId] = useState("");
     const [birth, setbirth] = useState("");
     const [department, setdepartment] = useState("");
+    const [pNumber, setpNumber] = useState("")
 
     const depList = option.map(
         item => {
@@ -40,8 +41,8 @@ function RegisterPage() {
         }
     )
 
-    const EmailHandler = (e) => {
-        setEmail(e.currentTarget.value)
+    const pNumHandler = (e) => {
+        setpNumber(e.currentTarget.value)
     };
     const stdIdHandler = (e) => {
         setstdId(e.currentTarget.value)
@@ -75,7 +76,7 @@ function RegisterPage() {
     //  .then(res => {console.log(typeof res.status)
     // })
 
-            dispatch(signupHanlder(Name, Email, Password, stdId, birth, department,history));
+            dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
     } else {
         alert ("두 비밀번호가 일치하지 않습니다.")
     }
@@ -94,6 +95,9 @@ function RegisterPage() {
 
                 <label>학번</label>
                 <input type = "text" value = {stdId} onChange = {stdIdHandler}/>
+
+                <label>휴대폰 번호</label>
+                <input type = "text" value = {pNumber} onChange = {pNumHandler}/>
 
                 <label>생년월일</label>
                 <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}}/>

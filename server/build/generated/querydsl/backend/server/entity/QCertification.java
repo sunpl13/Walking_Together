@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,11 +17,7 @@ public class QCertification extends EntityPathBase<Certification> {
 
     private static final long serialVersionUID = 974664512L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QCertification certification = new QCertification("certification");
-
-    public final QActivity activity;
 
     public final DateTimePath<java.time.LocalDateTime> activityDate = createDateTime("activityDate", java.time.LocalDateTime.class);
 
@@ -51,24 +46,15 @@ public class QCertification extends EntityPathBase<Certification> {
     public final NumberPath<Long> stdId = createNumber("stdId", Long.class);
 
     public QCertification(String variable) {
-        this(Certification.class, forVariable(variable), INITS);
+        super(Certification.class, forVariable(variable));
     }
 
     public QCertification(Path<? extends Certification> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QCertification(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QCertification(PathMetadata metadata, PathInits inits) {
-        this(Certification.class, metadata, inits);
-    }
-
-    public QCertification(Class<? extends Certification> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.activity = inits.isInitialized("activity") ? new QActivity(forProperty("activity"), inits.get("activity")) : null;
+        super(Certification.class, metadata);
     }
 
 }
