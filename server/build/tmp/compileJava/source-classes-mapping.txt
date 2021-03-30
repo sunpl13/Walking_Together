@@ -61,9 +61,8 @@ backend/server/controller/ActivityController.java
 backend/server/entity/Member.java
  backend.server.entity.Member
  backend.server.entity.Member$MemberBuilder
-backend/server/entity/Certification.java
- backend.server.entity.Certification
- backend.server.entity.Certification$CertificationBuilder
+backend/server/entity/QNoticeImages.java
+ backend.server.entity.QNoticeImages
 backend/server/repository/ActivityRepository.java
  backend.server.repository.ActivityRepository
 backend/server/entity/ActivityCheckImages.java
@@ -136,8 +135,8 @@ backend/server/s3/S3Service.java
 backend/server/entity/Notice.java
  backend.server.entity.Notice
  backend.server.entity.Notice$NoticeBuilder
-backend/server/entity/QCertification.java
- backend.server.entity.QCertification
+backend/server/security/jwt/JwtAuthenticationEntryPoint.java
+ backend.server.security.jwt.JwtAuthenticationEntryPoint
 backend/server/entity/QActivity.java
  backend.server.entity.QActivity
 backend/server/controller/AuthController.java
@@ -173,7 +172,8 @@ backend/server/entity/Activity.java
  backend.server.entity.Activity$ActivityBuilder
 backend/server/entity/MemberRole.java
  backend.server.entity.MemberRole
-backend/server/security/jwt/JwtAuthenticationEntryPoint.java
- backend.server.security.jwt.JwtAuthenticationEntryPoint
-backend/server/entity/QNoticeImages.java
- backend.server.entity.QNoticeImages
+backend/server/entity/Certification.java
+ backend.server.entity.Certification
+ backend.server.entity.Certification$CertificationBuilder
+backend/server/entity/QCertification.java
+ backend.server.entity.QCertification

@@ -106,13 +106,13 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 
 
 const initialstate = {
-    briefPartner : [],
-    partnerDetail : {}
+    briefPartner : {},
+    partnerDetail : {},
 
-}
+};
 
 //reducer
-export default function partner (state = initialstate, action) {
+export default function partner(state = initialstate, action) {
     switch (action.type) {
         case GET_PARTNER_BRIEF_INFO :
             return {
@@ -136,6 +136,9 @@ export default function partner (state = initialstate, action) {
             case DELETE_PARTNER :
                 return {
                     ...state
-                };
+                }
+                default :
+                return state;
+
     }
 }
