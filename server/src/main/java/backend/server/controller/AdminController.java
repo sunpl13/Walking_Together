@@ -110,7 +110,8 @@ public class AdminController {
     // 파트너 정보 조회
     @GetMapping("/admin/partnerInfo")
     public Map<String, Object> partnerInfo(@RequestParam(value = "keyword") @Nullable String keyword,
-                                           @RequestParam(value = "partnerDetailn") @Nullable String partnerDetail) {
+
+                                           @RequestParam(value = "partnerDetail") @Nullable String partnerDetail) {
 
         Map<String, Object> response = new HashMap<>();
 

@@ -17,8 +17,8 @@ const INIT_NOTICE_STATE = {
         title: '',
         content: '',
         createTime: '',
-        imageFiles: [],
-        attachedFiles: []
+        imageFiles: null,
+        attachedFiles: null
     }
 };
 
@@ -160,8 +160,8 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     title: '',
                     content: '',
                     createTime: '',
-                    imageFiles: [],
-                    attachedFiles: {}
+                    imageFiles: null,
+                    attachedFiles: null
                 }
             }
 
@@ -186,8 +186,8 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     title: '',
                     content: '',
                     createTime: '',
-                    imageFiles: [],
-                    attachedFiles: {}
+                    imageFiles: null,
+                    attachedFiles: null
                 }
             }
             

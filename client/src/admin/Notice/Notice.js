@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
 import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
 import '../../styles/notice.scss';
@@ -26,14 +25,14 @@ const Notice = ({history}) => {
         )
     }, [current])
 
-    const goDetail = (noticeId) => {  //공지사항 세부로 이동
-        dispatch(selectNotice(noticeId))
-        history.push(`/admin/notice-detail/${noticeId}`);
+    const goDetail = async(noticeId) => {  //공지사항 세부로 이동
+        await dispatch(selectNotice(noticeId))
+        .then(() => history.push(`/admin/notice-detail/${noticeId}`))
     }
 
     const goAction = async() => {  //공지사항 액션(삽입)으로 이동
         await dispatch(initSelectedNotice())
-        .then(()=>history.push('/admin/notice-action/createpost'))
+        .then(() => history.push('/admin/notice-action/createpost'))
     }
 
     return (
@@ -41,22 +40,27 @@ const Notice = ({history}) => {
             <button onClick={()=>goAction()}>글쓰기</button>
             
             <table>
-                <tr>
-                    <th>no</th>
-                    <th>제목</th>
-                    <th>등록일</th>
-                </tr>
-                {
-                    noticeList.map((notice) => {
-                        return (
-                            <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>
-                                <td>{notice.noticeId}</td>
-                                <td>{notice.title}</td>
-                                <td>{notice.date}</td>
-                            </tr>
-                        )
-                    })
-                }
+                <thead>
+                    <tr>
+                        <th>no</th>
+                        <th>제목</th>
+                        <th>등록일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        noticeList.map((notice) => {
+                            return (
+                                <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>
+                                    <td>{notice.noticeId}</td>
+                                    <td>{notice.title}</td>
+                                    <td>{(notice.date).substring(0,10)}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+                <tfoot></tfoot>
             </table>
 
             <ReactPaginate 
