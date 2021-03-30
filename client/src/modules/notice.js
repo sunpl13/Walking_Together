@@ -111,6 +111,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                     type: GETLIST,
                     payload: res.data
                 })
+                console.log(res);
             })
         }else {
             await axios.post(`/noticeList`, {
@@ -120,6 +121,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                     type: GETLIST,
                     payload: res.data
                 })
+                console.log(res);
             })
         }
 }
