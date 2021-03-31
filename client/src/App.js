@@ -20,6 +20,7 @@ import FindPassword from './user/find/FindPassword';
 import FindPasswordResult from './user/find/FindPasswordResult';
 import Partner from './user/Partner/Partner';
 import PartnerAction from './user/Partner/PartnerAction';
+import ActivityStart from './user/Activity/ActivityStart';
 
 function App() {
 
@@ -48,7 +49,7 @@ function App() {
         <Route path="/findresult" component={Auth(FindPasswordResult,false)}/>
         <Route path="/partner" component={Partner}/>
         <Route path="/partner-action/:type" component={PartnerAction}/>
-
+        <Route path= "/activitystart" component={ActivityStart}/>
       </Switch>
     
       <div style = {style}><Nav/></div>

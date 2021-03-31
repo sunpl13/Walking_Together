@@ -38,14 +38,14 @@ export const createPartnerHandler = (
 
 //파트너 간단한 정보 받아오는 액션
 export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
-    await axios.get(`/mypage/partnerinfo?${stdId}`)
-    .then(res => {
-        dispatch({
-            type : GET_PARTNER_BRIEF_INFO,
-            payload : res.data
-        })
-    })
+    const data = await axios.get(`/mypage/partnerinfo?${stdId}`)
+    .then(res => res.data)
     .catch(err => console.log(err));
+
+    await dispatch({
+        type : GET_PARTNER_BRIEF_INFO,
+        payload : data
+    })
 }
 
 //파트너의 상세정보 받아오기
@@ -107,17 +107,7 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 
 const initialstate = {
     briefPartner : {},
-    partnerDetail : {
-        stdId : "",                    
-        partnerName : "",
-        partnerDetail : "",
-        partnerPhoto: "",
-        selectionReason: "",
-        relationship: "",
-        gender: "",
-        partnerBirth: "" 
-    },
-
+    partnerDetail : {},
 };
 
 //reducer
@@ -148,6 +138,5 @@ export default function partner(state = initialstate, action) {
             }
         default :
         return state;
-
     }
 }
