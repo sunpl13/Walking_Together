@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPartnerBriefInfo } from '../../modules/partner';
+import PartnerItem from '../Partner/PartnerItem';
+import TopBar from '../../utils/TopBar';
 
 const Partner = () => {
-    /*
-    const [파트너, set파트너] = useState({
-        파트너이름:'',
-        파트너구분:'',
-        파트너성별:'',
-        파트너생년월일:'',
-        파트너나이:'',
-        관계:'',
-        선정이유:'',
-        파트너사진:''
-    })
-    */
+    const dispatch = useDispatch()
+
+    const partner = useSelector(state => state.partner.briefPartner)  //PARTNER-LIST
+
+    useEffect(() => {
+        const stdId = (localStorage.getItem('user_info')).replace(/\"/g, "");  //USER-ID
+        dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
+    }, [stdId])
+
     return (
         <div>
-            {/*
-            파트너.map((파트너정보) => {
-                <PartnerItem 상태={파트너정보} />    //onClick={() => {dispatch('조회할파트너'상태업데이트)}} ???
+            <TopBar left="back" center={{title:"파트너", data:null}} right="plus" size="small"/>
+            {
+            partner.map((res) => {
+                return (
+                    <PartnerItem state={res} />  //PARTNER-INFO-ITEM
+                )
             })
-            */}
+            }
         </div>
     );
 };

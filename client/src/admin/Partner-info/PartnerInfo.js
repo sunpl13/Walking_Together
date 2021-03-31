@@ -17,7 +17,7 @@ const PartnerInfo = () => {
 
     //button
     const search = () => {
-        axios.get(`${process.env.REACT_APP_URL}/admin/partnerInfo?keyword=${keyword}&partnerDivision=${partnerDivision}`)
+        axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDivision=${partnerDivision}`)
         .then((res) => setRes(res.data))
     }
 

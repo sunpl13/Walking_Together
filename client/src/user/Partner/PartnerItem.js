@@ -1,12 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const PartnerItem = ({파트너정보}) => {
+const PartnerItem = ({state}) => {
     return (
         <div>
-            {/*
-            <p>{파트너정보.파트너이름} ({파트너정보.파트너구분}/{파트너정보.파트너나이})</p>
-            <Link to='/partner-datail' />
-            */}
+            <p>{state.partnerName} ({state.partnerDivision}/{state.partnerBirth})</p>
+            <Link to='/partner-datail/partnerId'/>
         </div>
     );
 };

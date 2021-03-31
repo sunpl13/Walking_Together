@@ -1,33 +1,81 @@
-import React, { useState } from 'react';
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { createPartnerHandler, changePartnerHandler } from '../../modules/partner';
 
 const PartnerAction = ({type}) => {
-    /*
+    const dispatch = useDispatch();
+    const stdId = localStorage.getItem('user_info');
 
-    const [파트너,set파트너] = useState({});
+    const partnerInfo = useSelector(state => state.partner.partnerInfo)
+    const [partnerName, setPartnerName] = useState(partnerInfo.partnerName);
+    const [partnerDetail, setPartnerDetail] = useState(partnerInfo.partnerDetail);
+    const [partnerPhoto, setPartnerPhoto] = useState(partnerInfo.partnerPhoto);
+    const [selectionReason, setSelectionReason] = useState(partnerInfo.selectionReason);
+    const [relationship, setRelationship] = useState(partnerInfo.relationship);
+    const [gender, setGender] = useState(partnerInfo.gender);
+    const [partnerBirth, setPartnerBirth] = useState(partnerInfo.partnerBirth);
 
     useEffect(() => {
         if (type=="update"){
-            const { 전역파트너 } = useSelector(~~~);  //상세정보 조회할 전역관리 파트너정보 불러오기
-            set파트너(전역파트너);
+            console.log("update");
         }
         else {
-
+            console.log("insert");
         }
     },[])
 
-    const 등록 = () => {
-        set파트너(~~~);
-        axios.post(~~~~~);
+    //changeAction
+    const nameChange = (e) => {
+        setPartnerName(e.target.value);
     }
-    */
+
+    const detailChange = (e) => {
+        setPartnerDetail(e.target.value);
+    }
+
+    const photoChange = (e) => {
+        setPartnerPhoto(e.target.value);
+    }
+
+    const reasonChange = (e) => {
+        setSelectionReason(e.target.value);
+    }
+
+    const relationChange = (e) => {
+        setRelationship(e.target.value);
+    }
+
+    const genderChange = (e) => {
+        setGender(e.target.value);
+    }
+    
+    const birthChange = (e) => {
+        setPartnerBirth(e.target.value);
+    }
+
+    //button action
+    const createPartner = () => {
+        dispatch(createPartnerHandler(
+            stdId,
+            partnerName,
+            partnerDetail,
+            partnerPhoto,
+            selectionReason,
+            relationship,
+            gender,
+            partnerBirth
+        ))
+    }
+    
     return (
         <div>
+            <button onClick={createPartner}>생성</button>
             <table>
                 <tr>
                     <td>파트너 구분</td>
                     <td>
-                        <select value={파트너.파트너구분}>
+                        <select value={partnerDetail} onChange={detailChange}>
+                            <option>선택</option>
                             <option value="장애인">장애인</option>
                             <option value="임산부">임산부</option>
                             <option value="아동">아동</option>
@@ -38,43 +86,41 @@ const PartnerAction = ({type}) => {
                 <tr>
                     <td>이름</td>
                     <td>
-                        <input type="text" value={파트너.파트너이름} />
+                        <input type="text" value={partnerName} onChange={nameChange}/>
                     </td>
                 </tr>
                 <tr>
                     <td>성별</td>
                     <td>
-                        <input type="radio" name="성별" id="성별1" value="남" checked={파트너.파트너성별=="남"? "checked" : ""}/>
-                        <label for="성별1">남성</label>
-                        <input type="radio" name="성별" id="성별2" value="여" checked={파트너.파트너성별=="여"? "checked" : ""}/>
-                        <label for="성별2">여성</label>
-                            
-                            {파트너.파트너성별}
+                        <input type="radio" name="gender" id="man" value="man" onChange={genderChange} checked={gender=="man"? "checked" : ""}/>
+                        <label for="man">남성</label>
+                        <input type="radio" name="gender" id="woman" value="woman" onChange={genderChange} checked={gender=="woman"? "checked" : ""}/>
+                        <label for="woman">여성</label>
                     </td>
                 </tr>
                 <tr>
                     <td>생년월일</td>
                     <td>
-                        <input type="date" value={파트너.파트너생년월일}></input>
+                        <input type="date" value={partnerBirth} onChange={birthChange}></input>
                     </td>
                 </tr>
                 <tr>
                     <td>관계</td>
                     <td>
-                        <input type="text" value={파트너.파트너관계} />
+                        <input type="text" value={relationship} onChange={relationChange}/>
                     </td>
                 </tr>
                 <tr>
                     <td>선정이유</td>
                     <td>
-                        <textarea>{파트너.파트너선정이유}</textarea>
+                        <textarea onChange={reasonChange}>{selectionReason}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>파트너 사진</td>
                     <td>
-                        <img src={파트너.파트너사진} />
-                        <input type="image" src={파트너.파트너사진}>사진 변경</input>
+                        <img src={partnerPhoto} />
+                        <input type="image" src={partnerPhoto} onChange={photoChange}>사진 변경</input>
                     </td>
                 </tr>
             </table>

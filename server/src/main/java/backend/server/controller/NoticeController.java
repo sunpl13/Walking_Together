@@ -76,17 +76,15 @@ public class NoticeController {
         for (MultipartFile file : imageFiles) {
             if(file.getSize()!=0) {
                 fileUploadService.uploadImage(file, noticeId);
-                System.out.println("file:" + file.getSize());
             }
         }
+
 
         for (MultipartFile file : attachedFiles) {
             if(file.getSize()!=0) {
                 fileUploadService.uploadAttached(file, noticeId);
-                System.out.println("file:" + file.getSize());
             }
         }
-
     }
 
     // 공지사항 게시물 상세
@@ -109,7 +107,6 @@ public class NoticeController {
         response.put("attachedFiles", attachedFilesUrls);
 
         return response;
-
     }
 
     // 공지사항 게시물 수정
@@ -168,13 +165,21 @@ public class NoticeController {
 
     // 공지사항 게시물 수정
     @PostMapping("/admin/update")
-    public Map<String, Object> update(@RequestPart @Nullable List<MultipartFile> imageFiles,
-                                        @RequestPart @Nullable List<MultipartFile> attachedFiles,
-                                        @ModelAttribute NoticeDTO noticeDTO){
+    public Map<String, Object> update(@RequestParam(value = "imageFiles") @Nullable List<MultipartFile> imageFiles,
+                                      @RequestParam(value = "attachedFiles") @Nullable List<MultipartFile> attachedFiles,
+                                      @RequestParam(value = "title") String title,
+                                      @RequestParam(value = "content") String content,
+                                      @RequestParam(value = "noticeId") Long noticeId){
 
         Map<String, Object> response = new HashMap<>();
         response.put("status", 200);
         response.put("message", "수정완료");
+
+        NoticeDTO noticeDTO = NoticeDTO.builder()
+                .noticeId(noticeId)
+                .title(title)
+                .content(content)
+                .build();
 
         String result = noticeService.update(noticeDTO);
         if(result == null) {
@@ -183,22 +188,24 @@ public class NoticeController {
             return response;
         }
 
-        fileUploadService.deleteImageFile(noticeDTO.getNoticeId());
-        noticeService.deleteImages(noticeDTO.getNoticeId());
-        fileUploadService.deleteAttachedFile(noticeDTO.getNoticeId());
-        noticeService.deleteAttachedFiles(noticeDTO.getNoticeId());
+        fileUploadService.deleteImageFile(noticeId);
+        noticeService.deleteImages(noticeId);
+        fileUploadService.deleteAttachedFile(noticeId);
+        noticeService.deleteAttachedFiles(noticeId);
 
         for (MultipartFile file : imageFiles) {
             if(file.getSize()!=0) {
-                fileUploadService.uploadImage(file, noticeDTO.getNoticeId());
+                fileUploadService.uploadImage(file, noticeId);
             }
         }
 
+
         for (MultipartFile file : attachedFiles) {
             if(file.getSize()!=0) {
-                fileUploadService.uploadAttached(file, noticeDTO.getNoticeId());
+                fileUploadService.uploadAttached(file, noticeId);
             }
         }
+
 
         return response;
     }

@@ -17,34 +17,17 @@ const NoticeAction = ({match}) => {
     const noticeId = notice.noticeId;
     const [title,setTitle] = useState(notice.title);
     const [content, setContent] = useState(notice.content);
-    const [imageFiles, setImageFiles] = useState(notice.imageFiles);  //** */
-    const [attachedFiles, setAttachedFiles] = useState(notice.attachedFiles);
 
     //취소 시 이전 페이지로 이동
     const cancel = (e) => {
         e.preventDefault();
         const res = window.confirm("취소하시겠습니까?")
-        if(res == true) {
+        if(res === true) {
             history.goBack();
         }else{
             console.log("cancel");
         }
     }
-
-    //대표 이미지 첨부
-    const attachImages = (e) => {
-        setImageFiles([])
-        const files = e.target.files;
-        setImageFiles(files);
-    }
-
-    //파일 첨부
-    const attachFiles = (e) => {
-        setAttachedFiles([])
-        const files = e.target.files;
-        setAttachedFiles(files);
-    }
-
 
     //editor module and formats
     const modules = {
@@ -90,13 +73,13 @@ const NoticeAction = ({match}) => {
 
                 <h4>대표 이미지</h4>
                 {type==="update" ? 
-                <input type="file" accept="image/*" name="imageFiles" files={imageFiles} onChange={(e) => attachImages(e)}></input>
-                : <input type="file" accept="image/*" name="imageFiles" onChange={(e) => attachImages(e)}></input>}
+                <input type="file" accept="image/*" name="imageFiles"></input>
+                : <input type="file" accept="image/*" name="imageFiles"></input>}
 
                 <h4>첨부파일</h4>
                 {type==="update" ? 
-                <input type="file" multiple="multiple" name="attachedFiles" onChange={(e) => attachFiles(e)}></input>
-                : <input type="file" multiple="multiple" name="attachedFiles" onChange={(e) => attachFiles(e)}></input>}
+                <input type="file" multiple="multiple" name="attachedFiles" ></input>
+                : <input type="file" multiple="multiple" name="attachedFiles" ></input>}
 
                 {/*invisible */}
                 <input type="hidden" value={noticeId} name="noticeId"></input>
