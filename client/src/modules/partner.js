@@ -108,7 +108,6 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 const initialstate = {
     briefPartner : {},
     partnerDetail : {},
-
 };
 
 //reducer
@@ -133,12 +132,11 @@ export default function partner(state = initialstate, action) {
             return {
                 ...state
             };
-            case DELETE_PARTNER :
-                return {
-                    ...state
-                }
-                default :
-                return state;
-
+        case DELETE_PARTNER :
+            return {
+                ...state
+            }
+        default :
+        return state;
     }
 }

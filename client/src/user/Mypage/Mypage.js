@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
 import {useDispatch} from 'react-redux'
@@ -9,6 +9,7 @@ const Mypage = () => {
     const stdId = localStorage.getItem('user_info');
     const [userInfo, setUserInfo] = useState();
     const dispatch = useDispatch();
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_URL}/mypage?stdId=${stdId}`)
         .then((res) => setUserInfo(res.data))
@@ -23,12 +24,12 @@ const Mypage = () => {
         } else{
             if(window.confirm("로그아웃 하시겠습니까?")) {
                 
-            dispatch(logoutHandler());
-            if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                history.push('/login');
+                dispatch(logoutHandler());
+                if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                    history.push('/login');
+                }
             }
         }
-    }
     }
 
     return (

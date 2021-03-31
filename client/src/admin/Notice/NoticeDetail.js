@@ -32,7 +32,10 @@ const NoticeDetail = ({match}) => {
 
             <h3>{notice.title}</h3>
             <h4>{notice.createTime}</h4>
-            <img src={notice.imageFiles[0]}></img>
+
+            {notice.imageFiles[0]===undefined ? null
+            : <img src={notice.imageFiles[0]} alt="error"></img>}
+
             <p>{ReactHtmlParser(notice.content)}</p>
             {notice.attachedFiles[0]===undefined ? null 
             : notice.attachedFiles.map((file) => {

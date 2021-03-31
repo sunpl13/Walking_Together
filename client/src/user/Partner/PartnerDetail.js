@@ -1,42 +1,45 @@
-import React, { useEffect } from 'react';
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { deletePartnerHandler } from '../../modules/partner';
 
 const PartnerDetail = () => {
-    /*
-    상세정보 조회할 파트너정보 전역관리 불러오기
-
-    const { 파트너 } = useSelector(~~~);
+    const dispatch = useDispatch()
+    const partner = useSelector(state => state.partner.partnerDetail);
 
     const deletePartner = () => {
-        axios.post(~~~삭제)        
+        dispatch(deletePartnerHandler(partner.partnerId))
     }
-    */
+    
     return (
         <div>
+            <TopBar left="back" center={{title:partner.partnerName, data:null}} right="cancel" size="small"/>
+
             <table>
                 <tr>
                     <td>파트너 구분</td>
-                    <td>{파트너.파트너구분}</td>
+                    <td>{partner.partnerDivision}</td>
                 </tr>
                 <tr>
                     <td>성별</td>
-                    <td>{파트너.파트너성별}</td>
+                    <td>{partner.gender}</td>
                 </tr>
                 <tr>
                     <td>생년월일</td>
-                    <td>{파트너.파트너생년월일}</td>
+                    <td>{partner.partnerBirth}</td>
                 </tr>
                 <tr>
                     <td>관계</td>
-                    <td>{파트너.파트너관계}</td>
+                    <td>{partner.relationship}</td>
                 </tr>
                 <tr>
                     <td>선정이유</td>
-                    <td>{파트너.파트너선정이유}</td>
+                    <td>{partner.selectionReason}</td>
                 </tr>
                 <tr>
                     <td>파트너 사진</td>
-                    <td>{파트너.파트너사진}</td>
+                    <td>
+                        <img src={partner.partnerPhoto}></img>
+                    </td>
                 </tr>
             </table>
 
