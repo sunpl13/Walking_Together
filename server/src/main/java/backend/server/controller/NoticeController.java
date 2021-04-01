@@ -61,11 +61,16 @@ public class NoticeController {
 
     // 공지사항 등록 (이미지, 첨부파일 받아서 다른 DB에 각각 저장)
     @PostMapping("/admin/createpost")
-    public void uploadImage(@RequestParam(value="attachedFiles") @Nullable List<MultipartFile> attachedFiles,
+    public Map<String, Object> uploadImage(@RequestParam(value="attachedFiles") @Nullable List<MultipartFile> attachedFiles,
                             @RequestParam(value="imageFiles") @Nullable List<MultipartFile> imageFiles,
                             @RequestParam(value="title") String title,
                             @RequestParam(value="content") String content)
     {
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 200);
+        response.put("message", "게시글 업로드 완료");
+
         NoticeDTO noticeDto = NoticeDTO.builder()
         .title(title)
         .content(content)
@@ -73,18 +78,23 @@ public class NoticeController {
         
         Long noticeId = noticeService.saveNotice(noticeDto);
 
-        for (MultipartFile file : imageFiles) {
-            if(file.getSize()!=0) {
-                fileUploadService.uploadImage(file, noticeId);
+        if (imageFiles != null) {
+            for (MultipartFile file : imageFiles) {
+                if (file.getSize() != 0) {
+                    fileUploadService.uploadImage(file, noticeId);
+                }
             }
         }
 
-
-        for (MultipartFile file : attachedFiles) {
-            if(file.getSize()!=0) {
-                fileUploadService.uploadAttached(file, noticeId);
+        if(attachedFiles != null) {
+            for (MultipartFile file : attachedFiles) {
+                if (file.getSize() != 0) {
+                    fileUploadService.uploadAttached(file, noticeId);
+                }
             }
         }
+
+        return response;
     }
 
     // 공지사항 게시물 상세
@@ -193,19 +203,21 @@ public class NoticeController {
         fileUploadService.deleteAttachedFile(noticeId);
         noticeService.deleteAttachedFiles(noticeId);
 
-        for (MultipartFile file : imageFiles) {
-            if(file.getSize()!=0) {
-                fileUploadService.uploadImage(file, noticeId);
+        if(imageFiles != null) {
+            for (MultipartFile file : imageFiles) {
+                if (file.getSize() != 0) {
+                    fileUploadService.uploadImage(file, noticeId);
+                }
             }
         }
 
-
-        for (MultipartFile file : attachedFiles) {
-            if(file.getSize()!=0) {
-                fileUploadService.uploadAttached(file, noticeId);
+        if(attachedFiles != null) {
+            for (MultipartFile file : attachedFiles) {
+                if (file.getSize() != 0) {
+                    fileUploadService.uploadAttached(file, noticeId);
+                }
             }
         }
-
 
         return response;
     }

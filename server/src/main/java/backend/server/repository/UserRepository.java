@@ -4,7 +4,10 @@ import backend.server.entity.Member;
 import backend.server.repository.admin.MemberSearchRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<Member, Long>, MemberSearchRepository {
@@ -21,5 +24,8 @@ public interface UserRepository extends JpaRepository<Member, Long>, MemberSearc
     Optional<Member> findMemberByEmail(String email);
 
     Optional<Member> findMemberByStdId(String stdId);
+
+    @Query("SELECT p.partnerName, p.partnerDetail, p.partnerBirth, p.partnerId FROM Partner p LEFT JOIN p.member WHERE p.member.stdId = :stdId")
+    List<List<Object>> getPartnerList(@Param("stdId") String stdId);
 
 }

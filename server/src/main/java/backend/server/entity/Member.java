@@ -37,7 +37,10 @@ public class Member extends BaseEntity {
 
     private Long distance;    // 총거리
 
-    // 프로필 사진이 들어와야함.
+    private Long totalTime;   // 총 환산시간
+
+    private String profilePicture;  // 프로필사진 URL
+
     private boolean activate;   // 활동 상태
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
@@ -57,6 +60,11 @@ public class Member extends BaseEntity {
     // 비밀번호 변경
     public void changePassword(String password) {
         this.password = password;
+    }
+
+    // 학과 변경
+    public void changeDepartment(String department) {
+        this.department = department;
     }
 
 }
