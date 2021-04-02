@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,46 +15,27 @@ import java.time.LocalDateTime;
 public class Certification {
 
     @Id
-    private Long cetificationId; // 활동 아이디와 같음
+    private Long certificationId; // 활동 아이디와 같음
 
-    private LocalDateTime activityDate;
+    private LocalDateTime activityDate; // 활동일
 
-    private String review;
+    private String partnerName; // 파트너 이름
 
-    private String partnerName;
+    private String department;  // 학과
 
-    private String mapPhoto;
+    private Long stdId; // 학번
 
-    private String startPhoto;
+    private String memberName;  // 학생 이름
 
-    private String endPhoto;
+    private LocalDateTime startTime;  // 활동 시작 시간
 
-    private String department;
+    private LocalTime ordinaryTime; // 일반 활동 환산 시간
 
-    private Long stdId;
+    private LocalTime careTime; // 돌봄 활동 환산 시간
 
-    private String memberName;
+    private LocalTime totalTime;    // 총 환산 시간
 
-    private LocalDateTime startTime;
+    private LocalDateTime endTime;  // 종료 시간
 
-    private Long conversionTime;
-
-    private Long distance;
-
-    /*
-활동일
-소감문
-파트너이름
-지도사진
-시작사진
-종료사진
-학과
-학번
-이름
-시작시간
-환산시간
-종료시간
-총이동거리
-
-     */
+    private Long distance;  // 총 이동 거리
 }

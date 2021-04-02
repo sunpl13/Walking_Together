@@ -1,9 +1,13 @@
 package backend.server.s3;
 
+import backend.server.entity.MemberProfilePictures;
 import backend.server.entity.NoticeAttachedFiles;
 import backend.server.entity.NoticeImages;
+import backend.server.entity.PartnerPhotos;
+import backend.server.repository.MemberProfilePicturesRepository;
 import backend.server.repository.NoticeAttachedFilesRepository;
 import backend.server.repository.NoticeImagesRepository;
+import backend.server.repository.PartnerPhotosRepository;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class FileUploadService {
 
     private final NoticeImagesRepository noticeImagesRepository;
     private final NoticeAttachedFilesRepository noticeAttachedFilesRepository;
+    private final MemberProfilePicturesRepository memberProfilePicturesRepository;
+    private final PartnerPhotosRepository partnerPhotosRepository;
     private final S3Service s3Service;
 
     // 공지사항 이미지 파일을 DB에 저장
@@ -113,12 +119,90 @@ public class FileUploadService {
         });
     }
 
-    // 파일 수정
-    public void updateFile(Long noticeId) {
+//    // 파일 수정
+//    public void updateFile(Long noticeId) {
+//
+//        List<NoticeImages> images = noticeImagesRepository.findNoticeImagesByNoticeId(noticeId);
+//        List<NoticeAttachedFiles> files = noticeAttachedFilesRepository.findNoticeAttachedFilesByNoticeId(noticeId);
+//    }
 
-        List<NoticeImages> images = noticeImagesRepository.findNoticeImagesByNoticeId(noticeId);
-        List<NoticeAttachedFiles> files = noticeAttachedFilesRepository.findNoticeAttachedFilesByNoticeId(noticeId);
+    // 프로필 사진을 DB에 저장
+    public void saveProfilePictures(String fileName, String stdId) {
 
+        String fileUrl = s3Service.getFileUrl(fileName);
+
+        MemberProfilePictures entity = MemberProfilePictures.builder()
+                .profilePictureName(fileName)
+                .profilePictureUrl(fileUrl)
+                .stdId(stdId)
+                .build();
+
+        memberProfilePicturesRepository.save(entity);
+    }
+
+    // 프로필 사진을 S3서버에 업로드
+    public String uploadProfilePictures(MultipartFile file, String stdId) {
+        // 파일 이름을 유니크하게 변경
+        String fileName = createFileName(file.getOriginalFilename());
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(file.getContentType());
+
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+            saveProfilePictures(fileName, stdId);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
+                    file.getOriginalFilename()));
+        } return s3Service.getFileUrl(fileName);
+    }
+
+    // 프로필 사진 삭제
+    public void deleteProfilePictures(String stdId) {
+
+        MemberProfilePictures profilePictures = memberProfilePicturesRepository.findMemberProfilePicturesByStdId(stdId);
+
+        s3Service.deleteFile(profilePictures.getProfilePictureName());
+    }
+
+    // 파트너 사진 파일을 DB에 저장
+    public void savePartnerPhoto(String fileName, Long partnerId) {
+
+        String fileUrl = s3Service.getFileUrl(fileName);
+
+        PartnerPhotos entity = PartnerPhotos.builder()
+                .partnerId(partnerId)
+                .partnerPhotoUrl(fileUrl)
+                .partnerPhotoName(fileName)
+                .build();
+
+        partnerPhotosRepository.save(entity);
+    }
+
+    // 파트너 사진 파일을 S3서버에 업로드
+    public String uploadPartnerPhoto(MultipartFile file, Long partnerId) {
+
+        // 파일 이름을 유니크하게 변경
+        String fileName = createFileName(file.getOriginalFilename());
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(file.getContentType());
+
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+            savePartnerPhoto(fileName, partnerId);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
+                    file.getOriginalFilename()));
+        } return s3Service.getFileUrl(fileName);
+    }
+
+    // 파트너 사진 삭제
+    public void deletePartnerPhoto(Long partnerId) {
+
+        PartnerPhotos partnerPhoto = partnerPhotosRepository.findPartnerPhotosByPartnerId(partnerId);
+
+        s3Service.deleteFile(partnerPhoto.getPartnerPhotoName());
     }
 }
 

@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,13 +32,41 @@ public class Partner {
 
     private String gender;  // 파트너 성별
 
-    private String disabilityDivision;  // 장애 구분
-
     private String partnerPhoto;    // 사진
 
     private String selectionReason; // 선정이유
 
     private String relationship;    // 관계
 
+    public void changePartnerName(String partnerName) {
+        this.partnerName = partnerName;
+        System.out.println("파트너 이름 변경");
+    }
+
+    public void changePartnerDetail(String partnerDetail) {
+        this.partnerDetail = partnerDetail;
+
+        if (partnerDetail.equals("ordinary")) {
+            this.partnerDivision = false;
+        } else {
+            this.partnerDivision = true;
+        }
+    }
+
+    public void changePartnerSelectionReason(String selectionReason) {
+        this.selectionReason = selectionReason;
+    }
+
+    public void changePartnerRelationship(String relationship) {
+        this.relationship = relationship;
+    }
+
+    public void changePartnerGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void changePartnerBirth(String partnerBirth) {
+        this.partnerBirth = partnerBirth;
+    }
 
 }
