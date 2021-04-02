@@ -1,17 +1,41 @@
-import React from 'react'
+import {React} from 'react';
+import {useHistory} from 'react-router-dom';
+import  '../../styles/accordion.scss';
 
-function NoticeDetail() {
+function NoticeDetail({title, active, setactive, content, noticeId}) {
+    const history = useHistory();
+
+    const toggleHandler = () => {           //같으 콘텐츠 클릭시 화면 지우기 구현
+        setactive(title);
+        if(active === title) {
+            setactive("")
+        }
+    }
+
+
+
     return (
-        <div>
-            <div className = "header">
-                <span>제목</span>
-                <span>작성자</span>
-                <span>날짜</span>
+        <div className = "accordion">
+            <div className = "accordionHeading"  onClick = {() => {
+                history.push({
+                    pathname : '/viewdetail',
+                    state : {noticeId : noticeId}
+                })
+            }}>
+                <div className = "container">
+                    <p>{title}</p>
+                    <span onClick = {toggleHandler}>{active === title ? "X" : "|||"}</span>
+                    <div className = "info">
+                        </div>
+                </div>
             </div>
-            <div className = "detail">
-                <span>여기에 값들이 들어오겠죠</span>
+            <div className = {(active === title ? "show" : "") + " accordionContent"}>
+                <div className = "container">
+                    <p>
+                        {content}
+                    </p>
+                </div>
             </div>
-            
         </div>
     )
 }
