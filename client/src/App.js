@@ -38,7 +38,7 @@ function App() {
     <div id="app" className="App">
   
       <Switch>
-        <Route path="/admin" component={Admin} />
+        <Route path="/admin" component={Auth(Admin,true,true)} />
         <Route path="/login" component={Auth(Login,false)} />
         <Route path="/register" component={Auth(RegisterPage,false)}/>
         <Route path="/mypage" component={Auth(Mypage,true)}/>

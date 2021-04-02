@@ -28,7 +28,11 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
             })
             
             if(window.confirm("환영합니다!")) {
+                if(localStorage.getItem("user_info") === 0000000000) {
+                    history.push('/admin')
+                } else{
                 history.push('/home')
+            }
             }
         } 
         return response.data;
@@ -133,7 +137,7 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
             }
         }
     } else if(adminRoute === true) {
-        if(data.role[0].authority === "ROLE_ADMIN") {
+        if(data.role[0].authority === "ADMIN") {
             return ;
         } else {
             history.push('/login');
