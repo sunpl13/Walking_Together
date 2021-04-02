@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ActivitySearchRepository {
 
-    public List<Tuple> activityInfo(String keyword, LocalDate from, LocalDate to, boolean activityDivision);
+    public List<Tuple> activityInfo(String keyword, LocalDate from, LocalDate to, int activityDivision);
 
     public void activityDetail(Long activityId);
 }

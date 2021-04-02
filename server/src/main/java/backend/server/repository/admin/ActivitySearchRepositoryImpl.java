@@ -15,12 +15,12 @@ import java.util.List;
 public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport implements ActivitySearchRepository {
 
     public ActivitySearchRepositoryImpl() {
-        super(Member.class);
+        super(Activity.class);
     }
 
     // 관리자 - 활동조회
     @Override
-    public List<Tuple> activityInfo(String keyword, LocalDate from, LocalDate to, boolean activityDivision) {
+    public List<Tuple> activityInfo(String keyword, LocalDate from, LocalDate to, int activityDivision) {
 
         QActivity activity = QActivity.activity;
         QMember member = QMember.member;
@@ -31,10 +31,10 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(partner).on(partner.eq(activity.partner));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(member.name, member.department, member.stdId, activity.activityDate,
-                activity.startTime, activity.activityId, activity.endTime, member.distance, partner.partnerName);
+                activity.startTime, activity.activityId, activity.endTime, activity.distance, partner.partnerName);
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        BooleanExpression expression = member.stdId.isNotNull();
+        BooleanExpression expression = activity.activityId.isNotNull();
 
         booleanBuilder.and(expression);
 
@@ -54,11 +54,15 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
             booleanBuilder.and(conditionBuilder);
         }
 
-        if (activityDivision) {
-            conditionBuilder.and(activity.activityDivision.isTrue());
+        if (activityDivision == 0) {
+            conditionBuilder.and(activity.activityDivision.eq(0));
             booleanBuilder.and(conditionBuilder);
-        } else {
-            conditionBuilder.and(activity.activityDivision.isFalse());
+        } else if (activityDivision == 1) {
+            conditionBuilder.and(activity.activityDivision.eq(1));
+            booleanBuilder.and(conditionBuilder);
+        } else if (activityDivision == 2) {
+            conditionBuilder.or(activity.activityDivision.eq(0));
+            conditionBuilder.or(activity.activityDivision.eq(1));
             booleanBuilder.and(conditionBuilder);
         }
 

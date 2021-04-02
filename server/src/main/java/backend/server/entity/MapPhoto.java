@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Entity
+// 활동 시작사진, 종료사진을 저장하는 entity
 public class MapPhoto {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -57,7 +57,7 @@ public class AdminController {
     public Map<String,Object> activityInfo(@RequestParam(value = "keyword") @Nullable String keyword,
                                            @RequestParam(value = "from") @Nullable String from,
                                            @RequestParam(value = "to") @Nullable String to,
-                                           @RequestParam(value = "activityDivision") @Nullable boolean activityDivision)
+                                           @RequestParam(value = "activityDivision") @Nullable int activityDivision)
     {
         Map<String, Object> response = new HashMap<>();
 
@@ -103,7 +103,6 @@ public class AdminController {
     // 특정 활동 상세 조회
     @GetMapping("/admin/activityInfo/detail")
     public Map<String, Object> activityInfoDetail(Long activityId) {
-        //나중에 구현
         return null;
     }
 
