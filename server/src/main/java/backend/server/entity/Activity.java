@@ -41,13 +41,13 @@ public class Activity extends BaseEntity {
 
     private LocalDate activityDate; // 활동 날짜
 
-    private boolean activityStatus; // 활동 상태
+    private Boolean activityStatus; // 활동 상태
 
     private LocalDateTime startTime;    // 시작 시간
 
     private LocalDateTime endTime;   // 종료 시간
 
-    private boolean activityDivision;   // 활동 구분 (돌봄, 일반)
+    private int activityDivision;   // 활동 구분 (돌봄, 일반)
 
     private Long distance;  // 총 이동거리
 

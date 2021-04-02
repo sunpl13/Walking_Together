@@ -54,7 +54,7 @@ public class AdminService {
     public List<ActivityInfoDTO> activityInfo(String keyword,
                                               LocalDate from,
                                               LocalDate to,
-                                              boolean activityDivision) {
+                                              int activityDivision) {
         List<Tuple> tuples = activityRepository.activityInfo(keyword, from, to, activityDivision);
         List<ActivityInfoDTO> activityList = new ArrayList<>();
 
