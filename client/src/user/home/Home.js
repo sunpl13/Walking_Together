@@ -1,7 +1,7 @@
 import {React, useEffect} from 'react'
 import { useHistory } from 'react-router';
 import {getNoticeList} from '../../modules/notice';
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux';
 
 function Home() {
 
@@ -16,11 +16,11 @@ function Home() {
 
     const notice = useSelector(state => state.noticeReducer.list);
     console.log(notice)
-    //console.log(notice[0].date.substring(0,10));
+    const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
 
 //화면에 출력하기 위해 map 함수를 활용
-const homeNotice = notice.map(
+const homeNotice = mainNotice.map(
     item => {
    return (
             <tbody key = {item.noticeId}>
@@ -35,16 +35,16 @@ console.log(homeNotice)
 
     return (
         <div>
-            <span>Walking Together</span>
-            <div>
-            <div>
-                <span>공지사항</span>
-                <button onClick = {() => {history.push('/noticelist')}}> 더보기</button>
-            </div>
-            <table>
-                {homeNotice}
-            </table>
-            </div>
+<span>Walking Together</span>
+<div>
+<div>
+    <span>공지사항</span>
+    <button onClick = {() => {history.push('/noticelist')}}> 더보기</button>
+</div>
+<table>
+    {homeNotice}
+</table>
+</div>
         </div>
     )
 }

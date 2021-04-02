@@ -21,6 +21,8 @@ import FindPasswordResult from './user/find/FindPasswordResult';
 import Partner from './user/Partner/Partner';
 import PartnerAction from './user/Partner/PartnerAction';
 import ActivityStart from './user/Activity/ActivityStart';
+import Detail from './user/notice/Detail';
+import CreateActivity from './user/Activity/CreateActivity';
 
 function App() {
 
@@ -37,7 +39,6 @@ function App() {
   
       <Switch>
         <Route path="/admin" component={Admin} />
-
         <Route path="/login" component={Auth(Login,false)} />
         <Route path="/register" component={Auth(RegisterPage,false)}/>
         <Route path="/mypage" component={Auth(Mypage,true)}/>
@@ -50,6 +51,8 @@ function App() {
         <Route path="/partner" component={Partner}/>
         <Route path="/partner-action/:type" component={PartnerAction}/>
         <Route path= "/activitystart" component={ActivityStart}/>
+        <Route path= "/viewdetail" component={Auth(Detail,true)}/>
+        <Route path= "/createactivity" component={Auth(CreateActivity,true)}/>
       </Switch>
     
       <div style = {style}><Nav/></div>
