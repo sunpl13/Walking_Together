@@ -1,5 +1,6 @@
 package backend.server.controller;
 
+import backend.server.DTO.admin.ActivityDetailInfoDTO;
 import backend.server.DTO.admin.ActivityInfoDTO;
 import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
@@ -103,7 +104,16 @@ public class AdminController {
     // 특정 활동 상세 조회
     @GetMapping("/admin/activityInfo/detail")
     public Map<String, Object> activityInfoDetail(Long activityId) {
-        return null;
+
+        ActivityDetailInfoDTO result = adminService.activityDetail(activityId);
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", 200);
+        response.put("message", "불러오기완료");
+
+        response.put("data", result);
+
+        return response;
     }
 
     // 파트너 정보 조회

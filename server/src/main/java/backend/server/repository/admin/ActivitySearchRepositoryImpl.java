@@ -8,8 +8,6 @@ import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport implements ActivitySearchRepository {
@@ -75,11 +73,27 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
 
     // 활동 상세 조회 ( 나중에 )
     @Override
-    public void activityDetail(Long activityId) {
+    public List<Tuple> activityDetail(Long activityId) {
 
         QActivity activity = QActivity.activity;
         QMember member = QMember.member;
         QPartner partner = QPartner.partner;
+        QMapCapture mapCapture = QMapCapture.mapCapture;
 
+        JPQLQuery<Activity> jpqlQuery = from(activity);
+
+        jpqlQuery.leftJoin(member).on(activity.member.eq(member));
+        jpqlQuery.leftJoin(partner).on(activity.partner.eq(partner));
+        jpqlQuery.leftJoin(mapCapture).on(mapCapture.activityId.eq(activity.activityId));
+
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(member.name, member.department, member.stdId, activity.activityDate,
+                partner.partnerName, activity.review, mapCapture.mapCaptureUrl, activity.distance,
+                activity.startTime, activity.endTime);
+
+        tuple.where(activity.activityId.eq(activityId));
+
+        List<Tuple> result = tuple.fetch();
+
+        return result;
     }
 }

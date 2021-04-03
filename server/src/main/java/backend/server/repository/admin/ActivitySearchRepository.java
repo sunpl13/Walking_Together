@@ -10,5 +10,5 @@ public interface ActivitySearchRepository {
 
     public List<Tuple> activityInfo(String keyword, LocalDate from, LocalDate to, int activityDivision);
 
-    public void activityDetail(Long activityId);
+    public List<Tuple> activityDetail(Long activityId);
 }
