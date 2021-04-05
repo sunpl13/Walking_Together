@@ -2,10 +2,7 @@ package backend.server.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +17,9 @@ public class ActivityCheckImages extends BaseEntity {
 
     private String imageUrl;
 
+    private String imageName;
+
     // 연관된 활동 Id
+    @Column(name = "activity_id")
     private Long activityId;
 }

@@ -1,18 +1,23 @@
 package backend.server.service;
 
 import backend.server.DTO.ActivityDTO;
+import backend.server.DTO.CertificationDTO;
 import backend.server.entity.Activity;
+import backend.server.entity.Certification;
 import backend.server.entity.Member;
 import backend.server.entity.Partner;
-import backend.server.repository.ActivityRepository;
-import backend.server.repository.PartnerRepository;
-import backend.server.repository.UserRepository;
+import backend.server.repository.*;
+import backend.server.s3.FileUploadService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.NameNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +29,10 @@ public class ActivityService {
     private final ActivityRepository activityRepository;
     private final PartnerRepository partnerRepository;
     private final UserRepository userRepository;
+    private final FileUploadService fileUploadService;
+    private final ActivityCheckImagesRepository activityCheckImagesRepository;
+    private final CertificationRepository certificationRepository;
+
 
     // 활동 생성 화면
     @Transactional(readOnly = true)
@@ -47,5 +56,79 @@ public class ActivityService {
         });
 
         return partners;
+    }
+
+    // 활동 생성 완료
+    public Long createActivityDone(Long partnerId, String stdId, MultipartFile startPhoto) {
+
+        Optional<Partner> partnerOpt = partnerRepository.findById(partnerId);
+        if(partnerOpt.isEmpty()) {
+            return 404L;
+        }
+
+        Optional<Member> memberOpt = userRepository.findMemberByStdId(stdId);
+        if(memberOpt.isEmpty()) {
+            return 405L;
+        }
+
+        Partner partner = partnerOpt.get();
+
+        int activityDivision;
+        if(partner.isPartnerDivision()) {
+            activityDivision = 1;
+        } else {
+            activityDivision = 0;
+        }
+
+        ActivityDTO dto = ActivityDTO.builder()
+                .stdId(stdId)
+                .activityDivision(activityDivision)
+                .partnerId(partnerId)
+                .build();
+
+        Activity activity = dtoToEntity(dto);
+        Activity savedActivity = activityRepository.save(activity);
+
+        fileUploadService.uploadMapImages(startPhoto, savedActivity.getActivityId(),"start");
+
+        return savedActivity.getActivityId();
+    }
+
+    private Activity dtoToEntity(ActivityDTO dto) {
+        Optional<Partner> partnerOptional = partnerRepository.findById(dto.getPartnerId());
+
+        Optional<Member> memberOptional = userRepository.findMemberByStdId(dto.getStdId());
+
+        Partner partner = partnerOptional.get();
+
+        Member member = memberOptional.get();
+
+        return Activity.builder()
+                .partner(partner)
+                .member(member)
+                .activityDate(LocalDate.now())
+                .activityDivision(dto.getActivityDivision())
+                .activityStatus(1)
+                .startTime(LocalDateTime.now())
+                .build();
+    }
+
+    // 활동 종료
+    public Long endActivity(LocalDateTime endTime, MultipartFile endPhoto, Long activityId, Long distance) {
+
+        Optional<Activity> activityOptional = activityRepository.findById(activityId);
+
+        if(activityOptional.isEmpty()) {
+            return 404L;
+        }
+
+        Activity activity = activityOptional.get();
+        activity.changeDistance(distance);
+        activity.changeEndTime(endTime);
+        activity.changeActivityStatus(0);
+
+        fileUploadService.uploadMapImages(endPhoto, activityId, "end");
+
+        return activityId;
     }
 }

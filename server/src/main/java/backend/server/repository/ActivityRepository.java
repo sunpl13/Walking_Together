@@ -2,6 +2,7 @@ package backend.server.repository;
 
 import backend.server.DTO.ActivityDTO;
 import backend.server.entity.Activity;
+import backend.server.entity.Member;
 import backend.server.repository.admin.ActivitySearchRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

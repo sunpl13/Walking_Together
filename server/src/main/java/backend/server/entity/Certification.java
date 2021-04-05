@@ -3,6 +3,7 @@ package backend.server.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -17,15 +18,15 @@ public class Certification {
     @Id
     private Long certificationId; // 활동 아이디와 같음
 
-    private LocalDateTime activityDate; // 활동일
+    private LocalDate activityDate; // 활동일
 
     private String partnerName; // 파트너 이름
 
     private String department;  // 학과
 
-    private Long stdId; // 학번
+    private String stdId; // 학번
 
-    private String memberName;  // 학생 이름
+    private String name;  // 학생 이름
 
     private LocalDateTime startTime;  // 활동 시작 시간
 

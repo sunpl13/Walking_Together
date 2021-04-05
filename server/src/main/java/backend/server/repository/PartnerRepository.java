@@ -20,5 +20,7 @@ public interface PartnerRepository extends JpaRepository<Partner, Long>, Partner
             "FROM Partner p " +
             "WHERE p.partnerId = :partnerId ")
     Optional<Partner> getPartnerInformation(@Param("partnerId") Long partnerId);
+
+    Optional<Partner> findPartnerByActivity_ActivityId(Long activityID);
 }
 
