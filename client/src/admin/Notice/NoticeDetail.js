@@ -22,7 +22,7 @@ const NoticeDetail = ({match}) => {
     }
 
     const goUpdate = async() => {
-        history.push('/admin/notice-action/update')
+        history.push('/admin/notice-update')
     }
 
     return (
@@ -36,11 +36,11 @@ const NoticeDetail = ({match}) => {
             {notice.imageFiles[0]===undefined ? null
             : <img src={notice.imageFiles[0]} alt="error"></img>}
 
-            <p>{ReactHtmlParser(notice.content)}</p>
+            {ReactHtmlParser(notice.content)}
             {notice.attachedFiles[0]===undefined ? null 
-            : notice.attachedFiles.map((file) => {
+            : notice.attachedFiles.map((file, index) => {
                 return (
-                    <div>
+                    <div key={index}>
                         <a href={file} download>첨부파일다운</a>
                         <br />
                     </div>

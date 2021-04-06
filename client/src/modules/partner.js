@@ -9,26 +9,14 @@ const DELETE_PARTNER = 'DELETE_PARTNER';
 
 //파트너 생성 액션
 export const createPartnerHandler = (
-  stdId,                        //학번
-  partnerName,                  //파트너 이름
-  partnerDetail,                //파트너 세부정보
-  partnerPhoto,                 //파트너 사진
-  selectionReason,              //선정이유
-  relationship,                     //파트너와의 관계
-  gender,                       //성별
-  partnerBirth                 //파트너 생년월일
-) => async(dispatch) => {
-     await axios.post('/partner/create',{
-        stdId: stdId,
-        partnerName : partnerName,
-        partnerDetail : partnerDetail,
-        partnerPhoto : partnerPhoto,
-        selectionReason : selectionReason,
-        relationship : relationship,
-        gender : gender,
-        partnerBirth : partnerBirth
+    formData
+    ) => async(dispatch) => {
+     await axios.post('/partner/create', formData, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
     })
-    .then(res => res.data)
+    .then(res => alert(res.data.message))
     .catch(err => console.log(err));
 
     await dispatch({
@@ -38,56 +26,42 @@ export const createPartnerHandler = (
 
 //파트너 간단한 정보 받아오는 액션
 export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
-    const data = await axios.get(`/mypage/partnerinfo?${stdId}`)
-    .then(res => res.data)
-    .catch(err => console.log(err));
-
-    await dispatch({
-        type : GET_PARTNER_BRIEF_INFO,
-        payload : data
+    await axios.get(`/mypage/partnerInfo?stdId=${stdId}`)
+    .then(res => {
+        dispatch({
+            type : GET_PARTNER_BRIEF_INFO,
+            payload : res.data.partnerList
+        })
     })
+    .catch(err => console.log(err));
 }
 
 //파트너의 상세정보 받아오기
 export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
-    const data = await axios.get(`/mypage/partnerInfo/detail?${partnerId}`)
-    .then(res => res.data)
-    .catch(err => console.log(err));
-
-    await dispatch({
-        type : GET_PARTNER_DETAIL_INFO,
-        payload : data
+    await axios.get(`/mypage/partnerInfo/detail?partnerId=${partnerId}`)
+    .then(res => {
+        dispatch({
+            type : GET_PARTNER_DETAIL_INFO,
+            payload : res.data.data
+        })
     })
+    .catch(err => console.log(err));
 }
 
 //파트너 정보 변경
 export const changePartnerHandler = (
-    stdId,
-    partnerName,
-    partnerDetail,
-    partnerPhoto,
-    selectionReason,
-    relationship,
-    gender,
-    partnerBirth,
+    formData
 ) => async(dispatch) => {
     const data = await axios.post('/partner/change',{
-        stdId : stdId,
-        partnerName : partnerName,
-        partnerDetail : partnerDetail,
-        partnerPhoto : partnerPhoto,
-        selectionReason : selectionReason,
-        relationship : relationship,
-        gender : gender,
-        partnerBirth : partnerBirth
+        formData
     })
-    .then(res => res.data)
+    .then(res => {
+        dispatch({
+            type : CHANGE_PARTNER,
+            payload : res.data.data
+        })
+    })
     .catch(err => console.log(err));
-
-    await dispatch({
-        type : CHANGE_PARTNER,
-        payload : data
-    })
 }
 
 //파트너 삭제
@@ -106,8 +80,17 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 
 
 const initialstate = {
-    briefPartner : {},
-    partnerDetail : {},
+    briefPartner : [],
+    partnerDetail : {
+        partnerId: '',
+        partnerName: '',
+        partnerDetail: '',
+        partnerPhoto: '',
+        selectionReason: '',
+        relationship: '',
+        gender: '',
+        partnerBirth: ''
+    },
 };
 
 //reducer

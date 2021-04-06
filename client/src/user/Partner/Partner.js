@@ -4,25 +4,42 @@ import { getPartnerBriefInfo } from '../../modules/partner';
 import PartnerItem from '../Partner/PartnerItem';
 import TopBar from '../../utils/TopBar';
 
-const Partner = () => {
+const Partner = ({history}) => {
     const dispatch = useDispatch()
 
     const partner = useSelector(state => state.partner.briefPartner)  //PARTNER-LIST
 
+    //param function
+    function goBack() {
+        history.push('/mypage')
+    }
+
+    function goCreatePartner() {
+        history.push(`/partner-action/create`)
+    }
+
+    //useEffect
     useEffect(() => {
-        const stdId = (localStorage.getItem('user_info')).replace(/\"/g, "");  //USER-ID
-        dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-    }, [stdId])
+        dispatch(getPartnerBriefInfo((localStorage.getItem('user_info')).replace(/"/g, "")))  //GET PARTNER-LIST
+    }, [])
 
     return (
         <div>
-            <TopBar left="back" center={{title:"파트너", data:null}} right="plus" size="small"/>
-            {
+            <TopBar 
+            left="back" 
+            center={{title:"파트너", data:null}} 
+            right="plus" 
+            lfunc={goBack}
+            rfunc={goCreatePartner}
+            size="small"/>
+            
+            { partner!=null ?
             partner.map((res) => {
                 return (
-                    <PartnerItem state={res} />  //PARTNER-INFO-ITEM
+                    <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
                 )
             })
+            : "파트너 정보가 없습니다."
             }
         </div>
     );

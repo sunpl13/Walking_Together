@@ -12,6 +12,7 @@ const UserActivity = () => {
     const [activityDivision, setActivityDivision] = useState(0);
 
     const divisionOption = [
+        {code: 2, name: "전체 걷기" },
         {code: 0, name: "일반 걷기" },
         {code: 1, name: "돌봄 걷기" }
     ]
@@ -104,7 +105,8 @@ const UserActivity = () => {
                     <tbody>
                     {
                         res.map((data, index)=>{
-                            <tr key={data.activityId}>
+                            return (
+                                <tr key={data.activityId}>
                                 <td>{index}</td>
                                 <td>{data.stdName}</td>
                                 <td>{data.stdId}</td>
@@ -116,6 +118,7 @@ const UserActivity = () => {
                                 <td>{data.partnerName}</td>
                                 <td><Link to={`admin/user-activity-detail?activityId=${data.activityId}`}>상세보기</Link></td>
                             </tr>
+                            )
                         })
                     }
                     </tbody>
