@@ -1,13 +1,12 @@
 package backend.server.service;
 
+import backend.server.DTO.admin.ActivityDetailInfoDTO;
 import backend.server.DTO.admin.ActivityInfoDTO;
 import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
-import backend.server.entity.Activity;
 import backend.server.repository.ActivityRepository;
 import backend.server.repository.PartnerRepository;
 import backend.server.repository.UserRepository;
-import backend.server.repository.admin.PartnerSearchRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -54,7 +50,7 @@ public class AdminService {
     public List<ActivityInfoDTO> activityInfo(String keyword,
                                               LocalDate from,
                                               LocalDate to,
-                                              boolean activityDivision) {
+                                              int activityDivision) {
         List<Tuple> tuples = activityRepository.activityInfo(keyword, from, to, activityDivision);
         List<ActivityInfoDTO> activityList = new ArrayList<>();
 
@@ -75,6 +71,30 @@ public class AdminService {
         });
 
         return activityList;
+    }
+
+    //활동 정보 세부 조회
+    public ActivityDetailInfoDTO activityDetail(Long activityId) {
+
+        List<Tuple> tuples = activityRepository.activityDetail(activityId);
+
+        System.out.println(tuples);
+        Tuple tuple = tuples.get(0);
+
+        ActivityDetailInfoDTO  result = ActivityDetailInfoDTO.builder()
+                .stdName(tuple.get(0,String.class))
+                .department(tuple.get(1,String.class))
+                .stdId(tuple.get(2, String.class))
+                .activityDate(tuple.get(3, LocalDate.class))
+                .partnerName(tuple.get(4, String.class))
+                .review(tuple.get(5, String.class))
+                .mapPicture(tuple.get(6, String.class))
+                .totalDistance(tuple.get(7, Long.class))
+                .startTime(tuple.get(8, LocalDateTime.class))
+                .endTime(tuple.get(9, LocalDateTime.class))
+                .build();
+
+        return result;
     }
 
     // 파트너 정보 조회

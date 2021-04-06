@@ -30,27 +30,38 @@ public class Activity extends BaseEntity {
     @JoinColumn(name = "partner_id")
     private Partner partner;
 
-    @OneToMany(mappedBy = "activity")
-    private List<MapPhoto> mapPhoto;
-
     private String review;  // 소감문
-
-    private String startImage;  // 시작 사진
-
-    private String endImage;    // 종료 사진
 
     private LocalDate activityDate; // 활동 날짜
 
-    private boolean activityStatus; // 활동 상태
+    private int activityStatus; // 활동 상태
 
     private LocalDateTime startTime;    // 시작 시간
 
     private LocalDateTime endTime;   // 종료 시간
 
-    private boolean activityDivision;   // 활동 구분 (돌봄, 일반)
+    private int activityDivision;   // 활동 구분 (돌봄, 일반)
 
     private Long distance;  // 총 이동거리
 
     private Long certificationId;
+
+    // 종료 시간 입력
+    public void changeEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    // 거리 입력
+    public void changeDistance(Long distance) {
+        this.distance = distance;
+    }
+
+    // 활동 종료로 변경
+    public void changeActivityStatus(int activityStatus) {
+        this.activityStatus = activityStatus;
+    }
+
+    // 소감문 등록
+    public void changeReview(String review) { this.review = review ;}
 
 }

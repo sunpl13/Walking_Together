@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
-import { getPartner } from '../../../modules/activity';
+import {useDispatch} from 'react-redux';
+import { getPartner } from '../../modules/activity';
 
 const CreateActivity = ({match}) => {
 
     const [partners,setPartners] = useState({});
-
+    const dispatch = useDispatch();
     useEffect(() => {
         const res = dispatch(getPartner(match.params.stdId));
         setPartners(res);

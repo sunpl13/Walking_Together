@@ -21,14 +21,18 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         if (response.data.token) {
             console.log(response);
             localStorage.setItem("token", JSON.stringify(response.data.token));                         //유저토큰 로컬스토리지에 user로 저장
-            localStorage.setItem("user_info", JSON.stringify(response.data.stdId));                    //유저정보 user_info로 로컬스토리지에 저장
+            localStorage.setItem("user_info", response.data.stdId);                    //유저정보 user_info로 로컬스토리지에 저장
             dispatch({
                 type: LOGIN_USER,
                 payload : response.data,
             })
             
             if(window.confirm("환영합니다!")) {
+                if(localStorage.getItem("user_info") === 0000000000) {
+                    history.push('/admin')
+                } else{
                 history.push('/home')
+            }
             }
         } 
         return response.data;
@@ -133,7 +137,7 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
             }
         }
     } else if(adminRoute === true) {
-        if(data.role[0].authority === "ROLE_ADMIN") {
+        if(data.role[0].authority === "ADMIN") {
             return ;
         } else {
             history.push('/login');

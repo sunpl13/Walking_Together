@@ -1,5 +1,6 @@
 package backend.server.controller;
 
+import backend.server.DTO.admin.ActivityDetailInfoDTO;
 import backend.server.DTO.admin.ActivityInfoDTO;
 import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
@@ -57,7 +58,7 @@ public class AdminController {
     public Map<String,Object> activityInfo(@RequestParam(value = "keyword") @Nullable String keyword,
                                            @RequestParam(value = "from") @Nullable String from,
                                            @RequestParam(value = "to") @Nullable String to,
-                                           @RequestParam(value = "activityDivision") @Nullable boolean activityDivision)
+                                           @RequestParam(value = "activityDivision") @Nullable int activityDivision)
     {
         Map<String, Object> response = new HashMap<>();
 
@@ -103,8 +104,16 @@ public class AdminController {
     // 특정 활동 상세 조회
     @GetMapping("/admin/activityInfo/detail")
     public Map<String, Object> activityInfoDetail(Long activityId) {
-        //나중에 구현
-        return null;
+
+        ActivityDetailInfoDTO result = adminService.activityDetail(activityId);
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", 200);
+        response.put("message", "불러오기완료");
+
+        response.put("data", result);
+
+        return response;
     }
 
     // 파트너 정보 조회

@@ -1,11 +1,13 @@
-package backend.server.repository.admin;
+package backend.server.repository.querydsl;
 
-import backend.server.entity.Member;
-import backend.server.entity.QMember;
+import backend.server.DTO.page.PageRequestDTO;
+import backend.server.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class MemberSearchRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     // 관리자 창에서 회원 검색 구현
+    @Override
     public List<Tuple> memberDetail(String keyword) {
 
         QMember member = QMember.member;
@@ -44,4 +47,5 @@ public class MemberSearchRepositoryImpl extends QuerydslRepositorySupport implem
         List<Tuple> result = tuple.fetch();
         return result;
     }
+
 }

@@ -3,6 +3,8 @@ package backend.server.DTO;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
@@ -19,4 +21,10 @@ public class ActivityDTO {
     private Long partnerId;
 
     private String stdId;
+
+    private LocalDate activityDate;
+
+    private int activityDivision;
+
+    private int activityStatus;
 }

@@ -1,6 +1,5 @@
-package backend.server.repository.admin;
+package backend.server.repository.querydsl;
 
-import backend.server.entity.Member;
 import backend.server.entity.Partner;
 import backend.server.entity.QMember;
 import backend.server.entity.QPartner;

@@ -10,10 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivityInfoDTO {
-
-    //member.name, member.department, member.stdId, activity.activityDate,
-    // activity.startTime, activity.activityId, activity.endTime, member.distance, partner.partnerName
+public class ActivityDetailInfoDTO {
 
     private String stdName;
 
@@ -23,18 +20,15 @@ public class ActivityInfoDTO {
 
     private LocalDate activityDate;
 
-    private LocalDateTime activityStartTime;
-
-    private LocalDateTime endTime;
-
-    private Long activityId;
-
-    private Long distance;
-
     private String partnerName;
 
     private String review;
 
     private String mapPicture;
 
+    private Long totalDistance;
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
 }

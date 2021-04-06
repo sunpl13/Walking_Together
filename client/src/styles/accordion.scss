@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.App {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 0;
+  background: #edeef1;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+}
+
+.accordion {
+  width: 100%;
+  max-width: 540px;
+  margin: 18px auto;
+  color: #fff;
+}
+
+.accordionHeading {
+  background: #3f475d;
+  padding: 14px 0;
+  justify-content: space-between;
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+
+  .p {
+    letter-spacing: 1.2px;
+    font-weight: 600;
+  }
+
+  .span {
+    cursor: pointer;
+  }
+}
+
+.accordionContent {
+  background: #383a7f;
+  display: flex;
+  overflow: hidden;
+  transition: all 600ms ease-in-out;
+  height: 0;
+  opacity: 0;
+
+  p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+}
+.accordionContent.show {
+  height: 180px;
+  opacity: 1;
+}

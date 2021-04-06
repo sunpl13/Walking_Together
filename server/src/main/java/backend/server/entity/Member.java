@@ -67,4 +67,7 @@ public class Member extends BaseEntity {
         this.department = department;
     }
 
+    // 총 거리 수정
+    public void changeDistance(Long distance) { this.distance = distance;}
+
 }

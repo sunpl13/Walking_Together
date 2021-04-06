@@ -1,13 +1,7 @@
 package backend.server.s3;
 
-import backend.server.entity.MemberProfilePictures;
-import backend.server.entity.NoticeAttachedFiles;
-import backend.server.entity.NoticeImages;
-import backend.server.entity.PartnerPhotos;
-import backend.server.repository.MemberProfilePicturesRepository;
-import backend.server.repository.NoticeAttachedFilesRepository;
-import backend.server.repository.NoticeImagesRepository;
-import backend.server.repository.PartnerPhotosRepository;
+import backend.server.entity.*;
+import backend.server.repository.*;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +21,7 @@ public class FileUploadService {
     private final NoticeAttachedFilesRepository noticeAttachedFilesRepository;
     private final MemberProfilePicturesRepository memberProfilePicturesRepository;
     private final PartnerPhotosRepository partnerPhotosRepository;
+    private final ActivityCheckImagesRepository activityCheckImagesRepository;
     private final S3Service s3Service;
 
     // 공지사항 이미지 파일을 DB에 저장
@@ -203,6 +198,41 @@ public class FileUploadService {
         PartnerPhotos partnerPhoto = partnerPhotosRepository.findPartnerPhotosByPartnerId(partnerId);
 
         s3Service.deleteFile(partnerPhoto.getPartnerPhotoName());
+    }
+
+    // 활동 이미지 사진을 DB에 저장
+    public void saveActivityCheckImage(String fileName, Long activityId) {
+
+        String fileUrl = s3Service.getFileUrl(fileName);
+
+        ActivityCheckImages entity = ActivityCheckImages.builder()
+                .activityId(activityId)
+                .imageUrl(fileUrl)
+                .imageName(fileName)
+                .build();
+
+        activityCheckImagesRepository.save(entity);
+    }
+
+    // 활동 이미지 파일을 S3서버에 업로드
+    public String uploadMapImages(MultipartFile file, Long activityId, String checkFile) {
+
+        String fileName = createFileName(file.getOriginalFilename());
+        if (checkFile.equals("start")) {
+            fileName = "start " + fileName;
+        } else if (checkFile.equals("end")) {
+            fileName = "end " + fileName;
+        }
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(file.getContentType());
+
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+            saveActivityCheckImage(fileName, activityId);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
+                    file.getOriginalFilename()));
+        } return s3Service.getFileUrl(fileName);
     }
 }
 

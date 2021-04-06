@@ -2,18 +2,25 @@ import {React, useState, useEffect} from 'react'
 import {FaSearch} from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
 import {getNoticeList} from '../../modules/notice';
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux';
+import NoticeDetail from './NoticeDetail'
 import axios from 'axios';
 
 
 function UserNotice() {
     const dispatch = useDispatch();
+    let noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
 
     //page
     const [current, setCurrent] = useState(0);  //현재 페이지
     const pageInfo = useSelector(state => state.noticeReducer.pageInfo);  //전체 페이지 정보
     const [keyword, setkeyword] = useState(null);       //키워드 state
-    const [searchedList, setsearchedList] = useState([]);       // 검색 할때만 사용하므로 여기에 사용
+    const [active, setactive] = useState("");
+
+    const Search = () => {
+        dispatch(getNoticeList(current+1,keyword))
+    }
+
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
         setCurrent(page.selected)
@@ -24,33 +31,24 @@ function UserNotice() {
         setkeyword(e.target.value)
     }
 
-    const noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
 
     useEffect(() => {
         return (
             dispatch(getNoticeList(current+1,keyword))  //공지사항 목록 받아오기
         )
-    }, [dispatch, current, keyword])
+    }, [dispatch, current])
 
 //화면에 출력하기 위해 map 함수를 활용
-const homeNotice = noticeList.map(
+let homeNotice = noticeList.map(
     item => 
-   (
-       <tbody key={item.noticeId}>
-   <tr>{item.title}<td>사회봉사단 |{item.date.substring(0,10)}</td></tr>
-   </tbody>
-   )
-
+   {
+       return(
+             <NoticeDetail key = {item.noticeId} noticeId = {item.noticeId} title = {item.title} active = {active} setactive = {setactive} content = {item.content}/>
+             )  
+    }
 )
 
-const Search = () => {
-    axios.post('/noticeList',{
-        keyword : keyword,
-    })
-    .then(res => {setsearchedList(res.data)})
-    .catch(err => console.log(err))
-}
-console.log(searchedList);
+
 
 
     return (
@@ -59,9 +57,7 @@ console.log(searchedList);
                 <input type = "text" onChange = {ChangeKeywordHandler}></input>
                 <FaSearch onClick = {Search}/>
             </div>
-            <table>
                 {homeNotice}
-            </table>
             <ReactPaginate 
                 pageCount={pageInfo.totalPage}  //총 페이지 수
                 pageRangeDisplayed={10}  //한 페이지에 표시할 게시글 수

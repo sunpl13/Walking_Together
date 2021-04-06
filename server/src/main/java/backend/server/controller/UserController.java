@@ -62,7 +62,13 @@ public class UserController {
         authNumber += String.valueOf(l).substring(0, 7);
 
         try {
-            userService.sendAuthNumber(email, authNumber);
+            String result = userService.sendAuthNumber(email, authNumber);
+            if(result.equals("404")) {
+                response.put("status", 404);
+                response.put("message", "이미 가입된 이메일입니다.");
+                return response;
+            }
+
         } catch (Exception e) {
             response.put("status", 400);
             response.put("message", "인증번호 전송에 실패했습니다.");
