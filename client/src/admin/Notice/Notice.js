@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
@@ -6,7 +7,8 @@ import '../../styles/notice.scss';
 
 import { selectNotice, initSelectedNotice } from '../../modules/notice';
 
-const Notice = ({history}) => {
+const Notice = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
 
     //page
@@ -20,19 +22,21 @@ const Notice = ({history}) => {
     const noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
 
     useEffect(() => {
-        return (
-            dispatch(getNoticeList(current+1,null))  //공지사항 목록 받아오기
-        )
+        dispatchNoticeList();
     }, [current])
+
+    const dispatchNoticeList = () => {
+        dispatch(getNoticeList(current+1,null))  //공지사항 목록 받아오기
+    }
 
     const goDetail = async(noticeId) => {  //공지사항 세부로 이동
         await dispatch(selectNotice(noticeId))
         .then(() => history.push(`/admin/notice-detail/${noticeId}`))
     }
 
-    const goAction = async() => {  //공지사항 액션(삽입)으로 이동
+    const goAction = async() => {  //공지사항 삽입으로 이동
         await dispatch(initSelectedNotice())
-        .then(() => history.push('/admin/notice-action/createpost'))
+        .then(() => history.push('/admin/notice-insert'))
     }
 
     return (
@@ -69,6 +73,7 @@ const Notice = ({history}) => {
             initialPage={current}  //선택한 초기 페이지
             previousLabel={"이전"}  //이전 라벨
             nextLabel={"다음"}  //다음 라벨
+            breakLabel={'...'}  //줄임 라벨
             onPageChange={changePage}  //클릭 할 때 호출 할 메서드
             containerClassName={"pagination-ul"}  //페이지 매김 컨테이너의 클래스 이름
             pageClassName={"page-li"}  //각 페이지 요소의 li태그에 있는 클래스 이름

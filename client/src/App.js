@@ -20,7 +20,10 @@ import FindPassword from './user/find/FindPassword';
 import FindPasswordResult from './user/find/FindPasswordResult';
 import Partner from './user/Partner/Partner';
 import PartnerAction from './user/Partner/PartnerAction';
+import PartnerDetail from './user/Partner/PartnerDetail';
 import ActivityStart from './user/Activity/ActivityStart';
+
+import CertificationAction from './user/Certification/CertificationAction';
 
 function App() {
 
@@ -28,7 +31,6 @@ function App() {
     bottom: "0px",
     left: "0px",
     right:"0px",
-    position:"absoulte !important", 
     position:"fixed"
   }
 
@@ -49,7 +51,10 @@ function App() {
         <Route path="/findresult" component={Auth(FindPasswordResult,false)}/>
         <Route path="/partner" component={Partner}/>
         <Route path="/partner-action/:type" component={PartnerAction}/>
-        <Route path= "/activitystart" component={ActivityStart}/>
+        <Route path="/partner-datail/:partnerId" component={PartnerDetail}/>
+        <Route path="/activitystart" component={ActivityStart}/>
+
+        <Route path="/certification-action" component={Auth(CertificationAction,true)}/>
       </Switch>
     
       <div style = {style}><Nav/></div>

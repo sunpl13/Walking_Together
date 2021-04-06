@@ -49,7 +49,11 @@ public class MyPageController {
         data.put("name", member.getName());
         data.put("department", member.getDepartment());
         data.put("totalTime", member.getTotalTime());
-        data.put("profilePicture", profilePicture.getProfilePictureUrl());
+        if(profilePicture!=null) {
+            data.put("profilePicture", profilePicture.getProfilePictureUrl());
+        } else {
+            data.put("profilePicture", null);
+        }
 
         response.put("data", data);
 
@@ -154,8 +158,8 @@ public class MyPageController {
 
         StringBuffer stringBuffer = new StringBuffer();
         StringBuffer birth = stringBuffer.append(partnerBirth);
-        birth.insert(4,"/");
-        birth.insert(7,"/");
+        birth.replace(4,5,"/");
+        birth.replace(7,8,"/");
 
         MyPagePartnerDTO savePartner = MyPagePartnerDTO.builder()
                 .stdId(stdId)

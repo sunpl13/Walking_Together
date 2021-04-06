@@ -1,43 +1,33 @@
-import React, { useState, useRef, useEffect } from 'react';
-import html2canvas from 'html2canvas';
-
-
-//******* capture t e s t ********
+import React, { useState } from 'react';
+import CertificationAction from './CertificationAction';
 
 const Certification = () => {
-    //const [활동내역, set활동내역] = useState({});
-    const captureRef = useRef();
-    const [url, setUrl] = useState();
+    const stdId = localStorage.getItem('user_info').replace(/"/g,"")
 
-    useEffect(() => {
-        console.log('jj');
-    }, [url])
+    const [activityList, setActivityList] = useState([])
     
-    const getScreenshot = () => {
-        html2canvas(captureRef.current)
-        .then(canvas => {
-            const capture = canvas.toDataURL("image/png");
-            const image = capture.replace("data:image/png;base64,","");
-            const param = {
-                img : image
-            }
-            setUrl(capture);
-            console.log(capture);
-        })}
+    const [from, setFrom] = useState()
+    const [to, setTo] = useState()
+
+    //
+    const getCertification = () => {
+        axios.post('/feed/certification', {
+            stdId: stdId,
+            from: from,
+            to: to
+        }).then((res) => {
+            setActivityList(res.data)
+        })
+    }
 
     return (
         <div>
-            <div id="capture" ref={captureRef} >
-                <p>캡쳐 이미지</p><br/><br/><br/>
-                <p>test</p>
-                {/*활동내역.map((활동) => {
-                    <div>
-                        
-                    </div>
-                })*/}
-            </div>
-            <a href={url} download>다운로드</a>
-            <button onClick={getScreenshot}>Get Screenshot</button>
+            <p>활동 기간을 선택한 후, 조회 버튼을 눌러주세요.</p>
+            <input type="date" value={from} onChange={(e) => setFrom(e.target.value)}/>~
+            <input type="date" value={to} onChange={(e) => setTo(e.target.value)}/>
+            <button onClick={getCertification}>조회</button>
+
+            <CertificationAction data={activityList}/>
         </div>
     );
 };

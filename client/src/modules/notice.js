@@ -36,10 +36,14 @@ const INITSELECTEDNOTICE = 'INITSELECTEDNOTICE';
 export const insertNotice = (       //공지글 등록 (==>form에서 직접 submit해야 파일 전송돼서 사용 안 했음 ㅠ)
     formData
     ) => async(dispatch) => {
-        await axios.post('/admin/createpost' ,formData)
-        .then((response) => {
-            console.log(response)
-        }).catch((err) => alert(err));
+        await axios.post('/admin/createpost' ,formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            alert(res.data.message);
+        }).catch((err) => console.log(err));
 
         dispatch({
             type: INSERTNOTICE
@@ -47,28 +51,22 @@ export const insertNotice = (       //공지글 등록 (==>form에서 직접 sub
     }
 
 export const updateNotice = (       //공지글 수정
-    noticeId, 
-    title, 
-    content, 
-    imageFiles, 
-    attachedFiles
+    formData
     ) => async(dispatch) => { 
-        await axios.post(`/admin/update`, {
-            noticeId: noticeId,
-            title: title,
-            content: content,
-            imageFiles: imageFiles,
-            attachedFiles: attachedFiles
-        }).then((response) => {
-            console.log(response)
-        }).catch((err) => alert(err));
+        await axios.post('/admin/update', formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }).then((res) => {
+            alert(res.data.message);
+        }).catch((err) => console.log(err));
 
         dispatch({
             type: UPDATENOTICE,
-            title,
-            content,
-            imageFiles,
-            attachedFiles
+            title: formData.get("title"),
+            content: formData.get("content"),
+            imageFiles: formData.get("imageFiles"),
+            attachedFiles: formData.get("attachedFiles")
         })
     }
 
@@ -76,6 +74,9 @@ export const deleteNotice = (           //공지글 삭제
     noticeId
     ) => async(dispatch) => {   
         await axios.get(`/admin/delete?noticeId=${noticeId}`)
+        .then((res) => {
+            alert(res.data.message);
+        }).catch((err) => console.log(err));
 
         dispatch({
             type: DELETENOTICE

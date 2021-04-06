@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { insertNotice, getNoticeList } from '../../modules/notice';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import '../../styles/notice_action.scss';
 
-const NoticeAction = ({match}) => {
+const NoticeInsert = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const type = match.params.type;  //createpost or update
-
-    const notice = useSelector(state => state.noticeReducer.selectedNotice)  //선택된 공지글
-
-    const noticeId = notice.noticeId;
-    const [title,setTitle] = useState(notice.title);
-    const [content, setContent] = useState(notice.content);
+    const [title,setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [attachedFiles, setAttachedFiles] = useState([]);
+    const [imageFiles, setImageFiles] = useState([]);
 
     //취소 시 이전 페이지로 이동
     const cancel = (e) => {
@@ -27,6 +26,51 @@ const NoticeAction = ({match}) => {
         }else{
             console.log("cancel");
         }
+    }
+
+    const setImage = (e) => {
+        setImageFiles(e.target.files)
+    }
+    
+    const setAttached = (e) => {
+        setAttachedFiles(e.target.files)
+    }
+
+    //submit
+    const submit = (e) => {
+        e.preventDefault();
+        if(content==="") {
+            return(alert("내용을 입력해주세요."))
+        }
+        
+        //create formdata
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+
+        //files null check
+        if(attachedFiles.length!==0) {
+            if(attachedFiles.length===1) {
+                formData.append("attachedFiles", attachedFiles[0])
+            }
+            else {
+                for (let i = 0; i < attachedFiles.length; i++) {
+                    formData.append(`attachedFiles`, attachedFiles[i])
+                }
+            }
+        }
+        if(imageFiles.length!==0) {
+            formData.append("imageFiles", imageFiles[0])
+        }
+
+        //action dispatch
+        dispatch(insertNotice(formData))
+        .then(() => getNotice())
+    }
+
+    const getNotice = async() => {
+        await dispatch(getNoticeList(1,null))
+        .then(() => history.push('/admin/notice'))
     }
 
     //editor module and formats
@@ -52,7 +96,7 @@ const NoticeAction = ({match}) => {
 
     return (
         <div>
-            <form action={`/admin/${type}`} enctype="multipart/form-data" target="iframe" method="post">
+            <form action="/admin/createpost" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <button onClick={cancel}>취소</button>
                 <button type="submit">제출</button>
 
@@ -72,22 +116,16 @@ const NoticeAction = ({match}) => {
                 
 
                 <h4>대표 이미지</h4>
-                {type==="update" ? 
-                <input type="file" accept="image/*" name="imageFiles"></input>
-                : <input type="file" accept="image/*" name="imageFiles"></input>}
+                <input type="file" accept="image/*" name="imageFiles" onChange={setImage}></input>
 
                 <h4>첨부파일</h4>
-                {type==="update" ? 
-                <input type="file" multiple="multiple" name="attachedFiles" ></input>
-                : <input type="file" multiple="multiple" name="attachedFiles" ></input>}
+                <input type="file" multiple="multiple" name="attachedFiles" onChange={setAttached}></input>
 
                 {/*invisible */}
-                <input type="hidden" value={noticeId} name="noticeId"></input>
                 <input type="hidden" value={content} name="content"></input>
-                <iframe src="#" name="iframe"></iframe>
             </form>
         </div>
     );
 };
 
-export default NoticeAction;
+export default NoticeInsert;
