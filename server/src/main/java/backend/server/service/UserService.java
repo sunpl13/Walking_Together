@@ -106,7 +106,11 @@ public class UserService {
     }
 
     // 회원가입 메일 보내기
-    public void sendAuthNumber(String email, String authNum) {
+    public String sendAuthNumber(String email, String authNum) {
+        Optional<Member> member = userRepository.findMemberByEmail(email);
+        if(member.isPresent()) {
+            return "404";
+        }
 
         MailDTO sendAuthNum = MailDTO.builder()
                 .title("<< 인증 코드입니다. >>")
@@ -115,6 +119,7 @@ public class UserService {
                 .build();
 
         mailService.mailSend(sendAuthNum);
+        return email;
     }
 
     // 임시 비밀번호 생성 (7글자 무작위 단어 생성)
