@@ -1,9 +1,8 @@
-package backend.server.repository.admin;
+package backend.server.repository.querydsl;
 
 import com.querydsl.core.Tuple;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ActivitySearchRepository {
@@ -11,4 +10,8 @@ public interface ActivitySearchRepository {
     public List<Tuple> activityInfo(String keyword, LocalDate from, LocalDate to, int activityDivision);
 
     public List<Tuple> activityDetail(Long activityId);
+
+    public List<Tuple> feed(String stdId, String sort);
+
+    public Tuple feedDetail(Long activityId);
 }

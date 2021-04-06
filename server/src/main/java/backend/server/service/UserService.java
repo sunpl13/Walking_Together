@@ -41,6 +41,7 @@ public class UserService {
                 .activate(true)
                 .department(userDto.getDepartment())
                 .pNumber(userDto.getPNumber())
+                .distance(0L)
                 .build();
         member.addMemberRole(MemberRole.USER);
 

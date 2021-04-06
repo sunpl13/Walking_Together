@@ -1,4 +1,4 @@
-package backend.server.repository.admin;
+package backend.server.repository.querydsl;
 
 import com.querydsl.core.Tuple;
 

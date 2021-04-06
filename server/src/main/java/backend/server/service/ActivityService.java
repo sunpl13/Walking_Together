@@ -123,6 +123,10 @@ public class ActivityService {
         }
 
         Activity activity = activityOptional.get();
+
+        Member member = activity.getMember();
+        totalDistanceCalculator(member.getStdId(), distance);   // 활동 거리 계산
+
         activity.changeDistance(distance);
         activity.changeEndTime(endTime);
         activity.changeActivityStatus(0);
@@ -130,5 +134,15 @@ public class ActivityService {
         fileUploadService.uploadMapImages(endPhoto, activityId, "end");
 
         return activityId;
+    }
+
+    // 활동 거리 계산
+    public void totalDistanceCalculator(String stdId, Long distance) {
+
+        Member member = userRepository.findMemberByStdId(stdId).get();
+
+        Long totalDistance = member.getDistance() + distance;
+
+        member.changeDistance(totalDistance);
     }
 }

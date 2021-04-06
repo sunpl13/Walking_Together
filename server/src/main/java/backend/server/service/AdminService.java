@@ -1,15 +1,12 @@
 package backend.server.service;
 
-import backend.server.DTO.ActivityDTO;
 import backend.server.DTO.admin.ActivityDetailInfoDTO;
 import backend.server.DTO.admin.ActivityInfoDTO;
 import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
-import backend.server.entity.Activity;
 import backend.server.repository.ActivityRepository;
 import backend.server.repository.PartnerRepository;
 import backend.server.repository.UserRepository;
-import backend.server.repository.admin.PartnerSearchRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service

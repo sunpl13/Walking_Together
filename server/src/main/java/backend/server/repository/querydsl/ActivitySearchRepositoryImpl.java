@@ -1,4 +1,4 @@
-package backend.server.repository.admin;
+package backend.server.repository.querydsl;
 
 import backend.server.entity.*;
 import com.querydsl.core.BooleanBuilder;
@@ -95,5 +95,57 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         List<Tuple> result = tuple.fetch();
 
         return result;
+    }
+
+    // 피드 메인
+    @Override
+    public List<Tuple> feed(String stdId, String sort) {
+
+        QMember member = QMember.member;
+        QActivity activity = QActivity.activity;
+        QPartner partner = QPartner.partner;
+
+        JPQLQuery<Activity> jpqlQuery = from(activity);
+        jpqlQuery.leftJoin(member).on(member.eq(activity.member));
+        jpqlQuery.leftJoin(partner).on(activity.eq(partner.activity));
+
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityStatus, activity.distance, partner.partnerName,
+                activity.activityDate,activity.activityDivision);
+
+        tuple.where(activity.activityId.gt(0L));
+        tuple.where(activity.member.stdId.eq(stdId));
+
+        tuple.orderBy(activity.activityStatus.desc());
+
+        if (sort.equals("desc")) {
+            tuple.orderBy(activity.activityDate.desc());
+        } else if (sort.equals("asc")) {
+            tuple.orderBy(activity.activityDate.asc());
+        }
+
+        List<Tuple> result = tuple.fetch();
+
+        return result;
+    }
+
+    // 피드 상세
+    @Override
+    public Tuple feedDetail(Long activityId) {
+        QMember member = QMember.member;
+        QActivity activity = QActivity.activity;
+        QPartner partner = QPartner.partner;
+        QMapCapture mapCapture = QMapCapture.mapCapture;
+
+        JPQLQuery<Activity> jpqlQuery = from(activity);
+        jpqlQuery.leftJoin(member).on(member.eq(activity.member));
+        jpqlQuery.leftJoin(partner).on(activity.eq(partner.activity));
+        jpqlQuery.leftJoin(mapCapture).on(activity.activityId.eq(mapCapture.activityId));
+
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, partner.partnerName, activity.startTime, activity.endTime,
+                activity.activityDivision, activity.review, mapCapture.mapCaptureUrl);
+
+        tuple.where(activity.activityId.eq(activityId));
+
+        return tuple.fetch().get(0);
     }
 }

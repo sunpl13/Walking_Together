@@ -61,4 +61,7 @@ public class Activity extends BaseEntity {
         this.activityStatus = activityStatus;
     }
 
+    // 소감문 등록
+    public void changeReview(String review) { this.review = review ;}
+
 }

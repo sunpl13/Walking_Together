@@ -1,7 +1,8 @@
 package backend.server.repository;
 
 import backend.server.entity.Member;
-import backend.server.repository.admin.MemberSearchRepository;
+import backend.server.repository.querydsl.MemberSearchRepository;
+import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +28,4 @@ public interface UserRepository extends JpaRepository<Member, Long>, MemberSearc
 
     @Query("SELECT p.partnerName, p.partnerDetail, p.partnerBirth, p.partnerId FROM Partner p LEFT JOIN p.member WHERE p.member.stdId = :stdId")
     List<List<Object>> getPartnerList(@Param("stdId") String stdId);
-
-
 }
