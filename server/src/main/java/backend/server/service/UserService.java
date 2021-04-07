@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class UserService {
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .birth(userDto.getBirth())
                 .email(userDto.getEmail())
+                .totalTime(LocalTime.of(0,0))
                 .activate(true)
                 .department(userDto.getDepartment())
                 .pNumber(userDto.getPNumber())

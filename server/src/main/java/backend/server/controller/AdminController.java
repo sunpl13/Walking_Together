@@ -78,7 +78,10 @@ public class AdminController {
 
             String activityDate = activity.getActivityDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             String startTime = activity.getActivityStartTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
-            String endTime = activity.getEndTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+            String endTime = null;
+            if (activity.getEndTime()!=null) {
+                endTime = activity.getEndTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+            }
 
             value.put("stdName",activity.getStdName());
             value.put("department",activity.getDepartment());
@@ -107,6 +110,12 @@ public class AdminController {
 
         ActivityDetailInfoDTO result = adminService.activityDetail(activityId);
         Map<String, Object> response = new HashMap<>();
+
+        if(result == null) {
+            response.put("status", 404);
+            response.put("message", "존재하지 않는 활동입니다.");
+            return response;
+        }
 
         response.put("status", 200);
         response.put("message", "불러오기완료");
