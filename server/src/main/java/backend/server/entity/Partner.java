@@ -26,7 +26,7 @@ public class Partner {
 
     private String partnerBirth;    // 파트너 출생일
 
-    private boolean partnerDivision; // 파트너 구분
+    private int partnerDivision; // 파트너 구분
 
     private String partnerDetail;   // 파트너 세부 정보(임산부, 장애인, 아동, 일반인)
 
@@ -47,9 +47,9 @@ public class Partner {
         this.partnerDetail = partnerDetail;
 
         if (partnerDetail.equals("ordinary")) {
-            this.partnerDivision = false;
+            this.partnerDivision = 0;
         } else {
-            this.partnerDivision = true;
+            this.partnerDivision = 1;
         }
     }
 

@@ -1,5 +1,6 @@
 package backend.server.repository.querydsl;
 
+import backend.server.entity.Activity;
 import com.querydsl.core.Tuple;
 
 import java.time.LocalDate;

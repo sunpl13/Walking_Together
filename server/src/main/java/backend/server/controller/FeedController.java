@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,5 +88,13 @@ public class FeedController {
         response.put("message", "소감문 저장 완료");
 
         return response;
+    }
+
+    @PostMapping("/feed/certification")
+    public Map<String, Object> createCertification(String stdId, String from, String to) {
+
+        Map<String, Object> certification = feedService.getCertification(from, to, stdId);
+
+        return certification;
     }
 }
