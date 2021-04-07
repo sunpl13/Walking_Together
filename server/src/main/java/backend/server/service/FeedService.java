@@ -136,12 +136,12 @@ public class FeedService {
 
         String ordinaryFinalTime = String.format("%02d", ordinarySum/60)+ ":" + String.format("%02d",ordinarySum%60);
         String careFinalTime = String.format("%02d",careSum/60) + ":" + String.format("%02d",careSum%60);
-        String totalTimes = String.format("%02d",(ordinarySum+careSum)/60) + ":" + String.format("%02d", (ordinarySum+careSum)%60);
+        String totalTime = String.format("%02d",(ordinarySum+careSum)/60) + ":" + String.format("%02d", (ordinarySum+careSum)%60);
         Map<String, Object> result  = new HashMap<>();
         result.put("data", dtos);
         result.put("ordinaryTimes", ordinaryFinalTime);
         result.put("careTimes", careFinalTime);
-        result.put("totalTimes", totalTimes);
+        result.put("totalTime", totalTime);
 
         return result;
     }

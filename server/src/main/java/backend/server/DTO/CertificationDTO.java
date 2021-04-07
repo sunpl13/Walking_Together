@@ -29,8 +29,6 @@ public class CertificationDTO {
 
     private String name;
 
-    private LocalTime totalTime;
-
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
