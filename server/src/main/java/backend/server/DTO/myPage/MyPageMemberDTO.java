@@ -2,6 +2,8 @@ package backend.server.DTO.myPage;
 
 import lombok.*;
 
+import java.time.LocalTime;
+
 @Getter
 @Setter
 @Builder
@@ -15,7 +17,7 @@ public class MyPageMemberDTO {
 
     private String password;
 
-    private Long totalTime;
+    private LocalTime totalTime;
 
     private String profilePicture;
 }

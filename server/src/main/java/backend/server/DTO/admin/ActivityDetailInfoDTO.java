@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -31,4 +32,7 @@ public class ActivityDetailInfoDTO {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
+
+    private LocalTime totalTime;
+
 }
