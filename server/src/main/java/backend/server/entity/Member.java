@@ -3,6 +3,7 @@ package backend.server.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Member extends BaseEntity {
 
     private Long distance;    // 총거리
 
-    private Long totalTime;   // 총 환산시간
+    private LocalTime totalTime;   // 총 환산시간
 
     private String profilePicture;  // 프로필사진 URL
 
@@ -69,5 +70,8 @@ public class Member extends BaseEntity {
 
     // 총 거리 수정
     public void changeDistance(Long distance) { this.distance = distance;}
+
+    // 총 환산 시간 수정
+    public void changeTotalTime(LocalTime totalTime) {this.totalTime = totalTime;}
 
 }

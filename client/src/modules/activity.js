@@ -24,8 +24,9 @@ const FINISHACTIVITY = "FINISHACTIVITY";
 //action
 const url = process.env.REACT_APP_URL;
 
+//파트너 정보 받아오기
 export const getPartner = async(stdId) => {
-    const res = await axios.get(`${url}/activity/create/stdId=${stdId}`)
+    const res = await axios.get(`/activity/create/stdId=${stdId}`)
     .then((response) => {
         console.log(response)
     }).catch((err) => alert(err));
@@ -36,39 +37,28 @@ export const getPartner = async(stdId) => {
     }
 }
 
-export const createActivity = async(stdId, partnerId) => {
-    const res = await axios.post(`${url}/activity/create`, {
-        stdId: stdId,
-        partnerId: partnerId
-    }).then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
+//활동 생성
+export const createActivity = async(
+    formData //stdId, partnerId, startPhoto formdate로 묶어서 보내기
+) => {
+    const res = await axios.post(`$/activity/createActivity`, formData, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    }).then((res) => {
+        alert(res.data.message)
+    }).catch((err) => alert(err))
 
     return {
         type: CREATEACTIVITY,
         payload: {
-            partnerId: partnerId, 
-            activityId: res.data
+            //partnerId: partnerId,
+            activityId: res.data.activityId
         }
     }
 }
 
-export const updatePhoto = async(activityId, startPhoto) => {
-    const date = new Date();
-    const res = await axios.post(`${url}/activity`, {
-        activityId: activityId,
-        startPhoto: startPhoto
-    }).then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
-
-    return {
-        type: UPDATEPHOTO,
-        payload: date.now()
-
-    }
-}
-
+//위치 정보 업데이트
 export const getLocation = async(latitude, longitude, time) => {
     return {
         type: GETLOCATION,
@@ -80,15 +70,16 @@ export const getLocation = async(latitude, longitude, time) => {
     }
 }
 
-export const finishActivity = async(activityId, map, finishTime, distance, finishPhoto) => {
-    const res = await axios.post(`${url}/activity/finish`, {
+//활동 종료
+export const finishActivity = async(activityId, map, endTime, distance, finishPhoto) => {
+    await axios.post(`${url}/activity/finish`, {
         activityId: activityId,
         map: map,
-        finishTime: finishTime,
+        endTime: endTime,
         distance: distance,
         finishPhoto: finishPhoto,
-    }).then((response) => {
-        console.log(response)
+    }).then((res) => {
+        alert(res.data.message);
     }).catch((err) => alert(err));
 
     return {

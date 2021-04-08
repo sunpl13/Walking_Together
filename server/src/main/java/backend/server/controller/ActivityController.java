@@ -101,7 +101,7 @@ public class ActivityController {
         LocalDateTime activityEndTime = LocalDateTime.parse(endTime, formatter);
 
         Long result = activityService.endActivity(activityEndTime, map, activityId, distance);
-
+        
         Map<String, Object> response = new HashMap<>();
 
         response.put("status", 200);
@@ -110,6 +110,16 @@ public class ActivityController {
         if (result == 404L) {
             response.put("status", 404);
             response.put("message", "활동이 존재하지 않습니다.");
+            return response;
+        }
+        if(result == 500L) {
+            response.put("status", 500);
+            response.put("message", "최소 활동 시간을 초과하지 못했습니다.");
+            return response;
+        }
+        if(result == 501L) {
+            response.put("status", 501);
+            response.put("message", "최소 활동 거리를 초과하지 못했습니다.");
             return response;
         }
 

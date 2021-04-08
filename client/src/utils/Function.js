@@ -9,7 +9,7 @@ export const checkPartnerDetail = (detail) => {
          return "장애인"
     } else if(detail==="c") {
          return "아동"
-    } else if(detail==="f") {
+    } else if(detail==="p") {
          return "임산부"
     }
 }

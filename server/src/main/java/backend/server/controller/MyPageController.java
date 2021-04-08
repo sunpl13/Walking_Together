@@ -156,10 +156,12 @@ public class MyPageController {
                                              @RequestParam(value = "gender") String gender,
                                              @RequestParam(value = "partnerBirth") String partnerBirth) {
 
+        String partnerBirthU = partnerBirth.replace("-","");
+
         StringBuffer stringBuffer = new StringBuffer();
-        StringBuffer birth = stringBuffer.append(partnerBirth);
-        birth.replace(4,5,"/");
-        birth.replace(7,8,"/");
+        StringBuffer birth = stringBuffer.append(partnerBirthU);
+        birth.insert(4,"/");
+        birth.insert(7,"/");
 
         MyPagePartnerDTO savePartner = MyPagePartnerDTO.builder()
                 .stdId(stdId)
@@ -198,6 +200,10 @@ public class MyPageController {
         Long partnerIdU = Long.parseLong(partnerId);
         
         String partnerBirthU = partnerBirth.replace("-","");
+        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer birth = stringBuffer.append(partnerBirthU);
+        birth.insert(4,"/");
+        birth.insert(7,"/");
 
         Map<String ,Object> response = new HashMap<>();
         response.put("status", 200);
@@ -207,7 +213,7 @@ public class MyPageController {
                 .partnerId(partnerIdU)
                 .partnerName(partnerName)
                 .partnerDetail(partnerDetail)
-                .partnerBirth(partnerBirthU)
+                .partnerBirth(birth.toString())
                 .selectionReason(selectionReason)
                 .relationship(relationship)
                 .gender(gender)
