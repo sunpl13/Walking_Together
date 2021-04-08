@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { checkPartnerDetail } from "../../utils/Function";
+import { getPartnerDetailInfo } from '../../modules/partner';
 
 const PartnerItem = ({state}) => {
+    const dispatch = useDispatch()
+    const history = useHistory()
+
     const [detail, setDetail] = useState("");
 
     useEffect(() => {
-        if(state.partnerDetail==="e") {
-            setDetail("노약자")
-        } else if(state.partnerDetail==="o") {
-            setDetail("일반인")
-        } else if(state.partnerDetail==="d") {
-            setDetail("장애인")
-        } else if(state.partnerDetail==="c") {
-            setDetail("아동")
-        } else if(state.partnerDetail==="f") {
-            setDetail("임산부")
-        }
-    }, [])
+        setDetail(checkPartnerDetail(state.partnerDetail))
+    }, [state])
+
+    const itemClick = async() => {
+        await dispatch(getPartnerDetailInfo(state.partnerId))
+        .then(() => {
+            history.push(`/partner-datail/${state.partnerId}`)
+        })
+    }
 
     return (
         <div>
-            <Link to={`/partner-datail/${state.partnerId}`}>
-                <p>{state.partnerName} ({detail}/{state.partnerBirth})</p>
-            </Link>
+                <p onClick={itemClick}>
+                    {state.partnerName} ({detail}/{state.partnerBirth})
+                </p>
         </div>
     );
 };

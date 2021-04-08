@@ -186,7 +186,7 @@ public class MyPageController {
 
     // 마이페이지 - 파트너 정보 수정
     @PostMapping("/partner/change")
-    public Map<String, Object> changePartner(@RequestParam(value = "partnerId") Long partnerId,
+    public Map<String, Object> changePartner(@RequestParam(value = "partnerId") String partnerId,
                               @RequestParam(value = "partnerName") @Nullable String partnerName,
                               @RequestParam(value = "partnerDetail") @Nullable String partnerDetail,
                               @RequestParam(value = "selectionReason") @Nullable String selectionReason,
@@ -195,16 +195,19 @@ public class MyPageController {
                               @RequestParam(value = "partnerBirth") @Nullable String partnerBirth,
                               @RequestParam(value = "partnerPhoto") @Nullable MultipartFile partnerPhoto)
     {
+        Long partnerIdU = Long.parseLong(partnerId);
+        
+        String partnerBirthU = partnerBirth.replace("-","");
 
         Map<String ,Object> response = new HashMap<>();
         response.put("status", 200);
         response.put("message", "파트너 정보가 성공적으로 변경되었습니다.");
 
         MyPagePartnerDTO updatePartner = MyPagePartnerDTO.builder()
-                .partnerId(partnerId)
+                .partnerId(partnerIdU)
                 .partnerName(partnerName)
                 .partnerDetail(partnerDetail)
-                .partnerBirth(partnerBirth)
+                .partnerBirth(partnerBirthU)
                 .selectionReason(selectionReason)
                 .relationship(relationship)
                 .gender(gender)

@@ -69,6 +69,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/findpassword").permitAll()
                 .antMatchers("/signup/authNum").permitAll()
                 .antMatchers("/auth").permitAll()
+                .antMatchers("/mypage/*").permitAll()
+                .antMatchers("/mypage/partnerinfo").permitAll()
+                .antMatchers("/partner/*").permitAll()
+                .antMatchers("/mypage/partnerInfo/detail").permitAll()
+                .antMatchers("/activity/*").permitAll()
                 .anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
 
                 // JwtSecurityConfig 클래스 적용

@@ -28,7 +28,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
             })
             
             if(window.confirm("환영합니다!")) {
-                if(localStorage.getItem("user_info") === 0000000000) {
+                if(localStorage.getItem("user_info") === "0000000000") {
                     history.push('/admin')
                 } else{
                 history.push('/home')

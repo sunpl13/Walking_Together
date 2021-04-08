@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { createPartnerHandler } from '../../modules/partner';
+import { useHistory } from "react-router-dom";
+import { createPartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 import TopBar from '../../utils/TopBar';
 
-const PartnerAction = ({history}) => {
+const PartnerInsert = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
 
     const stdId = localStorage.getItem('user_info').replace(/"/g,"");
     
@@ -20,7 +22,7 @@ const PartnerAction = ({history}) => {
     function cancel() {
         const res = window.confirm("취소하시겠습니까?");
         if(res===true) {
-            return history.goBack();
+            history.goBack();
         }
         else {
             return;
@@ -30,10 +32,13 @@ const PartnerAction = ({history}) => {
     function submit(e) {
         e.preventDefault();
 
-        const res = window.confirm("등록하시겠습니까?");
-
-        if(res===true) {
-            createPartner()
+        if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
+            alert("모든 항목을 기입해주세요.");
+        } else {
+            const res = window.confirm("등록하시겠습니까?");
+            if(res===true) {
+                createPartner()
+            }
         }
     }
 
@@ -52,7 +57,10 @@ const PartnerAction = ({history}) => {
         formData.append("partnerBirth", partnerBirth);
 
         await dispatch(createPartnerHandler(formData))
-        .then(() => { history.push('/partner') })
+        .then(async() => { 
+            await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
+            .then(() => history.push('/partner'))
+        })
     }
     
     return (
@@ -90,9 +98,9 @@ const PartnerAction = ({history}) => {
                         <tr>
                             <td>성별</td>
                             <td>
-                                <input type="radio" name="gender" id="man" value="남성" onChange={(e) => setGender(e.target.value)} checked={gender==="man"? "checked" : ""}/>
+                                <input type="radio" name="gender" id="man" value="남성" onChange={(e) => setGender(e.target.value)}/>
                                 <label htmlFor="man">남성</label>
-                                <input type="radio" name="gender" id="woman" value="여성" onChange={(e) => setGender(e.target.value)} checked={gender==="woman"? "checked" : ""}/>
+                                <input type="radio" name="gender" id="woman" value="여성" onChange={(e) => setGender(e.target.value)}/>
                                 <label htmlFor="woman">여성</label>
                             </td>
                         </tr>
@@ -127,4 +135,4 @@ const PartnerAction = ({history}) => {
     );
 };
 
-export default PartnerAction;
+export default PartnerInsert;
