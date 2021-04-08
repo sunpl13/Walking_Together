@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPartnerBriefInfo } from '../../modules/partner';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PartnerItem from '../Partner/PartnerItem';
 import TopBar from '../../utils/TopBar';
 
 const Partner = ({history}) => {
-    const dispatch = useDispatch()
-
     const partner = useSelector(state => state.partner.briefPartner)  //PARTNER-LIST
 
     //param function
@@ -15,17 +12,12 @@ const Partner = ({history}) => {
     }
 
     function goCreatePartner() {
-        history.push(`/partner-action/create`)
+        history.push(`/partner-insert`)
     }
-
-    //useEffect
-    useEffect(() => {
-        dispatch(getPartnerBriefInfo((localStorage.getItem('user_info')).replace(/"/g, "")))  //GET PARTNER-LIST
-    }, [])
 
     return (
         <div>
-            <TopBar 
+            <TopBar
             left="back" 
             center={{title:"파트너", data:null}} 
             right="plus" 

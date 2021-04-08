@@ -4,7 +4,7 @@ const UserActivityDatail = ({match}) => {
     const [res,setRes] = useState({});
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_URL}/admin/activityInfo/detail?activityId=${match.params.activityId}`)
+        axios.get(`/admin/activityInfo/detail?activityId=${match.params.activityId}`)
         .then((res) => setRes(res.data))
     },[])
 
@@ -46,7 +46,7 @@ const UserActivityDatail = ({match}) => {
             </table>
             <div>
                 {res.totalDistance}
-                {(res.totalDistance/3)}시간
+                {res.totalTime}시간
                 <img src={res.mapPicture} />
             </div>
         </div>

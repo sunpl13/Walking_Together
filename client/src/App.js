@@ -19,7 +19,8 @@ import UserNotice from './user/notice/UserNotice';
 import FindPassword from './user/find/FindPassword';
 import FindPasswordResult from './user/find/FindPasswordResult';
 import Partner from './user/Partner/Partner';
-import PartnerAction from './user/Partner/PartnerAction';
+import PartnerInsert from './user/Partner/PartnerInsert';
+import PartnerUpdate from './user/Partner/PartnerUpdate';
 import PartnerDetail from './user/Partner/PartnerDetail';
 import ActivityStart from './user/Activity/ActivityStart';
 import Detail from './user/notice/Detail';
@@ -51,7 +52,8 @@ function App() {
         <Route path="/findpassword" component={Auth(FindPassword,false)}/>
         <Route path="/findresult" component={Auth(FindPasswordResult,false)}/>
         <Route path="/partner" component={Partner}/>
-        <Route path="/partner-action/:type" component={PartnerAction}/>
+        <Route path="/partner-insert" component={PartnerInsert}/>
+        <Route path="/partner-update/:partnerId" component={PartnerUpdate}/>
         <Route path="/partner-datail/:partnerId" component={PartnerDetail}/>
         <Route path="/certification-action" component={Auth(CertificationAction,true)}/>
         <Route path= "/activitystart" component={ActivityStart}/>

@@ -52,16 +52,19 @@ export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
 export const changePartnerHandler = (
     formData
 ) => async(dispatch) => {
-    const data = await axios.post('/partner/change',{
-        formData
+    await axios.post('/partner/change', formData, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
     })
-    .then(res => {
-        dispatch({
-            type : CHANGE_PARTNER,
-            payload : res.data.data
-        })
+    .then((res) => {
+        return res;
     })
     .catch(err => console.log(err));
+
+    dispatch({
+        type : CHANGE_PARTNER
+    })
 }
 
 //파트너 삭제
@@ -108,8 +111,7 @@ export default function partner(state = initialstate, action) {
             };
         case CHANGE_PARTNER :
             return {
-                ...state,
-                partnerDetail : action.payload
+                ...state
             };
         case CREATE_PARTNER :
             return {
