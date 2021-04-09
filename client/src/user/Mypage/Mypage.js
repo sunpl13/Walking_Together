@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
 import {useDispatch} from 'react-redux'
 import axios from 'axios';
-import { FcLike } from "react-icons/fc";
+import { CgProfile } from "react-icons/cg";
 import { department } from "../../utils/options";
 import { getPartnerBriefInfo } from '../../modules/partner';
 
@@ -128,7 +128,7 @@ const Mypage = () => {
                                 <td rowSpan="5">
                                     { userInfo.profilePicture!=null ? 
                                     <img src={userInfo.profilePicture} alt="프로필 이미지"/>
-                                    : <FcLike/>
+                                    : <CgProfile size={100} color="#9a9a9a"/>
                                     }
                                 </td>
                                 <td>{userInfo.name}</td>
@@ -191,10 +191,10 @@ const Mypage = () => {
 
             {updateState===false ?
             <div>
-                <p onClick={goPartner}>파트너 정보</p>
+                <span onClick={goPartner}>파트너 정보</span><br/>
                 <Link to='/certification'>인증서 발급</Link><br/>
-                <Link to='/secession'>탈퇴하기</Link>
-                <button onClick = {logout}>Logout</button>
+                <Link to='/secession'>탈퇴하기</Link><br/>
+                <span onClick = {logout}>Logout</span>
             </div>
             : null}
         </div>

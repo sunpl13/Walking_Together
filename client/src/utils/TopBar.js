@@ -1,5 +1,6 @@
 import React from 'react';
 import { IoAddSharp, IoChevronBackSharp, IoCloseSharp } from "react-icons/io5";
+import { HiOutlineRefresh } from "react-icons/hi";
 import '../styles/top_bar.scss';
 
 const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
@@ -40,6 +41,12 @@ const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
             return(
                 <div className="create" onClick={rfunc}>
                     <p>등록</p>
+                </div>
+            );
+        } else if(right==="refresh") {
+            return(
+                <div className="refresh" onClick={rfunc}>
+                    <HiOutlineRefresh />
                 </div>
             );
         } else if(right==="null") {
