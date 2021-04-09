@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Entity
 public class Certification {
 
-    @Id
+    @Id 
     private Long certificationId; // 활동 아이디와 같음
 
     private LocalDate activityDate; // 활동일

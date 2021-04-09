@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 
 @ToString(exclude = "member")
@@ -27,7 +26,7 @@ public class Activity extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "activity")
     private Map map;    // map
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "partner_id")
     private Partner partner;
 
@@ -48,8 +47,6 @@ public class Activity extends BaseEntity {
     private int activityDivision;   // 활동 구분 (돌봄, 일반)
 
     private Long distance;  // 총 이동거리
-
-    private Long certificationId;
 
     // 종료 시간 입력
     public void changeEndTime(LocalDateTime endTime) {

@@ -108,7 +108,7 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
 
         JPQLQuery<Activity> jpqlQuery = from(activity);
         jpqlQuery.leftJoin(member).on(member.eq(activity.member));
-        jpqlQuery.leftJoin(partner).on(activity.eq(partner.activity));
+        jpqlQuery.leftJoin(partner).on(partner.eq(activity.partner));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityStatus, activity.distance, partner.partnerName,
                 activity.activityDate,activity.activityDivision);

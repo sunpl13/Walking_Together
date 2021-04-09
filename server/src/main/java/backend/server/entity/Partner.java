@@ -3,6 +3,7 @@ package backend.server.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class Partner {
     @JoinColumn(name = "std_id")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "partner")
-    private Activity activity;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "partner")
+    private List<Activity> activity;
 
     private String partnerName; // 파트너 이름
 

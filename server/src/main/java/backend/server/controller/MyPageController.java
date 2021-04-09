@@ -195,13 +195,14 @@ public class MyPageController {
                               @RequestParam(value = "partnerBirth") @Nullable String partnerBirth,
                               @RequestParam(value = "partnerPhoto") @Nullable MultipartFile partnerPhoto)
     {
-        Long partnerIdU = Long.parseLong(partnerId);
-        
-        String partnerBirthU = partnerBirth.replace("-","");
 
         Map<String ,Object> response = new HashMap<>();
         response.put("status", 200);
         response.put("message", "파트너 정보가 성공적으로 변경되었습니다.");
+
+        Long partnerIdU = Long.parseLong(partnerId);
+
+        String partnerBirthU = partnerBirth.replace("-","");
 
         MyPagePartnerDTO updatePartner = MyPagePartnerDTO.builder()
                 .partnerId(partnerIdU)
