@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
 
 import { deleteNotice } from '../../modules/notice';
+import '../../styles/admin-notice.scss';
 
 const NoticeDetail = ({match}) => {
     const history = useHistory();
