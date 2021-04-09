@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
 import '../../styles/notice.scss';
+import '../../styles/admin-notice.scss';
 
 import { selectNotice, initSelectedNotice } from '../../modules/notice';
 
@@ -43,16 +44,16 @@ const Notice = () => {
         <div>
             <button onClick={()=>goAction()}>글쓰기</button>
             
-            <table>
+            <table id="noticeTable">
                 <thead>
                     <tr>
-                        <th>no</th>
-                        <th>제목</th>
-                        <th>등록일</th>
+                        <th id="thNo">no</th>
+                        <th id="thTitle">제목</th>
+                        <th id="thDate">등록일</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {
+                    {noticeList[0]!==undefined?
                         noticeList.map((notice) => {
                             return (
                                 <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>
@@ -62,6 +63,7 @@ const Notice = () => {
                                 </tr>
                             )
                         })
+                        : null
                     }
                 </tbody>
                 <tfoot></tfoot>
