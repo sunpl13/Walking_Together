@@ -108,21 +108,33 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                 page: page,
                 keyword: keyword
             }).then((res) => {
-                dispatch({
-                    type: GETLIST,
-                    payload: res.data
-                })
-                console.log(res);
+                if(res.status===200) {
+                    dispatch({
+                        type: GETLIST,
+                        payload: res.data
+                    })
+                } else {
+                    dispatch({
+                        type: GETLIST,
+                        payload: []
+                    })
+                }
             })
         }else {
             await axios.post(`/noticeList`, {
                 page: page
             }).then((res) => {
-               dispatch({
-                    type: GETLIST,
-                    payload: res.data
-                })
-                console.log(res);
+                if(res.status===200) {
+                    dispatch({
+                        type: GETLIST,
+                        payload: res.data
+                    })
+                } else {
+                    dispatch({
+                        type: GETLIST,
+                        payload: []
+                    })
+                }
             })
         }
 }

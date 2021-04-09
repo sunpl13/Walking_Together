@@ -1,0 +1,38 @@
+@import './valiables.scss';
+
+#noticeTable {
+    width: 80%;
+    margin-top: 20px;
+    text-align: center;
+    th, td {
+        border-bottom: 1px solid $tableBack1;
+        color: $fontGray;
+    }
+    thead {
+        line-height: 50px;
+        font-size: 1.2em;
+        * {
+            padding : 0;
+            background-color: $tableBack1;
+        }
+        #thNo {
+            width: 40px;
+        }
+        #thTitle {
+            width: 670px;
+        }
+        #thDate {
+            width: 120px;
+        }
+    }
+    tbody {
+        :hover {
+            background-color: $BackGray;
+        }
+        td {
+            padding: 7px;
+            line-height: 27px;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,69 @@
+@import './valiables.scss';
+
+#items {
+    padding-top: 15px;
+    * {
+        text-align: center;
+        position: relative;
+    }
+    #rank, #name, #distance {
+        font-weight: bold;
+    }
+}
+
+#p1 {
+    width: 110px;
+    left: calc(50% - 55px);
+    position: absolute;
+    display: inline;
+    z-index: 1;
+    #rank {
+        font-size: $large;
+    }
+    #name {
+        font-size: $large;
+    }
+    #dept {
+        font-size: $medium;
+    }
+    #stdId {
+        font-size: $medium;
+    }
+    #distance {
+        font-size: $x-large;
+    }
+}
+
+#p2, #p3 {
+    display: inline;
+    top: 20px;
+    #rank {
+        font-size: $medium;
+    }
+    #name {
+        font-size: $medium;
+    }
+    #dept {
+        font-size: $small;
+    }
+    #stdId {
+        font-size: $small;
+    }
+    #distance {
+        font-size: $large;
+    }
+}
+
+#p2 {
+    float: left;
+    left: 12px;
+}
+
+#p3 {
+    float: right;
+    right: 12px;
+}
+
+#p4, #p5, #p6, #p7, #p8, #p9, #p10 {
+    width: 90%;
+}
