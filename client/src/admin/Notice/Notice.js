@@ -44,9 +44,12 @@ const Notice = () => {
     }
 
     return (
-        <div>
-            <button onClick={()=>goAction()}>글쓰기</button>
-            
+        <div id="noticeWrap">
+            <div id="headerWrap">
+                <span className="admin_title" id="title"># 공지사항</span>
+                <button onClick={()=>goAction()} className="admin_btn_blue" id="write_btn">글쓰기</button>
+            </div>
+
             <table id="noticeTable" className="table">
                 <thead>
                     <tr>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import '../../styles/admin.scss';
+
 const PartnerInfo = () => {
     const [res,setRes] = useState([]);
 
@@ -43,45 +45,42 @@ const PartnerInfo = () => {
 
     return (
         <div>
+            <div id="headerWrap">
+                <span className="admin_title" id="title"># 파트너 정보</span>
+            </div>
+
             <div id="filter">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>이름/학번</td>
-                            <td><input type="text" name="keyword" id="keyword" value={keyword} onChange={changeKeyword}/></td>
+                <div id="filterWrap">
+                    <label>이름/학번</label>
+                    <input type="text" name="keyword" id="keyword" value={keyword} onChange={changeKeyword}/>
+                </div>
 
-                            <td><button onClick={search}>조회</button></td>
-                        </tr>
+                <div id="filterWrap">
+                    <label>파트너구분</label>
+                    <select value={partnerDetail} onChange={changePartnerDetail}>
+                        <option value="">선택</option>
+                        {detailOption.map((detail) => {
+                            return <option key={detail.code} value={detail.code}>{detail.name}</option>
+                        })}
+                    </select>
+                </div>
 
-                        <tr>
-                            <td>파트너구분</td>
-                            <td>
-                                <select value={partnerDetail} onChange={changePartnerDetail}>
-                                    <option value="">선택</option>
-                                    {detailOption.map((detail) => {
-                                        return <option key={detail.code} value={detail.code}>{detail.name}</option>
-                                    })}
-                                </select>
-                            </td>
-
-                            <td><button onClick={excel}>excel</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <button onClick={search} className="admin_btn_blue" id="r2">조회</button>
+                <button onClick={excel} className="admin_btn_green" id="r1">Excel</button>
             </div>
             
-            <div id="res">
-                <table>
+            <div id="partnerTableWrap" className="wrapper">
+                <table id="partnerTable" className="table">
                     <thead>
                         <tr>
-                            <th>no</th>
-                            <th>학생이름</th>
-                            <th>학번</th>
-                            <th>학과</th>
-                            <th>파트너이름</th>
-                            <th>성별</th>
-                            <th>생년월일</th>
-                            <th>관계</th>
+                            <th id="thNo">no</th>
+                            <th id="thName">학생이름</th>
+                            <th id="thId">학번</th>
+                            <th id="thDept">학과</th>
+                            <th id="thName">파트너이름</th>
+                            <th id="thGender">성별</th>
+                            <th id="thBirth">생년월일</th>
+                            <th id="thRelation">관계</th>
                         </tr>
                     </thead>
 

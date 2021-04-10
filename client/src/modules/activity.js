@@ -52,7 +52,7 @@ export const createActivity = async(
     return {
         type: CREATEACTIVITY,
         payload: {
-            //partnerId: partnerId,
+            partnerId: formData.get('partnerId'),
             activityId: res.data.activityId
         }
     }

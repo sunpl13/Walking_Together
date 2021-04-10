@@ -28,8 +28,8 @@ const NoticeDetail = ({match}) => {
 
     return (
         <div id="noticeDetail">
-            <button onClick={goUpdate}>수정</button>
-            <button onClick={delNotice}>삭제</button>
+            <button onClick={goUpdate} className="admin_btn_blue">수정</button>
+            <button onClick={delNotice} className="admin_btn_gray">삭제</button>
 
             <div id="title">{notice.title}</div>
             <div id="date">{notice.createTime}</div>

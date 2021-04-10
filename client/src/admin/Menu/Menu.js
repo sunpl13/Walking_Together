@@ -16,6 +16,7 @@ const Menu = () => {
                     <li><Link to='/admin/notice'>공지사항</Link></li>
                 </ul>
             </div>
+            <p id="copy">Copyright &copy; 2021 computerOOO All rights reserved.</p>
         </div>
     );
 };

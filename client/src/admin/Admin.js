@@ -13,6 +13,8 @@ import NoticeInsert from './Notice/NoticeInsert';
 import NoticeUpdate from './Notice/NoticeUpdate';
 import NoticeDetail from './Notice/NoticeDetail';
 
+import '../styles/admin.scss';
+
 const Admin = () => {
     const stdId = localStorage.getItem('user_info').replace(/"/g,"")
     const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const Admin = () => {
             </div>
 
             <div id="userInfo">
-                <button onClick={logout}>로그아웃</button>
+                <button onClick={logout} className="admin_logout_btn">로그아웃</button>
                 <p>관리자님</p>
             </div>
 
