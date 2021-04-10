@@ -1,0 +1,138 @@
+@import './valiables.scss';
+
+.table {
+    width: 80%;
+    margin-top: 20px;
+    text-align: center;
+    th, td {
+        border-bottom: 1px solid $tableBack1;
+        color: $fontGray;
+    }
+    thead {
+        line-height: 40px;
+        font-size: $large;
+        * {
+            padding : 0;
+            background-color: $tableBack1;
+        }
+    }
+    tbody {
+        :hover {
+            background-color: $BackGray;
+        }
+        td {
+            cursor: pointer;
+        }
+    }
+}
+
+#noticeTable {
+    thead {
+        #thNo {
+            width: 40px;
+        }
+        #thTitle {
+            width: 670px;
+        }
+        #thDate {
+            width: 120px;
+        }
+    }
+    tbody {
+        td {
+            padding: 7px;
+            line-height: 27px;
+        }
+    }
+}
+
+#noticeDetail {
+    width: 80%;
+    text-align: center;
+    // button {
+
+    // }
+    #title {
+        line-height: 25px;
+        font-size: 25px;
+        font-weight: bolder;
+        padding: 10px;
+    }
+    #date {
+        font-size: $small;
+        margin-bottom: 10px;
+    }
+    #content {
+        padding: 0px 10px 10px 10px;
+        height: 400px;
+        font-size: $large;
+        text-align: left;
+        border-top: 2px solid $tableBack1;
+        border-bottom: 5px solid $tableBack1;
+        overflow-y: scroll;
+        #image {
+            margin: 10px;
+            text-align: center;
+        }
+        p {
+            display: inline;
+            padding: 10px;
+        }
+    }
+    #attachedFile {
+        padding: 10px 0px;
+        text-align: left;
+        font-size: $small;
+        p {
+            display: inline-block;
+        }
+        #at_title {
+            margin-right: 10px;
+            font-weight: bolder;
+        }
+        #at_none {
+            font-size: $x-small;
+        }
+    }
+}
+
+#userTableWrap {
+    margin-top: 20px;
+    width: 95%;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    #userTable {
+        width: 95%;
+        margin: 0 auto;
+        thead {
+            #thNo {
+                width: 40px;
+            }
+            #thName {
+                width: 90px;
+            }
+            #thId {
+                width: 120px;
+            }
+            #thDept {
+                width: 200px;
+            }
+            #thMail {
+                width: 280px;
+            }
+            #thBirth {
+                width: 100px;
+            }
+            #thPh {
+                width: 150px;
+            }
+        }
+        tbody {
+            td {
+                padding: 3px;
+                line-height: 23px;
+            }
+        }
+    }
+}

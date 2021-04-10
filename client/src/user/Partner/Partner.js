@@ -25,7 +25,7 @@ const Partner = ({history}) => {
             rfunc={goCreatePartner}
             size="small"/>
             
-            { partner!=null ?
+            { partner.length!==0 ?
             partner.map((res) => {
                 return (
                     <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM

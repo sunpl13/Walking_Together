@@ -50,12 +50,16 @@ const PartnerUpdate = ({match}) => {
         formData.append("partnerBirth", partnerBirth);
 
         await dispatch(changePartnerHandler(formData))
-        .then(async() => {
-            await dispatch(getPartnerBriefInfo(stdId))
-            .then(() => {
-                alert("수정이 완료되었습니다.")
-                history.push('/partner')
-            })
+        .then(async(res) => {
+            // if(res.status===200) {
+            //     await dispatch(getPartnerBriefInfo(stdId))
+            //     .then(() => {
+            //         alert(res.message)
+            //         history.push('/partner')
+            //     })
+            // } else {
+            //     alert(res.message)
+            // }
         })
     }
 

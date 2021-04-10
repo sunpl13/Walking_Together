@@ -67,7 +67,7 @@ const UserActivity = () => {
                             <td>
                                 <select value={activityDivision} onChange={changeActivityDivision}>
                                     {divisionOption.map((division) => {
-                                        return <option value={division.code}>{division.name}</option>
+                                        return <option key={division.code} value={division.code}>{division.name}</option>
                                     })}
                                 </select>
                             </td>
@@ -103,23 +103,29 @@ const UserActivity = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {
+                    { res.length!==0 ?
                         res.map((data, index)=>{
                             return (
                                 <tr key={data.activityId}>
-                                <td>{index}</td>
-                                <td>{data.stdName}</td>
-                                <td>{data.stdId}</td>
-                                <td>{data.department}</td>
-                                <td>{data.activityDate}</td>
-                                <td>{data.startTime}</td>
-                                <td>{data.endTime}</td>
-                                <td>{data.totalDistance}km ({(data.totalDistance)/3})</td>
-                                <td>{data.partnerName}</td>
-                                <td><Link to={`admin/user-activity-detail?activityId=${data.activityId}`}>상세보기</Link></td>
-                            </tr>
+                                    <td>{index}</td>
+                                    <td>{data.stdName}</td>
+                                    <td>{data.stdId}</td>
+                                    <td>{data.department}</td>
+                                    <td>{data.activityDate}</td>
+                                    <td>{data.startTime}</td>
+                                    <td>{data.endTime}</td>
+                                    <td>{data.totalDistance}km ({(data.totalDistance)/3})</td>
+                                    <td>{data.partnerName}</td>
+                                    <td><Link to={`admin/user-activity-detail?activityId=${data.activityId}`}>상세보기</Link></td>
+                                </tr>
                             )
                         })
+                    :
+                        <tr>
+                            <td colSpan="10">
+                                활동 정보가 없습니다.
+                            </td>
+                        </tr>
                     }
                     </tbody>
                 </table>

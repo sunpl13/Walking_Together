@@ -16,18 +16,18 @@ const PartnerDetail = ({match}) => {
     
     const [detail, setDetail] = useState("");
 
-    //action
-    const deletePartner = () => {
-        const confirm = window.confirm("파트너 정보를 삭제하시겠습니까?")
-        if(confirm === false) {
-            return;
-        } else {
-            dispatch(deletePartnerHandler(partnerId))
-            .then(() => {
-                alert("파트너 삭제가 완료되었습니다.")
-            })
-        }
-    }
+    // //action
+    // const deletePartner = () => {
+    //     const confirm = window.confirm("파트너 정보를 삭제하시겠습니까?")
+    //     if(confirm === false) {
+    //         return;
+    //     } else {
+    //         dispatch(deletePartnerHandler(partnerId))
+    //         .then(() => {
+    //             alert("파트너 삭제가 완료되었습니다.")
+    //         })
+    //     }
+    // }
 
     //param function
     function goBack() {
@@ -83,7 +83,7 @@ const PartnerDetail = ({match}) => {
             
             <div>
                 <Link to={`/partner-update/${partnerId}`}>수정</Link>
-                <button onClick={() => deletePartner()}>삭제</button>
+                {/* <button onClick={() => deletePartner()}>삭제</button> */}
             </div>
         </div>
     );

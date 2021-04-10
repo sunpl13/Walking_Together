@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import '../../styles/admin.scss';
+
 const UserInfo = () => {
     const [res,setRes] = useState([]);
 
@@ -49,17 +51,17 @@ const UserInfo = () => {
             
             
             {/* search */}
-            <div>
-                <table>
+            <div id="userTableWrap">
+                <table id="userTable" className="table">
                     <thead>
                         <tr>
-                            <th>no</th>
-                            <th>이름</th>
-                            <th>학번</th>
-                            <th>학과</th>
-                            <th>이메일</th>
-                            <th>생년월일</th>
-                            <th>연락처</th>
+                            <th id="thNo">no</th>
+                            <th id="thName">이름</th>
+                            <th id="thId">학번</th>
+                            <th id="thDept">학과</th>
+                            <th id="thMail">이메일</th>
+                            <th id="thBirth">생년월일</th>
+                            <th id="thPh">연락처</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +70,7 @@ const UserInfo = () => {
                             return (
                                 <tr key={data.stdId}>
                                     <td>{index+1}</td>
-                                    <td>{data.stdName}</td>
+                                    <td>{data.name}</td>
                                     <td>{data.stdId}</td>
                                     <td>{data.department}</td>
                                     <td>{data.email}</td>

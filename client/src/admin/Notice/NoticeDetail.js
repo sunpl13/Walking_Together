@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
 
 import { deleteNotice } from '../../modules/notice';
-import '../../styles/admin-notice.scss';
+import '../../styles/admin.scss';
 
 const NoticeDetail = ({match}) => {
     const history = useHistory();
@@ -27,26 +27,32 @@ const NoticeDetail = ({match}) => {
     }
 
     return (
-        <div>
+        <div id="noticeDetail">
             <button onClick={goUpdate}>수정</button>
             <button onClick={delNotice}>삭제</button>
 
-            <h3>{notice.title}</h3>
-            <h4>{notice.createTime}</h4>
+            <div id="title">{notice.title}</div>
+            <div id="date">{notice.createTime}</div>
 
-            {notice.imageFiles[0]===undefined ? null
-            : <img src={notice.imageFiles[0]} alt="error"></img>}
-
-            {ReactHtmlParser(notice.content)}
-            {notice.attachedFiles[0]===undefined ? null 
-            : notice.attachedFiles.map((file, index) => {
-                return (
-                    <div key={index}>
-                        <a href={file} download>첨부파일다운</a>
-                        <br />
-                    </div>
-                    )
-            })}
+            <div id="content">
+                <div id="image">
+                    {notice.imageFiles[0]===undefined ? null
+                    : <img src={notice.imageFiles[0]} alt="error"></img>}
+                </div>
+                {ReactHtmlParser(notice.content)}
+            </div>
+            <div id="attachedFile">
+                <p id="at_title">첨부파일</p>
+                {notice.attachedFiles[0]===undefined ? <p id="at_none">첨부파일이 없습니다.</p>
+                : notice.attachedFiles.map((file, index) => {
+                    return (
+                        <div key={index}>
+                            <a href={file} download>{index+1}파일다운</a>
+                            <br />
+                        </div>
+                        )
+                })}
+            </div>
         </div>
     );
 };
