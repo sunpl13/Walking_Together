@@ -57,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
                 .and()
                 .authorizeRequests()    // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
@@ -76,6 +78,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mypage/partnerInfo/detail").permitAll()
                 .antMatchers("/activity/*").permitAll()
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
                 .and().authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
                 .antMatchers("/noticeList").permitAll().antMatchers("/*").permitAll().antMatchers("/notice").permitAll()
                 .antMatchers("/admin/*").permitAll().antMatchers("/hello").permitAll().antMatchers("/login").permitAll()
@@ -83,6 +89,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signup/authNum").permitAll().antMatchers("/auth").permitAll().antMatchers("/mypage/*")
                 .permitAll().antMatchers("/mypage/partnerinfo").permitAll().antMatchers("/partner/*").permitAll()
                 .antMatchers("/mypage/partnerInfo/detail").permitAll().antMatchers("/activity/*").permitAll()
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 .anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
 
