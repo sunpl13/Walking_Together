@@ -1,7 +1,7 @@
 import {React, useState} from 'react'
 
 function Mapp() {
-
+/*
     const [state, setstate] = useState({
         lat : "",
         lon : "",
@@ -39,6 +39,11 @@ function Mapp() {
       const stop = () => {
           clearInterval(timer);
       }
+*/
+
+
+
+
 
     return (
         <div>
