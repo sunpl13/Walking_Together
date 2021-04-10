@@ -170,12 +170,12 @@ public class MyPageService {
             return null;
         }
 
-        boolean partnerDivision;
+        int partnerDivision;
 
         if (partnerDTO.getPartnerDetail().equals("ordinary")) {
-            partnerDivision = false;
+            partnerDivision = 0;
         } else {
-            partnerDivision = true;
+            partnerDivision = 1;
         }
 
         return Partner.builder()
@@ -219,8 +219,8 @@ public class MyPageService {
             StringBuffer stringBuffer = new StringBuffer();
             StringBuffer birth = stringBuffer.append(partnerDTO.getPartnerBirth());
 
-            birth.insert(4,"/");
-            birth.insert(7,"/");
+            birth.replace(4,5,"/");
+            birth.replace(7,8,"/");
 
             partner.changePartnerBirth(birth.toString());
         }

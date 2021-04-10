@@ -3,6 +3,7 @@ package backend.server.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -19,14 +20,14 @@ public class Partner {
     @JoinColumn(name = "std_id")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "partner")
-    private Activity activity;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "partner")
+    private List<Activity> activity;
 
     private String partnerName; // 파트너 이름
 
     private String partnerBirth;    // 파트너 출생일
 
-    private boolean partnerDivision; // 파트너 구분
+    private int partnerDivision; // 파트너 구분
 
     private String partnerDetail;   // 파트너 세부 정보(임산부, 장애인, 아동, 일반인)
 
@@ -47,9 +48,9 @@ public class Partner {
         this.partnerDetail = partnerDetail;
 
         if (partnerDetail.equals("ordinary")) {
-            this.partnerDivision = false;
+            this.partnerDivision = 0;
         } else {
-            this.partnerDivision = true;
+            this.partnerDivision = 1;
         }
     }
 

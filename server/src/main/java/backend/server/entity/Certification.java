@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Entity
 public class Certification {
 
-    @Id
+    @Id 
     private Long certificationId; // 활동 아이디와 같음
 
     private LocalDate activityDate; // 활동일
@@ -23,8 +23,6 @@ public class Certification {
     private String partnerName; // 파트너 이름
 
     private String department;  // 학과
-
-    private String stdId; // 학번
 
     private String name;  // 학생 이름
 
@@ -34,9 +32,12 @@ public class Certification {
 
     private LocalTime careTime; // 돌봄 활동 환산 시간
 
-    private LocalTime totalTime;    // 총 환산 시간
-
     private LocalDateTime endTime;  // 종료 시간
 
     private Long distance;  // 총 이동 거리
+
+    private String stdId;
+
+    private Long activityId;
+
 }

@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -16,9 +17,9 @@ public class CertificationDTO {
 
     private LocalDate activityDate;
 
-    private String careTime;
+    private LocalTime careTime;
 
-    private String ordinaryTime;
+    private LocalTime ordinaryTime;
 
     private String department;
 
@@ -27,8 +28,6 @@ public class CertificationDTO {
     private String stdId;
 
     private String name;
-
-    private Long totalTime;
 
     private LocalDateTime startTime;
 

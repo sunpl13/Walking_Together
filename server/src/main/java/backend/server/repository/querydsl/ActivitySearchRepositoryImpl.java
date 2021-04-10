@@ -8,6 +8,7 @@ import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport implements ActivitySearchRepository {
@@ -107,7 +108,7 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
 
         JPQLQuery<Activity> jpqlQuery = from(activity);
         jpqlQuery.leftJoin(member).on(member.eq(activity.member));
-        jpqlQuery.leftJoin(partner).on(activity.eq(partner.activity));
+        jpqlQuery.leftJoin(partner).on(partner.eq(activity.partner));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityStatus, activity.distance, partner.partnerName,
                 activity.activityDate,activity.activityDivision);
@@ -138,10 +139,10 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
 
         JPQLQuery<Activity> jpqlQuery = from(activity);
         jpqlQuery.leftJoin(member).on(member.eq(activity.member));
-        jpqlQuery.leftJoin(partner).on(activity.eq(partner.activity));
+        jpqlQuery.leftJoin(partner).on(partner.eq(activity.partner));
         jpqlQuery.leftJoin(mapCapture).on(activity.activityId.eq(mapCapture.activityId));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, partner.partnerName, activity.startTime, activity.endTime,
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, activity.partner.partnerName, activity.startTime, activity.endTime,
                 activity.activityDivision, activity.review, mapCapture.mapCaptureUrl);
 
         tuple.where(activity.activityId.eq(activityId));

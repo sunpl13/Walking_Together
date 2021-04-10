@@ -4,6 +4,7 @@ import backend.server.DTO.admin.ActivityDetailInfoDTO;
 import backend.server.DTO.admin.ActivityInfoDTO;
 import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
+import backend.server.entity.Activity;
 import backend.server.repository.ActivityRepository;
 import backend.server.repository.PartnerRepository;
 import backend.server.repository.UserRepository;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -77,8 +79,16 @@ public class AdminService {
     public ActivityDetailInfoDTO activityDetail(Long activityId) {
 
         List<Tuple> tuples = activityRepository.activityDetail(activityId);
+        Optional<Activity> activityOptional = activityRepository.findById(activityId);
+        if(activityOptional.isEmpty()) {
+            return null;
+        }
+        Activity activity = activityOptional.get();
 
-        System.out.println(tuples);
+        if(tuples.isEmpty()) {
+            return null;
+        }
+
         Tuple tuple = tuples.get(0);
 
         ActivityDetailInfoDTO  result = ActivityDetailInfoDTO.builder()
@@ -92,6 +102,7 @@ public class AdminService {
                 .totalDistance(tuple.get(7, Long.class))
                 .startTime(tuple.get(8, LocalDateTime.class))
                 .endTime(tuple.get(9, LocalDateTime.class))
+                .totalTime(activity.getActivityDivision() == 0? activity.getOrdinaryTime():activity.getCareTime())
                 .build();
 
         return result;
@@ -113,8 +124,9 @@ public class AdminService {
                     .department(partner.get(2,String.class))
                     .partnerName(partner.get(3,String.class))
                     .partnerGender(partner.get(4,String.class))
-                    .relationship(partner.get(5,String.class))
-                    .partnerDivision(partner.get(6,String.class))
+                    .partnerBirth(partner.get(5,String.class))
+                    .relationship(partner.get(6,String.class))
+                    .partnerDivision(partner.get(7,Integer.class))
                     .build();
 
             partnerList.add(dto);

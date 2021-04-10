@@ -25,5 +25,5 @@ public class PartnerInfoDTO {
 
     private String relationship;
 
-    private String partnerDivision;
+    private int partnerDivision;
 }
