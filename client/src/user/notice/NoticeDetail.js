@@ -16,14 +16,14 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
 
     return (
         <div className = "accordion">
-            <div className = "accordionHeading"  onClick = {() => {
+            <div className = "accordionHeading">
+                <div className = "container" >
+                    <p  onClick = {() => {
                 history.push({
                     pathname : '/viewdetail',
                     state : {noticeId : noticeId}
                 })
-            }}>
-                <div className = "container">
-                    <p>{title}</p>
+            }}>{title}</p>
                     <span onClick = {toggleHandler}>{active === title ? "X" : "|||"}</span>
                     <div className = "info">
                         </div>

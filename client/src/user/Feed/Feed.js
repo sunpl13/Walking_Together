@@ -1,9 +1,29 @@
-import {React, useState} from 'react'
-import Select from 'react-select'
-import {sort} from '../find_id/options'
+import {React, useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {sort} from '../../utils/options';
+import {getFeedList} from '../../modules/feed';
 
 function Feed() {
-    const [FeedInfo, setFeedInfo] = useState([])
+    const ID = localStorage.getItem("user_info");
+    const dispatch = useDispatch();
+    const [FeedInfo, setFeedInfo] = useState([]);
+    const [sor, setsor] = useState("desc");             // 정렬을 위한 state 지정
+
+    const sortList = sort.map(
+        item => {
+            return ( <option key = {item.label} value = {item.value}>{item.label}</option>)
+        }
+    )
+    useEffect(() => {
+        dispatch(getFeedList(ID,sor))
+    }, [])
+    
+    // let myFeed = useSelector(state => state.)
+
+    const sortHandler = (e) => {
+        setsor(e.currentTarget.value)
+    }
+    console.log(sor)
 
     const list = FeedInfo.map(
         item => (
@@ -21,7 +41,7 @@ function Feed() {
     )
     return (
         <div>
-            <Select options = {sort}/>
+           <select onChange = {sortHandler}>{sortList}</select>
             <button>활동 생성</button>
             <div>
                 여기에 list 입력

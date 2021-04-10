@@ -25,8 +25,10 @@ import PartnerDetail from './user/Partner/PartnerDetail';
 import ActivityStart from './user/Activity/ActivityStart';
 import Detail from './user/notice/Detail';
 import CreateActivity from './user/Activity/CreateActivity';
+import Mapp from './user/Map/Mapp';
 
 import CertificationAction from './user/Certification/CertificationAction';
+import Feed from './user/Feed/Feed';
 
 function App() {
 
@@ -59,6 +61,9 @@ function App() {
         <Route path= "/activitystart" component={ActivityStart}/>
         <Route path= "/viewdetail" component={Auth(Detail,true)}/>
         <Route path= "/createactivity" component={Auth(CreateActivity,true)}/>
+        <Route path= "/mapp" component={Mapp}/>
+        <Route path= "/feed" component={Auth(Feed,true)}/>
+        
       </Switch>
     
       <div style = {style}><Nav/></div>
