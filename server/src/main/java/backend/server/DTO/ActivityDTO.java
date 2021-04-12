@@ -27,4 +27,6 @@ public class ActivityDTO {
     private int activityDivision;
 
     private int activityStatus;
+
+    private String partnerBirth;
 }

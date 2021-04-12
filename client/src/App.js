@@ -27,8 +27,10 @@ import Detail from './user/notice/Detail';
 import CreateActivity from './user/Activity/CreateActivity';
 import Ranking from './user/Ranking/Ranking';
 import LandingPage from './user/home/LandingPage';
-
+import Mapp from './user/Map/Mapp';
 import CertificationAction from './user/Certification/CertificationAction';
+import Feed from './user/Feed/Feed';
+import FeedDetail from './user/Feed/FeedDetail'
 
 function App() {
 
@@ -59,10 +61,13 @@ function App() {
         <Route path="/partner-update/:partnerId" component={Auth(PartnerUpdate,true)}/>
         <Route path="/partner-datail/:partnerId" component={Auth(PartnerDetail,true)}/>
         <Route path="/certification-action" component={Auth(CertificationAction,true)}/>
-        <Route path="/activitystart" component={Auth(ActivityStart,true)}/>
-        <Route path="/viewdetail" component={Auth(Detail,true)}/>
-        <Route path="/create-activity" component={Auth(CreateActivity,true)}/>
         <Route path="/ranking" component={Auth(Ranking,true)}/>
+        <Route path= "/activitystart" component={ActivityStart}/>
+        <Route path= "/viewdetail" component={Auth(Detail,true)}/>
+        <Route path= "/createactivity" component={Auth(CreateActivity,true)}/>
+        <Route path= "/mapp" component={Mapp}/>
+        <Route path= "/feed" component={Auth(Feed,true)}/>
+        <Route path= "/feeddetail" component={Auth(FeedDetail,true)}/>
       </Switch>
     
       <div style = {style}><Nav/></div>

@@ -48,10 +48,13 @@ public class ActivityController {
             } else {
                 partnerDivision = 1;
             }
+
+            String years = a.getPartnerBirth().substring(2,4);
             Map<String, Object> partner = new HashMap<>();
             partner.put("partnerName", a.getPartnerName());
             partner.put("partnerDetail", a.getPartnerDetail());
             partner.put("partnerDivision", partnerDivision);
+            partner.put("partnerBirth", years);
 
             partners.add(partner);
         });

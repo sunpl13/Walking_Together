@@ -32,14 +32,11 @@ public class FeedService {
         System.out.println(tuples);
         List<FeedDTO> result = new ArrayList<>();
 
-        tuples.forEach( tuple -> {
-            FeedDTO dto = FeedDTO.builder()
-                    .activityStatus(tuple.get(0, Integer.class))
-                    .distance(tuple.get(1, Long.class))
-                    .partnerName(tuple.get(2, String.class))
-                    .activityDate(tuple.get(3, LocalDate.class))
-                    .activityDivision(tuple.get(4, Integer.class))
-                    .build();
+        tuples.forEach(tuple -> {
+            FeedDTO dto = FeedDTO.builder().activityStatus(tuple.get(0, Integer.class))
+                    .distance(tuple.get(1, Long.class)).partnerName(tuple.get(2, String.class))
+                    .activityDate(tuple.get(3, LocalDate.class)).activityDivision(tuple.get(4, Integer.class))
+                    .activityId(tuple.get(5, Long.class)).build();
             result.add(dto);
         });
 
@@ -51,21 +48,16 @@ public class FeedService {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
 
-        if(activityOptional.isEmpty()) {
+        if (activityOptional.isEmpty()) {
             return null;
         }
 
         Tuple result = activityRepository.feedDetail(activityId);
 
-        FeedDetailDTO dto = FeedDetailDTO.builder()
-                .activityDate(result.get(0, LocalDate.class))
-                .partnerName(result.get(1, String.class))
-                .startTime(result.get(2, LocalDateTime.class))
-                .endTime(result.get(3, LocalDateTime.class))
-                .activityDivision(result.get(4, Integer.class))
-                .review(result.get(5, String.class))
-                .mapPicture(result.get(6, String.class))
-                .build();
+        FeedDetailDTO dto = FeedDetailDTO.builder().activityDate(result.get(0, LocalDate.class))
+                .partnerName(result.get(1, String.class)).startTime(result.get(2, LocalDateTime.class))
+                .endTime(result.get(3, LocalDateTime.class)).activityDivision(result.get(4, Integer.class))
+                .review(result.get(5, String.class)).mapPicture(result.get(6, String.class)).build();
 
         return dto;
     }
@@ -75,7 +67,7 @@ public class FeedService {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
 
-        if(activityOptional.isEmpty()) {
+        if (activityOptional.isEmpty()) {
             return 404L;
         }
 
@@ -85,7 +77,7 @@ public class FeedService {
 
         Activity activity = activityOptional.get();
 
-        if(activity.getActivityStatus() == 1) {
+        if (activity.getActivityStatus() == 1) {
             return 406L;
         }
 
@@ -125,19 +117,21 @@ public class FeedService {
         });
 
         int ordinarySum = 0;
-        for(int i: ordinaryTimes) {
+        for (int i : ordinaryTimes) {
             ordinarySum += i;
         }
 
         int careSum = 0;
-        for(int j: careTimes) {
+        for (int j : careTimes) {
             careSum += j;
         }
 
-        String ordinaryFinalTime = String.format("%02d", ordinarySum/60)+ ":" + String.format("%02d",ordinarySum%60);
-        String careFinalTime = String.format("%02d",careSum/60) + ":" + String.format("%02d",careSum%60);
-        String totalTime = String.format("%02d",(ordinarySum+careSum)/60) + ":" + String.format("%02d", (ordinarySum+careSum)%60);
-        Map<String, Object> result  = new HashMap<>();
+        String ordinaryFinalTime = String.format("%02d", ordinarySum / 60) + ":"
+                + String.format("%02d", ordinarySum % 60);
+        String careFinalTime = String.format("%02d", careSum / 60) + ":" + String.format("%02d", careSum % 60);
+        String totalTime = String.format("%02d", (ordinarySum + careSum) / 60) + ":"
+                + String.format("%02d", (ordinarySum + careSum) % 60);
+        Map<String, Object> result = new HashMap<>();
         result.put("data", dtos);
         result.put("ordinaryTimes", ordinaryFinalTime);
         result.put("careTimes", careFinalTime);

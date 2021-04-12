@@ -10,6 +10,7 @@ import '../styles/nav.scss';
 
 function Nav() {
 
+
     return (
         <nav>
             <div className="navItem">

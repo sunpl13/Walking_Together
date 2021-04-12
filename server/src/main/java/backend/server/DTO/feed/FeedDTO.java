@@ -21,5 +21,6 @@ public class FeedDTO {
     private LocalDate activityDate;
 
     private int activityDivision;
-}
 
+    private Long activityId;
+}

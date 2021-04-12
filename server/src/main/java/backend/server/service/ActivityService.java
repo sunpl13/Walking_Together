@@ -51,6 +51,7 @@ public class ActivityService {
             ActivityDTO activityDTO = new ActivityDTO();
             activityDTO.setPartnerName(e.get(0).toString());
             activityDTO.setPartnerDetail(e.get(1).toString());
+            activityDTO.setPartnerBirth(e.get(2).toString());
 
             partners.add(activityDTO);
         });
