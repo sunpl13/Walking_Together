@@ -29,37 +29,36 @@ const SELECTFEED = "SELECTFEED";
 
 
 //action
-export const getFeedList = async(stdId, sort) => {
-    const res = await axios.get(`${url}/feed?stdId=${stdId}&sort=${sort}`)
-    .then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
+export const getFeedList = (stdId, sort) => async(dispatch) => {
+    const res = await axios.get(`/feed?stdId=${stdId}&sort=${sort}`)
+    .then((response) => 
+        response.data
+    )
+    .catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: GETFEEDLIST,
-        payload: res.data
-    }
+        payload: res
+    })
 }
 
 export const getCertification = async(activityId) => {
-    const res = await axios.get(`${url}/feed/certification?activityId=${activityId}`)
-    .then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
+    const res = await axios.get(`/feed/certification?activityId=${activityId}`)
+    .then((response) => response.data)
+    .catch((err) => alert(err));
 
     return {
         type: GETCERTIFICATION,
-        payload: res.data
+        payload: res
     }
 }
 
 export const updateFeed = async(activityId, review) => {
-    const res = await axios.post(`${url}/feed/detail`, {
+    const res = await axios.post(`/feed/detail`, {
         activityId: activityId,
         review: review
-    }).then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
+    }).then((response) => response.data)
+    .catch((err) => alert(err));
 
     return {
         type: UPDATEFEED,
@@ -70,17 +69,16 @@ export const updateFeed = async(activityId, review) => {
     }
 }
 
-export const selectFeed = async(activityId) => {
-    const res = await axios.get(`${url}/feed/detail?activityId=${activityId}`)
-    .then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
+export const selectFeed = (activityId) => async(dispatch) => {
+    const res = await axios.get(`/feed/detail?activityId=${activityId}`)
+    .then((response) => response.data)
+    .catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: SELECTFEED,
         activityId,
-        payload: res.data
-    }
+        payload: res
+    })
 }
 
 

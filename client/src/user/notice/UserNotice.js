@@ -3,8 +3,7 @@ import {FaSearch} from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
 import {getNoticeList} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
-import NoticeDetail from './NoticeDetail'
-import axios from 'axios';
+import NoticeDetail from './NoticeDetail';
 
 
 function UserNotice() {
@@ -17,8 +16,16 @@ function UserNotice() {
     const [keyword, setkeyword] = useState(null);       //키워드 state
     const [active, setactive] = useState("");
 
+    //공지사항 검색함수
     const Search = () => {
         dispatch(getNoticeList(current+1,keyword))
+    }
+    
+    //엔터키 사용시 실행되는 함수 Search함수와 같음
+    const enterKey = () => {
+     if(window.event.keyCode === 13) {
+        dispatch(getNoticeList(current+1,keyword))
+     }   
     }
 
 
@@ -54,7 +61,7 @@ let homeNotice = noticeList.map(
     return (
         <div>
             <div>
-                <input type = "text" onChange = {ChangeKeywordHandler}></input>
+                <input type = "text" onKeyUp = {enterKey} onChange = {ChangeKeywordHandler}></input>
                 <FaSearch onClick = {Search}/>
             </div>
                 {homeNotice}

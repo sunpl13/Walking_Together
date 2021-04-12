@@ -25,23 +25,21 @@ const FINISHACTIVITY = "FINISHACTIVITY";
 const url = process.env.REACT_APP_URL;
 
 //파트너 정보 받아오기
-export const getPartner = async(stdId) => {
-    const res = await axios.get(`/activity/create/stdId=${stdId}`)
-    .then((response) => {
-        console.log(response)
-    }).catch((err) => alert(err));
+export const getPartner = (stdId) => async(dispatch) => {
+    const res = await axios.get(`/activity/create?stdId=${stdId}`)
+    .then((response) => response.data).catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: GETPARTNER,
-        payload: res.data
-    }
+        payload: res
+    })
 }
 
 //활동 생성
 export const createActivity = async(
     formData //stdId, partnerId, startPhoto formdate로 묶어서 보내기
 ) => {
-    const res = await axios.post(`$/activity/createActivity`, formData, {
+    const res = await axios.post(`/activity/createActivity`, formData, {
         headers: {
             'content-type': 'multipart/form-data'
         }

@@ -55,8 +55,8 @@ export const option = department.sort(function(a,b) {                           
 
 
 export const soor = [
-    {value: '최신순', label: '최신순'},
-    {value: '거리순', label: '거리순'}
+    {value: 'desc', label: '오름차순'},
+    {value: 'asc', label: '내림차순'}
 ]
 
 export const sort = soor.sort(function(a,b) {

@@ -20,6 +20,11 @@ const NoticeUpdate = () => {
     const [attachedFiles, setAttachedFiles] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
 
+
+    const onClickHandler = () => {
+        
+    }
+
     //취소 시 이전 페이지로 이동
     const cancel = (e) => {
         e.preventDefault();
