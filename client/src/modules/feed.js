@@ -47,7 +47,7 @@ export const getCertification = async(activityId) => {
     .then((response) => response.data)
     .catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: GETCERTIFICATION,
         payload: res
     }
@@ -60,13 +60,13 @@ export const updateFeed = async(activityId, review) => {
     }).then((response) => response.data)
     .catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: UPDATEFEED,
         payload: {
             activityId: activityId,
             review: review
         }
-    }
+    })
 }
 
 export const selectFeed = (activityId) => async(dispatch) => {

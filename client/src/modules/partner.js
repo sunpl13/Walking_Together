@@ -40,10 +40,14 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
 export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
     await axios.get(`/mypage/partnerInfo/detail?partnerId=${partnerId}`)
     .then(res => {
-        dispatch({
-            type : GET_PARTNER_DETAIL_INFO,
-            payload : res.data.data
-        })
+        if(res.status===400) {
+            alert(res.message)
+        } else {
+            dispatch({
+                type : GET_PARTNER_DETAIL_INFO,
+                payload : res.data.data
+            })
+        }
     })
     .catch(err => console.log(err));
 }
@@ -58,11 +62,11 @@ export const changePartnerHandler = (
         }
     })
     .then((res) => {
-        return res;
+        return (res.status);
     })
     .catch(err => console.log(err));
 
-    dispatch({
+    await dispatch({
         type : CHANGE_PARTNER
     })
 }

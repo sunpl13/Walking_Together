@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import { checkPartnerDetail } from "../../utils/Function";
 import { getPartnerDetailInfo } from '../../modules/partner';
 
+import { IoIosArrowForward } from "react-icons/io";
+
 const PartnerItem = ({state}) => {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -22,11 +24,17 @@ const PartnerItem = ({state}) => {
     }
 
     return (
-        <div>
-                <p onClick={itemClick}>
-                    {state.partnerName} ({detail}/{state.partnerBirth})
-                </p>
-        </div>
+        <tr id="partner_item" onClick={itemClick}>
+            <td className="tdName">
+                {state.partnerName}
+            </td>
+            <td className="tdInfo">
+                ({detail}/{(state.partnerBirth).replaceAll("/","-")})
+            </td>
+            <td className="tdGo">
+                <IoIosArrowForward size="18"/>
+            </td>
+        </tr>
     );
 };
 

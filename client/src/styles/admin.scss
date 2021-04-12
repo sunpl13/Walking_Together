@@ -1,0 +1,263 @@
+@import './valiables.scss';
+
+#headerWrap {
+    width: 100%;
+    height: 30px;
+    .admin_title {
+        -webkit-animation: trackingInExpand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+        animation: trackingInExpand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+    }
+    #title {
+        color: $fontGray;
+        font-size: large;
+        font-weight: bolder;
+        line-height: 28px;
+        margin-left: 20px;
+    }
+    #write_btn {
+        position: relative;
+        float: right;
+        right: 100px;
+    }
+}
+
+//notice action
+#noticeActionForm {
+    h4 {
+        display: inline;
+        margin: 0px 10px;
+    }
+    #title {
+        width: 60%;
+    }
+    input {
+        height: 28px;
+        margin-bottom: 5px;
+    }
+    #buttonSet {
+        float: right;
+        margin-right: 10px;
+    }
+}
+
+#filter {
+    text-align: center;
+    margin: 5px auto;
+    #r1 {
+        position: absolute;
+        right: 20px;
+    }
+    #r2 {
+        position: absolute;
+        right: 80px;
+    }
+}
+
+#filterWrap {
+    display: inline;
+    margin: 5px 10px;
+    label {
+        font-size: $medium;
+        font-weight: bold;
+        color: $fontGray;
+        margin-right: 5px;
+    }
+    * {
+        height: 28px;
+    }
+}
+
+.table {
+    width: 80%;
+    margin-top: 20px;
+    text-align: center;
+    
+    animation: fadein 1s;
+    -webkit-animation: fadein 1s;
+
+    th, td {
+        border-bottom: 1px solid $tableBack1;
+        color: $fontGray;
+    }
+    thead {
+        line-height: 40px;
+        font-size: $small;
+        * {
+            padding : 0;
+            background-color: $tableBack1;
+        }
+    }
+    tbody {
+        :hover {
+            background-color: $BackGray;
+        }
+        td {
+            cursor: pointer;
+        }
+    }
+}
+
+#noticeWrap {
+    #noticeTable {
+        thead {
+            #thNo {  //넘버
+                width: 40px;
+            }
+            #thTitle {  //제목
+                width: 670px;
+            }
+            #thDate {  //날짜
+                width: 120px;
+            }
+            #thName {  //이름
+                width: 90px;
+            }
+            #thId {  //학번
+                width: 120px;
+            }
+            #thDept {  //학과
+                width: 200px;
+            }
+            #thMail {  //메일
+                width: 280px;
+            }
+            #thBirth, #thDate {  //생일, 날짜
+                width: 100px;
+            }
+            #thPh {  //폰번호
+                width: 150px;
+            }
+            #thGender {  //성별
+                width: 70px;
+            }
+            #thRelation {  //파트너 관계
+                width: 200px;
+                overflow-x: scroll;
+            }
+            #thTime {  //시간
+                width: 100px;
+            }
+            #thDistance {  //거리
+                width: 80px;
+            }
+            #thButton {  //버튼
+                width: 100px;
+            }
+        }
+        tbody {
+            td {
+                padding: 4px;
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+#noticeDetail {
+    width: 80%;
+    text-align: center;
+
+    animation: fadein 1s;
+    -webkit-animation: fadein 1s;
+    
+    .buttonSet {
+        position: absolute;
+        right: 20px;
+    }
+ 
+    #title {
+        line-height: 25px;
+        font-size: 25px;
+        font-weight: bolder;
+        padding: 10px;
+    }
+    #date {
+        font-size: $small;
+        margin-bottom: 10px;
+    }
+    #content {
+        padding: 0px 10px 10px 10px;
+        height: 400px;
+        font-size: $medium;
+        text-align: left;
+        border-top: 2px solid $tableBack1;
+        border-bottom: 5px solid $tableBack1;
+        overflow-y: scroll;
+        #image {
+            margin: 10px;
+            text-align: center;
+        }
+        p {
+            display: inline;
+            padding: 10px;
+        }
+    }
+    #attachedFile {
+        padding: 10px 0px;
+        text-align: left;
+        font-size: $small;
+        p {
+            display: inline-block;
+        }
+        #at_title {
+            margin-right: 10px;
+            font-weight: bolder;
+        }
+        #at_none {
+            font-size: $x-small;
+        }
+    }
+}
+
+#userTableWrap, #partnerTableWrap, #activityTableWrap {
+    margin-top: 20px;
+    width: 95%;
+    height: 440px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    #userTable, #partnerTable, #activityTable {
+        width: 95%;
+        margin: 0 auto;
+        tbody {
+            td {
+                padding: 3px;
+                line-height: 23px;
+            }
+        }
+    }
+}
+
+//button
+.admin_btn_blue {
+    @include button( $BackSkyBlue, $fontWhite, $BackBlue, 50px, 28px );
+}
+.admin_btn_blue:hover {
+    background-color: $BackBlue;
+    font-weight: bolder;
+}
+
+.admin_btn_gray {
+    @include button( $BackGray, $fontGray, $tableBolder, 50px, 28px );
+}
+.admin_btn_gray:hover {
+    background-color: $BackDarkGray;
+    color: $fontWhite;
+    font-weight: bolder;
+}
+
+.admin_btn_green {
+    @include button( $BackExcel, $fontWhite, $BorderExcel, 50px, 28px );
+}
+.admin_btn_green:hover {
+    background-color: $BorderExcel;
+    font-weight: bold;
+}
+
+.admin_logout_btn {
+    @include button( $white, $fontGray, $tableBolder, 60px, 28px );
+}
+.admin_logout_btn:hover {
+    background-color: $BackGray;
+    color: $fontWhite;
+    font-weight: bolder;
+}

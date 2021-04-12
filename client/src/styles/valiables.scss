@@ -4,7 +4,14 @@ $white : #f9f9f9;
 $BackBlue : #0078FF;
 $BackSkyBlue : #449eec;
 $BackSky : #14D3FF;
+$BackSky- : #9de5f5;
 $BackGray : #c2c2c2;
+$BackDarkGray : #999999;
+$BackExcel : #1DDB16;
+
+//border
+$BorderGray : #a2a2a2;
+$BorderExcel : #00B700;
 
 //input
 $inputWhite : #fcfcfc;
@@ -32,3 +39,117 @@ $medium : 1.0em;
 $large : 1.05em;
 $x-large : 1.1em;
 $xx-large : 1.15em;
+
+
+//fadein
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+//fadein bottom
+@-webkit-keyframes fade-in-bottom {
+    0% {
+      -webkit-transform: translateY(50px);
+              transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+}
+@keyframes fade-in-bottom {
+    0% {
+      -webkit-transform: translateY(50px);
+              transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+}
+  
+  
+
+//좌우 합치기
+@-webkit-keyframes trackingInExpand {
+    0% {
+      letter-spacing: -0.5em;
+      opacity: 0;
+    }
+    40% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+@keyframes trackingInExpand {
+    0% {
+        letter-spacing: -0.5em;
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+//focus-in
+@-webkit-keyframes text-focus-in {
+    0% {
+      -webkit-filter: blur(12px);
+              filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-filter: blur(0px);
+              filter: blur(0px);
+      opacity: 1;
+    }
+}
+  @keyframes text-focus-in {
+    0% {
+      -webkit-filter: blur(12px);
+              filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-filter: blur(0px);
+              filter: blur(0px);
+      opacity: 1;
+    }
+}
+  
+  
+
+
+//mixin
+@mixin button( $back-color, $font-color, $border-color, $width, $height ) {
+    width: $width;
+    height: $height;
+    border-radius: 5px;
+    margin: 0px 3px;
+    cursor: pointer;
+    background-color: $back-color;
+    color: $font-color;
+    border: 1px solid $border-color;
+  }

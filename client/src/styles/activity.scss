@@ -1,0 +1,29 @@
+@import './valiables.scss';
+
+#create_activity {
+    text-align: center;
+    .create_activity_form {
+        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        margin: 90px auto;
+        #create_activity_wrap {
+            width: 90%;
+            text-align: center;
+            .tdActTitle {
+                width: 100px;
+                margin-right: 10px;
+                font-weight: bold;
+                color: $fontGray;
+            }
+            .tdActCon {
+                display: inline-block;
+                width: 140px;
+                height: 28px;
+            }
+        }
+    }
+    #bottom_svg {
+        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    }
+}

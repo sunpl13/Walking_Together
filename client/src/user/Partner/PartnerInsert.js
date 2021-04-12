@@ -73,63 +73,47 @@ const PartnerInsert = () => {
             rfunc={submit}
             size="small"/>
 
-            <form action="/partner/create" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>파트너 구분</td>
-                            <td>
-                                <select name="partnerDetail" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
-                                    <option>선택</option>
-                                    <option value="d">장애인</option>
-                                    <option value="p">임산부</option>
-                                    <option value="c">아동</option>
-                                    <option value="e">노인</option>
-                                    <option value="o">일반인</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>이름</td>
-                            <td>
-                                <input type="text" name="partnerName" value={partnerName||''} onChange={(e) => setPartnerName(e.target.value)}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>성별</td>
-                            <td>
-                                <input type="radio" name="gender" id="man" value="남성" onChange={(e) => setGender(e.target.value)}/>
-                                <label htmlFor="man">남성</label>
-                                <input type="radio" name="gender" id="woman" value="여성" onChange={(e) => setGender(e.target.value)}/>
-                                <label htmlFor="woman">여성</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>생년월일</td>
-                            <td>
-                                <input type="date" name="partnerBirth" value={partnerBirth||''} onChange={(e) => setPartnerBirth(e.target.value)}></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>관계</td>
-                            <td>
-                                <input type="text" name="relationship" value={relationship||''} onChange={(e) => setRelationship(e.target.value)}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>선정이유</td>
-                            <td>
-                                <textarea name="selectionReason" onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>파트너 사진</td>
-                            <td>
-                                <input type="file" name="partnerPhoto" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <form action="/partner/create" className="partner_form" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
+                <label>파트너 구분</label>
+                <select name="partnerDetail" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
+                    <option>선택</option>
+                    <option value="d">장애인</option>
+                    <option value="p">임산부</option>
+                    <option value="c">아동</option>
+                    <option value="e">노인</option>
+                    <option value="o">일반인</option>
+                </select>
+                <br/>
+                
+                <label>이름</label>
+                <input type="text" name="partnerName" value={partnerName||''} onChange={(e) => setPartnerName(e.target.value)}/>
+                <br/>
+
+                <label>성별</label>
+                <span id="form_gender">
+                    <label htmlFor="man" id="small_label">남성</label>
+                    <input type="radio" className="radio" name="gender" id="man" value="남성" onChange={(e) => setGender(e.target.value)}/>
+                    <label htmlFor="woman" id="small_label">여성</label>
+                    <input type="radio" className="radio" name="gender" id="woman" value="여성" onChange={(e) => setGender(e.target.value)}/>
+                </span>
+                <br/>
+
+                <label>생년월일</label>
+                <input type="date" name="partnerBirth" value={partnerBirth||''} onChange={(e) => setPartnerBirth(e.target.value)}></input>
+                <br/>
+
+                <label>관계</label>
+                <input type="text" name="relationship" value={relationship||''} onChange={(e) => setRelationship(e.target.value)}/>
+                <br/>
+
+                <div id="reason_wrap">
+                    <label>선정이유</label>
+                    <textarea name="selectionReason" onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
+                </div>
+                <br/>
+
+                <label>파트너 사진</label>
+                <input type="file" name="partnerPhoto" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
             </form>
         </div>
     );

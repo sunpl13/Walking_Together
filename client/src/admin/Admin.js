@@ -1,5 +1,8 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+
+import { logoutHandler } from '../modules/user';
 
 import Menu from './Menu/Menu';
 import UserInfo from './User-info/UserInfo';
@@ -10,7 +13,27 @@ import NoticeInsert from './Notice/NoticeInsert';
 import NoticeUpdate from './Notice/NoticeUpdate';
 import NoticeDetail from './Notice/NoticeDetail';
 
+import '../styles/admin.scss';
+
 const Admin = () => {
+    const stdId = localStorage.getItem('user_info').replace(/"/g,"")
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    //function
+    const logout = () => {  //logout
+        if(!stdId){
+            alert("데이터가 없습니다.")
+        } else{
+            if(window.confirm("로그아웃 하시겠습니까?")) {
+                
+                dispatch(logoutHandler());
+                if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                    history.push('/login');
+                }
+            }
+        }
+    }
 
     return (
         <div>
@@ -19,8 +42,8 @@ const Admin = () => {
             </div>
 
             <div id="userInfo">
-                <button>로그아웃</button>
-                <p>홍길동님</p>
+                <button onClick={logout} className="admin_logout_btn">로그아웃</button>
+                <p>관리자님</p>
             </div>
 
             <div id="route">

@@ -1,9 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import PartnerItem from '../Partner/PartnerItem';
 import TopBar from '../../utils/TopBar';
 
-const Partner = ({history}) => {
+import '../../styles/partner.scss';
+
+const Partner = () => {
+    const history = useHistory();
     const partner = useSelector(state => state.partner.briefPartner)  //PARTNER-LIST
 
     //param function
@@ -25,14 +29,16 @@ const Partner = ({history}) => {
             rfunc={goCreatePartner}
             size="small"/>
             
-            { partner!=null ?
-            partner.map((res) => {
-                return (
-                    <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
-                )
-            })
-            : "파트너 정보가 없습니다."
-            }
+            <table id="partner_table">
+                { partner.length!==0 ?
+                partner.map((res) => {
+                    return (
+                        <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
+                    )
+                })
+                : "파트너 정보가 없습니다."
+                }
+            </table>
         </div>
     );
 };

@@ -52,74 +52,81 @@ const UserActivity = () => {
 
     return (
         <div>
+            <div id="headerWrap">
+                <span className="admin_title" id="title"># 회원 활동</span>
+            </div>
 
             {/* filter */}
-            <div>
-                <table>
-                    <thead></thead>
-                    <tbody>
-                        <tr>
-                            <td>기간</td>
-                            <td>
-                                <input type="date" value={from} onChange={changeFrom}/>~
-                                <input type="date" value={to} onChange={changeTo}/>
-                            </td>
-                            <td>
-                                <select value={activityDivision} onChange={changeActivityDivision}>
-                                    {divisionOption.map((division) => {
-                                        return <option value={division.code}>{division.name}</option>
-                                    })}
-                                </select>
-                            </td>
+            <div id="filter">
+                <div id="filterWrap">
+                    <label>기간</label>
+                    <input type="date" value={from} onChange={changeFrom}/>~
+                    <input type="date" value={to} onChange={changeTo}/>
+                </div>
 
-                            <td><button onClick={search}>조회</button></td>
-                            <td><button onClick={excel}>excel</button></td>
-                        </tr>
+                <button onClick={search} className="admin_btn_blue" id="r1">조회</button>
+            </div>
+            
+            <div id="filter">
+                <div id="filterWrap">
+                    <label>이름/학번</label>
+                    <input type="text" name="keyword" id="keyword" value={keyword} onChange={changeKeyword}/>
+                </div>
 
-                        <tr>
-                            <td>이름/학번</td>
-                            <td><input type="text" name="keyword" id="keyword" value={keyword} onChange={changeKeyword}/></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div id="filterWrap">
+                    <label>활동 구분</label>
+                    <select value={activityDivision} onChange={changeActivityDivision}>
+                        {divisionOption.map((division) => {
+                            return <option key={division.code} value={division.code}>{division.name}</option>
+                        })}
+                    </select>
+                </div>
+
+                <button onClick={excel} className="admin_btn_green" id="r1">excel</button>
             </div>
             
             
             {/* search */}
-            <div>
-                <table>
+            <div id="activityTableWrap" className="wrapper">
+                <table id="activityTable" className="table">
                     <thead>
                         <tr>
-                            <th>no</th>
-                            <th>이름</th>
-                            <th>학번</th>
-                            <th>학과</th>
-                            <th>활동일</th>
-                            <th>시작시간</th>
-                            <th>종료시간</th>
-                            <th>km(시간)</th>
-                            <th>파트너</th>
-                            <th>상세보기</th>
+                            <th id="thNo">no</th>
+                            <th id="thName">이름</th>
+                            <th id="thId">학번</th>
+                            <th id="thDept">학과</th>
+                            <th id="thDate">활동일</th>
+                            <th id="thTime">시작시간</th>
+                            <th id="thTime">종료시간</th>
+                            <th id="thDistance">km(시간)</th>
+                            <th id="thName">파트너</th>
+                            <th id="thButton">상세보기</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {
+                    { res.length!==0 ?
                         res.map((data, index)=>{
                             return (
                                 <tr key={data.activityId}>
-                                <td>{index}</td>
-                                <td>{data.stdName}</td>
-                                <td>{data.stdId}</td>
-                                <td>{data.department}</td>
-                                <td>{data.activityDate}</td>
-                                <td>{data.startTime}</td>
-                                <td>{data.endTime}</td>
-                                <td>{data.totalDistance}km ({(data.totalDistance)/3})</td>
-                                <td>{data.partnerName}</td>
-                                <td><Link to={`admin/user-activity-detail?activityId=${data.activityId}`}>상세보기</Link></td>
-                            </tr>
+                                    <td>{index}</td>
+                                    <td>{data.stdName}</td>
+                                    <td>{data.stdId}</td>
+                                    <td>{data.department}</td>
+                                    <td>{data.activityDate}</td>
+                                    <td>{data.startTime}</td>
+                                    <td>{data.endTime}</td>
+                                    <td>{data.totalDistance}km ({(data.totalDistance)/3})</td>
+                                    <td>{data.partnerName}</td>
+                                    <td><Link to={`admin/user-activity-detail?activityId=${data.activityId}`}>상세보기</Link></td>
+                                </tr>
                             )
                         })
+                    :
+                        <tr>
+                            <td colSpan="10">
+                                활동 정보가 없습니다.
+                            </td>
+                        </tr>
                     }
                     </tbody>
                 </table>

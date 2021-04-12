@@ -4,11 +4,14 @@ import TopBar from '../../utils/TopBar';
 import { CgProfile } from "react-icons/cg";
 import '../../styles/ranking.scss';
 
+import Winners_Flatline from "../../source/Winners_Flatline.svg";
+
 const Ranking = () => {
     const [ranking, setRanking] = useState([])
 
     useEffect(() => {
-        refresh();
+        refresh()
+        return {}
     }, [])
 
     //refresh
@@ -28,9 +31,13 @@ const Ranking = () => {
             lfunc={null}
             rfunc={refresh}
             size="small"/>
+            
+            <div className="svg_wrapper">
+                <img src={Winners_Flatline} height="250" width="250" id="ranking_bottom_svg" alt="ranking"></img>
+            </div>
 
             <div id="items">
-                {ranking[0]!==undefined ?
+                {ranking.length!==0 ?
                     ranking.map((item, index) => {
                         return (
                             <span id={"p"+(index+1)} key={index+1}>

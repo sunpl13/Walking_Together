@@ -114,10 +114,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                         payload: res.data
                     })
                 } else {
-                    dispatch({
-                        type: GETLIST,
-                        payload: []
-                    })
+                    alert(res.message);
                 }
             })
         }else {
@@ -130,10 +127,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                         payload: res.data
                     })
                 } else {
-                    dispatch({
-                        type: GETLIST,
-                        payload: []
-                    })
+                    alert(res.message);
                 }
             })
         }

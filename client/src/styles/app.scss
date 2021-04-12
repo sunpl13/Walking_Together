@@ -12,9 +12,16 @@
     height: 100%;
     left: 130px;
     display: inline-block;
-    background: $BackSky;
+    background: $BackSkyBlue;
     position: absolute;
     box-shadow: 4px 0px 2px $shadowGray;
+    #copy {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        font-size: x-small;
+        color: $fontWhite;
+    }
 }
 
 #userInfo {
@@ -23,15 +30,18 @@
     left: 399px;
     position: absolute;
     p, button {
-        position: relative;
         float: right;
-        margin: 2px;
+        margin-right: 7px;
+    }
+    p {
+        line-height: 28px;
     }
 }
 
 #route {
     width: 1000px;
     height: calc(100% - 150px);
+    padding: 20px 0px;
     background-color: $white;
     display: inline-block;
     top: 90px;
