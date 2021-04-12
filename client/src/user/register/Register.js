@@ -74,7 +74,7 @@ function Register() {
             <div>
               <label>이메일</label>
             <input type = "email" onChange = {EmailHandler}/>
-            <button name="button" name = "button" disabled = {isDisabled} onClick = {clickFunction}>인증코드 발송</button>
+            <button name="button" disabled = {isDisabled} onClick = {clickFunction}>인증코드 발송</button>
             </div>
         </div>
     )

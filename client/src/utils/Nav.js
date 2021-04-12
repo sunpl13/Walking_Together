@@ -12,6 +12,7 @@ function Nav() {
     }
 
 
+
     return (
         <nav>
             <Link style = {navStyle} to = '/activity'>활동</Link>

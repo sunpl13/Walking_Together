@@ -39,14 +39,14 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
 
         BooleanBuilder conditionBuilder = new BooleanBuilder();
 
-        if(keyword != null) {
+        if (keyword != null) {
             conditionBuilder.and(member.stdId.contains(keyword));
             conditionBuilder.or(member.name.contains(keyword));
 
             booleanBuilder.and(conditionBuilder);
         }
 
-        if(from != null && to != null) {
+        if (from != null && to != null) {
 
             conditionBuilder.and(activity.activityDate.between(from, to));
 
@@ -88,8 +88,8 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(mapCapture).on(mapCapture.activityId.eq(activity.activityId));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(member.name, member.department, member.stdId, activity.activityDate,
-                partner.partnerName, activity.review, mapCapture.mapCaptureUrl, activity.distance,
-                activity.startTime, activity.endTime);
+                partner.partnerName, activity.review, mapCapture.mapCaptureUrl, activity.distance, activity.startTime,
+                activity.endTime);
 
         tuple.where(activity.activityId.eq(activityId));
 
@@ -111,7 +111,7 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(partner).on(partner.eq(activity.partner));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityStatus, activity.distance, partner.partnerName,
-                activity.activityDate,activity.activityDivision);
+                activity.activityDate, activity.activityDivision, activity.activityId);
 
         tuple.where(activity.activityId.gt(0L));
         tuple.where(activity.member.stdId.eq(stdId));
@@ -142,8 +142,9 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(partner).on(partner.eq(activity.partner));
         jpqlQuery.leftJoin(mapCapture).on(activity.activityId.eq(mapCapture.activityId));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, activity.partner.partnerName, activity.startTime, activity.endTime,
-                activity.activityDivision, activity.review, mapCapture.mapCaptureUrl);
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, activity.partner.partnerName,
+                activity.startTime, activity.endTime, activity.activityDivision, activity.review,
+                mapCapture.mapCaptureUrl);
 
         tuple.where(activity.activityId.eq(activityId));
 

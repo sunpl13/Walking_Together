@@ -47,7 +47,7 @@ function Mapp() {
 
     return (
         <div>
-            <button onClick = {stop}>종료</button>
+            <button>종료</button>
         </div>
     )
 }

@@ -15,7 +15,7 @@ function Home() {
     }, [dispatch])
 
     const notice = useSelector(state => state.noticeReducer.list);
-    console.log(notice)
+
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
 

@@ -29,17 +29,17 @@ const SELECTFEED = "SELECTFEED";
 
 
 //action
-export const getFeedList = async(stdId, sort) => {
+export const getFeedList = (stdId, sort) => async(dispatch) => {
     const res = await axios.get(`/feed?stdId=${stdId}&sort=${sort}`)
     .then((response) => 
         response.data
     )
     .catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: GETFEEDLIST,
         payload: res
-    }
+    })
 }
 
 export const getCertification = async(activityId) => {
@@ -69,16 +69,16 @@ export const updateFeed = async(activityId, review) => {
     }
 }
 
-export const selectFeed = async(activityId) => {
+export const selectFeed = (activityId) => async(dispatch) => {
     const res = await axios.get(`/feed/detail?activityId=${activityId}`)
     .then((response) => response.data)
     .catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: SELECTFEED,
         activityId,
         payload: res
-    }
+    })
 }
 
 

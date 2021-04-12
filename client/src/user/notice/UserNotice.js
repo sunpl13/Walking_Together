@@ -23,7 +23,7 @@ function UserNotice() {
     
     //엔터키 사용시 실행되는 함수 Search함수와 같음
     const enterKey = () => {
-     if(window.event.keyCode == 13) {
+     if(window.event.keyCode === 13) {
         dispatch(getNoticeList(current+1,keyword))
      }   
     }

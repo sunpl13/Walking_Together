@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {updateFeed} from '../../modules/feed'
 
 const FeedDetail = () => {
     const dispatch = useDispatch();
-    const feedItem = useSelector(state => state.feed.selectedFeed);
+    const feedItem = useSelector(state => state.feedReducer.selectedFeed);
 
     const [reviewState, setReviewState] = useState(false);
     const [review, setReview] = useState("");
@@ -18,10 +19,6 @@ const FeedDetail = () => {
             setReviewState(!reviewState)
         })
     }
-
-    useEffect(() => {
-        
-    }, [reviewState])
 
     return (
         <div>
@@ -52,7 +49,7 @@ const FeedDetail = () => {
                     <td>소감문</td>
                     <td>
                         {reviewState==true ? <button onClick={() => updateReview()}>완료</button>
-                        : (feedItem.review=="" ? <button onClick={() => setReviewState(!reviewState)}>작성</button> : <button onClick={() => setReviewState(!reviewState)}>수정</button>)
+                        : (feedItem.review===null ? <button onClick={() => setReviewState(!reviewState)}>작성</button> : <button onClick={() => setReviewState(!reviewState)}>수정</button>)
                         }
                     </td>
                 </tr>
