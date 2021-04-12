@@ -1,24 +1,51 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import {  AiFillTrophy } from "react-icons/ai";
+import { BiWalk, BiListCheck } from "react-icons/bi";
+import { MdHome } from "react-icons/md";
+import { RiAccountCircleFill } from "react-icons/ri";
+import '../styles/nav.scss';
+
 
 function Nav() {
 
-    //구분을 위한 임시 추후 변경 예정
-    const navStyle = {
-        textDecoration : 'none',
-        color : 'black',
-        margin : '30px'
-    }
-
-
     return (
         <nav>
-            <Link style = {navStyle} to = '/activity'>활동</Link>
-            <Link style = {navStyle} to = '/feed'>피드</Link>
-            <Link style = {navStyle} to = '/home'>홈</Link>
-            <Link style = {navStyle} to = '/ranking'>랭킹</Link>
-            <Link style = {navStyle} to = '/mypage'>마이페이지</Link>
+            <div className="navItem">
+                <Link to = '/activity'>
+                    <BiWalk size="30"/><br/>
+                    <p>활동</p>
+                </Link>
+            </div>
+
+            <div className="navItem">
+                <Link to = '/feed' className="navItem">
+                    <BiListCheck size="30"/><br/>
+                    <p>피드</p>
+                </Link>
+            </div>
+
+            <div className="navItem">
+                <Link to = '/home' className="navItem">
+                    <MdHome size="30"/><br/>
+                    <p>홈</p>
+                </Link>
+            </div>
+
+            <div className="navItem">
+                <Link to = '/ranking' className="navItem">
+                    <AiFillTrophy size="30"/><br/>
+                    <p>랭킹</p>
+                </Link>
+            </div>
+
+            <div className="navItem">
+                <Link to = '/mypage' className="navItem">
+                    <RiAccountCircleFill size="30"/><br/>
+                    <p>마이페이지</p>
+                </Link>
+            </div>
         </nav>
     )
 }

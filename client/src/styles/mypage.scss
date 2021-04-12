@@ -1,0 +1,61 @@
+@import './valiables.scss';
+
+#profileWrap {
+    text-align: center;
+
+    #profileTable, #mypageList {
+        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    }
+    #profileTable {
+        margin: 0 auto;
+        margin-top: 60px;
+        margin-bottom: 30px;
+        width: 90%;
+        padding: 20px 0px;
+        border-radius: 20px;
+        box-shadow: 2px 2px 2px 2px $BorderGray;
+        .td1 {
+            width: 40%;
+        }
+        .td2 {
+            width: 60%;
+            padding-left: 10px;
+            text-align: left;
+        }
+    }
+    #mypageList {
+        text-align: center;
+        width: max-content;
+        * {
+            text-decoration: none;
+            color: $fontGray;
+            font-size: medium;
+            font-weight: bold;
+            display: inline-block;
+            margin: 12px 0px;
+        }
+    }
+    #mypageUpdate {
+        #mypageForm {
+                    animation: fadein 1s;
+            -webkit-animation: fadein 1s;
+            padding-top: 80px;
+            width: 90%;
+            color: $fontGray;
+            font-size: $small;
+            text-align: center;
+            label {
+                display: inline-block;
+                width: 110px;
+                font-weight: bold;
+                text-align: right;
+                padding-right: 5px;
+            }
+            input, select {
+                width: 170px;
+                height: 28px;
+            }
+        }
+    }
+}

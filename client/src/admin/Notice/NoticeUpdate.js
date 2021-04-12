@@ -95,15 +95,17 @@ const NoticeUpdate = () => {
       ]
 
     return (
-        <div>
+        <div id="noticeActionForm">
             <form action={`/admin/createpost`} encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
-                <button onClick={cancel} className="admin_btn_gray">취소</button>
-                <button type="submit" className="admin_btn_blue">제출</button>
-
+                
                 <h4>제목</h4>
                 <input type="text" name="title" id="title" value={title} 
                 onChange={(e)=>setTitle(e.target.value)} required></input>
 
+                <span id="buttonSet">
+                    <button onClick={cancel} className="admin_btn_gray">취소</button>
+                    <button type="submit" className="admin_btn_blue">제출</button>
+                </span>
 
                 {/*quill editor*/}
                 <ReactQuill 
@@ -115,11 +117,15 @@ const NoticeUpdate = () => {
                 onChange={(content, delta, source, editor) => setContent(editor.getHTML())} />
                 
 
-                <h4>대표 이미지</h4>
-                <input type="file" accept="image/*" name="imageFiles" onChange={(e)=>setImageFiles(e.target.files)}></input>
+                <div className="fileInput">
+                    <h4>대표 이미지</h4>
+                    <input type="file" accept="image/*" name="imageFiles" onChange={(e)=>setImageFiles(e.target.files)}></input>
+                </div>
 
-                <h4>첨부파일</h4>
-                <input type="file" multiple="multiple" name="attachedFiles" onChange={(e) => setAttachedFiles(e.target.files)}></input>
+                <div className="fileInput">
+                    <h4>첨부파일</h4>
+                    <input type="file" multiple="multiple" name="attachedFiles" onChange={(e) => setAttachedFiles(e.target.files)}></input>
+                </div>
 
                 {/*invisible */}
                 <input type="hidden" value={noticeId} name="noticeId"></input>

@@ -50,16 +50,12 @@ const PartnerUpdate = ({match}) => {
         formData.append("partnerBirth", partnerBirth);
 
         await dispatch(changePartnerHandler(formData))
-        .then(async(res) => {
-            // if(res.status===200) {
-            //     await dispatch(getPartnerBriefInfo(stdId))
-            //     .then(() => {
-            //         alert(res.message)
-            //         history.push('/partner')
-            //     })
-            // } else {
-            //     alert(res.message)
-            // }
+        .then(async() => {
+            await dispatch(getPartnerBriefInfo(stdId))
+            .then(() => {
+                alert("정보 수정이 완료되었습니다.")
+                history.push('/partner')
+            })
         })
     }
 
@@ -83,7 +79,7 @@ const PartnerUpdate = ({match}) => {
             rfunc={submit}
             size="small"/>
             
-            <form action="/partner/change" id={ref} encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
+            <form action="/partner/change" className="partner_form" id={ref} encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <label>파트너 구분</label>
                 <select value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
                     <option>선택</option>
@@ -100,10 +96,12 @@ const PartnerUpdate = ({match}) => {
                 <br/>
 
                 <label>성별</label>
-                <input type="radio" name="gender" id="man" value="남성" onChange={(e) => setGender(e.target.value)} checked={gender==="남성"? "checked" : ""}/>
-                <label htmlFor="man">남성</label>
-                <input type="radio" name="gender" id="woman" value="여성" onChange={(e) => setGender(e.target.value)} checked={gender==="여성"? "checked" : ""}/>
-                <label htmlFor="woman">여성</label>
+                <span id="form_gender">
+                    <label htmlFor="man" id="small_label">남성</label>
+                    <input type="radio" name="gender" id="man" className="radio" value="남성" onChange={(e) => setGender(e.target.value)} checked={gender==="남성"? "checked" : ""}/>
+                    <label htmlFor="woman" id="small_label">여성</label>
+                    <input type="radio" name="gender" id="woman" className="radio" value="여성" onChange={(e) => setGender(e.target.value)} checked={gender==="여성"? "checked" : ""}/>
+                </span>
                 <br/>
 
                 <label>생년월일</label>
@@ -114,8 +112,10 @@ const PartnerUpdate = ({match}) => {
                 <input type="text" value={relationship||''} onChange={(e) => setRelationship(e.target.value)}/>
                 <br/>
 
-                <label>선정이유</label>
-                <textarea onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
+                <div id="reason_wrap">
+                    <label>선정이유</label>
+                    <textarea onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
+                </div>
                 <br/>
 
                 <label>파트너 사진</label>

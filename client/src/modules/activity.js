@@ -2,8 +2,8 @@ import axios from 'axios';
 
 //initial state
 const INIT_ACTIVITY_STATE = {
-    partner:[],
     activity:{
+        partner:[],
         activity: 0,
         activityId: 0,
         partnerId: 0,
@@ -20,28 +20,28 @@ const UPDATEPHOTO = "UPDATEPHOTO";
 const GETLOCATION = "GETLOCATION";
 const FINISHACTIVITY = "FINISHACTIVITY";
 
-
-//action
-const url = process.env.REACT_APP_URL;
-
 //파트너 정보 받아오기
-export const getPartner = async(stdId) => {
-    const res = await axios.get(`/activity/create/stdId=${stdId}`)
-    .then((response) => {
-        console.log(response)
+export const getPartner = (
+    stdId
+    ) => async(dispatch) => {
+    await axios.get(`/activity/create/stdId=${stdId}`)
+    .then((res) => {
+        if(res.data.status===400) {
+            return alert(res.data.message)
+        } else {
+            dispatch({
+                type: GETPARTNER,
+                payload: res.data.partners
+            })
+        }
     }).catch((err) => alert(err));
-
-    return {
-        type: GETPARTNER,
-        payload: res.data
-    }
 }
 
 //활동 생성
-export const createActivity = async(
+export const createActivity = (
     formData //stdId, partnerId, startPhoto formdate로 묶어서 보내기
-) => {
-    const res = await axios.post(`$/activity/createActivity`, formData, {
+) => async(dispatch) => {
+    const res = await axios.post(`/activity/createActivity`, formData, {
         headers: {
             'content-type': 'multipart/form-data'
         }
@@ -49,42 +49,52 @@ export const createActivity = async(
         alert(res.data.message)
     }).catch((err) => alert(err))
 
-    return {
+    dispatch({
         type: CREATEACTIVITY,
         payload: {
             partnerId: formData.get('partnerId'),
             activityId: res.data.activityId
         }
-    }
+    })
 }
 
 //위치 정보 업데이트
-export const getLocation = async(latitude, longitude, time) => {
-    return {
-        type: GETLOCATION,
-        payload: {
-            lat: latitude,
-            lng: longitude,
-            time: time
-        }
-    }
+export const getLocation = (
+    latitude, 
+    longitude, 
+    time
+    ) => async(dispatch) => {
+        dispatch({
+            type: GETLOCATION,
+            payload: {
+                lat: latitude,
+                lng: longitude,
+                time: time
+            }
+        })
 }
 
 //활동 종료
-export const finishActivity = async(activityId, map, endTime, distance, finishPhoto) => {
-    await axios.post(`${url}/activity/finish`, {
-        activityId: activityId,
-        map: map,
-        endTime: endTime,
-        distance: distance,
-        finishPhoto: finishPhoto,
-    }).then((res) => {
-        alert(res.data.message);
-    }).catch((err) => alert(err));
+export const finishActivity = (
+    activityId, 
+    map, 
+    endTime, 
+    distance, 
+    finishPhoto
+    ) => async(dispatch) => {
+        await axios.post(`/activity/finish`, {
+            activityId: activityId,
+            map: map,
+            endTime: endTime,
+            distance: distance,
+            finishPhoto: finishPhoto,
+        }).then((res) => {
+            alert(res.data.message);
+        }).catch((err) => alert(err));
 
-    return {
+    dispatch({
         type: FINISHACTIVITY
-    }
+    })
 }
 
 
@@ -92,12 +102,6 @@ export const finishActivity = async(activityId, map, endTime, distance, finishPh
 const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
     switch(action.type) {
         
-        case GETPARTNER:
-            return { 
-                ...state, 
-                partner: action.payload 
-            }
-
         case CREATEACTIVITY:
             return {
                 ...state,

@@ -26,6 +26,7 @@ import ActivityStart from './user/Activity/ActivityStart';
 import Detail from './user/notice/Detail';
 import CreateActivity from './user/Activity/CreateActivity';
 import Ranking from './user/Ranking/Ranking';
+import LandingPage from './user/home/LandingPage';
 
 import CertificationAction from './user/Certification/CertificationAction';
 
@@ -42,9 +43,9 @@ function App() {
     <div id="app" className="App">
   
       <Switch>
-        <Route path="/admin" component={Admin} />
-        {/* <Route path="/admin" component={Auth(Admin,true,true)} /> */}
+        <Route path="/admin" component={Auth(Admin,true,true)} />
         <Route path="/login" component={Auth(Login,false)} />
+        <Route path="/landing-page" component={Auth(LandingPage,false)} />
         <Route path="/register" component={Auth(RegisterPage,false)}/>
         <Route path="/mypage" component={Auth(Mypage,true)}/>
         <Route path="/signup" component={Auth(Register,false)}/>
@@ -53,15 +54,15 @@ function App() {
         <Route path="/noticelist" component={Auth(UserNotice,true)}/>
         <Route path="/findpassword" component={Auth(FindPassword,false)}/>
         <Route path="/findresult" component={Auth(FindPasswordResult,false)}/>
-        <Route path="/partner" component={Partner}/>
-        <Route path="/partner-insert" component={PartnerInsert}/>
-        <Route path="/partner-update/:partnerId" component={PartnerUpdate}/>
-        <Route path="/partner-datail/:partnerId" component={PartnerDetail}/>
+        <Route path="/partner" component={Auth(Partner,true)}/>
+        <Route path="/partner-insert" component={Auth(PartnerInsert,true)}/>
+        <Route path="/partner-update/:partnerId" component={Auth(PartnerUpdate,true)}/>
+        <Route path="/partner-datail/:partnerId" component={Auth(PartnerDetail,true)}/>
         <Route path="/certification-action" component={Auth(CertificationAction,true)}/>
-        <Route path="/activitystart" component={ActivityStart}/>
+        <Route path="/activitystart" component={Auth(ActivityStart,true)}/>
         <Route path="/viewdetail" component={Auth(Detail,true)}/>
-        <Route path="/createactivity" component={Auth(CreateActivity,true)}/>
-        <Route path="/ranking" component={Ranking}/>
+        <Route path="/create-activity" component={Auth(CreateActivity,true)}/>
+        <Route path="/ranking" component={Auth(Ranking,true)}/>
       </Switch>
     
       <div style = {style}><Nav/></div>

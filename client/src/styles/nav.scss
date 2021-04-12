@@ -1,0 +1,27 @@
+@import './valiables.scss';
+
+nav {
+    width: 96%;
+    background-color: $BackSkyBlue;
+    border-radius: 10px 10px 0 0;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-align: center;
+    * {
+        position: relative;
+        text-decoration: none;
+        color: $white;
+    }
+    .navItem {
+        width: 18%;
+        text-align: center;
+        margin: 0 auto;
+        display: inline-block;
+        p {
+            font-size: 11px;
+        }
+        a {
+            display: inline;
+        }
+    }
+}

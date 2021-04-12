@@ -1,7 +1,13 @@
 @import './valiables.scss';
 
+#ranking {
+    width: 100%;
+    height: 100%;
+}
+
 #items {
-    padding-top: 15px;
+    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
     * {
         text-align: center;
         position: relative;
@@ -9,6 +15,13 @@
     #rank, #name, #distance {
         font-weight: bold;
     }
+}
+
+.svg_wrapper {
+    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    margin-top: 20px;
+    text-align: center;
 }
 
 #p1 {
@@ -24,7 +37,7 @@
         font-size: $large;
     }
     #dept {
-        font-size: $medium;
+        font-size: $small;
     }
     #stdId {
         font-size: $medium;
@@ -35,6 +48,8 @@
 }
 
 #p2, #p3 {
+    width: 90px;
+    height: max-content;
     display: inline;
     top: 20px;
     #rank {
@@ -44,7 +59,7 @@
         font-size: $medium;
     }
     #dept {
-        font-size: $small;
+        font-size: $x-small;
     }
     #stdId {
         font-size: $small;

@@ -4,6 +4,7 @@ $white : #f9f9f9;
 $BackBlue : #0078FF;
 $BackSkyBlue : #449eec;
 $BackSky : #14D3FF;
+$BackSky- : #9de5f5;
 $BackGray : #c2c2c2;
 $BackDarkGray : #999999;
 $BackExcel : #1DDB16;
@@ -40,7 +41,7 @@ $x-large : 1.1em;
 $xx-large : 1.15em;
 
 
-//서서히 나타나기
+//fadein
 @keyframes fadein {
     from {
         opacity: 0;
@@ -57,6 +58,34 @@ $xx-large : 1.15em;
         opacity: 1;
     }
 }
+
+//fadein bottom
+@-webkit-keyframes fade-in-bottom {
+    0% {
+      -webkit-transform: translateY(50px);
+              transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+}
+@keyframes fade-in-bottom {
+    0% {
+      -webkit-transform: translateY(50px);
+              transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+}
+  
+  
 
 //좌우 합치기
 @-webkit-keyframes trackingInExpand {
@@ -83,6 +112,33 @@ $xx-large : 1.15em;
         opacity: 1;
     }
 }
+
+//focus-in
+@-webkit-keyframes text-focus-in {
+    0% {
+      -webkit-filter: blur(12px);
+              filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-filter: blur(0px);
+              filter: blur(0px);
+      opacity: 1;
+    }
+}
+  @keyframes text-focus-in {
+    0% {
+      -webkit-filter: blur(12px);
+              filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-filter: blur(0px);
+              filter: blur(0px);
+      opacity: 1;
+    }
+}
+  
   
 
 

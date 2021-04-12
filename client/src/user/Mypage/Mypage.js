@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
 import {useDispatch} from 'react-redux'
@@ -6,6 +6,9 @@ import axios from 'axios';
 import { CgProfile } from "react-icons/cg";
 import { department } from "../../utils/options";
 import { getPartnerBriefInfo } from '../../modules/partner';
+import TopBar from '../../utils/TopBar';
+
+import '../../styles/mypage.scss';
 
 const Mypage = () => {
     const history = useHistory();
@@ -33,10 +36,10 @@ const Mypage = () => {
     useEffect(() => {
         getMypage();
         return () => {}
-    }, [])
+    }, [stdId])
     
     //회원 정보 가져오기
-    const getMypage = async() => {
+    const getMypage = useCallback(async() => {
         await axios.get(`/mypage?stdId=${stdId}`)
         .then((res) => {
             if(res.data.status===200) {
@@ -46,10 +49,10 @@ const Mypage = () => {
                 console.log("일치하는 회원이 없습니다.")
             }
         })
-    }
+    },[stdId])
 
     //로그아웃 구현
-    const logout = () => { 
+    const logout = useCallback(() => { 
         if(!stdId){
             alert("데이터가 없습니다.")
         } else{
@@ -61,28 +64,28 @@ const Mypage = () => {
                 }
             }
         }
-    }
+    },[stdId])
 
     //파트너로 이동
-    const goPartner = async() => {
+    const goPartner = useCallback(async() => {
         await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
         .then(() => history.push('/partner'))
-    }
+    },[])
 
     //개인정보 업데이트 취소
-    const cancel = async() => {
+    const cancel = useCallback(async() => {
         await reset()
         .then(() => {
             setUpdateState(false)
         })
-    }
+    },[])
 
     //업데이트 상태 리셋
-    const reset = async() => {
+    const reset = useCallback(async() => {
         setPassword1("")
         setPassword2("")
         setProfilePicture([])
-    }
+    },[])
 
     //개인정보 업데이트 제출
     const submit = (e) => {
@@ -118,83 +121,98 @@ const Mypage = () => {
     }
 
     return (
-        <div>
+        <div id="profileWrap">
+
+            <TopBar
+            left="null" 
+            center={{title:"마이페이지", data:null}} 
+            right="null" 
+            lfunc={null}
+            rfunc={null}
+            size="small"/>
+
             {updateState===false ?
                 <div>
-                    <table> {/* default */}
+                    <table id="profileTable"> {/* default */}
                         <tbody>
 
                             <tr> {/* profile image */}
-                                <td rowSpan="5">
+                                <td rowSpan="4" className="td1">
                                     { userInfo.profilePicture!=null ? 
                                     <img src={userInfo.profilePicture} alt="프로필 이미지"/>
                                     : <CgProfile size={100} color="#9a9a9a"/>
                                     }
                                 </td>
-                                <td>{userInfo.name}</td>
+                                <td className="td2">{userInfo.name}</td>
                             </tr>
 
                             <tr> {/* department */}
-                                <td>{userInfo.department}</td>
+                                <td className="td2">{userInfo.department}</td>
                             </tr>
 
                             <tr> {/* student id */}
-                                <td>{stdId}</td>
+                                <td className="td2">{stdId}</td>
                             </tr>
 
                             <tr> {/* total time */}
-                                <td>
+                                <td className="td2">
                                     { userInfo.totalTime!=null ?
                                     userInfo.totalTime : 0 }시간
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button onClick={() => setUpdateState(true)}>회원 정보 수정</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 :
-                <div> {/* update */}
-                    <form action="/mypage/change" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
+                <div id="mypageUpdate"> {/* update */}
+                    <TopBar
+                    left="cancel" 
+                    center={{title:"정보 수정", data:null}} 
+                    right="create" 
+                    lfunc={cancel}
+                    rfunc={(e) => submit(e)}
+                    size="small"/>
 
-                        {/* profile image */}
-                        <label>프로필 이미지</label>
-                        <input type="file" name="profilePicture" accept="image/*" onChange={(e) => setProfilePicture(e.target.files)}></input>
+                    <form action="/mypage/change" id="mypageForm" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
+
+                        <div className="mypageInputWrap">
+                            <label>프로필 이미지</label>
+                            <input type="file" name="profilePicture" accept="image/*" onChange={(e) => setProfilePicture(e.target.files)}></input>
+                        </div>
                         <br />
 
-                        {/* department */}
-                        <label>학과</label>
-                        <select value={dept} name="department" onChange = {(e) => setDept(e.target.value)}>
-                            {department.map((dept) => {
-                                return (<option key={dept.label} value={dept.value}>{dept.label}</option>)
-                            })}
-                        </select><br />
+                        <div className="mypageInputWrap">
+                            <label>학과</label>
+                            <select value={dept} name="department" onChange = {(e) => setDept(e.target.value)}>
+                                {department.map((dept) => {
+                                    return (<option key={dept.label} value={dept.value}>{dept.label}</option>)
+                                })}
+                            </select>
+                        </div>
+                        <br />
 
-                        {/* password1 */}
-                        <label>비밀번호</label>
-                        <input type="password" name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)}></input>
+                        <div className="mypageInputWrap">
+                            <label>비밀번호</label>
+                            <input type="password" name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)}></input>
+                        </div>
                         <br />
                         
-                        {/* password2 */}
-                        <label>비밀번호 확인</label>
-                        <input type="password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}></input>
+                        <div className="mypageInputWrap">
+                            <label>비밀번호 확인</label>
+                            <input type="password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}></input>
+                        </div>
                         <br />
-                        
-                        <p onClick={cancel}>취소</p>
-                        <button type="submit">완료</button>
                     </form>
                 </div>
             }
 
             {updateState===false ?
-            <div>
+            <div id="mypageList">
                 <span onClick={goPartner}>파트너 정보</span><br/>
                 <Link to='/certification'>인증서 발급</Link><br/>
-                <Link to='/secession'>탈퇴하기</Link><br/>
-                <span onClick = {logout}>Logout</span>
+                <span onClick={() => setUpdateState(true)}>회원 정보 수정</span><br/>
+                <Link to='/secession'>회원 탈퇴</Link><br/>
+                <span onClick = {logout}>로그아웃</span>
             </div>
             : null}
         </div>

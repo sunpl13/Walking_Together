@@ -62,11 +62,11 @@ export const changePartnerHandler = (
         }
     })
     .then((res) => {
-        console.log(res)
+        return (res.status);
     })
     .catch(err => console.log(err));
 
-    dispatch({
+    await dispatch({
         type : CHANGE_PARTNER
     })
 }

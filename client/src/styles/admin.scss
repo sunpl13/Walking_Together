@@ -21,6 +21,25 @@
     }
 }
 
+//notice action
+#noticeActionForm {
+    h4 {
+        display: inline;
+        margin: 0px 10px;
+    }
+    #title {
+        width: 60%;
+    }
+    input {
+        height: 28px;
+        margin-bottom: 5px;
+    }
+    #buttonSet {
+        float: right;
+        margin-right: 10px;
+    }
+}
+
 #filter {
     text-align: center;
     margin: 5px auto;
@@ -139,9 +158,12 @@
     text-align: center;
 
     animation: fadein 1s;
-    -moz-animation: fadein 1s;
     -webkit-animation: fadein 1s;
-    -o-animation: fadein 1s;
+    
+    .buttonSet {
+        position: absolute;
+        right: 20px;
+    }
  
     #title {
         line-height: 25px;

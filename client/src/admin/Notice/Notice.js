@@ -59,7 +59,7 @@ const Notice = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {noticeList!==undefined?
+                    {noticeList.length!==undefined?
                         noticeList.map((notice) => {
                             return (
                                 <tr key={notice.noticeId} onClick={() => goDetail(notice.noticeId)}>

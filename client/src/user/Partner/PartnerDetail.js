@@ -50,40 +50,42 @@ const PartnerDetail = ({match}) => {
             rfunc={goBack}
             size="small"/>
 
-            <table>
-                <tbody>
-                    <tr>
-                        <td>파트너 구분</td>
-                        <td>{detail}</td>
-                    </tr>
-                    <tr>
-                        <td>성별</td>
-                        <td>{partner.gender}</td>
-                    </tr>
-                    <tr>
-                        <td>생년월일</td>
-                        <td>{partner.partnerBirth}</td>
-                    </tr>
-                    <tr>
-                        <td>관계</td>
-                        <td>{partner.relationship}</td>
-                    </tr>
-                    <tr>
-                        <td>선정이유</td>
-                        <td>{partner.selectionReason}</td>
-                    </tr>
-                    <tr>
-                        <td>파트너 사진</td>
-                        <td>
-                            <img src={partner.partnerPhoto||''} alt="파트너 이미지"></img>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div>
-                <Link to={`/partner-update/${partnerId}`}>수정</Link>
-                {/* <button onClick={() => deletePartner()}>삭제</button> */}
+            <div id="partner_detail">
+                <table id="partner_detail_table">
+                    <tbody>
+                        <tr>
+                            <td className="td1">파트너 구분</td>
+                            <td className="td2">{detail}</td>
+                        </tr>
+                        <tr>
+                            <td className="td1">성별</td>
+                            <td className="td2">{partner.gender}</td>
+                        </tr>
+                        <tr>
+                            <td className="td1">생년월일</td>
+                            <td className="td2">{partner.partnerBirth}</td>
+                        </tr>
+                        <tr>
+                            <td className="td1">관계</td>
+                            <td className="td2">{partner.relationship}</td>
+                        </tr>
+                        <tr>
+                            <td className="td1">선정이유</td>
+                            <td className="td2">{partner.selectionReason}</td>
+                        </tr>
+                        <tr>
+                            <td className="td1">파트너 사진</td>
+                            <td className="td2">
+                                <img src={partner.partnerPhoto||''} alt="파트너 이미지"></img>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div>
+                    <Link to={`/partner-update/${partnerId}`}>수정</Link>
+                    {/* <button onClick={() => deletePartner()}>삭제</button> */}
+                </div>
             </div>
         </div>
     );
