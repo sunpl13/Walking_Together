@@ -14,7 +14,7 @@ function Feed() {
         dispatch(getFeedList(ID,sor))
     },[sor,ID,dispatch])
 
-    let myFeed = useSelector(state => state.feedReducer.list.data);
+    let myFeed = useSelector(state => state.feedReducer.list);
 
 
     const sortList = sort.map(
@@ -37,7 +37,7 @@ function Feed() {
                 {myFeed ? 
                    myFeed.map(
                     (item,index) => (
-                        <table key = {index} onClick = {() => {dispatch(selectFeed(item.activityId))}}>
+                        <table key = {index} onClick = {() => {dispatch(selectFeed(item.activityId)).then(() => history.push('/feeddetail'))}}>
                             <tbody>
                             <tr>
                                 <td>{item.activityDate}</td>

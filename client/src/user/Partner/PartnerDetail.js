@@ -83,7 +83,7 @@ const PartnerDetail = ({match}) => {
                 </table>
                 
                 <div>
-                    <Link to={`/partner-update/${partnerId}`}>수정</Link>
+                    <Link to={`/partner-update/${partnerId}`} className="user_btn_blue">수정</Link>
                     {/* <button onClick={() => deletePartner()}>삭제</button> */}
                 </div>
             </div>
