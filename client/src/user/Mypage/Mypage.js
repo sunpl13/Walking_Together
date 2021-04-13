@@ -32,11 +32,6 @@ const Mypage = () => {
     const [profilePicture, setProfilePicture] = useState([])
     const [password1, setPassword1] = useState("")
     const [password2, setPassword2] = useState("")
-
-    useEffect(() => {
-        getMypage();
-        return () => {}
-    }, [stdId])
     
     //회원 정보 가져오기
     const getMypage = useCallback(async() => {
@@ -64,12 +59,19 @@ const Mypage = () => {
                 }
             }
         }
-    },[stdId])
+    },[stdId, dispatch, history])
 
     //파트너로 이동
     const goPartner = useCallback(async() => {
         await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
         .then(() => history.push('/partner'))
+    },[stdId, dispatch, history])
+
+    //업데이트 상태 리셋
+    const reset = useCallback(async() => {
+        setPassword1("")
+        setPassword2("")
+        setProfilePicture([])
     },[])
 
     //개인정보 업데이트 취소
@@ -78,14 +80,7 @@ const Mypage = () => {
         .then(() => {
             setUpdateState(false)
         })
-    },[])
-
-    //업데이트 상태 리셋
-    const reset = useCallback(async() => {
-        setPassword1("")
-        setPassword2("")
-        setProfilePicture([])
-    },[])
+    },[reset])
 
     //개인정보 업데이트 제출
     const submit = (e) => {
@@ -119,6 +114,12 @@ const Mypage = () => {
             })
         }
     }
+
+    useEffect(() => {
+        let mounted = true;
+        getMypage();
+        return () => (mounted = false)
+    }, [stdId, getMypage, reset])
 
     return (
         <div id="profileWrap">

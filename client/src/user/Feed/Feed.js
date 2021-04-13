@@ -4,6 +4,9 @@ import {useHistory} from 'react-router-dom'
 import {sort} from '../../utils/options';
 import {getFeedList, selectFeed} from '../../modules/feed';
 
+import TopBar from '../../utils/TopBar';
+import '../../styles/feed.scss';
+
 function Feed() {
     const ID = localStorage.getItem("user_info");
     const history = useHistory();
@@ -31,27 +34,36 @@ function Feed() {
     
     return (
         <div>
-           <select onChange = {sortHandler}>{sortList}</select>
-            <button>활동 생성</button>
-            <div>
-                {myFeed ? 
-                   myFeed.map(
-                    (item,index) => (
-                        <table key = {index} onClick = {() => {dispatch(selectFeed(item.activityId)).then(() => history.push('/feeddetail'))}}>
-                            <tbody>
-                            <tr>
-                                <td>{item.activityDate}</td>
-                                <td>{item.activityStatus ? "진행중" : "종료"}</td>
-                            </tr>
-                            <tr>
-                                <td>{item.distance}m</td>
-                                <td>{item.partnerName}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    )
-                ) : "로딩중"     
-            }
+            <TopBar
+            left="null" 
+            center={{title:"피드", data:null}} 
+            right="null" 
+            lfunc={null}
+            rfunc={null}
+            size="small"/>
+
+            <div id="feedWrap">
+                <select onChange = {sortHandler}>{sortList}</select>
+                <div id="feedItemsWrap">
+                    {myFeed ? 
+                    myFeed.map(
+                        (item,index) => (
+                            <table key = {index} onClick = {() => {dispatch(selectFeed(item.activityId)).then(() => history.push('/feeddetail'))}}>
+                                <tbody>
+                                <tr id="tr1">
+                                    <td id="date">{item.activityDate}</td>
+                                    <td id="state">{item.activityStatus ? "진행중" : "종료"}</td>
+                                </tr>
+                                <tr id="tr2">
+                                    <td id="distance">{item.distance}m</td>
+                                    <td id="name">파트너 {item.partnerName}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        )
+                    ) : "로딩중"     
+                }
+                </div>
             </div>
         </div>
     )

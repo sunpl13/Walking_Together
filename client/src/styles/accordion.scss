@@ -1,16 +1,4 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-
-.App {
-  width: 100%;
-  min-height: 100vh;
-  padding: 20px 0;
-  background: #edeef1;
-}
+@import './valiables.scss';
 
 .container {
   width: 100%;
@@ -19,45 +7,45 @@
 }
 
 .accordion {
-  width: 100%;
-  max-width: 540px;
+  width: 80%;
   margin: 18px auto;
-  color: #fff;
+  color: $fontGray;
+  border-top: 1px solid $tableBorder;
+  border-bottom: 1px solid $tableBorder;
 }
 
 .accordionHeading {
-  background: #3f475d;
+  background: $white-;
   padding: 14px 0;
   justify-content: space-between;
+  text-align: left;
 
-  .container {
-    display: flex;
-    align-items: center;
-  }
-
-  .p {
+  p {
     letter-spacing: 1.2px;
-    font-weight: 600;
+    display: inline;
+    font-weight: bold;
+    margin-left: 5px;
+    font-size: $large;
+    line-height: 1.6;
   }
 
-  .span {
+  #toggle {
     cursor: pointer;
+    display: inline;
+    float: right;
+    margin-right: 5px;
   }
 }
 
 .accordionContent {
-  background: #383a7f;
+  background: $white-;
   display: flex;
   overflow: hidden;
   transition: all 600ms ease-in-out;
   height: 0;
   opacity: 0;
-
-  p {
-    font-size: 1.3rem;
-    line-height: 1.6;
-  }
 }
+
 .accordionContent.show {
   height: 180px;
   opacity: 1;

@@ -3,6 +3,8 @@ import { useHistory } from 'react-router';
 import {getNoticeList} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
 
+import '../../styles/home.scss';
+
 function Home() {
 
     const history = useHistory();
@@ -19,32 +21,36 @@ function Home() {
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
 
-//화면에 출력하기 위해 map 함수를 활용
-const homeNotice = mainNotice.map(
-    item => {
-   return (
-            <tbody key = {item.noticeId}>
-                <tr><td>{item.title}사회봉사단 | {item.date.substring(0,10)}</td></tr>
-            </tbody>
-   )
-}
-)
-
-console.log(homeNotice)
-
+    //화면에 출력하기 위해 map 함수를 활용
+    const homeNotice = mainNotice.map(
+        (item, index) => {
+            return (
+                <tbody id={"body"+index} key = {item.noticeId}>
+                    <tr>
+                        <td id="title" colSpan="2">{item.title}</td>
+                    </tr>
+                    <tr>
+                        <td id="writer">사회봉사단</td>
+                        <td id="date">{item.date.substring(0,10)}</td>
+                    </tr>
+                </tbody>
+            )
+        }
+    )
 
     return (
-        <div>
-<span>Walking Together</span>
-<div>
-<div>
-    <span>공지사항</span>
-    <button onClick = {() => {history.push('/noticelist')}}> 더보기</button>
-</div>
-<table>
-    {homeNotice}
-</table>
-</div>
+        <div id="homeWrap">
+            <span id="logo">Walking Together</span>
+            
+            <div id="noticeWrap">
+                <div id="noticeTop">
+                    <span id="noticeTitle"># 공지사항</span>
+                    <button className="user_btn_blue" onClick = {() => {history.push('/noticelist')}}> 더보기</button>
+                </div>
+                <table id="noticeTable">
+                    {homeNotice}
+                </table>
+            </div>
         </div>
     )
 }

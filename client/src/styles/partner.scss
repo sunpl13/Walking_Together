@@ -10,16 +10,17 @@
     border-collapse: collapse;
     text-align: center;
     #partner_item {
-        border: 2px solid $BorderGray;
+        border-top: 1px solid $BorderGray;
+        border-bottom: 1px solid $BorderGray;
         line-height: 30px;
         text-align: center;
-        height: 50px;
+        height: 60px;
         td {
             color: $fontGray
         }
         .tdName {
             font-weight: bold;
-            border-right: 1px solid $BorderGray;
+            background-color: $BackWhiteGray;
         }
     }
 }
@@ -72,6 +73,7 @@
         width: 170px;
         height: 28px;
         padding: 3px 1px;
+        font-size: $medium;
     }
     #reason_wrap {
         * {
@@ -84,6 +86,7 @@
         min-height: 60px;
         padding: 3px 1px;
         resize: vertical;
+        font-size: $medium;
     }
     #form_gender {
         width: 170px;

@@ -30,14 +30,16 @@ const Partner = () => {
             size="small"/>
             
             <table id="partner_table">
-                { partner.length!==0 ?
-                partner.map((res) => {
-                    return (
-                        <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
-                    )
-                })
-                : "파트너 정보가 없습니다."
-                }
+                <tbody>
+                    { partner.length!==0 ?
+                    partner.map((res) => {
+                        return (
+                            <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
+                        )
+                    })
+                    : "파트너 정보가 없습니다."
+                    }
+                </tbody>
             </table>
         </div>
     );
