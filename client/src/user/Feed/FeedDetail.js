@@ -22,46 +22,45 @@ const FeedDetail = () => {
 
     return (
         <div>
-            {
-            <table>
-                <tr>
-                    <td>활동일</td>
-                    <td>{feedItem.activityDate}</td>
-                </tr>
-                <tr>
-                    <td>파트너</td>
-                    <td>{feedItem.partnerName}</td>
-                </tr>
-                <tr>
-                    <td>시작시간</td>
-                    <td>{feedItem.startTime}</td>
-                </tr>
-                <tr>
-                    <td>종료시간</td>
-                    <td>{feedItem.endTime}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <img src={feedItem.mapPicture} id="mapPicture" alt="mapImage"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>소감문</td>
-                    <td>
-                        {reviewState==true ? <button onClick={() => updateReview()}>완료</button>
-                        : (feedItem.review===null ? <button onClick={() => setReviewState(!reviewState)}>작성</button> : <button onClick={() => setReviewState(!reviewState)}>수정</button>)
+            <label>활동일</label>
+            <p>{feedItem.activityDate}</p>
+
+            <label>파트너</label>
+            <p>{feedItem.partnerName}</p>
+
+            <label>시작 시간</label>
+            <p>{(feedItem.startTime).substring(11,19)}</p>
+            
+            <label>종료 시간</label>
+            <p>{feedItem.endTime}</p>
+            
+            <label>경로 사진</label>
+            <img src={feedItem.mapPicture} id="mapPicture" alt="mapImage"/><br/>
+            
+            <label>소감문</label>
+            { () => {
+                if(feedItem.endTime!==null) {
+                    if(reviewState===true) {
+                        return <button onClick={() => updateReview()}>완료</button>
+                    }
+                    else {
+                        if(feedItem.review===null) {
+                            return <button onClick={() => setReviewState(!reviewState)}>작성</button>
                         }
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        {reviewState==false ?
-                        <div>{feedItem.review}</div>
-                        :<textarea onChange={reviewChange} placeholder="내용을 입력해주세요." maxlength="250">{feedItem.review}</textarea>}
-                    </td>
-                </tr>
-            </table>
-            }
+                        else {
+                            return <button onClick={() => setReviewState(!reviewState)}>수정</button>
+                        }
+                    }
+                } else {
+                    return null;
+                }
+            }}
+
+            {reviewState==false ?
+                <div>{feedItem.review}</div>
+            :
+                <textarea onChange={reviewChange} placeholder="내용을 입력해주세요." maxLength="250" defaultValue={feedItem.review} value={review}></textarea>
+            }                
         </div>
     );
 };

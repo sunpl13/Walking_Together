@@ -51,3 +51,9 @@
     border: 1px solid $shadowGray;
     box-shadow: 4px 4px 2px $shadowGray;
 }
+
+.user_btn_blue {
+    @include button( $BackSkyBlue, $white, $BackBlue, 60px, 28px );
+    text-decoration: none;
+    display: inline-block;
+}

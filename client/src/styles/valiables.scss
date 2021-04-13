@@ -146,6 +146,7 @@ $xx-large : 1.15em;
 @mixin button( $back-color, $font-color, $border-color, $width, $height ) {
     width: $width;
     height: $height;
+    line-height: $height;
     border-radius: 5px;
     margin: 0px 3px;
     cursor: pointer;

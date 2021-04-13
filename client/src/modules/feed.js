@@ -38,11 +38,11 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
 
     dispatch({
         type: GETFEEDLIST,
-        payload: res
+        payload: res.data
     })
 }
 
-export const getCertification = async(activityId) => {
+export const getCertification = (activityId) => async(dispatch) => {
     const res = await axios.get(`/feed/certification?activityId=${activityId}`)
     .then((response) => response.data)
     .catch((err) => alert(err));
@@ -50,14 +50,14 @@ export const getCertification = async(activityId) => {
     dispatch({
         type: GETCERTIFICATION,
         payload: res
-    }
+    })
 }
 
-export const updateFeed = async(activityId, review) => {
+export const updateFeed = (activityId, review) => async(dispatch) => {
     const res = await axios.post(`/feed/detail`, {
         activityId: activityId,
         review: review
-    }).then((response) => response.data)
+    }).then((response) => console.log(response.data))
     .catch((err) => alert(err));
 
     dispatch({
@@ -71,13 +71,13 @@ export const updateFeed = async(activityId, review) => {
 
 export const selectFeed = (activityId) => async(dispatch) => {
     const res = await axios.get(`/feed/detail?activityId=${activityId}`)
-    .then((response) => response.data)
+    .then((res) => res.data)
     .catch((err) => alert(err));
 
     dispatch({
         type: SELECTFEED,
         activityId,
-        payload: res
+        payload: res.data
     })
 }
 
