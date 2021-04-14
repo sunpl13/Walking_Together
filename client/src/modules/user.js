@@ -20,7 +20,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         if(response.data.success) {
         if (response.data.token) {
             console.log(response);
-            localStorage.setItem("token", JSON.stringify(response.data.token));                         //유저토큰 로컬스토리지에 user로 저장
+            localStorage.setItem("token", response.data.token);                         //유저토큰 로컬스토리지에 user로 저장
             localStorage.setItem("user_info", response.data.stdId);                    //유저정보 user_info로 로컬스토리지에 저장
             dispatch({
                 type: LOGIN_USER,
@@ -88,6 +88,7 @@ export const signupHanlder = (
 export const logoutHandler = () => async(dispatch) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_info");
+    localStorage.removeItem("partnerId");
 
     await dispatch({
         type : LOGOUT_USER
@@ -97,7 +98,7 @@ export const logoutHandler = () => async(dispatch) => {
 //페이지간 인증
 export const authHandler = (option, adminRoute, history) => async(dispatch) => {
 
-    const data = await axios.post('/auth', {token : JSON.parse(localStorage.getItem('token'))})
+    const data = await axios.post('/auth', {token : localStorage.getItem('token')})
     .then(res => res.data)
     .catch(err => console.log(err));
 

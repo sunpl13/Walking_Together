@@ -25,7 +25,9 @@ const FINISHACTIVITY = "FINISHACTIVITY";
 export const getPartner = (
     stdId
     ) => async(dispatch) => {
-    await axios.get(`/activity/create?stdId=${stdId}`)
+    await axios.get(`/activity/create?stdId=${stdId}`, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    })
     .then((res) => {
         if(res.data.status===400) {
             return alert(res.data.message);
@@ -44,7 +46,8 @@ export const createActivity = (
 ) => async(dispatch) => {
     const res = await axios.post(`/activity/createActivity`, formData, {
         headers: {
-            'content-type': 'multipart/form-data'
+            'content-type': 'multipart/form-data',
+            'Authorization' : `Bearer ${localStorage.getItem("token")}`
         }
     }).then((res) => {
         alert(res.data.message)
@@ -81,7 +84,8 @@ export const finishActivity = (
     ) => async(dispatch) => {
         await axios.post(`/activity/finish`, formData, {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
             alert(res.data.message);

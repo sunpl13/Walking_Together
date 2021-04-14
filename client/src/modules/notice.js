@@ -38,7 +38,8 @@ export const insertNotice = (       //공지글 등록 (==>form에서 직접 sub
     ) => async(dispatch) => {
         await axios.post('/admin/createpost' ,formData, {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }
         })
         .then((res) => {
@@ -55,7 +56,8 @@ export const updateNotice = (       //공지글 수정
     ) => async(dispatch) => { 
         await axios.post('/admin/update', formData, {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
             alert(res.data.message);
@@ -73,7 +75,9 @@ export const updateNotice = (       //공지글 수정
 export const deleteNotice = (           //공지글 삭제
     noticeId
     ) => async(dispatch) => {   
-        await axios.get(`/admin/delete?noticeId=${noticeId}`)
+        await axios.get(`/admin/delete?noticeId=${noticeId}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        })
         .then((res) => {
             alert(res.data.message);
         }).catch((err) => console.log(err));
@@ -89,6 +93,9 @@ export const selectNotice = (          //공지글 세부내용 조회
         await axios.get(`/notice`, {
             params: {
                 noticeId: noticeId
+            },
+            headers: {
+                'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }
         })
         .then((res) => {
@@ -107,6 +114,8 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             await axios.post(`/noticeList`,{
                 page: page,
                 keyword: keyword
+            },{
+                headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
                 if(res.data.status===200) {
                     dispatch({
@@ -133,7 +142,10 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             })
         }else {
             await axios.post(`/noticeList`, {
-                page: page
+                page: page,
+                
+            }, {
+                headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
                 if(res.data.status===200) {
                     dispatch({

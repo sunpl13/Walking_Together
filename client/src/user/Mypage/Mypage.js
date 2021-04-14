@@ -35,7 +35,7 @@ const Mypage = () => {
     
     //회원 정보 가져오기
     const getMypage = useCallback(async() => {
-        await axios.get(`/mypage?stdId=${stdId}`)
+        await axios.get(`/mypage?stdId=${stdId}`,{headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}})
         .then((res) => {
             if(res.data.status===200) {
                 setUserInfo(res.data.data)
@@ -100,7 +100,8 @@ const Mypage = () => {
 
             axios.post(`/mypage/change`, formData, {
                 headers: {
-                    'content-type': 'multipart/form-data'
+                    'content-type': 'multipart/form-data',
+                    'Authorization' : `Bearer ${localStorage.getItem("token")}`
                 }
             }).then(async(res) => {
                 if(res.data.status===200) {

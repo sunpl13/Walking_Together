@@ -16,7 +16,10 @@ const Ranking = () => {
 
     //refresh
     const refresh = async() => {
-        await axios.get(`/ranking`)
+        await axios.get(`/ranking`,
+         {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        })
         .then((res) => {
             setRanking(res.data.data)
         })
