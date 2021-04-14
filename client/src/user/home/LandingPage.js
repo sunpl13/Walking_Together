@@ -6,12 +6,16 @@ function LandingPage() {
     const history = useHistory();
 
     useEffect(() => {
-        setTimeout(goLogin, 5000)
-    }, [])
+        setTimeout(() => {
+            const token = localStorage.getItem("token");
+            if(token === null) {
+                history.push('/login')
+            } else {
+            history.push('/home')
+                }
+        }, 5000)
+    }, [history])
 
-    const goLogin = () => {
-        history.push('/login')
-    }
 
     return (
         <div id="landing_back">

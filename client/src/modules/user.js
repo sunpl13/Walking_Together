@@ -98,9 +98,9 @@ export const logoutHandler = () => async(dispatch) => {
 }
 
 //페이지간 인증
-export const authHandler = (token, option, adminRoute, history) => async(dispatch) => {
+export const authHandler = (option, adminRoute, history) => async(dispatch) => {
 
-    const data = await axios.post('/auth', {token : token})
+    const data = await axios.post('/auth', {token : JSON.parse(localStorage.getItem('token'))})
     .then(res => res.data)
     .catch(err => console.log(err));
 
@@ -109,7 +109,6 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
         type : AUTH_USER_PANDING,
         payload : data
     });
-    console.log(data);
     try{
 
         dispatch({
@@ -117,33 +116,31 @@ export const authHandler = (token, option, adminRoute, history) => async(dispatc
             payload : data
         });
     if(adminRoute === null){
-    if(data.isAuth === false) {                 // 토큰이 일치하지 않을 때
-        if(option) {
-            alert("로그인을 해주시기 바랍니다.");
-            history.push('/login')
-        } else if(option === false) {           //둘 다 false일때, 즉 로그인 안된 유저가 들어가도 될 때
-            return;
-        } else {   
-            return;
-        }
-    }  else if(data.isAuth === true) {           // 로그인이 되었을 때
-        if(option) {
-            return;
-        } else if(option === false) {
-            alert("접근 권한이 없습니다.")
-            history.push('/home');
-        } else {
-            return;
+        if(data.isAuth === false) {                 // 토큰이 일치하지 않을 때
+            if(option) {
+                alert("로그인을 해주시기 바랍니다.");
+                history.push('/login')
+            } else {
+                return ;
+            }
+        } 
+        else if(data.isAuth === true) {           // 로그인이 되었을 때
+            if(option) {
+                return;
+            } else if(option === false) {
+                alert("접근 권한이 없습니다.")
+                history.push('/home');
             }
         }
     } else if(adminRoute === true) {
-        if(data.role[0].authority === "ADMIN") {
+        if(data.role[0].authority === "ROLE_ADMIN") {
             return ;
         } else {
             history.push('/login');
             alert("접근이 제한되었습니다.")
         }
     }
+    
 } catch(err) {
     console.log(err)
     dispatch({
@@ -158,9 +155,7 @@ const initialstate = {
     isLogin : {},     //로그인 정보를 저장
     result : {},      //회원가입 결과를 저장
     authResult : {},  //인증 결과 저장
-    isAuth : false,    //인증 결과 저장 (추후 수정 예정)
-    pending : true,
-    error : false
+    isAuth : false    //인증 결과 저장 (추후 수정 예정)
 };
 
 export default function user(state = initialstate, action) {
@@ -184,21 +179,16 @@ export default function user(state = initialstate, action) {
             return {
                 ...state,
                 authResult : action.payload,
-                pending : true,
-                error : false
             };
         case AUTH_USER_SUCCESS:
             return {
                 ...state,
-                authResult : action.payload,
-                pending : false
+                authResult : action.payload
             };
         case AUTH_USER_FAIL:
             return {
                 ...state,
-                authResult : action.payload,
-                pending : false,
-                error : true
+                authResult : action.payload
             }
           default :
           return state;
