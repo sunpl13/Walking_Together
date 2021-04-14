@@ -16,23 +16,6 @@ function Home() {
 
     const notice = useSelector(state => state.noticeReducer.list);
 
-    const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
-
-
-//화면에 출력하기 위해 map 함수를 활용
-const homeNotice = mainNotice.map(
-    item => {
-   return (
-            <tbody key = {item.noticeId}>
-                <tr><td>{item.title}사회봉사단 | {item.date.substring(0,10)}</td></tr>
-            </tbody>
-   )
-}
-)
-
-console.log(homeNotice)
-
-
     return (
         <div>
 <span>Walking Together</span>
@@ -42,7 +25,17 @@ console.log(homeNotice)
     <button onClick = {() => {history.push('/noticelist')}}> 더보기</button>
 </div>
 <table>
-    {homeNotice}
+        {notice.length !== 0 ? notice.slice(0,4).map(
+            item => {
+                return (
+                    <tbody key = {item.noticeId}>
+                        <tr><td>{item.title}사회봉사단 | {item.date.substring(0,10)}</td></tr>
+                    </tbody>
+                )
+            }
+        )  :
+        <tbody><tr><td>공사항이 없습니다.</td></tr></tbody>
+        }
 </table>
 </div>
         </div>

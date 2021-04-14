@@ -1,0 +1,85 @@
+@import "./valiables.scss";
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 70vh;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo_container {
+    display: flex;
+    flex-direction: column;
+    font-size: xx-large;
+    color: $BackSky;
+    margin-bottom: 5%;
+
+    .walking {
+      display: inline-block;
+      padding-right: 60px;
+      p {
+        color: $BackSkyBlue;
+        display: inline-block;
+        font-size: 2rem;
+      }
+    }
+    .together {
+      display: inline-block;
+      padding-left: 60px;
+    }
+    p {
+      color: $BackSkyBlue;
+      display: inline-block;
+      font-size: 2rem;
+    }
+  }
+
+  button {
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: $BackBlue;
+    color: $fontWhite;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+
+  .signup_btn {
+    background-color: #6cbb5d;
+    &:hover {
+      background-color: #5fad50;
+    }
+  }
+}
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+  input {
+    margin-bottom: 10px;
+    height: 40px;
+    width: 200px;
+    border: 1px solid $BorderGray;
+    padding-left: 10px;
+    outline: none;
+    &:focus {
+      box-shadow: 1px 1px 10px $BackSky-;
+    }
+  }
+  .login_btn {
+    margin-top: 15px;
+    background-color: $BackSkyBlue;
+    &:hover {
+      background-color: #c55a5a;
+    }
+  }
+}

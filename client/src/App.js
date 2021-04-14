@@ -47,7 +47,7 @@ function App() {
       <Switch>
         <Route path="/admin" component={Auth(Admin,true,true)} />
         <Route path="/login" component={Auth(Login,false)} />
-        <Route path="/landing-page" component={Auth(LandingPage,false)} />
+        <Route exact path="/" component={LandingPage} />
         <Route path="/register" component={Auth(RegisterPage,false)}/>
         <Route path="/mypage" component={Auth(Mypage,true)}/>
         <Route path="/signup" component={Auth(Register,false)}/>

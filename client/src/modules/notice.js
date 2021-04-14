@@ -108,26 +108,54 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                 page: page,
                 keyword: keyword
             }).then((res) => {
-                if(res.status===200) {
+                if(res.data.status===200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
                     })
                 } else {
-                    alert(res.message);
+                    dispatch({
+                        type: GETLIST,
+                        payload: {
+                            data: [],
+                            pageInfo: {             //페이지 정보
+                                page: 0,
+                                totalPage: 0,
+                                start: 0,
+                                end: 0,
+                                prev: false,
+                                next: false,
+                                pageList: []
+                            }
+                        }
+                    })
                 }
             })
         }else {
             await axios.post(`/noticeList`, {
                 page: page
             }).then((res) => {
-                if(res.status===200) {
+                if(res.data.status===200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
                     })
                 } else {
-                    alert(res.message);
+                    dispatch({
+                        type: GETLIST,
+                        payload: {
+                            data: [],
+                            pageInfo: {             //페이지 정보
+                                page: 0,
+                                totalPage: 0,
+                                start: 0,
+                                end: 0,
+                                prev: false,
+                                next: false,
+                                pageList: []
+                            }
+                        }
+                    })
                 }
             })
         }
