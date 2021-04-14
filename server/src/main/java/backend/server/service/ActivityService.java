@@ -52,6 +52,7 @@ public class ActivityService {
             activityDTO.setPartnerName(e.get(0).toString());
             activityDTO.setPartnerDetail(e.get(1).toString());
             activityDTO.setPartnerBirth(e.get(2).toString());
+            activityDTO.setPartnerId((Long)e.get(3));
 
             partners.add(activityDTO);
         });
@@ -117,7 +118,7 @@ public class ActivityService {
 
     // 활동 종료
     @Transactional
-    public Long endActivity(LocalDateTime endTime, MultipartFile endPhoto, Long activityId, Long distance) {
+    public Long endActivity(LocalDateTime endTime, MultipartFile endPhoto, Long activityId, Long distance, MultipartFile map) {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
 
@@ -126,6 +127,9 @@ public class ActivityService {
         }
 
         Activity activity = activityOptional.get();
+        if (activity.getEndTime() != null) {
+            return 407L;
+        }
 
         long minutes = ChronoUnit.MINUTES.between(activity.getStartTime(), endTime);
         if (minutes < 30) {
@@ -146,6 +150,12 @@ public class ActivityService {
             fileUploadService.uploadMapImages(endPhoto, activityId, "end");
         } else {
             return 405L;
+        }
+
+        if (map != null) {
+            fileUploadService.uploadMapCapture(map, activityId);
+        } else {
+            return 406L;
         }
 
         Member member = activity.getMember();
