@@ -70,15 +70,12 @@ export const signupHanlder = (
         dispatch({
             type : SIGNUP_USER
         })
-        console.log(res)
          if (window.confirm(res.data.message)){
              history.push("/login")
          }
     } else if(res.data.status === "406"){          //학번 중복
-        console.log(res);
         return alert(res.data.message)
     } else if(res.data.state === "407"){           //이메일 중복
-        console.log(res);
 
         return alert(res.data.message)
     }} 

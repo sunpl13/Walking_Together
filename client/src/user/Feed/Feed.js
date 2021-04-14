@@ -31,7 +31,7 @@ function Feed() {
     }
 
     const goDetail = (activityId, activityStatus) => {
-        if(activityStatus===true) {
+        if(activityStatus=== 0) {
             dispatch(selectFeed(activityId))
             .then(() => history.push('/feeddetail'))
         } else {

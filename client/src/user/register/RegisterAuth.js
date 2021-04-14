@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import {useHistory, useLocation} from 'react-router-dom'
+import '../../styles/register.scss'
+import TopBar from '../../utils/TopBar'
 
 function RegisterAuth() {
     const location = useLocation();
@@ -28,12 +30,26 @@ function RegisterAuth() {
     }
 
     return (
-        <div>
-            <span>{location.state.email}</span>
-            <span>메일로 발송된 인증 코드를 입력해 주세요.</span>
-            <input type="text" onChange = {onChangeHandler}/>
-            <button onClick = {identificationHandler}>인증</button>
+        <>
+        <TopBar
+            left="null" 
+            center={{title:"회원가입", data:null}} 
+            right="null" 
+            lfunc={null}
+            rfunc={null}
+            size="small"/>
+        <div className = "register_auth">
+           <p>메일로 발송된 인증 코드를 입력해 주세요.</p>
+            <div className = "e_container">
+                <span>{location.state.email}</span>
+            </div>
+ 
+            <div className = "email_container">
+                <input type="text" onChange = {onChangeHandler} placeholder = "인증번호"/>
+                <button onClick = {identificationHandler}>인증</button>
+            </div>
         </div>
+    </>
     )
 }
 

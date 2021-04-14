@@ -32,6 +32,10 @@ import CertificationAction from './user/Certification/CertificationAction';
 import Feed from './user/Feed/Feed';
 import FeedDetail from './user/Feed/FeedDetail'
 import ActivityRegister from './user/Activity/ActivityRegister';
+import MemberStipulation from './user/register/MemberStipulation';
+import InfoStipulation from './user/register/InfoStipulation';
+import LocationStipulayion from './user/register/LocationStipulation'
+
 
 function App() {
 
@@ -69,7 +73,12 @@ function App() {
         <Route path="/activity-register" component={Auth(ActivityRegister, true)}/>
         <Route path= "/mapp" component={Mapp}/>
         <Route path= "/feed" component={Auth(Feed,true)}/>
-        <Route path= "/feeddetail" component={Auth(FeedDetail,true)}/>
+        <Route path = "/feeddetail" component={Auth(FeedDetail,true)}/>
+        <Route path= "/memberstipulation" component={Auth(MemberStipulation,false)}/>
+        <Route path= "/infostipulation" component={Auth(InfoStipulation,false)}/>
+        <Route path= "/locationstipulation" component={Auth(LocationStipulayion,false)}/>
+        
+        
       </Switch>
     
       <div style = {style}><Nav/></div>
