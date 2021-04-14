@@ -1,29 +1,17 @@
-
 import {React, useState} from 'react';
 import {signupHanlder} from '../../modules/user';
 import {useDispatch} from 'react-redux';
 import {useHistory, useLocation} from 'react-router-dom' 
 import moment from 'moment'
 import {option} from '../../utils/options'
+import TopBar from '../../utils/TopBar'
+import '../../styles/register.scss';
 
 function RegisterPage() {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
-
-    console.log(location)
-
-
-    const style = {
-        display : "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh"
-    }
-
-
         
 
     const Email = location.state.email;
@@ -62,19 +50,7 @@ function RegisterPage() {
 
     const register = async(e) => {
         e.preventDefault();     
-
         if(Password === PasswordConfrim) {                    
-
-    //      await axios.post('/signup', {
-    //      name : Name,
-    //      email : Email,
-    //      password : Password,
-    //      stdId : stdId,
-    //      birth : birth,
-    //      department : department
-    //  })
-    //  .then(res => {console.log(typeof res.status)
-    // })
 
             dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
     } else {
@@ -85,33 +61,34 @@ function RegisterPage() {
 
     return (
 
-<div style ={style}>
-            <form onSubmit ={register} style = {{display : "flex", flexDirection : "column"}}>
-                <label>Email</label>
-                <span>{Email}</span>
+<div className = "register_page">
+    <TopBar
+        left="null" 
+        center={{title:"회원가입", data:null}} 
+        right="null" 
+        lfunc={null}
+        rfunc={null}
+        size="small"/>
+            <form onSubmit ={register}>
 
-                <label>Name</label>
-                <input type = "text" value = {Name} onChange = {NameHandler}/>
+                <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
 
-                <label>학번</label>
-                <input type = "text" value = {stdId} onChange = {stdIdHandler}/>
+ 
+                <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
 
-                <label>휴대폰 번호</label>
-                <input type = "text" value = {pNumber} onChange = {pNumHandler}/>
+    
+                <input type = "text" value = {pNumber} onChange = {pNumHandler} placeholder = "휴대폰번호"/>
 
-                <label>생년월일</label>
-                <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}}/>
 
-                <label>학과</label>
-                <select onChange = {departmentHandler}>
+                <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
+
+                <select onChange = {departmentHandler} placeholder = "학과">
                     {depList}
                 </select>
 
-                <label>Password</label>
-                <input type = "password" value = {Password} onChange = {PasswordHandler}/>
+                <input type = "password" value = {Password} onChange = {PasswordHandler} placeholder = "비밀번호"/>
 
-                <label>PasswordConfrim</label>
-                <input type = "Password" value = {PasswordConfrim} onChange = {PasswordConfrimHandler}/>
+                <input type = "Password" value = {PasswordConfrim} onChange = {PasswordConfrimHandler} placeholder = "비밀번호 확인"/>
                 <br/>
                 <button type = "submit">회원가입</button>
             </form>
