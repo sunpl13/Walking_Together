@@ -96,7 +96,7 @@ const FeedDetail = () => {
                         
                         <tr>
                             <td colSpan="2">
-                                {reviewState==false ?
+                                {reviewState===false ?
                                     feedItem.review
                                 :
                                     <textarea onChange={reviewChange} placeholder="내용을 입력해주세요." maxLength="250" defaultValue={feedItem.review} value={review}></textarea>

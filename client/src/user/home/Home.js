@@ -20,12 +20,19 @@ function Home() {
 
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
+    const goDetail = async(noticeId) => {
+        history.push({
+            pathname : '/viewdetail',
+            state : {noticeId : noticeId}
+        })
+    }
+
 
     //화면에 출력하기 위해 map 함수를 활용
     const homeNotice = mainNotice.map(
         (item, index) => {
             return (
-                <tbody id={"body"+index} key = {item.noticeId}>
+                <tbody id={"body"+index} key = {item.noticeId} onClick={() => goDetail(item.noticeId)}>
                     <tr>
                         <td id="title" colSpan="2">{item.title}</td>
                     </tr>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
 
@@ -14,17 +14,17 @@ const NoticeDetail = ({match}) => {
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
     //action
-    const delNotice = async() => {              //공지글 삭제
+    const delNotice = useCallback(async() => {              //공지글 삭제
         const delConfirm = window.confirm("삭제하시겠습니까?");
         if (delConfirm === true) {
             await dispatch(deleteNotice(noticeId))
             .then(()=> history.push('/admin/notice'))
         }
-    }
+    },[dispatch, history, noticeId])
 
-    const goUpdate = async() => {
+    const goUpdate = useCallback(async() => {
         history.push('/admin/notice-update')
-    }
+    }, [history])
 
     return (
         <div id="noticeDetail">

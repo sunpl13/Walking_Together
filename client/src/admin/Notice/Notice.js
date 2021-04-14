@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNoticeList } from '../../modules/notice';
@@ -22,15 +22,10 @@ const Notice = () => {
 
     const noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
 
-    //useEffect
-    useEffect(() => {
-        dispatchNoticeList();
-    }, [current])
-
     //function
-    const dispatchNoticeList = () => {  //공지사항 목록 받아오기
+    const dispatchNoticeList = useCallback(() => {  //공지사항 목록 받아오기
         dispatch(getNoticeList(current+1,null))
-    }
+    },[dispatch, current])
 
     //go action
     const goDetail = async(noticeId) => {  //공지사항 세부로 이동
@@ -42,6 +37,11 @@ const Notice = () => {
         await dispatch(initSelectedNotice())
         .then(() => history.push('/admin/notice-insert'))
     }
+
+    //useEffect
+    useEffect(() => {
+        dispatchNoticeList();
+    }, [current, dispatchNoticeList])
 
     return (
         <div id="noticeWrap">

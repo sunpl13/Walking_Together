@@ -51,7 +51,7 @@ function UserNotice() {
         return (
             dispatch(getNoticeList(current+1,keyword))  //공지사항 목록 받아오기
         )
-    }, [dispatch, current])
+    }, [dispatch, current, keyword])
 
 //화면에 출력하기 위해 map 함수를 활용
 let homeNotice = noticeList.map(

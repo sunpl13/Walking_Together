@@ -67,16 +67,13 @@ const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
             {/* center option : {title}, {date, null} */}
             <div className="center">
                 <p>{center.title}</p>
-                {() => {
-                    if(center.data!==null) {
-                        return(
-                            <p className="data">
-                                {center.data}
-                            </p>
-                        );
-                    } 
-                }}
-
+                {center.data!==null ?
+                    <p className="data">
+                        {center.data}
+                    </p>
+                : 
+                    null
+                }
             </div>
 
             {/* right option : {cancel, plus, create, null} */}

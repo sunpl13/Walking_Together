@@ -26,9 +26,17 @@ function Feed() {
         }
     );
 
-
     const sortHandler = (e) => {
         setsor(e.currentTarget.value)
+    }
+
+    const goDetail = (activityId, activityStatus) => {
+        if(activityStatus===true) {
+            dispatch(selectFeed(activityId))
+            .then(() => history.push('/feeddetail'))
+        } else {
+            alert("활동 종료 후 상세 정보를 확인할 수 있습니다.");
+        }
     }
 
     
@@ -48,7 +56,7 @@ function Feed() {
                     {myFeed ? 
                     myFeed.map(
                         (item,index) => (
-                            <table key = {index} onClick = {() => {dispatch(selectFeed(item.activityId)).then(() => history.push('/feeddetail'))}}>
+                            <table key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>
                                 <tbody>
                                 <tr id="tr1">
                                     <td id="date">{item.activityDate}</td>

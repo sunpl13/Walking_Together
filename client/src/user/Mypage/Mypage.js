@@ -116,9 +116,7 @@ const Mypage = () => {
     }
 
     useEffect(() => {
-        let mounted = true;
         getMypage();
-        return () => (mounted = false)
     }, [stdId, getMypage, reset])
 
     return (
@@ -136,29 +134,21 @@ const Mypage = () => {
                 <div>
                     <table id="profileTable"> {/* default */}
                         <tbody>
-
                             <tr> {/* profile image */}
                                 <td rowSpan="4" className="td1">
-                                    { userInfo.profilePicture!=null ? 
-                                    <img src={userInfo.profilePicture} alt="프로필 이미지"/>
-                                    : <CgProfile size={100} color="#9a9a9a"/>
-                                    }
+                                    {userInfo.profilePicture!=null?<img src={userInfo.profilePicture} alt="프로필 이미지"/>:<CgProfile size={100} color="#9a9a9a"/>}
                                 </td>
                                 <td className="td2">{userInfo.name}</td>
                             </tr>
-
                             <tr> {/* department */}
                                 <td className="td2">{userInfo.department}</td>
                             </tr>
-
                             <tr> {/* student id */}
                                 <td className="td2">{stdId}</td>
                             </tr>
-
                             <tr> {/* total time */}
                                 <td className="td2">
-                                    { userInfo.totalTime!=null ?
-                                    userInfo.totalTime : 0 }시간
+                                    {userInfo.totalTime!=null?userInfo.totalTime:0}시간
                                 </td>
                             </tr>
                         </tbody>

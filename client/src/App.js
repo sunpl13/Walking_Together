@@ -31,6 +31,7 @@ import Mapp from './user/Map/Mapp';
 import CertificationAction from './user/Certification/CertificationAction';
 import Feed from './user/Feed/Feed';
 import FeedDetail from './user/Feed/FeedDetail'
+import ActivityRegister from './user/Activity/ActivityRegister';
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
         <Route path= "/activitystart" component={ActivityStart}/>
         <Route path= "/viewdetail" component={Auth(Detail,true)}/>
         <Route path= "/createactivity" component={Auth(CreateActivity,true)}/>
+        <Route path="/activity-register" component={Auth(ActivityRegister, true)}/>
         <Route path= "/mapp" component={Mapp}/>
         <Route path= "/feed" component={Auth(Feed,true)}/>
         <Route path= "/feeddetail" component={Auth(FeedDetail,true)}/>
