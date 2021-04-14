@@ -30,10 +30,17 @@
     height: auto;
     .center {
         width: 100px;
-        height: 40px;
+        height: 60px;
+        font-size: $x-large;
+        font-weight: bold;
         text-align: center;
         margin: 0;
         display: inline-block;
+        .data {
+            font-size: $x-small;
+            font-weight: normal;
+            line-height: normal;
+        }
     }
 }
 

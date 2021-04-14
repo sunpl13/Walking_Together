@@ -1,5 +1,5 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { Link, useHistory} from 'react-router-dom';
 
 import {  AiFillTrophy } from "react-icons/ai";
 import { BiWalk, BiListCheck } from "react-icons/bi";
@@ -7,17 +7,25 @@ import { MdHome } from "react-icons/md";
 import { RiAccountCircleFill } from "react-icons/ri";
 import '../styles/nav.scss';
 
-
 function Nav() {
+    const history = useHistory()
+    const activityId = localStorage.getItem("activityId")
 
+    const goActivity = useCallback(() => {
+        if(activityId===null) {
+            history.push('/activitystart')
+        } else {
+            history.push('/activity')
+        }
+    }, [activityId, history])
 
     return (
         <nav>
             <div className="navItem">
-                <Link to = '/activity'>
+                <span onClick={goActivity}>
                     <BiWalk size="30"/><br/>
                     <p>활동</p>
-                </Link>
+                </span>
             </div>
 
             <div className="navItem">

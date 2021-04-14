@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { deletePartnerHandler } from '../../modules/partner';
 import TopBar from '../../utils/TopBar';
 import { checkPartnerDetail } from "../../utils/Function";
 
 const PartnerDetail = ({match}) => {
-    const dispatch = useDispatch()
     const history = useHistory()
 
     const partner = useSelector(state => state.partner.partnerDetail);
@@ -16,19 +14,6 @@ const PartnerDetail = ({match}) => {
     
     const [detail, setDetail] = useState("");
 
-    // //action
-    // const deletePartner = () => {
-    //     const confirm = window.confirm("파트너 정보를 삭제하시겠습니까?")
-    //     if(confirm === false) {
-    //         return;
-    //     } else {
-    //         dispatch(deletePartnerHandler(partnerId))
-    //         .then(() => {
-    //             alert("파트너 삭제가 완료되었습니다.")
-    //         })
-    //     }
-    // }
-
     //param function
     function goBack() {
         history.push('/partner')
@@ -37,7 +22,7 @@ const PartnerDetail = ({match}) => {
     //useEffect
     useEffect(() => {
         setDetail(checkPartnerDetail(partner.partnerDetail))
-    }, [])
+    }, [partner])
     
     return (
         <div>
@@ -84,7 +69,6 @@ const PartnerDetail = ({match}) => {
                 
                 <div>
                     <Link to={`/partner-update/${partnerId}`} className="user_btn_blue">수정</Link>
-                    {/* <button onClick={() => deletePartner()}>삭제</button> */}
                 </div>
             </div>
         </div>

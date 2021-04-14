@@ -198,6 +198,7 @@
         font-size: $small;
         p {
             display: inline-block;
+            float: left;
         }
         #at_title {
             margin-right: 10px;
@@ -205,6 +206,18 @@
         }
         #at_none {
             font-size: $x-small;
+        }
+    }
+    .filedown {
+        float: left;
+        display: inline;
+        margin: 0 5px;
+        * {
+            text-decoration: none;
+            color: $fontGray;
+        }
+        :hover {
+            color: $BackBlue;
         }
     }
 }
@@ -237,7 +250,7 @@
 }
 
 .admin_btn_gray {
-    @include button( $BackGray, $fontGray, $tableBolder, 50px, 28px );
+    @include button( $BackGray, $fontGray, $tableBorder, 50px, 28px );
 }
 .admin_btn_gray:hover {
     background-color: $BackDarkGray;
@@ -254,7 +267,7 @@
 }
 
 .admin_logout_btn {
-    @include button( $white, $fontGray, $tableBolder, 60px, 28px );
+    @include button( $white, $fontGray, $tableBorder, 60px, 28px );
 }
 .admin_logout_btn:hover {
     background-color: $BackGray;

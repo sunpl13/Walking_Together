@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
 
@@ -14,17 +14,17 @@ const NoticeDetail = ({match}) => {
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
     //action
-    const delNotice = async() => {              //공지글 삭제
+    const delNotice = useCallback(async() => {              //공지글 삭제
         const delConfirm = window.confirm("삭제하시겠습니까?");
         if (delConfirm === true) {
             await dispatch(deleteNotice(noticeId))
-            .then(()=>history.push('/admin/notice'))
+            .then(()=> history.push('/admin/notice'))
         }
-    }
+    },[dispatch, history, noticeId])
 
-    const goUpdate = async() => {
+    const goUpdate = useCallback(async() => {
         history.push('/admin/notice-update')
-    }
+    }, [history])
 
     return (
         <div id="noticeDetail">
@@ -38,17 +38,17 @@ const NoticeDetail = ({match}) => {
 
             <div id="content">
                 <div id="image">
-                    {notice.imageFiles[0]===undefined ? null
+                    {notice.imageFiles===null ? null
                     : <img src={notice.imageFiles[0]} alt="error"></img>}
                 </div>
                 {ReactHtmlParser(notice.content)}
             </div>
             <div id="attachedFile">
                 <p id="at_title">첨부파일</p>
-                {notice.attachedFiles[0]===undefined ? <p id="at_none">첨부파일이 없습니다.</p>
+                {notice.attachedFiles===null ? <p id="at_none">첨부파일이 없습니다.</p>
                 : notice.attachedFiles.map((file, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} className="filedown">
                             <a href={file} download>{index+1}파일다운</a>
                             <br />
                         </div>

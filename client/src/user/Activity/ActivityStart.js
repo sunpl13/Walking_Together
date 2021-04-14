@@ -10,10 +10,10 @@ function ActivityStart() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const onclickHandler = () => {
+    const onclickHandler = async() => {
         if(window.confirm("활동을 생성하시겠습니까?")) {
-            dispatch(getPartner(stdId))
-            history.push('createactivity')
+            await dispatch(getPartner(stdId))
+            .then(() => history.push('createactivity'))
         }
     }
 

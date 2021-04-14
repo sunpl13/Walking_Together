@@ -54,7 +54,7 @@ export const getCertification = (activityId) => async(dispatch) => {
 }
 
 export const updateFeed = (activityId, review) => async(dispatch) => {
-    const res = await axios.post(`/feed/detail`, {
+    await axios.post(`/feed/detail`, {
         activityId: activityId,
         review: review
     }).then((response) => console.log(response.data))
@@ -80,10 +80,6 @@ export const selectFeed = (activityId) => async(dispatch) => {
         payload: res.data
     })
 }
-
-
-//reducer
-const url = process.env.REACT_APP_URL;
 
 const feedReducer = (state = INIT_FEED_STATE, action) => {
     switch(action.type) {

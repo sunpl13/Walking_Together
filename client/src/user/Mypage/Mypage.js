@@ -32,11 +32,6 @@ const Mypage = () => {
     const [profilePicture, setProfilePicture] = useState([])
     const [password1, setPassword1] = useState("")
     const [password2, setPassword2] = useState("")
-
-    useEffect(() => {
-        getMypage();
-        return () => {}
-    }, [stdId])
     
     //회원 정보 가져오기
     const getMypage = useCallback(async() => {
@@ -64,12 +59,19 @@ const Mypage = () => {
                 }
             }
         }
-    },[stdId])
+    },[stdId, dispatch, history])
 
     //파트너로 이동
     const goPartner = useCallback(async() => {
         await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
         .then(() => history.push('/partner'))
+    },[stdId, dispatch, history])
+
+    //업데이트 상태 리셋
+    const reset = useCallback(async() => {
+        setPassword1("")
+        setPassword2("")
+        setProfilePicture([])
     },[])
 
     //개인정보 업데이트 취소
@@ -78,14 +80,7 @@ const Mypage = () => {
         .then(() => {
             setUpdateState(false)
         })
-    },[])
-
-    //업데이트 상태 리셋
-    const reset = useCallback(async() => {
-        setPassword1("")
-        setPassword2("")
-        setProfilePicture([])
-    },[])
+    },[reset])
 
     //개인정보 업데이트 제출
     const submit = (e) => {
@@ -120,6 +115,10 @@ const Mypage = () => {
         }
     }
 
+    useEffect(() => {
+        getMypage();
+    }, [stdId, getMypage, reset])
+
     return (
         <div id="profileWrap">
 
@@ -135,29 +134,21 @@ const Mypage = () => {
                 <div>
                     <table id="profileTable"> {/* default */}
                         <tbody>
-
                             <tr> {/* profile image */}
                                 <td rowSpan="4" className="td1">
-                                    { userInfo.profilePicture!=null ? 
-                                    <img src={userInfo.profilePicture} alt="프로필 이미지"/>
-                                    : <CgProfile size={100} color="#9a9a9a"/>
-                                    }
+                                    {userInfo.profilePicture!=null?<img src={userInfo.profilePicture} alt="프로필 이미지"/>:<CgProfile size={100} color="#9a9a9a"/>}
                                 </td>
                                 <td className="td2">{userInfo.name}</td>
                             </tr>
-
                             <tr> {/* department */}
                                 <td className="td2">{userInfo.department}</td>
                             </tr>
-
                             <tr> {/* student id */}
                                 <td className="td2">{stdId}</td>
                             </tr>
-
                             <tr> {/* total time */}
                                 <td className="td2">
-                                    { userInfo.totalTime!=null ?
-                                    userInfo.totalTime : 0 }시간
+                                    {userInfo.totalTime!=null?userInfo.totalTime:0}시간
                                 </td>
                             </tr>
                         </tbody>

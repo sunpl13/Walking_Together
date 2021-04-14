@@ -1,0 +1,73 @@
+@import './valiables.scss';
+
+//feed
+#feedWrap {
+    width: 90%;
+    margin-top: 70px;
+    margin-bottom: 100px;
+   
+    select {
+        height: 28px;
+        font-size: $medium;
+    }
+    #feedItemsWrap {
+        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+
+        table {
+            width: 100%;
+            border: 1px solid $tableBorder;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            #tr1 {
+                background-color: $BackWhiteGray;
+                line-height: 40px;
+                font-weight: bold;
+                #date {
+                    padding-left: 10px;
+                }
+                #state {
+                    text-align: right;
+                    padding-right: 10px;
+                }
+            }
+            #tr2 {
+                line-height: 25px;
+                #distance {
+                    padding-left: 10px;
+                }
+                #name {
+                    text-align: right;
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
+}
+
+//feedDetail
+#feedDetail {
+    margin-top: 60px;
+    margin-bottom: 100px;
+    animation: fadein 1s;
+    -webkit-animation: fadein 1s;
+    #activity_detail_table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: separate;
+        border-spacing: 0px 15px;
+        tr {
+            .td1 {
+                width: 40%;
+                text-align: right;
+                padding-right: 10px;
+                font-weight: bold;
+            }
+            .td2 {
+                width: box-sizing;
+                text-align: left;
+            }
+        }
+    }
+}

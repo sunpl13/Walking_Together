@@ -6,7 +6,7 @@
     padding: 0;
     margin: 0 auto;
     position: absolute;
-    bottom: 25px;
+    //bottom: 25px;
     text-align: center;
     * {
         display: inline-block;
@@ -42,5 +42,39 @@
         * {
             color: $fontWhite;
         }
+    }
+}
+
+#noticeList {
+    margin-top: 60px;
+    padding-bottom: 130px;
+    text-align: center;
+    #searchWrap {
+        width: 80%;
+        height: max-content;
+        #input {
+            width: 80%;
+            height: 30px;
+            border-radius: 10px;
+            padding-left: 5px;
+            font-size: $medium;
+        }
+        #icon {
+            display: inline-block;
+            margin: 0 auto;
+            width: 10%;
+            height: 20px;
+            line-height: 30px;
+            color: $fontGray;
+        }
+    }
+}
+
+#notice {
+    width: 90%;
+    margin-top: 80px;
+    margin-bottom: 70px;
+    * {
+        width: 90%;
     }
 }

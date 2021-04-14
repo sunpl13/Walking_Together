@@ -1,10 +1,15 @@
 @import './valiables.scss';
 
+body {
+    background-color: $white;
+}
+
 #app {
     width: 100%;
     height: 100%;
     padding: 0;
     position: absolute;
+    background-color: $white;
 }
 
 #menu {
@@ -53,7 +58,13 @@
 }
 
 .user_btn_blue {
-    @include button( $BackSkyBlue, $white, $BackBlue, 60px, 28px );
+    @include button( $BackSkyBlue, $white, $BackSkyBlue, 60px, 28px );
+    text-decoration: none;
+    display: inline-block;
+}
+
+.user_btn_gray {
+    @include button( $BackGray, $fontGray, $tableBorder, 60px, 28px );
     text-decoration: none;
     display: inline-block;
 }

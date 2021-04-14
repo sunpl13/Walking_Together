@@ -1,0 +1,62 @@
+@import './valiables.scss';
+
+#homeWrap {
+    width: 100%;
+    text-align: center;
+    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    #logo {
+        width: 80%;
+        height: 300px;
+        line-height: 300px;
+        display: inline-block;
+        margin: 20px auto;
+    }
+    #noticeWrap {
+        width: 80%;
+        margin: 30px auto;
+        padding-bottom: 100px;
+        #noticeTop {
+            width: 100%;
+            height: max-content;
+            position: relative;
+            display: inline-block;
+            padding: 5px 0px;
+            border-bottom: 3px solid $tableBorder;
+            #noticeTitle {
+                float: left;
+                font-size: $x-large;
+                font-weight: bold;
+            }
+            .user_btn_blue {
+                float: right;
+            }
+        }
+        #noticeTable {
+            width: 100%;
+            position: relative;
+            tbody {
+                display:block;
+                border-collapse: separate;
+                
+                tr {
+                    width: 100%;
+                    display: inline-block;
+                    #title {
+                        float: left;
+                        font-weight: bold;
+                    }
+                    #writer {
+                        float: left;
+                    }
+                    #date {
+                        float: right;
+                    }
+                }
+            }
+            #body1, #body2, #body3 {
+                border-top: 1px solid $tableBorder;
+            }
+        }
+    }
+}

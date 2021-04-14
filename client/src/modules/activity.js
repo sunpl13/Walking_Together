@@ -2,6 +2,7 @@ import axios from 'axios';
 
 //initial state
 const INIT_ACTIVITY_STATE = {
+    partner:[],
     activity:{
         partner:[],
         activity: 0,
@@ -24,10 +25,10 @@ const FINISHACTIVITY = "FINISHACTIVITY";
 export const getPartner = (
     stdId
     ) => async(dispatch) => {
-    await axios.get(`/activity/create/stdId=${stdId}`)
+    await axios.get(`/activity/create?stdId=${stdId}`)
     .then((res) => {
         if(res.data.status===400) {
-            return alert(res.data.message)
+            return alert(res.data.message);
         } else {
             dispatch({
                 type: GETPARTNER,
@@ -76,18 +77,12 @@ export const getLocation = (
 
 //활동 종료
 export const finishActivity = (
-    activityId, 
-    map, 
-    endTime, 
-    distance, 
-    finishPhoto
+    formData,  //activityId, map, endTime, distance, endPhoto
     ) => async(dispatch) => {
-        await axios.post(`/activity/finish`, {
-            activityId: activityId,
-            map: map,
-            endTime: endTime,
-            distance: distance,
-            finishPhoto: finishPhoto,
+        await axios.post(`/activity/finish`, formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
         }).then((res) => {
             alert(res.data.message);
         }).catch((err) => alert(err));
@@ -101,6 +96,12 @@ export const finishActivity = (
 //reducer
 const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
     switch(action.type) {
+
+        case GETPARTNER:
+            return { 
+                ...state, 
+                partner: action.payload 
+            }
         
         case CREATEACTIVITY:
             return {

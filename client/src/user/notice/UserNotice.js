@@ -3,11 +3,15 @@ import {FaSearch} from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
 import {getNoticeList} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import NoticeDetail from './NoticeDetail';
+import TopBar from '../../utils/TopBar';
 
 
 function UserNotice() {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     let noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
 
     //page
@@ -38,12 +42,16 @@ function UserNotice() {
         setkeyword(e.target.value)
     }
 
+    //param function
+    function goBack() {
+        history.push('/home')
+    }
 
     useEffect(() => {
         return (
             dispatch(getNoticeList(current+1,keyword))  //공지사항 목록 받아오기
         )
-    }, [dispatch, current])
+    }, [dispatch, current, keyword])
 
 //화면에 출력하기 위해 map 함수를 활용
 let homeNotice = noticeList.map(
@@ -56,13 +64,21 @@ let homeNotice = noticeList.map(
 )
 
 
-
-
     return (
-        <div>
-            <div>
-                <input type = "text" onKeyUp = {enterKey} onChange = {ChangeKeywordHandler}></input>
-                <FaSearch onClick = {Search}/>
+        <div id="noticeList">
+            <TopBar
+            left="back" 
+            center={{title:"공지사항", data:null}} 
+            right="null" 
+            lfunc={goBack}
+            rfunc={null}
+            size="small"/>
+
+            <div id="searchWrap">
+                <input id="input" type = "text" onKeyUp = {enterKey} onChange = {ChangeKeywordHandler}></input>
+                <span id="icon">
+                    <FaSearch onClick = {Search}/>
+                </span>
             </div>
                 {homeNotice}
             <ReactPaginate 
