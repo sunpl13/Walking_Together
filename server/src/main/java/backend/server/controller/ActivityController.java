@@ -55,6 +55,7 @@ public class ActivityController {
             partner.put("partnerDetail", a.getPartnerDetail());
             partner.put("partnerDivision", partnerDivision);
             partner.put("partnerBirth", years);
+            partner.put("partnerId",a.getPartnerId());
 
             partners.add(partner);
         });
@@ -96,14 +97,15 @@ public class ActivityController {
     // 활동 종료
     @PostMapping("/activity/end")
     public Map<String, Object> endActivity(@RequestParam(value = "endTime") String endTime,
-                                           @RequestParam(value = "map") @Nullable MultipartFile map,
+                                           @RequestParam(value = "map") MultipartFile map,
+                                           @RequestParam(value = "endPhoto") MultipartFile endPhoto,
                                            @RequestParam(value = "activityId") Long activityId,
                                            @RequestParam(value = "distance") Long distance) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime activityEndTime = LocalDateTime.parse(endTime, formatter);
 
-        Long result = activityService.endActivity(activityEndTime, map, activityId, distance);
+        Long result = activityService.endActivity(activityEndTime, endPhoto, activityId, distance, map);
 
         Map<String, Object> response = new HashMap<>();
 
@@ -115,6 +117,22 @@ public class ActivityController {
             response.put("message", "활동이 존재하지 않습니다.");
             return response;
         }
+        if (result == 405L) {
+            response.put("status", 405);
+            response.put("message", "종료 사진이 전송되지 않았습니다.");
+            return response;
+        }
+        if (result == 406L) {
+            response.put("status", 405);
+            response.put("message", "맵 경로 사진이 전송되지 않았습니다.");
+            return response;
+        }
+        if (result == 407L) {
+            response.put("status", 407);
+            response.put("message", "이미 종료된 활동입니다.");
+            return response;
+        }
+
         if(result == 500L) {
             response.put("status", 500);
             response.put("message", "최소 활동 시간을 초과하지 못했습니다.");

@@ -30,7 +30,7 @@ class UserServiceTest {
                 .email("rhdtn311@gmail.com")
                 .pNumber("01010102020")
                 .build();
-        admin.addMemberRole(MemberRole.ADMIN);
+        admin.addMemberRole(MemberRole.ROLE_ADMIN);
 
         userRepository.save(admin);
     }

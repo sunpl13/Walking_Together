@@ -202,7 +202,7 @@ public class MyPageController {
 
         Long partnerIdU = Long.parseLong(partnerId);
 
-        String partnerBirthU = partnerBirth.replace("-","/");
+        String partnerBirthU = partnerBirth.replace("-","");
 
         MyPagePartnerDTO updatePartner = MyPagePartnerDTO.builder()
                 .partnerId(partnerIdU)

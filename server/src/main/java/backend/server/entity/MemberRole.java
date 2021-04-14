@@ -1,5 +1,5 @@
 package backend.server.entity;
 
 public enum MemberRole {
-    USER, ADMIN
+    ROLE_USER, ROLE_ADMIN
 }
