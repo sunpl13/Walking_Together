@@ -43,16 +43,19 @@ public class PartnerSearchRepositoryImpl extends QuerydslRepositorySupport imple
         if(partnerDetail != null) {
             switch (partnerDetail) {
                 case "d":
-                    conditionBuilder.and(partner.partnerDetail.eq("disability"));
+                    conditionBuilder.and(partner.partnerDetail.eq("d"));
                     break;
                 case "p":
-                    conditionBuilder.and(partner.partnerDetail.eq("pregnant"));
+                    conditionBuilder.and(partner.partnerDetail.eq("p"));
                     break;
                 case "c":
-                    conditionBuilder.and(partner.partnerDetail.eq("child"));
+                    conditionBuilder.and(partner.partnerDetail.eq("c"));
                     break;
                 case "o":
-                    conditionBuilder.and(partner.partnerDetail.eq("ordinary"));
+                    conditionBuilder.and(partner.partnerDetail.eq("o"));
+                    break;
+                case "e":
+                    conditionBuilder.and(partner.partnerDetail.eq("e"));
                     break;
             }
         }

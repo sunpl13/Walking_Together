@@ -18,15 +18,33 @@ const UserActivity = () => {
     ]
 
     const search = () => {
-        axios.get(`/admin/activityInfo?keyword=${keyword}&from=${from}&to=${to}&activityDivision=${activityDivision}`)
-        .then((response) => {
-            if(response.data.status===200) {
-                setRes(response.data.data)
+        if(from===""||to==="") {
+            alert("조회 기간을 지정해주세요.")
+        } else {
+            if(keyword==="") {
+                axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`)
+                .then((response) => {
+                    if(response.data.data.length!==0) {
+                        setRes(response.data.data)
+                    }
+                    else {
+                        setRes([])
+                        alert("결과가 없습니다.")
+                    }
+                })
+            } else {
+                axios.get(`/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`)
+                .then((response) => {
+                    if(response.data.data.length!==0) {
+                        setRes(response.data.data)
+                    }
+                    else {
+                        setRes([])
+                        alert("결과가 없습니다.")
+                    }
+                })
             }
-            else {
-                alert("에러가 발생했습니다.")
-            }
-        })
+        }
     }
 
     const excel = () => {
@@ -75,7 +93,7 @@ const UserActivity = () => {
 
                 <div id="filterWrap">
                     <label>활동 구분</label>
-                    <select value={activityDivision} onChange={changeActivityDivision}>
+                    <select onChange={changeActivityDivision} defaultValue='2' value={activityDivision}>
                         {divisionOption.map((division) => {
                             return <option key={division.code} value={division.code}>{division.name}</option>
                         })}
@@ -96,9 +114,9 @@ const UserActivity = () => {
                             <th id="thId">학번</th>
                             <th id="thDept">학과</th>
                             <th id="thDate">활동일</th>
-                            <th id="thTime">시작시간</th>
-                            <th id="thTime">종료시간</th>
-                            <th id="thDistance">km(시간)</th>
+                            <th id="thTime">시작 시간</th>
+                            <th id="thTime">종료 시간</th>
+                            <th id="thDistance">활동 거리</th>
                             <th id="thName">파트너</th>
                             <th id="thButton">상세보기</th>
                         </tr>
@@ -108,16 +126,20 @@ const UserActivity = () => {
                         res.map((data, index)=>{
                             return (
                                 <tr key={data.activityId}>
-                                    <td>{index}</td>
+                                    <td>{index+1}</td>
                                     <td>{data.stdName}</td>
                                     <td>{data.stdId}</td>
                                     <td>{data.department}</td>
                                     <td>{data.activityDate}</td>
-                                    <td>{data.startTime}</td>
-                                    <td>{data.endTime}</td>
-                                    <td>{data.totalDistance}km ({(data.totalDistance)/3})</td>
+                                    <td>{data.startTime.slice(6,8)+":"+data.startTime.slice(8,10)+":"+data.startTime.slice(10,12)}</td>
+                                    <td>
+                                        {data.endTime!==null ? 
+                                        data.endTime.slice(6,8)+":"+data.endTime.slice(8,10)+":"+data.endTime.slice(10,12)
+                                        : "-"}
+                                    </td>
+                                    <td>{data.totalDistance}km</td>
                                     <td>{data.partnerName}</td>
-                                    <td><Link to={`admin/user-activity-detail?activityId=${data.activityId}`}>상세보기</Link></td>
+                                    <td><Link to={`/admin/user-activity-detail/${data.activityId}`}>상세보기</Link></td>
                                 </tr>
                             )
                         })

@@ -23,7 +23,8 @@ const PartnerInfo = () => {
         axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`)
         .then((res) => {
             if(res.data.data.length===0) {
-                alert("조회 내용이 없습니다.")
+                alert("조회 결과가 없습니다.")
+                setRes([])
             } else {
                 setRes(res.data.data)
             }

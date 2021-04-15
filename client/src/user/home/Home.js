@@ -1,6 +1,6 @@
 import {React, useEffect} from 'react'
 import { useHistory } from 'react-router';
-import {getNoticeList} from '../../modules/notice';
+import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
 import TopBar from '../../utils/TopBar';
 
@@ -22,9 +22,12 @@ function Home() {
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
     const goDetail = async(noticeId) => {
-        history.push({
-            pathname : '/viewdetail',
-            state : {noticeId : noticeId}
+        await dispatch(selectNotice(noticeId))
+        .then(() => {
+            history.push({
+                pathname : '/viewdetail',
+                state : {noticeId : noticeId}
+            })
         })
     }
 

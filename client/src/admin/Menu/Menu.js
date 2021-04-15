@@ -7,7 +7,11 @@ const Menu = () => {
 
     return (
         <div>
-            <Link to='/admin'><img src="" id="logo" alt="로고이미지"/></Link>
+            <div id="logoWrap">
+                {/* <Link to='/admin'><img src="" id="logo" alt="로고이미지"/></Link> */}
+                <p id="logo">Walking Together</p>
+            </div>
+
             <div id="link">
                 <ul>
                     <li><Link to='/admin/user-info'>회원 정보</Link></li>

@@ -13,11 +13,11 @@ const UserInfo = () => {
     const search = () => {
         axios.get(`/admin/userinfo?keyword=${keyword}`)
         .then((response) => {
-            if(response.data.status===200) {
+            if(response.data.length!==0) {
                 setRes(response.data.data)
             }
             else {
-                alert("에러가 발생했습니다.")
+                setRes([]);
             }
         })
     }

@@ -7,6 +7,7 @@ import { logoutHandler } from '../modules/user';
 import Menu from './Menu/Menu';
 import UserInfo from './User-info/UserInfo';
 import UserActivity from './User-activity/UserActivity';
+import UserActivityDetail from './User-activity/UserActivityDatail';
 import PartnerInfo from './Partner-info/PartnerInfo';
 import Notice from './Notice/Notice';
 import NoticeInsert from './Notice/NoticeInsert';
@@ -54,6 +55,7 @@ const Admin = () => {
                     <Route path='/admin/notice-detail/:noticeId' component={NoticeDetail} />
                     <Route path='/admin/user-info' component={UserInfo} />
                     <Route path='/admin/user-activity' component={UserActivity} />
+                    <Route path='/admin/user-activity-detail/:activityId' component={UserActivityDetail} />
                     <Route path='/admin/partner-info' component={PartnerInfo} />
                 </Switch>
             </div>

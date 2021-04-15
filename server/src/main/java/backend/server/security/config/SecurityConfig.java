@@ -56,9 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 세션 사용 x
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and()
-
-                .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
+                .and(
+          
+                .authorizeRequests()    // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
 
                 .antMatchers("/login").permitAll()
 
@@ -71,6 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/*").hasAuthority("ROLE_ADMIN")
 
                 .antMatchers("/auth").permitAll()
+
+                .antMatchers("/admin/*").hasAuthority("ROLE_ADMIN")
 
                 .anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
 

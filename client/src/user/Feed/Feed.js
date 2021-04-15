@@ -53,7 +53,7 @@ function Feed() {
             <div id="feedWrap">
                 <select onChange = {sortHandler}>{sortList}</select>
                 <div id="feedItemsWrap">
-                    {myFeed ? 
+                    {myFeed.length!==0 ? 
                     myFeed.map(
                         (item,index) => (
                             <table key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>
@@ -69,7 +69,7 @@ function Feed() {
                                 </tbody>
                             </table>
                         )
-                    ) : "로딩중"     
+                    ) : "피드 정보가 없습니다."
                 }
                 </div>
             </div>
