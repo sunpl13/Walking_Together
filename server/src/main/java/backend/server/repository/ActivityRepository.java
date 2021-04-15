@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long>, ActivitySearchRepository {
@@ -15,4 +16,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, Activ
     @Query("select p.partnerName, p.partnerDetail, p.partnerBirth, p.partnerId from Partner p left join p.member where p.member.stdId = :stdId")
     List<List<Object>> getPartnerList(@Param("stdId") String stdId);
 
+    Optional<Activity> findActivityByPartner_PartnerId(Long partnerId);
 }
