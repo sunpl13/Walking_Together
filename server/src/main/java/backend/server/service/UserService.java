@@ -46,7 +46,8 @@ public class UserService {
                 .pNumber(userDto.getPNumber())
                 .distance(0L)
                 .build();
-        member.addMemberRole(MemberRole.USER);
+
+        member.addMemberRole(MemberRole.ROLE_USER);
 
         return userRepository.save(member).getStdId();
     }

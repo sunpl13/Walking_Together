@@ -22,6 +22,7 @@ public class FileUploadService {
     private final MemberProfilePicturesRepository memberProfilePicturesRepository;
     private final PartnerPhotosRepository partnerPhotosRepository;
     private final ActivityCheckImagesRepository activityCheckImagesRepository;
+    private final MapCaptureRepository mapCaptureRepository;
     private final S3Service s3Service;
 
     // 공지사항 이미지 파일을 DB에 저장
@@ -42,7 +43,7 @@ public class FileUploadService {
     public String uploadImage(MultipartFile file, Long noticeId) {
 
         // 파일 이름을 유니크하게 변경
-        String fileName = createFileName(file.getOriginalFilename());
+        String fileName = "Notice_Image_" + createFileName(file.getOriginalFilename());
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
@@ -73,7 +74,7 @@ public class FileUploadService {
     // 첨부파일 S3서버에 업로드
     public String uploadAttached(MultipartFile file, Long noticeId) {
         // 파일 이름을 유니크하게 변경
-        String fileName = createFileName(file.getOriginalFilename());
+        String fileName = "Notice_Attached_File_" + createFileName(file.getOriginalFilename());
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
@@ -89,8 +90,8 @@ public class FileUploadService {
 
     // 파일이름을 + 시간으로 유니크하게 생성
     private String createFileName(String originalFileName) {
-        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
-        String fileName = originalFileName + "-" + date.format(new Date());
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        String fileName =date.format(new Date()) + "-" + originalFileName;
         return fileName;
     }
 
@@ -114,13 +115,6 @@ public class FileUploadService {
         });
     }
 
-//    // 파일 수정
-//    public void updateFile(Long noticeId) {
-//
-//        List<NoticeImages> images = noticeImagesRepository.findNoticeImagesByNoticeId(noticeId);
-//        List<NoticeAttachedFiles> files = noticeAttachedFilesRepository.findNoticeAttachedFilesByNoticeId(noticeId);
-//    }
-
     // 프로필 사진을 DB에 저장
     public void saveProfilePictures(String fileName, String stdId) {
 
@@ -138,7 +132,7 @@ public class FileUploadService {
     // 프로필 사진을 S3서버에 업로드
     public String uploadProfilePictures(MultipartFile file, String stdId) {
         // 파일 이름을 유니크하게 변경
-        String fileName = createFileName(file.getOriginalFilename());
+        String fileName = "User_Profile_Image_" + createFileName(file.getOriginalFilename());
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
@@ -178,7 +172,7 @@ public class FileUploadService {
     public String uploadPartnerPhoto(MultipartFile file, Long partnerId) {
 
         // 파일 이름을 유니크하게 변경
-        String fileName = createFileName(file.getOriginalFilename());
+        String fileName = "Partner_Profile_Image_" + createFileName(file.getOriginalFilename());
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
@@ -219,9 +213,9 @@ public class FileUploadService {
 
         String fileName = createFileName(file.getOriginalFilename());
         if (checkFile.equals("start")) {
-            fileName = "start " + fileName;
+            fileName = "Activity_Start_" + fileName;
         } else if (checkFile.equals("end")) {
-            fileName = "end " + fileName;
+            fileName = "Activity_End_" + fileName;
         }
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
@@ -229,6 +223,37 @@ public class FileUploadService {
         try (InputStream inputStream = file.getInputStream()) {
             s3Service.uploadFile(inputStream, objectMetadata, fileName);
             saveActivityCheckImage(fileName, activityId);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
+                    file.getOriginalFilename()));
+        } return s3Service.getFileUrl(fileName);
+    }
+
+    // 활동 이미지 사진을 DB에 저장
+    public void saveMapCapture(String fileName, Long activityId) {
+
+        String fileUrl = s3Service.getFileUrl(fileName);
+
+        MapCapture entity = MapCapture.builder()
+                .activityId(activityId)
+                .mapCaptureUrl(fileUrl)
+                .mapCaptureName(fileName)
+                .build();
+
+        mapCaptureRepository.save(entity);
+    }
+
+    // 활동 이미지 파일을 S3서버에 업로드
+    public String uploadMapCapture(MultipartFile file, Long activityId) {
+
+        String fileName = "Activity_Captured_Image_" + createFileName(file.getOriginalFilename());
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(file.getContentType());
+
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+            saveMapCapture(fileName, activityId);
         } catch (IOException e) {
             throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
                     file.getOriginalFilename()));

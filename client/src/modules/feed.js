@@ -30,7 +30,10 @@ const SELECTFEED = "SELECTFEED";
 
 //action
 export const getFeedList = (stdId, sort) => async(dispatch) => {
-    const res = await axios.get(`/feed?stdId=${stdId}&sort=${sort}`)
+    const res = await axios.get(`/feed?stdId=${stdId}&sort=${sort}`,
+    {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    })
     .then((response) => 
         response.data
     )
@@ -38,12 +41,14 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
 
     dispatch({
         type: GETFEEDLIST,
-        payload: res.data
+        payload: res
     })
 }
 
 export const getCertification = (activityId) => async(dispatch) => {
-    const res = await axios.get(`/feed/certification?activityId=${activityId}`)
+    const res = await axios.get(`/feed/certification?activityId=${activityId}`, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    })
     .then((response) => response.data)
     .catch((err) => alert(err));
 
@@ -57,6 +62,8 @@ export const updateFeed = (activityId, review) => async(dispatch) => {
     await axios.post(`/feed/detail`, {
         activityId: activityId,
         review: review
+    }, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     }).then((response) => console.log(response.data))
     .catch((err) => alert(err));
 
@@ -70,14 +77,16 @@ export const updateFeed = (activityId, review) => async(dispatch) => {
 }
 
 export const selectFeed = (activityId) => async(dispatch) => {
-    const res = await axios.get(`/feed/detail?activityId=${activityId}`)
+    const res = await axios.get(`/feed/detail?activityId=${activityId}`, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    })
     .then((res) => res.data)
     .catch((err) => alert(err));
 
     dispatch({
         type: SELECTFEED,
         activityId,
-        payload: res.data
+        payload: res
     })
 }
 

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Builder
 @Entity
+// 활동 후 경로 캡쳐
 public class MapCapture {
 
 

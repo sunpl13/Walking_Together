@@ -6,11 +6,12 @@ import TopBar from '../../utils/TopBar';
 
 import '../../styles/feed.scss';
 
-const FeedDetail = () => {
+function FeedDetail() {
     const dispatch = useDispatch();
     const history = useHistory();
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
+    
 
     const [reviewState, setReviewState] = useState(false);
     const [review, setReview] = useState("");

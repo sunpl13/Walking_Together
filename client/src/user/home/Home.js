@@ -2,6 +2,7 @@ import {React, useEffect} from 'react'
 import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
+import TopBar from '../../utils/TopBar';
 
 import '../../styles/home.scss';
 
@@ -50,6 +51,13 @@ function Home() {
 
     return (
         <div id="homeWrap">
+            <TopBar
+                left="null" 
+                center={{title:"HOME", data:null}} 
+                right="null" 
+                lfunc={null}
+                rfunc={null}
+                size="small"/>
             <span id="logo">Walking Together</span>
             
             <div id="noticeWrap">
