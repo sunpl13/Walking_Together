@@ -223,4 +223,30 @@ public class MyPageController {
 
         return response;
     }
+
+    // 마이페이지 - 파트너 삭제
+    @GetMapping("/partner/delete")
+    public Map<String, Object> deletePartner(@RequestParam(value = "partnerId") Long partnerId) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        Long result = myPageService.deletePartner(partnerId);
+
+        response.put("status", 200);
+        response.put("message", "파트너를 성공적으로 삭제했습니다.");
+
+        if (result == 400L) {
+            response.put("status", 400);
+            response.put("message", "활동을 가지고 있는 파트너입니다.");
+            return response;
+        }
+
+        if (result == 404L) {
+            response.put("status", 404);
+            response.put("message", "존재하지 않는 파트너입니다.");
+            return response;
+        }
+
+        return response;
+    }
 }

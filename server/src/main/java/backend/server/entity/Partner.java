@@ -47,7 +47,7 @@ public class Partner {
     public void changePartnerDetail(String partnerDetail) {
         this.partnerDetail = partnerDetail;
 
-        if (partnerDetail.equals("ordinary")) {
+        if (partnerDetail.equals("o")) {
             this.partnerDivision = 0;
         } else {
             this.partnerDivision = 1;

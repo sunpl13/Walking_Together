@@ -43,7 +43,7 @@ public class ActivityController {
         List<Map<String, Object>> partners = new ArrayList<>();
         activity.forEach(a -> {
             int partnerDivision;
-            if(a.getPartnerDetail().equals("ordinary")) {
+            if(a.getPartnerDetail().equals("o")) {
                 partnerDivision = 0;
             } else {
                 partnerDivision = 1;
@@ -55,7 +55,7 @@ public class ActivityController {
             partner.put("partnerDetail", a.getPartnerDetail());
             partner.put("partnerDivision", partnerDivision);
             partner.put("partnerBirth", years);
-            partner.put("partnerId", a.getPartnerId());
+            partner.put("partnerId",a.getPartnerId());
 
             partners.add(partner);
         });

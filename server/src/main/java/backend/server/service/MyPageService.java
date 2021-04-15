@@ -2,16 +2,9 @@ package backend.server.service;
 
 import backend.server.DTO.myPage.MyPageMemberDTO;
 import backend.server.DTO.myPage.MyPagePartnerDTO;
-import backend.server.entity.Member;
-import backend.server.entity.MemberProfilePictures;
-import backend.server.entity.Partner;
-import backend.server.entity.PartnerPhotos;
-import backend.server.repository.MemberProfilePicturesRepository;
-import backend.server.repository.PartnerPhotosRepository;
-import backend.server.repository.PartnerRepository;
-import backend.server.repository.UserRepository;
+import backend.server.entity.*;
+import backend.server.repository.*;
 import backend.server.s3.FileUploadService;
-import backend.server.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,9 +21,12 @@ public class MyPageService {
 
     private final UserRepository userRepository;
     private final PartnerRepository partnerRepository;
+    private final ActivityRepository activityRepository;
     private final MemberProfilePicturesRepository memberProfilePicturesRepository;
     private final PartnerPhotosRepository partnerPhotosRepository;
+
     private final FileUploadService fileUploadService;
+
     private final PasswordEncoder passwordEncoder;
 
     // 마이페이지 메인
@@ -172,7 +168,7 @@ public class MyPageService {
 
         int partnerDivision;
 
-        if (partnerDTO.getPartnerDetail().equals("ordinary")) {
+        if (partnerDTO.getPartnerDetail().equals("o")) {
             partnerDivision = 0;
         } else {
             partnerDivision = 1;
@@ -247,5 +243,26 @@ public class MyPageService {
         }
 
         return partnerDTO.getPartnerId();
+    }
+
+    public Long deletePartner(Long partnerId) {
+
+        // 파트너가 활동을 가지고 있으면 삭제 불가능
+        Optional<Activity> activity = activityRepository.findActivityByPartner_PartnerId(partnerId);
+        if (activity.isPresent()) {
+            return 400L;
+        }
+
+        // 존재하지 않는 파트너면 삭제 불가능
+        Optional<Partner> partnerOptional = partnerRepository.findById(partnerId);
+        if (partnerOptional.isEmpty()) {
+            return 404L;
+        }
+
+        Partner partner = partnerOptional.get();
+
+        partnerRepository.delete(partner);
+
+        return partnerId;
     }
 }
