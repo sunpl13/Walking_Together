@@ -32,7 +32,9 @@ function Detail() {
 
             <div id="notice">
                 <div className = "thumbnail">
+                    {view.imageFiles.length!==0 ?
                     <img src = {view.imageFiles} alt="noticeImage"/>
+                    : null }
                 </div>
                 <div className = "content">
                     {view.content}

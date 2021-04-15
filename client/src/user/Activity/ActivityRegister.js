@@ -1,6 +1,6 @@
 import { React, useState, useRef } from 'react'
-import { finishActivity } from '../../modules/activity';
-import { useDispatch } from "react-redux";
+import { createActivity } from '../../modules/activity';
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import TopBar from '../../utils/TopBar';
 
@@ -12,6 +12,7 @@ function ActivityRegister() {
 
     const stdId = localStorage.getItem('user_info')
     const partnerId = localStorage.getItem('partnerId')
+    localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId))
 
     const [picture, setPicture] = useState([])
     const [buttonFirst, setButtonFirst] = useState(true)
@@ -57,7 +58,7 @@ function ActivityRegister() {
         formData.append("partnerId", partnerId);
         formData.append("startPhoto", picture);
 
-        await dispatch(finishActivity(formData))
+        await dispatch(createActivity(formData))
         .then(() => history.push('/activity'))
     }
 

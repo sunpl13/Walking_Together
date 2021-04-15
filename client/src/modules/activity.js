@@ -23,17 +23,19 @@ const FINISHACTIVITY = "FINISHACTIVITY";
 
 //파트너 정보 받아오기
 export const getPartner = (
-    stdId
+    stdId, history
     ) => async(dispatch) => {
     await axios.get(`/activity/create?stdId=${stdId}`)
     .then((res) => {
         if(res.data.status===400) {
-            return alert(res.data.message);
+            alert("파트너 정보가 존재하지 않습니다.")
+            history.push('/partner')
         } else {
             dispatch({
                 type: GETPARTNER,
                 payload: res.data.partners
             })
+            history.push('/createactivity')
         }
     }).catch((err) => alert(err));
 }
@@ -47,16 +49,19 @@ export const createActivity = (
             'content-type': 'multipart/form-data'
         }
     }).then((res) => {
-        alert(res.data.message)
-    }).catch((err) => alert(err))
-
-    dispatch({
-        type: CREATEACTIVITY,
-        payload: {
-            partnerId: formData.get('partnerId'),
-            activityId: res.data.activityId
+        if(res.data.status===200) {
+            dispatch({
+                type: CREATEACTIVITY,
+                payload: {
+                    partnerId: formData.get('partnerId'),
+                    activityId: res.data.activityId
+                }
+            })
+            alert(res.data.message)
+        } else {
+            alert(res.data.message)
         }
-    })
+    }).catch((err) => alert(err))
 }
 
 //위치 정보 업데이트

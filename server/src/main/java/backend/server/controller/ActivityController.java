@@ -55,6 +55,7 @@ public class ActivityController {
             partner.put("partnerDetail", a.getPartnerDetail());
             partner.put("partnerDivision", partnerDivision);
             partner.put("partnerBirth", years);
+            partner.put("partnerId", a.getPartnerId());
 
             partners.add(partner);
         });
