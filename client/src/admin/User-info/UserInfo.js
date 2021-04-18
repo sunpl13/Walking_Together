@@ -11,8 +11,9 @@ const UserInfo = () => {
 
     //button
     const search = () => {
-        axios.get(`/admin/userinfo?keyword=${keyword}`)
-        .then((response) => {
+        axios.get(`/admin/userinfo?keyword=${keyword}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        }).then((response) => {
             if(response.data.length!==0) {
                 setRes(response.data.data)
             }

@@ -11,8 +11,9 @@ const UserActivityDatail = ({match}) => {
     const activityId = match.params.activityId
 
     useEffect(() => {
-        axios.get(`/admin/activityInfo/detail?activityId=${activityId}`)
-        .then((res) => {
+        axios.get(`/admin/activityInfo/detail?activityId=${activityId}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        }).then((res) => {
             if(res.data.status===404) {
                 alert("존재하지 않는 활동입니다.")
             } else {

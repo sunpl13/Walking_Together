@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { CSVLink } from "react-csv";
 
 import '../../styles/admin.scss';
 
@@ -20,8 +21,9 @@ const PartnerInfo = () => {
 
     //button
     const search = () => {
-        axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`)
-        .then((res) => {
+        axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        }).then((res) => {
             if(res.data.data.length===0) {
                 alert("조회 결과가 없습니다.")
                 setRes([])
@@ -29,10 +31,6 @@ const PartnerInfo = () => {
                 setRes(res.data.data)
             }
         })
-    }
-
-    const excel = () => {
-        //엑셀 출력
     }
 
     //change action
@@ -43,6 +41,19 @@ const PartnerInfo = () => {
     const changePartnerDetail = (e) => {
         setPartnerDetail(e.target.value);
     }
+
+    //엑셀 출력
+    const headers = [
+        { label: '이름', key: 'stdName' },
+        { label: '학번', key: 'stdId' },
+        { label: '학과', key: 'department' },
+        { label: '파트너 이름', key: 'partnerName'},
+        { label: '파트너 구분', key: 'partnerDivision'},
+        { label: '파트너 성별', key: 'gender'},
+        { label: '파트너 생년월일', key: 'partnerBirth'},
+        { label: '파트너와의 관계', key: 'relation'}
+      ];
+
 
     return (
         <div>
@@ -59,7 +70,7 @@ const PartnerInfo = () => {
                 <div id="filterWrap">
                     <label>파트너구분</label>
                     <select value={partnerDetail} onChange={changePartnerDetail}>
-                        <option value="">선택</option>
+                        <option value="">전체</option>
                         {detailOption.map((detail) => {
                             return <option key={detail.code} value={detail.code}>{detail.name}</option>
                         })}
@@ -67,7 +78,7 @@ const PartnerInfo = () => {
                 </div>
 
                 <button onClick={search} className="admin_btn_blue" id="r2">조회</button>
-                <button onClick={excel} className="admin_btn_green" id="r1">Excel</button>
+                <CSVLink className="admin_btn_green" id="r1" data={res} headers={headers} filename="partner-info.csv">Excel</CSVLink>
             </div>
             
             <div id="partnerTableWrap" className="wrapper">
