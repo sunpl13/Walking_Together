@@ -15,6 +15,7 @@
     "pdfmake": "^0.1.70",
     "pdfmake-unicode": "0.0.1",
     "react": "^17.0.2",
+    "react-csv": "^2.0.3",
     "react-dom": "^17.0.2",
     "react-html-parser": "^2.0.2",
     "react-icons": "^4.2.0",

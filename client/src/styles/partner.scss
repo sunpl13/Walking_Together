@@ -4,23 +4,28 @@
     -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 
-    width: 80%;
+    width: 90%;
     margin: 30px auto;
-    margin-top: 70px;
+    margin-top: 60px;
     border-collapse: collapse;
     text-align: center;
     #partner_item {
-        border-top: 1px solid $BorderGray;
-        border-bottom: 1px solid $BorderGray;
+        background-color: $white-;
+        border-top: 1px solid $tableBorder-;
+        border-bottom: 1px solid $tableBorder-;
         line-height: 30px;
         text-align: center;
         height: 60px;
         td {
-            color: $fontGray
+            color: $fontGray;
+            padding: 20px 0px;
         }
         .tdName {
             font-weight: bold;
-            background-color: $BackWhiteGray;
+            padding-left: 20px;
+        }
+        .tdGo {
+            padding-right: 20px;
         }
     }
 }
@@ -55,8 +60,8 @@
     animation: fadein 1s;
     -webkit-animation: fadein 1s;
     width: 90%;
-    margin: 30px auto;
     margin-top: 60px;
+    padding-bottom: 80px;
     text-align: center;
     position: relative;
     * {
@@ -69,30 +74,17 @@
         margin-right: 10px;
         font-weight: bold;
     }
-    input, select {
-        width: 170px;
-        height: 28px;
-        padding: 3px 1px;
-        font-size: $medium;
-    }
     #reason_wrap {
         * {
             vertical-align: middle;
         }
         height: auto;
     }
-    textarea {
-        width: 170px;
-        min-height: 60px;
-        padding: 3px 1px;
-        resize: vertical;
-        font-size: $medium;
-    }
     #form_gender {
         width: 170px;
         text-align: center;
         #small_label {
-            width: 61px;
+            width: 55px;
             font-weight: normal;
         }
         .radio {

@@ -49,8 +49,29 @@ const Activity = () => {
     
 
 
+    //F-지도에 표시할 선 생성
+    const createLine = useCallback((map) => {
+        if(window.getLoc1().lat!==0&&window.getLoc2().lat!==0) {
+
+            const polyline = new window.kakao.maps.Polyline({
+                path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
+                    new window.kakao.maps.LatLng(window.getLoc1().lat, window.getLoc1().lon),
+                    new window.kakao.maps.LatLng(window.getLoc2().lat, window.getLoc2().lon)
+                ],
+                strokeWeight: 10, //두께
+                strokeColor: '#FFAE00', //색상
+                strokeOpacity: 0.7, //불투명도
+                strokeStyle: 'solid' //스타일
+            });
+
+            polyline.setMap(map);  //지도에 표시
+        } else {
+            console.log("not ready");
+        }
+    },[])
+
     //F-지도 생성
-    const createMap = (lat, lon) => {
+    const createMap = useCallback((lat, lon) => {
         const container = document.getElementById('map')  //지도 담을 div
         const options = {
             center: new window.kakao.maps.LatLng(lat, lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
@@ -83,28 +104,7 @@ const Activity = () => {
                 clearInterval(interval);  //활동 중지
             }
         }
-    }
-
-    //F-지도에 표시할 선 생성
-    const createLine = useCallback((map) => {
-        if(window.getLoc1().lat!==0&&window.getLoc2().lat!==0) {
-
-            const polyline = new window.kakao.maps.Polyline({
-                path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
-                    new window.kakao.maps.LatLng(window.getLoc1().lat, window.getLoc1().lon),
-                    new window.kakao.maps.LatLng(window.getLoc2().lat, window.getLoc2().lon)
-                ],
-                strokeWeight: 10, //두께
-                strokeColor: '#FFAE00', //색상
-                strokeOpacity: 0.7, //불투명도
-                strokeStyle: 'solid' //스타일
-            });
-
-            polyline.setMap(map);  //지도에 표시
-        } else {
-            console.log("not ready");
-        }
-    },[loc1, loc2])
+    },[createLine])
 
     //F-지도 중심 이동
     const panTo = (map, lat, lon) => {
@@ -167,7 +167,7 @@ const Activity = () => {
             }
         }
         action();
-    }, []);
+    }, [createMap, script]);
 
     return (
         <div className="map">

@@ -8,7 +8,12 @@ const INIT_FEED_STATE = {
         partnerName: "",
         activityDate: ""
     }],
-    certification: {},
+    certification: {
+        data: [],
+        totalTime: "",
+        ordinaryTimes: "",
+        careTimes: ""
+    },
     selectedFeed: {
         activityId: 0,
         activityDate: "",
@@ -41,20 +46,19 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
 
     dispatch({
         type: GETFEEDLIST,
-        payload: res
+        payload: res.data
     })
 }
 
-export const getCertification = (activityId) => async(dispatch) => {
-    const res = await axios.get(`/feed/certification?activityId=${activityId}`, {
+export const getCertification = (stdId, from, to) => async(dispatch) => {
+    const res = await axios.post(`/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    })
-    .then((response) => response.data)
-    .catch((err) => alert(err));
+    }).then((res) => res
+    ).catch((err) => alert(err));
 
     dispatch({
         type: GETCERTIFICATION,
-        payload: res
+        payload: res.data
     })
 }
 
@@ -86,7 +90,7 @@ export const selectFeed = (activityId) => async(dispatch) => {
     dispatch({
         type: SELECTFEED,
         activityId,
-        payload: res
+        payload: res.data
     })
 }
 

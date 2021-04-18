@@ -4,6 +4,8 @@ import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
 import TopBar from '../../utils/TopBar';
 
+import Couple_Flatline from '../../source/Couple_Flatline.svg';
+
 import '../../styles/home.scss';
 
 function Home() {
@@ -50,7 +52,7 @@ function Home() {
     )
 
     return (
-        <div id="homeWrap">
+        <div id="home">
             <TopBar
                 left="null" 
                 center={{title:"HOME", data:null}} 
@@ -58,16 +60,20 @@ function Home() {
                 lfunc={null}
                 rfunc={null}
                 size="small"/>
-            <span id="logo">Walking Together</span>
-            
-            <div id="noticeWrap">
-                <div id="noticeTop">
-                    <span id="noticeTitle"># 공지사항</span>
-                    <button className="user_btn_blue" onClick = {() => {history.push('/noticelist')}}> 더보기</button>
+
+            <div id="homeWrap">
+                <span id="logo">Walking Together</span>
+                <img src={Couple_Flatline} width="250" alt="logo"/>
+                
+                <div id="noticeWrap">
+                    <div id="noticeTop">
+                        <span id="noticeTitle"># 공지사항</span>
+                        <button className="user_btn_blue" onClick = {() => {history.push('/noticelist')}}> 더보기</button>
+                    </div>
+                    <table id="noticeTable">
+                        {homeNotice}
+                    </table>
                 </div>
-                <table id="noticeTable">
-                    {homeNotice}
-                </table>
             </div>
         </div>
     )

@@ -39,7 +39,6 @@ function Feed() {
         }
     }
 
-    
     return (
         <div>
             <TopBar
@@ -51,9 +50,9 @@ function Feed() {
             size="small"/>
 
             <div id="feedWrap">
-                <select onChange = {sortHandler}>{sortList}</select>
+                <select className="inputSelect" onChange = {sortHandler}>{sortList}</select>
                 <div id="feedItemsWrap">
-                    {myFeed.length!==0 ? 
+                    {myFeed.length!==undefined ? 
                     myFeed.map(
                         (item,index) => (
                             <table key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>

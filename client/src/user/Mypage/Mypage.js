@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
 import {useDispatch} from 'react-redux'
 import axios from 'axios';
+
 import { CgProfile } from "react-icons/cg";
+import { IoIosArrowForward } from "react-icons/io";
+
 import { department } from "../../utils/options";
 import { getPartnerBriefInfo } from '../../modules/partner';
 import TopBar from '../../utils/TopBar';
@@ -167,15 +170,15 @@ const Mypage = () => {
 
                     <form action="/mypage/change" id="mypageForm" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
 
-                        <div className="mypageInputWrap">
+                        <div className="mypageInputWrap" id="profileImage">
                             <label>프로필 이미지</label>
-                            <input type="file" name="profilePicture" accept="image/*" onChange={(e) => setProfilePicture(e.target.files)}></input>
+                            <input className="inputFile" type="file" name="profilePicture" accept="image/*" onChange={(e) => setProfilePicture(e.target.files)}></input>
                         </div>
                         <br />
 
                         <div className="mypageInputWrap">
                             <label>학과</label>
-                            <select value={dept} name="department" onChange = {(e) => setDept(e.target.value)}>
+                            <select className="inputSelect" value={dept} name="department" onChange = {(e) => setDept(e.target.value)}>
                                 {department.map((dept) => {
                                     return (<option key={dept.label} value={dept.value}>{dept.label}</option>)
                                 })}
@@ -185,13 +188,13 @@ const Mypage = () => {
 
                         <div className="mypageInputWrap">
                             <label>비밀번호</label>
-                            <input type="password" name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)}></input>
+                            <input className="input" type="password" name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)}></input>
                         </div>
                         <br />
                         
                         <div className="mypageInputWrap">
                             <label>비밀번호 확인</label>
-                            <input type="password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}></input>
+                            <input className="input" type="password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}></input>
                         </div>
                         <br />
                     </form>
@@ -199,13 +202,24 @@ const Mypage = () => {
             }
 
             {updateState===false ?
-            <div id="mypageList">
-                <span onClick={goPartner}>파트너 정보</span><br/>
-                <Link to='/certification'>인증서 발급</Link><br/>
-                <span onClick={() => setUpdateState(true)}>회원 정보 수정</span><br/>
-                <Link to='/secession'>회원 탈퇴</Link><br/>
-                <span onClick = {logout}>로그아웃</span>
-            </div>
+            <table id="mypageList">
+                <tr onClick={goPartner}>
+                    <td>파트너 정보</td>
+                    <IoIosArrowForward/>
+                </tr>
+                <tr onClick={() => history.push('/certification')}>
+                    <td>인증서 발급</td>
+                    <IoIosArrowForward/>
+                </tr>
+                <tr onClick={() => setUpdateState(true)}>
+                    <td>회원 정보 수정</td>
+                    <IoIosArrowForward/>
+                </tr>
+                <tr id="logout" onClick = {logout}>
+                    <td>로그아웃</td>
+                    <IoIosArrowForward/>
+                </tr>
+            </table>
             : null}
         </div>
     )

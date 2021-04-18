@@ -81,7 +81,7 @@ const PartnerUpdate = ({match}) => {
             
             <form action="/partner/change" className="partner_form" id={ref} encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <label>파트너 구분</label>
-                <select value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
+                <select className="inputSelect" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
                     <option>선택</option>
                     <option value="d">장애인</option>
                     <option value="p">임산부</option>
@@ -92,7 +92,7 @@ const PartnerUpdate = ({match}) => {
                 <br/>
 
                 <label>이름</label>
-                <input type="text" value={partnerName||''} onChange={(e) => setPartnerName(e.target.value)}/>
+                <input className="input" type="text" value={partnerName||''} onChange={(e) => setPartnerName(e.target.value)}/>
                 <br/>
 
                 <label>성별</label>
@@ -105,21 +105,21 @@ const PartnerUpdate = ({match}) => {
                 <br/>
 
                 <label>생년월일</label>
-                <input type="date" value={(partnerBirth).replaceAll("/", "-")||''} onChange={(e) => setPartnerBirth(e.target.value)}></input>
+                <input className="inputDate" type="date" value={(partnerBirth).replaceAll("/", "-")||''} onChange={(e) => setPartnerBirth(e.target.value)}></input>
                 <br/>
 
                 <label>관계</label>
-                <input type="text" value={relationship||''} onChange={(e) => setRelationship(e.target.value)}/>
+                <input className="input" type="text" value={relationship||''} onChange={(e) => setRelationship(e.target.value)}/>
                 <br/>
 
                 <div id="reason_wrap">
                     <label>선정이유</label>
-                    <textarea onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
+                    <textarea className="inputText" onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
                 </div>
                 <br/>
 
                 <label>파트너 사진</label>
-                <input type="file" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
+                <input className="inputFile" type="file" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
                 <br/>
 
                 <input type="hidden" name="partnerId" value={partnerId}/>

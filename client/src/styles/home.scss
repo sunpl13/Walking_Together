@@ -7,10 +7,15 @@
 	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
     #logo {
         width: 80%;
-        height: 300px;
-        line-height: 300px;
+        height: 50px;
+        line-height: 50px;
         display: inline-block;
-        margin: 20px auto;
+        margin: 0px auto;
+        margin-top: 80px;
+        font-size: $xx-large;
+    }
+    img {
+        margin-bottom: 30px;
     }
     #noticeWrap {
         width: 80%;
@@ -22,7 +27,7 @@
             position: relative;
             display: inline-block;
             padding: 5px 0px;
-            border-bottom: 3px solid $tableBorder;
+            border-bottom: 3px solid $tableBorder-;
             #noticeTitle {
                 float: left;
                 font-size: $x-large;
@@ -30,6 +35,11 @@
             }
             .user_btn_blue {
                 float: right;
+                font-size: $small;
+                width: 60px;
+                height: 28px;
+                line-height: 28px;
+                padding: 0%;
             }
         }
         #noticeTable {
@@ -55,7 +65,7 @@
                 }
             }
             #body1, #body2, #body3 {
-                border-top: 1px solid $tableBorder;
+                border-top: 1px solid $tableBorder-;
             }
         }
     }

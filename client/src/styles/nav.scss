@@ -2,7 +2,7 @@
 
 nav {
     width: 96%;
-    background-color: $BackSkyBlue;
+    background: linear-gradient( 180deg, $BackSkyBlue-, $BackSkyBlue);
     border-radius: 10px 10px 0 0;
     padding-top: 5px;
     padding-bottom: 15px;
