@@ -28,6 +28,7 @@ import CreateActivity from './user/Activity/CreateActivity';
 import Ranking from './user/Ranking/Ranking';
 import LandingPage from './user/home/LandingPage';
 import Mapp from './user/Map/Mapp';
+import Certification from './user/Certification/Certification';
 import CertificationAction from './user/Certification/CertificationAction';
 import Feed from './user/Feed/Feed';
 import FeedDetail from './user/Feed/FeedDetail'
@@ -65,6 +66,7 @@ function App() {
         <Route path="/partner-insert" component={Auth(PartnerInsert,true)}/>
         <Route path="/partner-update/:partnerId" component={Auth(PartnerUpdate,true)}/>
         <Route path="/partner-datail/:partnerId" component={Auth(PartnerDetail,true)}/>
+        <Route path="/certification" component={Auth(Certification,true)}/>
         <Route path="/certification-action" component={Auth(CertificationAction,true)}/>
         <Route path="/ranking" component={Auth(Ranking,true)}/>
         <Route path= "/activitystart" component={ActivityStart}/>

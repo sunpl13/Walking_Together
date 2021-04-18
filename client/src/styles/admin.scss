@@ -43,6 +43,9 @@
 #filter {
     text-align: center;
     margin: 5px auto;
+    * {
+        text-decoration: none;
+    }
     #r1 {
         position: absolute;
         right: 20px;
@@ -328,7 +331,7 @@
 }
 
 .admin_btn_green {
-    @include button( $BackExcel, $fontWhite, $BorderExcel, 60px, 28px );
+    @include button( $BackExcel, $fontWhite, $BorderExcel, 60px, 26px );
 }
 .admin_btn_green:hover {
     background-color: $BorderExcel;

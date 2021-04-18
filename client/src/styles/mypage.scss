@@ -2,6 +2,7 @@
 
 #profileWrap {
     text-align: center;
+    padding-bottom: 100px;
 
     #profileTable, #mypageList {
         -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -9,12 +10,10 @@
     }
     #profileTable {
         margin: 0 auto;
-        margin-top: 60px;
-        margin-bottom: 30px;
-        width: 90%;
-        padding: 20px 0px;
-        border-radius: 20px;
-        box-shadow: 2px 2px 2px 2px $BorderGray;
+        margin-top: 40px;
+        margin-bottom: 10px;
+        width: 100%;
+        padding: 40px 0px;
         .td1 {
             width: 40%;
         }
@@ -25,15 +24,25 @@
         }
     }
     #mypageList {
-        text-align: center;
-        width: max-content;
-        * {
-            text-decoration: none;
-            color: $fontGray;
+        text-align: left;
+        width: 100%;
+        border-collapse: collapse;
+        tr{
+            background-color: $tableBack2;
             font-size: medium;
             font-weight: bold;
-            display: inline-block;
-            margin: 12px 0px;
+            border-top: 1px solid $tableBorder-;
+            * {
+                padding: 20px 40px;
+                text-decoration: none;
+                color: $fontGray;
+            }
+        }
+        #logout {
+            border-bottom: 1px solid $tableBorder-;
+        }
+        svg {
+            float: right;
         }
     }
     #mypageUpdate {
@@ -51,11 +60,6 @@
                 font-weight: bold;
                 text-align: right;
                 padding-right: 5px;
-            }
-            input, select {
-                width: 170px;
-                height: 28px;
-                font-size: $medium;
             }
         }
     }

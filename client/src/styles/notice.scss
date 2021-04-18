@@ -49,6 +49,8 @@
     margin-top: 60px;
     padding-bottom: 130px;
     text-align: center;
+    -webkit-animation: fadein 1s;
+            animation: fadein 1s;
     #searchWrap {
         width: 80%;
         height: max-content;

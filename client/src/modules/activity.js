@@ -46,7 +46,7 @@ export const getPartner = (
 export const createActivity = (
     formData //stdId, partnerId, startPhoto formdate로 묶어서 보내기
 ) => async(dispatch) => {
-    const res = await axios.post(`/activity/createActivity`, formData, {
+    await axios.post(`/activity/createActivity`, formData, {
         headers: {
             'content-type': 'multipart/form-data',
             'Authorization' : `Bearer ${localStorage.getItem("token")}`

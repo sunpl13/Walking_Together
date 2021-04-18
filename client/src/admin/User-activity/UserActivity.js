@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import { CSVLink } from "react-csv";
+
 
 const UserActivity = () => {
     const [res,setRes] = useState([]);
@@ -12,7 +14,6 @@ const UserActivity = () => {
     const [activityDivision, setActivityDivision] = useState(0);
 
     const divisionOption = [
-        {code: 2, name: "전체 걷기" },
         {code: 0, name: "일반 걷기" },
         {code: 1, name: "돌봄 걷기" }
     ]
@@ -22,8 +23,9 @@ const UserActivity = () => {
             alert("조회 기간을 지정해주세요.")
         } else {
             if(keyword==="") {
-                axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`)
-                .then((response) => {
+                axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                }).then((response) => {
                     if(response.data.data.length!==0) {
                         setRes(response.data.data)
                     }
@@ -33,8 +35,9 @@ const UserActivity = () => {
                     }
                 })
             } else {
-                axios.get(`/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`)
-                .then((response) => {
+                axios.get(`/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                }).then((response) => {
                     if(response.data.data.length!==0) {
                         setRes(response.data.data)
                     }
@@ -45,10 +48,6 @@ const UserActivity = () => {
                 })
             }
         }
-    }
-
-    const excel = () => {
-        //엑셀 출력
     }
 
     //change action
@@ -67,6 +66,19 @@ const UserActivity = () => {
     const changeActivityDivision = (e) => {  //ativityDivision change
         setActivityDivision(e.target.value)
     }
+console.log(res)
+    //엑셀 출력
+    const headers = [
+        { label: '이름', key: 'stdName' },
+        { label: '학번', key: 'stdId' },
+        { label: '학과', key: 'department' },
+        { label: '파트너 이름', key: 'partnerName'},
+        { label: '활동 아이디', key: 'activityId'},
+        { label: '활동 날짜', key: 'activityDate'},
+        { label: '시작 시간', key: 'startTime'},
+        { label: '종료 시간', key: 'endTime'},
+        { label: '총 거리', key: 'totalDistance'}
+    ];
 
     return (
         <div>
@@ -94,13 +106,14 @@ const UserActivity = () => {
                 <div id="filterWrap">
                     <label>활동 구분</label>
                     <select onChange={changeActivityDivision} defaultValue='2' value={activityDivision}>
+                        <option value='2'>전체</option>
                         {divisionOption.map((division) => {
                             return <option key={division.code} value={division.code}>{division.name}</option>
                         })}
                     </select>
                 </div>
 
-                <button onClick={excel} className="admin_btn_green" id="r1">excel</button>
+                <CSVLink className="admin_btn_green" id="r1" data={res} headers={headers} filename="activity-info.csv">Excel</CSVLink>
             </div>
             
             

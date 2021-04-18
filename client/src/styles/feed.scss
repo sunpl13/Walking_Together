@@ -6,8 +6,9 @@
     margin-top: 70px;
     margin-bottom: 100px;
    
-    select {
-        height: 28px;
+    .inputSelect {
+        width: 100px !important;
+        height: 40px !important;
         font-size: $medium;
     }
     #feedItemsWrap {
@@ -15,8 +16,10 @@
 	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 
         table {
+            color: $fontGray;
             width: 100%;
-            border: 1px solid $tableBorder;
+            border-top: 1px solid $tableBorder-;
+            border-bottom: 1px solid $tableBorder-;
             margin: 20px auto;
             border-collapse: collapse;
             border-spacing: 0px;
@@ -33,7 +36,7 @@
                 }
             }
             #tr2 {
-                line-height: 25px;
+                line-height: 30px;
                 #distance {
                     padding-left: 10px;
                 }

@@ -65,7 +65,7 @@ let homeNotice = noticeList.map(
 
 
     return (
-        <div id="noticeList">
+        <div id="noticeListWrap">
             <TopBar
             left="back" 
             center={{title:"공지사항", data:null}} 
@@ -73,27 +73,29 @@ let homeNotice = noticeList.map(
             lfunc={goBack}
             rfunc={null}
             size="small"/>
-
-            <div id="searchWrap">
-                <input id="input" type = "text" onKeyUp = {enterKey} onChange = {ChangeKeywordHandler}></input>
-                <span id="icon">
-                    <FaSearch onClick = {Search}/>
-                </span>
+            
+            <div id="noticeList">
+                <div id="searchWrap">
+                    <input className="input" id="input" type = "text" onKeyUp = {enterKey} onChange = {ChangeKeywordHandler}></input>
+                    <span id="icon">
+                        <FaSearch onClick = {Search}/>
+                    </span>
+                </div>
+                    {homeNotice}
+                <ReactPaginate 
+                    pageCount={pageInfo.totalPage}  //총 페이지 수
+                    pageRangeDisplayed={10}  //한 페이지에 표시할 게시글 수
+                    initialPage={current}  //선택한 초기 페이지
+                    previousLabel={"이전"}  //이전 라벨
+                    nextLabel={"다음"}  //다음 라벨
+                    onPageChange={changePage}  //클릭 할 때 호출 할 메서드
+                    containerClassName={"pagination-ul"}  //페이지 매김 컨테이너의 클래스 이름
+                    pageClassName={"page-li"}  //각 페이지 요소의 li태그에 있는 클래스 이름
+                    activeClassName={"currentPage"}  //활성 페이지의 클래스 이름
+                    previousClassName={"pageLabel-btn"}  //이전 라벨의 클래스 이름
+                    nextClassName={"pageLabel-btn"}  //다음 라벨의 클래스 이름
+                    />
             </div>
-                {homeNotice}
-            <ReactPaginate 
-                pageCount={pageInfo.totalPage}  //총 페이지 수
-                pageRangeDisplayed={10}  //한 페이지에 표시할 게시글 수
-                initialPage={current}  //선택한 초기 페이지
-                previousLabel={"이전"}  //이전 라벨
-                nextLabel={"다음"}  //다음 라벨
-                onPageChange={changePage}  //클릭 할 때 호출 할 메서드
-                containerClassName={"pagination-ul"}  //페이지 매김 컨테이너의 클래스 이름
-                pageClassName={"page-li"}  //각 페이지 요소의 li태그에 있는 클래스 이름
-                activeClassName={"currentPage"}  //활성 페이지의 클래스 이름
-                previousClassName={"pageLabel-btn"}  //이전 라벨의 클래스 이름
-                nextClassName={"pageLabel-btn"}  //다음 라벨의 클래스 이름
-                />
         </div>
     )
 }
