@@ -1,0 +1,48 @@
+@import "./valiables.scss";
+@import "./register.scss";
+
+.find {
+  @include box-default;
+
+  .find_input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    input {
+      @include input-default;
+    }
+  }
+
+  button {
+    @include button-default {
+      width: 195px;
+    }
+  }
+}
+
+.find_auth {
+  @include box-default;
+
+  .coment {
+    width: 80%;
+    margin: 10px 0 30px 0;
+    text-indent: 3%;
+    opacity: 0.7;
+  }
+
+  .e_container {
+    line-height: 10vh;
+    width: 70%;
+    border: 1px solid none;
+    border-radius: 6px;
+    background-color: $BackSky;
+    margin-bottom: 10%;
+    text-align: center;
+    span {
+      color: $fontWhite;
+      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    }
+  }
+}

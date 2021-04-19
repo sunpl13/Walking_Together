@@ -62,8 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/findpassword").permitAll()
                 .antMatchers("/signup/authNum").permitAll()
+<<<<<<< Updated upstream
                 .antMatchers("/auth").permitAll()
                 .antMatchers("/admin/*").hasAuthority("ROLE_ADMIN")
+=======
+                .antMatchers("/admin/*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/noticeList").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/notice/*").hasAuthority("ROLE_ADMIN")
+>>>>>>> Stashed changes
                 .anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
 
                 // JwtSecurityConfig 클래스 적용

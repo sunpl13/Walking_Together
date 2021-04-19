@@ -97,7 +97,6 @@ export const logoutHandler = () => async(dispatch) => {
 
 //페이지간 인증
 export const authHandler = (option, adminRoute, history) => async(dispatch) => {
-
     const data = await axios.post('/auth', {token : localStorage.getItem('token')})
     .then(res => res.data)
     .catch(err => console.log(err));
@@ -107,6 +106,7 @@ export const authHandler = (option, adminRoute, history) => async(dispatch) => {
         type : AUTH_USER_PANDING,
         payload : data
     });
+    console.log(data)
     try{
 
         dispatch({
