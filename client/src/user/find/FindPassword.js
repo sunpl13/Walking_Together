@@ -2,18 +2,13 @@ import {React,useState} from 'react'
 import moment from 'moment'
 import axios from 'axios'
 import { useHistory } from 'react-router'
+import TopBar from '../../utils/TopBar'
+import '../../styles/find.scss'
 
 function FindPassword() {
 
     const history = useHistory();
 
-    const style = {
-        display : "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh"
-    }
 
     const [birth, setbirth] = useState("");
     const [stdId, setstdId] = useState("");
@@ -62,17 +57,23 @@ function FindPassword() {
 */
     return (
     
-        <div style = {style}>
-        <form>
-            
-        <label>학번</label>
-            <input type = "text" value = {stdId} onChange = {stdIdHandler}/>
+        <div className = "find">
+            <TopBar
+        left="null" 
+        center={{title:"회원가입", data:null}} 
+        right="null" 
+        lfunc={null}
+        rfunc={null}
+        size="small"/>
 
-            <label>이름</label>
-            <input type = "text" value = {Name} onChange = {NameHandler}/>
+        <form className = "find_input">
             
-            <label>생년월일</label>
-            <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}}/>
+            <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
+
+            <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
+            
+            <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
+
              </form>
              <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
         </div>

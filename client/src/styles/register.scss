@@ -33,6 +33,7 @@
   font-weight: bold;
   border-radius: 2px;
   margin-bottom: 10px;
+  @content;
 }
 
 .register {
@@ -141,5 +142,11 @@
   }
   button {
     @include button-default;
+  }
+}
+
+.find_button {
+  @include button-default {
+    width: 200px;
   }
 }

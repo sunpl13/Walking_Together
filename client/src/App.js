@@ -80,8 +80,7 @@ function App() {
         <Route path= "/memberstipulation" component={Auth(MemberStipulation,false)}/>
         <Route path= "/infostipulation" component={Auth(InfoStipulation,false)}/>
         <Route path= "/locationstipulation" component={Auth(LocationStipulayion,false)}/>
-        
-        
+        <Route path= "/memberstipulation" component={Auth(MemberStipulation,false)}/>
       </Switch>
     
       <div style = {style}><Nav/></div>
