@@ -43,23 +43,19 @@ public class ActivityController {
         List<Map<String, Object>> partners = new ArrayList<>();
         activity.forEach(a -> {
             int partnerDivision;
-            if(a.getPartnerDetail().equals("o")) {
+            if (a.getPartnerDetail().equals("o")) {
                 partnerDivision = 0;
             } else {
                 partnerDivision = 1;
             }
 
-            String years = a.getPartnerBirth().substring(2,4);
+            String years = a.getPartnerBirth().substring(2, 4);
             Map<String, Object> partner = new HashMap<>();
             partner.put("partnerName", a.getPartnerName());
             partner.put("partnerDetail", a.getPartnerDetail());
             partner.put("partnerDivision", partnerDivision);
             partner.put("partnerBirth", years);
-<<<<<<< Updated upstream
-            partner.put("partnerId",a.getPartnerId());
-=======
             partner.put("partnerID", a.getPartnerId());
->>>>>>> Stashed changes
 
             partners.add(partner);
         });
@@ -72,8 +68,7 @@ public class ActivityController {
     // 활동 생성 완료
     @PostMapping("/activity/createActivity")
     public Map<String, Object> createActivityDone(@RequestParam(value = "partnerId") Long partnerId,
-                                                  @RequestParam(value = "stdId") String stdId,
-                                                  @RequestParam(value = "startPhoto") MultipartFile startPhoto) {
+            @RequestParam(value = "stdId") String stdId, @RequestParam(value = "startPhoto") MultipartFile startPhoto) {
         Map<String, Object> response = new HashMap<>();
 
         response.put("status", 200);
@@ -101,10 +96,8 @@ public class ActivityController {
     // 활동 종료
     @PostMapping("/activity/end")
     public Map<String, Object> endActivity(@RequestParam(value = "endTime") String endTime,
-                                           @RequestParam(value = "map") MultipartFile map,
-                                           @RequestParam(value = "endPhoto") MultipartFile endPhoto,
-                                           @RequestParam(value = "activityId") Long activityId,
-                                           @RequestParam(value = "distance") Long distance) {
+            @RequestParam(value = "map") MultipartFile map, @RequestParam(value = "endPhoto") MultipartFile endPhoto,
+            @RequestParam(value = "activityId") Long activityId, @RequestParam(value = "distance") Long distance) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime activityEndTime = LocalDateTime.parse(endTime, formatter);
@@ -137,12 +130,12 @@ public class ActivityController {
             return response;
         }
 
-        if(result == 500L) {
+        if (result == 500L) {
             response.put("status", 500);
             response.put("message", "최소 활동 시간을 초과하지 못했습니다.");
             return response;
         }
-        if(result == 501L) {
+        if (result == 501L) {
             response.put("status", 501);
             response.put("message", "최소 활동 거리를 초과하지 못했습니다.");
             return response;
