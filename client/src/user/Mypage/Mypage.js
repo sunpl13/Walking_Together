@@ -203,22 +203,24 @@ const Mypage = () => {
 
             {updateState===false ?
             <table id="mypageList">
-                <tr onClick={goPartner}>
-                    <td>파트너 정보</td>
-                    <IoIosArrowForward/>
-                </tr>
-                <tr onClick={() => history.push('/certification')}>
-                    <td>인증서 발급</td>
-                    <IoIosArrowForward/>
-                </tr>
-                <tr onClick={() => setUpdateState(true)}>
-                    <td>회원 정보 수정</td>
-                    <IoIosArrowForward/>
-                </tr>
-                <tr id="logout" onClick = {logout}>
-                    <td>로그아웃</td>
-                    <IoIosArrowForward/>
-                </tr>
+                <tbody>
+                    <tr onClick={goPartner}>
+                        <td>파트너 정보</td>
+                        <IoIosArrowForward/>
+                    </tr>
+                    <tr onClick={() => history.push('/certification')}>
+                        <td>인증서 발급</td>
+                        <IoIosArrowForward/>
+                    </tr>
+                    <tr onClick={() => setUpdateState(true)}>
+                        <td>회원 정보 수정</td>
+                        <IoIosArrowForward/>
+                    </tr>
+                    <tr id="logout" onClick = {logout}>
+                        <td>로그아웃</td>
+                        <IoIosArrowForward/>
+                    </tr>
+                </tbody>
             </table>
             : null}
         </div>
