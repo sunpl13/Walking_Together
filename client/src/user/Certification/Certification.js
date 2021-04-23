@@ -39,15 +39,15 @@ const Certification = () => {
 
     return (
         <div id="certificationWrap">
-
-            <TopBar
-                left="null" 
-                center={{title:"인증서 발급", data:null}} 
-                right="null" 
-                lfunc={null}
-                rfunc={null}
-                size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"인증서 발급", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id="certification">
                 <div id="pSet">
                     <p>활동 기간을 선택한 후</p>

@@ -56,6 +56,7 @@ function Register() {
 
     return (
         <div className = "register">
+          <header>
           <TopBar
             left="null" 
             center={{title:"회원가입", data:null}} 
@@ -63,6 +64,7 @@ function Register() {
             lfunc={null}
             rfunc={null}
             size="small"/>
+            </header>
           <div className = "register_coment">
             Walking Together<br/>
             서비스 약관에 동의해 주세요.

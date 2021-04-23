@@ -27,14 +27,15 @@ const Ranking = () => {
 
     return (
         <div id="ranking">
-            <TopBar
-            left="null" 
-            center={{title:"랭킹", data:null}} 
-            right="refresh" 
-            lfunc={null}
-            rfunc={refresh}
-            size="small"/>
-            
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"랭킹", data:null}} 
+                    right="refresh" 
+                    lfunc={null}
+                    rfunc={refresh}
+                    size="small"/>
+            </header>
             <div className="svg_wrapper">
                 <img src={Winners_Flatline} height="250" width="250" id="ranking_bottom_svg" alt="ranking"></img>
             </div>

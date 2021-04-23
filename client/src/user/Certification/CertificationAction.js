@@ -123,14 +123,15 @@ const CertificationAction = () => {
         
     return (
         <div id="certificationAction">
-            <TopBar
-                left="null" 
-                center={{title:"인증서 발급", data:null}} 
-                right="null" 
-                lfunc={null}
-                rfunc={null}
-                size="small"/>
-            
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"인증서 발급", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id="buttonWrap">
                 <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
             </div>

@@ -3,9 +3,7 @@ import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
 import TopBar from '../../utils/TopBar';
-
 import Couple_Flatline from '../../source/Couple_Flatline.svg';
-
 import '../../styles/home.scss';
 
 function Home() {
@@ -53,14 +51,15 @@ function Home() {
 
     return (
         <div id="home">
-            <TopBar
-                left="null" 
-                center={{title:"HOME", data:null}} 
-                right="null" 
-                lfunc={null}
-                rfunc={null}
-                size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"HOME", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id="homeWrap">
                 <span id="logo">Walking Together</span>
                 <img src={Couple_Flatline} width="250" alt="logo"/>

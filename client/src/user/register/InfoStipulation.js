@@ -6,13 +6,15 @@ import TopBar from '../../utils/TopBar'
 function InfoStipulation() {
     return (
         <>
+        <header>
         <TopBar
         left="null" 
-        center={{title:"개인정보 이용 동의", data:null}} 
+        center={{title:"회원가입", data:null}} 
         right="null" 
         lfunc={null}
         rfunc={null}
         size="small"/>
+        </header>
             <div>
                     <h3>제1조(목적)</h3>
                     <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 

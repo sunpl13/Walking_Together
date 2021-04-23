@@ -125,15 +125,15 @@ const Mypage = () => {
 
     return (
         <div id="profileWrap">
-
-            <TopBar
-            left="null" 
-            center={{title:"마이페이지", data:null}} 
-            right="null" 
-            lfunc={null}
-            rfunc={null}
-            size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"마이페이지", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             {updateState===false ?
                 <div>
                     <table id="profileTable"> {/* default */}
@@ -160,14 +160,15 @@ const Mypage = () => {
                 </div>
                 :
                 <div id="mypageUpdate"> {/* update */}
-                    <TopBar
-                    left="cancel" 
-                    center={{title:"정보 수정", data:null}} 
-                    right="create" 
-                    lfunc={cancel}
-                    rfunc={(e) => submit(e)}
-                    size="small"/>
-
+                    <header>
+                        <TopBar
+                            left="cancel" 
+                            center={{title:"정보 수정", data:null}} 
+                            right="create" 
+                            lfunc={cancel}
+                            rfunc={(e) => submit(e)}
+                            size="small"/>
+                    </header>
                     <form action="/mypage/change" id="mypageForm" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
 
                         <div className="mypageInputWrap" id="profileImage">

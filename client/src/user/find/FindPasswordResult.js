@@ -11,13 +11,15 @@ function FindPasswordResult() {
 
     return (
         <div className = "find_auth">
-                     <TopBar
-            left="null" 
-            center={{title:"회원가입", data:null}} 
-            right="null" 
-            lfunc={null}
-            rfunc={null}
-            size="small"/>
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"회원가입", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div className = "coment">
             <span>메일로 발송된 임시비밀번호로 로그인 해주세요.
             로그인 후 반드시 비밀번호를 변경해주세요!</span>

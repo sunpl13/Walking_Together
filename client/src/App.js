@@ -23,12 +23,12 @@ import User from './user/User';
 
 function App() {
 
-  const style = {
+  /*const style = {
     bottom: "0px",
     left: "0px",
     right:"0px",
     position:"fixed"
-  }
+  }*/
 
   return (
     <div id="app" className="App">
