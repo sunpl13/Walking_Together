@@ -59,7 +59,7 @@ const PartnerInsert = () => {
         await dispatch(createPartnerHandler(formData))
         .then(async() => { 
             await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-            .then(() => history.push('/partner'))
+            .then(() => history.push('/user/partner'))
         })
     }
     

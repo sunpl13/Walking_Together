@@ -16,7 +16,7 @@ const PartnerDetail = ({match}) => {
 
     //param function
     function goBack() {
-        history.push('/partner')
+        history.push('/user/partner')
     }
 
     //useEffect
@@ -68,7 +68,7 @@ const PartnerDetail = ({match}) => {
                 </table>
                 
                 <div>
-                    <Link to={`/partner-update/${partnerId}`} className="user_btn_blue">수정</Link>
+                    <Link to={`/user/partner-update/${partnerId}`} className="user_btn_blue">수정</Link>
                 </div>
             </div>
         </div>

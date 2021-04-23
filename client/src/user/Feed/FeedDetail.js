@@ -29,7 +29,7 @@ function FeedDetail() {
 
     //param function
     function goBack() {
-        history.push('/feed')
+        history.push('/user/feed')
     }
 
     return (

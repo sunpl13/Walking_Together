@@ -33,7 +33,7 @@ function Feed() {
     const goDetail = (activityId, activityStatus) => {
         if(activityStatus=== 0) {
             dispatch(selectFeed(activityId))
-            .then(() => history.push('/feeddetail'))
+            .then(() => history.push('/user/feeddetail'))
         } else {
             alert("활동 종료 후 상세 정보를 확인할 수 있습니다.");
         }

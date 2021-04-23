@@ -4,6 +4,8 @@ import {useDispatch} from 'react-redux';
 import {selectNotice} from '../../modules/notice';
 import  '../../styles/accordion.scss';
 
+import ReactHtmlParser from 'react-html-parser';
+
 function NoticeDetail({title, active, setactive, content, noticeId}) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -19,7 +21,7 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
         await dispatch(selectNotice(noticeId))
         .then(() => {
             history.push({
-                pathname : '/viewdetail',
+                pathname : '/user/viewdetail',
                 state : {noticeId : noticeId}
             })
         })
@@ -37,9 +39,7 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
             </div>
             <div className = {(active === title ? "show" : "") + " accordionContent"}>
                 <div className = "container">
-                    <p>
-                        {content}
-                    </p>
+                    {ReactHtmlParser(content)}
                 </div>
             </div>
         </div>

@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectNotice} from '../../modules/notice';
 import TopBar from '../../utils/TopBar';
 
+import ReactHtmlParser from 'react-html-parser';
+
 function Detail() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -37,7 +39,7 @@ function Detail() {
                     : null }
                 </div>
                 <div className = "content">
-                    {view.content}
+                    {ReactHtmlParser(view.content)}
                 </div>
             </div>
         </div>
