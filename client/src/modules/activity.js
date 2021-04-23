@@ -37,7 +37,7 @@ export const getPartner = (
                 type: GETPARTNER,
                 payload: res.data.partners
             })
-            history.push('/createactivity')
+            history.push('/user/createactivity')
         }
     }).catch((err) => alert(err));
 }

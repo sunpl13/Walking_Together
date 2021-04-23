@@ -12,11 +12,11 @@ const Partner = () => {
 
     //param function
     function goBack() {
-        history.push('/mypage')
+        history.push('/user/mypage')
     }
 
     function goCreatePartner() {
-        history.push(`/partner-insert`)
+        history.push(`/user/partner-insert`)
     }
 
     return (

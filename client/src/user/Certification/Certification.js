@@ -23,7 +23,7 @@ const Certification = () => {
             }).then(async(res) => {
                 if(res.data.data.length!==0) {
                     history.push({
-                        pathname: '/certification-action',
+                        pathname: '/user/certification-action',
                         state: {
                             res: res.data,
                             from: replaceFrom,

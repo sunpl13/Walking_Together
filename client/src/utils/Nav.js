@@ -13,9 +13,9 @@ function Nav() {
 
     const goActivity = useCallback(() => {
         if(activityId===null) {
-            history.push('/activitystart')
+            history.push('/user/activitystart')
         } else {
-            history.push('/activity')
+            history.push('/user/activity')
         }
     }, [activityId, history])
 
@@ -29,28 +29,28 @@ function Nav() {
             </div>
 
             <div className="navItem">
-                <Link to = '/feed' className="navItem">
+                <Link to = '/user/feed' className="navItem">
                     <BiListCheck size="30"/><br/>
                     <p>피드</p>
                 </Link>
             </div>
 
             <div className="navItem">
-                <Link to = '/home' className="navItem">
+                <Link to = '/user/home' className="navItem">
                     <MdHome size="30"/><br/>
                     <p>홈</p>
                 </Link>
             </div>
 
             <div className="navItem">
-                <Link to = '/ranking' className="navItem">
+                <Link to = '/user/ranking' className="navItem">
                     <AiFillTrophy size="30"/><br/>
                     <p>랭킹</p>
                 </Link>
             </div>
 
             <div className="navItem">
-                <Link to = '/mypage' className="navItem">
+                <Link to = '/user/mypage' className="navItem">
                     <RiAccountCircleFill size="30"/><br/>
                     <p>마이페이지</p>
                 </Link>

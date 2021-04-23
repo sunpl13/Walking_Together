@@ -31,7 +31,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
                 if(localStorage.getItem("user_info") === "0000000000") {
                     history.push('/admin')
                 } else{
-                history.push('/home')
+                history.push('/user/home')
             }
             }
         } 
@@ -127,7 +127,7 @@ export const authHandler = (option, adminRoute, history) => async(dispatch) => {
                 return;
             } else if(option === false) {
                 alert("접근 권한이 없습니다.")
-                history.push('/home');
+                history.push('/user/home');
             }
         }
     } else if(adminRoute === true) {

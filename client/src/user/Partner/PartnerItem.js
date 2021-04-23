@@ -19,7 +19,7 @@ const PartnerItem = ({state}) => {
     const itemClick = async() => {
         await dispatch(getPartnerDetailInfo(state.partnerId))
         .then(() => {
-            history.push(`/partner-datail/${state.partnerId}`)
+            history.push(`/user/partner-datail/${state.partnerId}`)
         })
     }
 

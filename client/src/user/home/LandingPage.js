@@ -11,7 +11,7 @@ function LandingPage() {
             if(token === null) {
                 history.push('/login')
             } else {
-            history.push('/home')
+                history.push('/user/home')
                 }
         }, 5000)
     }, [history])

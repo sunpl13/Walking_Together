@@ -27,7 +27,7 @@ function Home() {
         await dispatch(selectNotice(noticeId))
         .then(() => {
             history.push({
-                pathname : '/viewdetail',
+                pathname : '/user/viewdetail',
                 state : {noticeId : noticeId}
             })
         })
@@ -68,7 +68,7 @@ function Home() {
                 <div id="noticeWrap">
                     <div id="noticeTop">
                         <span id="noticeTitle"># 공지사항</span>
-                        <button className="user_btn_blue" onClick = {() => {history.push('/noticelist')}}> 더보기</button>
+                        <button className="user_btn_blue" onClick = {() => {history.push('/user/noticelist')}}> 더보기</button>
                     </div>
                     <table id="noticeTable">
                         {homeNotice}

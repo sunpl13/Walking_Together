@@ -67,7 +67,7 @@ const Mypage = () => {
     //파트너로 이동
     const goPartner = useCallback(async() => {
         await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-        .then(() => history.push('/partner'))
+        .then(() => history.push('/user/partner'))
     },[stdId, dispatch, history])
 
     //업데이트 상태 리셋
@@ -208,7 +208,7 @@ const Mypage = () => {
                         <td>파트너 정보</td>
                         <IoIosArrowForward/>
                     </tr>
-                    <tr onClick={() => history.push('/certification')}>
+                    <tr onClick={() => history.push('/user/certification')}>
                         <td>인증서 발급</td>
                         <IoIosArrowForward/>
                     </tr>

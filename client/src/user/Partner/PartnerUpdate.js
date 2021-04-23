@@ -54,7 +54,7 @@ const PartnerUpdate = ({match}) => {
             await dispatch(getPartnerBriefInfo(stdId))
             .then(() => {
                 alert("정보 수정이 완료되었습니다.")
-                history.push('/partner')
+                history.push('/user/partner')
             })
         })
     }
@@ -62,7 +62,7 @@ const PartnerUpdate = ({match}) => {
     function cancel() {
         const res = window.confirm("취소하시겠습니까?")
         if(res === true) {
-            history.push('/partner')
+            history.push('/user/partner')
         }else{
             return;
         }
