@@ -65,14 +65,15 @@ const PartnerInsert = () => {
     
     return (
         <div>
-            <TopBar 
-            left="cancel" 
-            center={{title:"파트너 등록", data:null}} 
-            right="create" 
-            lfunc={cancel}
-            rfunc={submit}
-            size="small"/>
-
+            <header>
+                <TopBar 
+                    left="cancel" 
+                    center={{title:"파트너 등록", data:null}} 
+                    right="create" 
+                    lfunc={cancel}
+                    rfunc={submit}
+                    size="small"/>
+            </header>
             <form action="/partner/create" className="partner_form" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <label>파트너 구분</label>
                 <select className="inputSelect" name="partnerDetail" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>

@@ -34,14 +34,15 @@ function FeedDetail() {
 
     return (
         <div>
-            <TopBar
-            left="back" 
-            center={{title:"활동 상세", data:null}} 
-            right="null" 
-            lfunc={goBack}
-            rfunc={null}
-            size="small"/>
-
+            <header>
+                <TopBar
+                    left="back" 
+                    center={{title:"활동 상세", data:null}} 
+                    right="null" 
+                    lfunc={goBack}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id="feedDetail">
                 <table id="activity_detail_table">
                     <tbody>

@@ -40,14 +40,15 @@ const CreateActivity = () => {
 
     return (
         <div id="create_activity">
-            <TopBar
-            left="cancel"
-            center={{title:"활동생성", data:null}} 
-            right="create" 
-            lfunc={goBack}
-            rfunc={createActivity}
-            size="small"/>
-
+            <header>
+                <TopBar
+                    left="cancel"
+                    center={{title:"활동생성", data:null}} 
+                    right="create" 
+                    lfunc={goBack}
+                    rfunc={createActivity}
+                    size="small"/>
+            </header>
             <form className="create_activity_form">
                 <div id="create_activity_wrap">
                     <label className="tdActTitle">활동일</label>

@@ -24,14 +24,15 @@ function Detail() {
 
     return (
         <div>
-            <TopBar 
-            left="null" 
-            center={{title : view.title, data : view.createTime}} 
-            right="cancel" 
-            lfunc={null}
-            rfunc={goBack}
-            size="big"/>
-
+            <header>
+                <TopBar 
+                    left="null" 
+                    center={{title : view.title, data : view.createTime}} 
+                    right="cancel" 
+                    lfunc={null}
+                    rfunc={goBack}
+                    size="big"/>
+            </header>
             <div id="notice">
                 <div className = "thumbnail">
                     {view.imageFiles.length!==0 ?

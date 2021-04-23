@@ -120,7 +120,8 @@ const Activity = () => {
             navigator.geolocation.getCurrentPosition((position) => {
                 resolve({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
+                    longitude: position.coords.longitude,
+                    timestamp: position.timestamp
                 });
                 if (window.getLoc1State()===true) {  //true: loc1에 업데이트, false: loc2에 업데이트
                     setLoc1({lat: position.coords.latitude, lon: position.coords.longitude}) //speed: coords.speed, timestamp: coords.timestamp})
@@ -141,7 +142,7 @@ const Activity = () => {
             },
             );
         }).then((coords) => {
-            localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, speed: coords.speed, time: coords.timestamp}))
+            localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}))
             setIndex(window.getIndex()+1)
             return coords;
         })
@@ -192,15 +193,15 @@ const Activity = () => {
 
     return (
         <div className="map">
-
-            <TopBar
-            left="null" 
-            center={{title:"활동", data:null}} 
-            right="null" 
-            lfunc={null}
-            rfunc={null}
-            size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"활동", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id='map' ref={captureRef}></div>
             <div id="buttonWrap">
                 <button onClick={stop} className="user_btn_blue">중단</button>

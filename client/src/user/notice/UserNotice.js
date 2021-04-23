@@ -66,14 +66,15 @@ let homeNotice = noticeList.map(
 
     return (
         <div id="noticeListWrap">
-            <TopBar
-            left="back" 
-            center={{title:"공지사항", data:null}} 
-            right="null" 
-            lfunc={goBack}
-            rfunc={null}
-            size="small"/>
-            
+            <header>
+                <TopBar
+                    left="back" 
+                    center={{title:"공지사항", data:null}} 
+                    right="null" 
+                    lfunc={goBack}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id="noticeList">
                 <div id="searchWrap">
                     <input className="input" id="input" type = "text" onKeyUp = {enterKey} onChange = {ChangeKeywordHandler}></input>

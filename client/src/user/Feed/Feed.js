@@ -41,14 +41,15 @@ function Feed() {
 
     return (
         <div>
-            <TopBar
-            left="null" 
-            center={{title:"피드", data:null}} 
-            right="null" 
-            lfunc={null}
-            rfunc={null}
-            size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"피드", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id="feedWrap">
                 <select className="inputSelect" onChange = {sortHandler}>{sortList}</select>
                 <div id="feedItemsWrap">

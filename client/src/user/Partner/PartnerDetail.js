@@ -26,15 +26,16 @@ const PartnerDetail = ({match}) => {
     
     return (
         <div>
+            <header>
             {/* top bar */}
-            <TopBar 
-            left="null" 
-            center={{title:partner.partnerName, data:null}} 
-            right="cancel" 
-            lfunc={null}
-            rfunc={goBack}
-            size="small"/>
-
+                <TopBar 
+                    left="null" 
+                    center={{title:partner.partnerName, data:null}} 
+                    right="cancel" 
+                    lfunc={null}
+                    rfunc={goBack}
+                    size="small"/>
+            </header>
             <div id="partner_detail">
                 <table id="partner_detail_table">
                     <tbody>

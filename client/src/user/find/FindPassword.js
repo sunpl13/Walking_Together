@@ -58,14 +58,15 @@ function FindPassword() {
     return (
     
         <div className = "find">
-            <TopBar
-        left="null" 
-        center={{title:"회원가입", data:null}} 
-        right="null" 
-        lfunc={null}
-        rfunc={null}
-        size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"회원가입", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
         <form className = "find_input">
             
             <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
