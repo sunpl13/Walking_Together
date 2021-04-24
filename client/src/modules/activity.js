@@ -85,7 +85,7 @@ export const getLocation = (
 
 //활동 종료
 export const finishActivity = (
-    formData,  //activityId, map, endTime, distance, endPhoto
+    formData,  //activityId, map, endTime, distance, endPhoto, checkNormalQuit
     ) => async(dispatch) => {
         await axios.post(`/activity/finish`, formData, {
             headers: {

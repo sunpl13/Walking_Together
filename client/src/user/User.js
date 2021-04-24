@@ -20,7 +20,6 @@ import CertificationAction from './Certification/CertificationAction';
 import Feed from './Feed/Feed';
 import FeedDetail from './Feed/FeedDetail'
 import ActivityRegister from './Activity/ActivityRegister';
-import Activity from './Activity/Activity';
 
 
 const User = () => {
@@ -43,7 +42,6 @@ const User = () => {
                     <Route path= "/user/viewdetail" component={Auth(Detail,true)}/>
                     <Route path= "/user/createactivity" component={Auth(CreateActivity,true)}/>
                     <Route path="/user/activity-register" component={Auth(ActivityRegister, true)}/>
-                    <Route path="/user/activity" component={Auth(Activity,true)}/>
                     <Route path= "/user/feed" component={Auth(Feed,true)}/>
                     <Route path = "/user/feeddetail" component={Auth(FeedDetail,true)}/>
                 </Switch>

@@ -136,21 +136,21 @@ const Mypage = () => {
 
             {updateState===false ?
                 <div>
-                    <table id="profileTable"> {/* default */}
+                    <table id="profileTable">
                         <tbody>
-                            <tr> {/* profile image */}
+                            <tr>
                                 <td rowSpan="4" className="td1">
                                     {userInfo.profilePicture!=null?<img src={userInfo.profilePicture} alt="프로필 이미지"/>:<CgProfile size={100} color="#9a9a9a"/>}
                                 </td>
                                 <td className="td2">{userInfo.name}</td>
                             </tr>
-                            <tr> {/* department */}
+                            <tr>
                                 <td className="td2">{userInfo.department}</td>
                             </tr>
-                            <tr> {/* student id */}
+                            <tr>
                                 <td className="td2">{stdId}</td>
                             </tr>
-                            <tr> {/* total time */}
+                            <tr>
                                 <td className="td2">
                                     {userInfo.totalTime!=null?userInfo.totalTime:0}시간
                                 </td>
@@ -206,19 +206,19 @@ const Mypage = () => {
                 <tbody>
                     <tr onClick={goPartner}>
                         <td>파트너 정보</td>
-                        <IoIosArrowForward/>
+                        <td><IoIosArrowForward/></td>
                     </tr>
                     <tr onClick={() => history.push('/user/certification')}>
                         <td>인증서 발급</td>
-                        <IoIosArrowForward/>
+                        <td><IoIosArrowForward/></td>
                     </tr>
                     <tr onClick={() => setUpdateState(true)}>
                         <td>회원 정보 수정</td>
-                        <IoIosArrowForward/>
+                        <td><IoIosArrowForward/></td>
                     </tr>
                     <tr id="logout" onClick = {logout}>
                         <td>로그아웃</td>
-                        <IoIosArrowForward/>
+                        <td><IoIosArrowForward/></td>
                     </tr>
                 </tbody>
             </table>
