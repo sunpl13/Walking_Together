@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 //인증 가능할 시에 인증
 import Auth from './hoc/Auth';
 import './styles/app.scss';
-// import Nav from './utils/Nav'
 
 //admin
 import Admin from './admin/Admin';
@@ -20,15 +19,9 @@ import MemberStipulation from './user/register/MemberStipulation';
 import InfoStipulation from './user/register/InfoStipulation';
 import LocationStipulayion from './user/register/LocationStipulation';
 import User from './user/User';
+import Activity from './user/Activity/Activity';
 
 function App() {
-
-  /*const style = {
-    bottom: "0px",
-    left: "0px",
-    right:"0px",
-    position:"fixed"
-  }*/
 
   return (
     <div id="app" className="App">
@@ -47,9 +40,8 @@ function App() {
         <Route path= "/infostipulation" component={Auth(InfoStipulation,false)}/>
         <Route path= "/locationstipulation" component={Auth(LocationStipulayion,false)}/>
         <Route path= "/memberstipulation" component={Auth(MemberStipulation,false)}/>
+        <Route path="/activity" component={Auth(Activity,true)}/>
       </Switch>
-    
-      {/* <div style = {style}><Nav/></div> */}
     </div>
   )
 }
