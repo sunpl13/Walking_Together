@@ -65,14 +65,15 @@ function ActivityRegister() {
 
     return (
         <div id="activityRegisterWrap">
-            <TopBar 
-            left="cancel" 
-            center={{title:"사진 등록", data:null}} 
-            right="create" 
-            lfunc={goBack}
-            rfunc={createAction}
-            size="small"/>
-
+            <header>
+                <TopBar 
+                    left="cancel" 
+                    center={{title:"사진 등록", data:null}} 
+                    right="create" 
+                    lfunc={goBack}
+                    rfunc={createAction}
+                    size="small"/>
+            </header>
             <div id="activityRegister">
                 <div className = "picture_container">
                     {picture.length===0?

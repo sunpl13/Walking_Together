@@ -87,11 +87,32 @@ export const getLocation = (
 export const finishActivity = (
     formData,  //activityId, map, endTime, distance, endPhoto, checkNormalQuit
     ) => async(dispatch) => {
-        await axios.post(`/activity/finish`, formData, {
+        await axios.post(`/activity/end`, formData, {
             headers: {
                 'content-type': 'multipart/form-data',
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }
+        }).then((res) => {
+            alert(res.data.message);
+        }).catch((err) => alert(err));
+
+    dispatch({
+        type: FINISHACTIVITY
+    })
+}
+
+//강제종료된 활동 처리
+export const quitActivity = (
+    activityId, 
+    endTime, 
+    distance
+    ) => async(dispatch) => {
+        await axios.post(`/activity/quit`,{
+            activityId : activityId,
+            endTime : endTime,
+            distance : distance
+        }, {
+            headers: {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             alert(res.data.message);
         }).catch((err) => alert(err));

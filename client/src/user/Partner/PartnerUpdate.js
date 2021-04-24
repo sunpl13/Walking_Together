@@ -70,15 +70,16 @@ const PartnerUpdate = ({match}) => {
 
     return (
         <div>
+            <header>
             {/* top bar */}
-            <TopBar 
-            left="cancel" 
-            center={{title:"파트너 수정", data:null}} 
-            right="create" 
-            lfunc={cancel}
-            rfunc={submit}
-            size="small"/>
-            
+                <TopBar 
+                    left="cancel" 
+                    center={{title:"파트너 수정", data:null}} 
+                    right="create" 
+                    lfunc={cancel}
+                    rfunc={submit}
+                    size="small"/>
+            </header>
             <form action="/partner/change" className="partner_form" id={ref} encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <label>파트너 구분</label>
                 <select className="inputSelect" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>

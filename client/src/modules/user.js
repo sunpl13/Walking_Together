@@ -86,9 +86,7 @@ export const signupHanlder = (
 
 //로그아웃
 export const logoutHandler = () => async(dispatch) => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user_info");
-    localStorage.removeItem("partnerId");
+    localStorage.clear();
 
     await dispatch({
         type : LOGOUT_USER

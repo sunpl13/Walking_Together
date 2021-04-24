@@ -31,6 +31,7 @@ function RegisterAuth() {
 
     return (
         <>
+        <header>
         <TopBar
             left="null" 
             center={{title:"회원가입", data:null}} 
@@ -38,6 +39,7 @@ function RegisterAuth() {
             lfunc={null}
             rfunc={null}
             size="small"/>
+            </header>
         <div className = "register_auth">
            <p>메일로 발송된 인증 코드를 입력해 주세요.</p>
             <div className = "e_container">

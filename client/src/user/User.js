@@ -46,7 +46,7 @@ const User = () => {
                     <Route path = "/user/feeddetail" component={Auth(FeedDetail,true)}/>
                 </Switch>
             </div>
-            <div><Nav/></div>
+            <footer><Nav/></footer>
         </div>
     );
 };

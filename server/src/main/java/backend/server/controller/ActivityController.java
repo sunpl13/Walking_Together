@@ -96,13 +96,16 @@ public class ActivityController {
     // 활동 종료
     @PostMapping("/activity/end")
     public Map<String, Object> endActivity(@RequestParam(value = "endTime") String endTime,
-            @RequestParam(value = "map") MultipartFile map, @RequestParam(value = "endPhoto") MultipartFile endPhoto,
-            @RequestParam(value = "activityId") Long activityId, @RequestParam(value = "distance") Long distance) {
+            @RequestParam(value = "map") @Nullable MultipartFile map,
+            @RequestParam(value = "endPhoto") @Nullable MultipartFile endPhoto,
+            @RequestParam(value = "activityId") Long activityId, @RequestParam(value = "distance") Long distance,
+            @RequestParam(value = "checkNormalQuit") int checkNormalQuit) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime activityEndTime = LocalDateTime.parse(endTime, formatter);
 
-        Long result = activityService.endActivity(activityEndTime, endPhoto, activityId, distance, map);
+        Long result = activityService.endActivity(activityEndTime, endPhoto, activityId, distance, map,
+                checkNormalQuit);
 
         Map<String, Object> response = new HashMap<>();
 
@@ -140,7 +143,16 @@ public class ActivityController {
             response.put("message", "최소 활동 거리를 초과하지 못했습니다.");
             return response;
         }
+        if (result == 502L) {
+            response.put("status", 502);
+            response.put("message", "활동이 비정상적으로 종료되었고 시간을 충족시키지 못했습니다.");
+        }
+        if (result == 503L) {
+            response.put("status", 503);
+            response.put("message", "활동이 비정상적으로 종료되었고 거리를 충족시키지 못했습니다.");
+        }
 
         return response;
     }
+
 }

@@ -21,14 +21,15 @@ const Partner = () => {
 
     return (
         <div>
-            <TopBar
-            left="back" 
-            center={{title:"파트너", data:null}} 
-            right="plus" 
-            lfunc={goBack}
-            rfunc={goCreatePartner}
-            size="small"/>
-            
+            <header>
+                <TopBar
+                    left="back" 
+                    center={{title:"파트너", data:null}} 
+                    right="plus" 
+                    lfunc={goBack}
+                    rfunc={goCreatePartner}
+                    size="small"/>
+            </header>
             <table id="partner_table">
                 <tbody>
                     { partner.length!==0 ?

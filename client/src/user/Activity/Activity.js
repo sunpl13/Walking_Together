@@ -207,15 +207,15 @@ const Activity = () => {
 
     return (
         <div className="map">
-
-            <TopBar
-            left="null" 
-            center={{title:"활동", data:null}} 
-            right="null" 
-            lfunc={null}
-            rfunc={null}
-            size="small"/>
-
+            <header>
+                <TopBar
+                    left="null" 
+                    center={{title:"활동", data:null}} 
+                    right="null" 
+                    lfunc={null}
+                    rfunc={null}
+                    size="small"/>
+            </header>
             <div id='map' ref={captureRef}></div>
             <div id="buttonWrap">
                 <button onClick={stop} className="user_btn_blue">중단</button>

@@ -8,6 +8,7 @@ import backend.server.entity.Partner;
 import backend.server.repository.*;
 import backend.server.s3.FileUploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +53,7 @@ public class ActivityService {
             activityDTO.setPartnerDetail(e.get(1).toString());
             activityDTO.setPartnerBirth(e.get(2).toString());
             activityDTO.setPartnerId((Long) e.get(3));
+
             partners.add(activityDTO);
         });
 
@@ -108,7 +110,7 @@ public class ActivityService {
     // 활동 종료
     @Transactional
     public Long endActivity(LocalDateTime endTime, MultipartFile endPhoto, Long activityId, Long distance,
-            MultipartFile map) {
+            MultipartFile map, int checkNormalQuit) {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
 
@@ -122,29 +124,48 @@ public class ActivityService {
         }
 
         long minutes = ChronoUnit.MINUTES.between(activity.getStartTime(), endTime);
-        if (minutes < 30) {
+        if (minutes < 30 && checkNormalQuit == 0) {
             return 500L;
+        } else if (minutes < 30 && checkNormalQuit == 1) {
+            activity.changeActivityStatus(0);
+            activity.changeEndTime(endTime);
+            activity.changeOrdinaryTime(LocalTime.of(0, 0));
+            activity.changeCareTime(LocalTime.of(0, 0));
+            activity.changeDistance(0L);
+            return 502L;
         }
 
         if (activity.getActivityDivision() == 0) {
-            if (distance < 4000) {
+            if (distance < 4000 && checkNormalQuit == 0) {
                 return 501L;
+            } else if (distance < 4000 && checkNormalQuit == 1) {
+                activity.changeActivityStatus(0);
+                activity.changeEndTime(endTime);
+                activity.changeOrdinaryTime(LocalTime.of(0, 0));
+                activity.changeDistance(0L);
+                return 503L;
             }
         } else if (activity.getActivityDivision() == 1) {
-            if (distance < 2000) {
+            if (distance < 2000 && checkNormalQuit == 0) {
                 return 501L;
+            } else if (distance < 2000 && checkNormalQuit == 1) {
+                activity.changeActivityStatus(0);
+                activity.changeEndTime(endTime);
+                activity.changeCareTime(LocalTime.of(0, 0));
+                activity.changeDistance(0L);
+                return 503L;
             }
         }
 
-        if (endPhoto != null) {
+        if (endPhoto != null && checkNormalQuit == 0) {
             fileUploadService.uploadMapImages(endPhoto, activityId, "end");
-        } else {
+        } else if (checkNormalQuit == 0) {
             return 405L;
         }
 
-        if (map != null) {
+        if (map != null && checkNormalQuit == 0) {
             fileUploadService.uploadMapCapture(map, activityId);
-        } else {
+        } else if (checkNormalQuit == 0) {
             return 406L;
         }
 

@@ -62,6 +62,7 @@ function RegisterPage() {
     return (
 
 <div className = "register_page">
+    <header>
     <TopBar
         left="null" 
         center={{title:"회원가입", data:null}} 
@@ -69,6 +70,7 @@ function RegisterPage() {
         lfunc={null}
         rfunc={null}
         size="small"/>
+        </header>
             <form onSubmit ={register}>
 
                 <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
