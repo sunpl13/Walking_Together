@@ -47,8 +47,8 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
     dispatch({
         type: GETFEEDLIST,
         payload: res.data
-    })
-}
+    });
+};
 
 export const getCertification = (stdId, from, to) => async(dispatch) => {
     const res = await axios.post(`/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
@@ -59,14 +59,11 @@ export const getCertification = (stdId, from, to) => async(dispatch) => {
     dispatch({
         type: GETCERTIFICATION,
         payload: res.data
-    })
-}
+    });
+};
 
 export const updateFeed = (activityId, review) => async(dispatch) => {
-    await axios.post(`/feed/detail`, {
-        activityId: activityId,
-        review: review
-    }, {
+    await axios.post(`/feed/detail/review?activityId=${activityId}&review=${review}`, {}, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     }).then((response) => console.log(response.data))
     .catch((err) => alert(err));
@@ -77,8 +74,8 @@ export const updateFeed = (activityId, review) => async(dispatch) => {
             activityId: activityId,
             review: review
         }
-    })
-}
+    });
+};
 
 export const selectFeed = (activityId) => async(dispatch) => {
     const res = await axios.get(`/feed/detail?activityId=${activityId}`, {
@@ -91,8 +88,8 @@ export const selectFeed = (activityId) => async(dispatch) => {
         type: SELECTFEED,
         activityId,
         payload: res.data
-    })
-}
+    });
+};
 
 const feedReducer = (state = INIT_FEED_STATE, action) => {
     switch(action.type) {
@@ -101,13 +98,13 @@ const feedReducer = (state = INIT_FEED_STATE, action) => {
             return {
                 ...state,
                 list: action.payload
-            }
+            };
 
         case GETCERTIFICATION:
             return {
                 ...state,
                 certification: action.payload
-            }
+            };
 
         case UPDATEFEED:
             return {
@@ -116,7 +113,7 @@ const feedReducer = (state = INIT_FEED_STATE, action) => {
                     ...state.selectedFeed,
                     review: action.payload.review
                 }
-            }
+            };
 
         case SELECTFEED:
             return {
@@ -130,10 +127,10 @@ const feedReducer = (state = INIT_FEED_STATE, action) => {
                     review: action.payload.review,
                     mapPicture: action.payload.mapPicture
                 }
-            }
+            };
 
         default:
-            return state
+            return state;
     }
 }
 

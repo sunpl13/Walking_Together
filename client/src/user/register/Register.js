@@ -1,13 +1,15 @@
 import axios from 'axios';
-import {React,useState} from 'react'
-import {useHistory} from 'react-router-dom'
-import {FaAngleRight} from 'react-icons/fa'
-import '../../styles/register.scss'
-import TopBar from '../../utils/TopBar'
+import {React,useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {FaAngleRight} from 'react-icons/fa';
+import '../../styles/register.scss';
+import TopBar from '../../utils/TopBar';
 
 function Register() {
 
     const history = useHistory();
+
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
     
     const [agree1, setAgree1] = useState(false);                                //회원정보 동의
     const [agree2, setAgree2] = useState(false);                                //개인정보 수집 및 이용동의
@@ -28,34 +30,59 @@ function Register() {
 
 
     const clickFunction = () => {
-      axios.get(`/signup/authNum?email=${email}`)
-      .then(res => {
-          if(res.data.status === 404) {
-            alert(res.data.message)
-          } else if(res.data.status === 400) {
-            alert(res.data.message)
-          } else if(res.data.status === 200) {
-        if(window.confirm("인증번호 전송이 완료되었습니다")){
-          history.push({
-            pathname : 'registerauth',
-            state : {state : res.data,
-              email : email
-            }
-          })
-         
-        }
+      // 디바운싱
+      if (timer) {
+        clearTimeout(timer);
       }
-      })
-      .catch(err => {console.log(err)})
-   }
+
+      const newTimer = setTimeout(async () => {
+        try {
+          axios.get(`/signup/authNum?email=${email}`)
+          .then(res => {
+              if(res.data.status === 404) {
+                alert(res.data.message);
+              } else if(res.data.status === 400) {
+                alert(res.data.message);
+              } else if(res.data.status === 200) {
+                if(window.confirm("인증번호 전송이 완료되었습니다")){
+                  history.push({
+                    pathname : 'registerauth',
+                    state : {state : res.data,
+                      email : email
+                    }
+                  });
+                }
+              }
+          })
+          .catch(err => {console.log(err)})
+        } catch (e) {
+            console.error('error', e);
+        }
+      }, 800);
+
+      setTimer(newTimer);
+   };
 
     const EmailHandler = (e) => {
-      setemail(e.currentTarget.value)
-    }
+      setemail(e.currentTarget.value);
+    };
 
     function goBack() {
-      history.goBack();
-    }
+      // 디바운싱
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      const newTimer = setTimeout(async () => {
+        try {
+          history.goBack();
+        } catch (e) {
+            console.error('error', e);
+        }
+      }, 800);
+
+      setTimer(newTimer);
+    };
 
 
     return (
@@ -105,7 +132,7 @@ function Register() {
             </div>
  
         </div>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;

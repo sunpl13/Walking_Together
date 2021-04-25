@@ -15,7 +15,7 @@ function Nav() {
         if(activityId===null) {
             history.push('/user/activitystart')
         } else {
-            history.push('/user/activity')
+            history.push('/activity')
         }
     }, [activityId, history])
 

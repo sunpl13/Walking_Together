@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 import {sort} from '../../utils/options';
 import {getFeedList, selectFeed} from '../../modules/feed';
 
@@ -13,31 +13,47 @@ function Feed() {
     const dispatch = useDispatch();
     const [sor, setsor] = useState("desc");             // 정렬을 위한 state 지정
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
+
     useEffect(() => {
-        dispatch(getFeedList(ID,sor))
-    },[sor,ID,dispatch])
+        dispatch(getFeedList(ID,sor));
+    },[sor,ID,dispatch]);
 
     let myFeed = useSelector(state => state.feedReducer.list);
 
 
     const sortList = sort.map(
         item => {
-            return ( <option key = {item.label} value = {item.value}>{item.label}</option>)
+            return ( <option key = {item.label} value = {item.value}>{item.label}</option>);
         }
     );
 
     const sortHandler = (e) => {
-        setsor(e.currentTarget.value)
-    }
+        setsor(e.currentTarget.value);
+    };
 
     const goDetail = (activityId, activityStatus) => {
-        if(activityStatus=== 0) {
-            dispatch(selectFeed(activityId))
-            .then(() => history.push('/user/feeddetail'))
-        } else {
-            alert("활동 종료 후 상세 정보를 확인할 수 있습니다.");
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(activityStatus=== 0) {
+                    dispatch(selectFeed(activityId))
+                    .then(() => history.push('/user/feeddetail'));
+                } else {
+                    alert("활동 종료 후 상세 정보를 확인할 수 있습니다.");
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div>
@@ -74,7 +90,7 @@ function Feed() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Feed
+export default Feed;

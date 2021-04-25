@@ -6,9 +6,11 @@ import TopBar from '../../utils/TopBar';
 
 const PartnerInsert = () => {
     const dispatch = useDispatch();
-    const history = useHistory()
+    const history = useHistory();
 
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"");
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
+    const stdId = localStorage.getItem('user_info');
     
     const [partnerName, setPartnerName] = useState("");
     const [partnerDetail, setPartnerDetail] = useState("");
@@ -20,27 +22,53 @@ const PartnerInsert = () => {
 
     //param function
     function cancel() {
-        const res = window.confirm("취소하시겠습니까?");
-        if(res===true) {
-            history.goBack();
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-        else {
-            return;
-        }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                const res = window.confirm("취소하시겠습니까?");
+                if(res===true) {
+                    history.goBack();
+                }
+                else {
+                    return;
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     function submit(e) {
         e.preventDefault();
 
-        if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
-            alert("모든 항목을 기입해주세요.");
-        } else {
-            const res = window.confirm("등록하시겠습니까?");
-            if(res===true) {
-                createPartner()
-            }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
+                    alert("모든 항목을 기입해주세요.");
+                } else {
+                    const res = window.confirm("등록하시겠습니까?");
+                    if(res===true) {
+                        createPartner();
+                    }
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     //button action
     const createPartner = async() => {
@@ -48,7 +76,7 @@ const PartnerInsert = () => {
         //create formdata
         const formData = new FormData();
         formData.append("stdId", stdId);
-        formData.append("partnerName", partnerName);
+        formData.append("partnerName", (partnerName).replaceAll(" ",""));
         formData.append("partnerDetail", partnerDetail);
         formData.append("partnerPhoto", partnerPhoto[0]);
         formData.append("selectionReason", selectionReason);
@@ -59,9 +87,9 @@ const PartnerInsert = () => {
         await dispatch(createPartnerHandler(formData))
         .then(async() => { 
             await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-            .then(() => history.push('/user/partner'))
-        })
-    }
+            .then(() => history.push('/user/partner'));
+        });
+    };
     
     return (
         <div>

@@ -1,6 +1,6 @@
-import React from 'react'
-import '../../styles/stipulation.scss'
-import TopBar from '../../utils/TopBar'
+import React from 'react';
+import '../../styles/stipulation.scss';
+import TopBar from '../../utils/TopBar';
 
 function MemberStipulation() {
     
@@ -18,7 +18,7 @@ function MemberStipulation() {
         </header>
         <div>
             <h3>제1조(목적)</h3>
-                <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
+            <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
             <h3>제2조(정의)</h3>
             <ul>
                  <li>"회사"라 함은 "콘텐츠" 산업과 관련된 경제활동을 영위하는 자로서 콘텐츠 및 제반서비스를 제공하는 자를 말합니다.</li>
@@ -49,7 +49,7 @@ function MemberStipulation() {
                 <p className = "a">이 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 온라인 디지털콘텐츠산업 발전법, 전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한 법률, 문화체육관광부장관이 정하는 디지털콘텐츠이용자보호지침, 기타 관계법령 또는 상관례에 따릅니다.</p>
         </div>
         </>
-    )
-}
+    );
+};
 
-export default MemberStipulation
+export default MemberStipulation;

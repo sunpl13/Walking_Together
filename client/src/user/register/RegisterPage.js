@@ -1,10 +1,10 @@
 import {React, useState} from 'react';
 import {signupHanlder} from '../../modules/user';
 import {useDispatch} from 'react-redux';
-import {useHistory, useLocation} from 'react-router-dom' 
-import moment from 'moment'
-import {option} from '../../utils/options'
-import TopBar from '../../utils/TopBar'
+import {useHistory, useLocation} from 'react-router-dom';
+import moment from 'moment';
+import {option} from '../../utils/options';
+import TopBar from '../../utils/TopBar';
 import '../../styles/register.scss';
 
 function RegisterPage() {
@@ -13,6 +13,7 @@ function RegisterPage() {
     const history = useHistory();
     const location = useLocation();
         
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const Email = location.state.email;
     const [Name, setName] = useState("");
@@ -27,7 +28,7 @@ function RegisterPage() {
         item => {
             return ( <option key = {item.label} value = {item.value}>{item.label}</option>)
         }
-    )
+    );
 
     const pNumHandler = (e) => {
         setpNumber(e.currentTarget.value)
@@ -49,15 +50,28 @@ function RegisterPage() {
     };
 
     const register = async(e) => {
-        e.preventDefault();     
-        if(Password === PasswordConfrim) {                    
+        e.preventDefault();  
 
-            dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
-    } else {
-        alert ("두 비밀번호가 일치하지 않습니다.")
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
 
-}
+        const newTimer = setTimeout(async () => {
+            try {
+                if(Password === PasswordConfrim) {                    
+
+                    dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
+                } else {
+                    alert ("두 비밀번호가 일치하지 않습니다.");
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
 
@@ -96,7 +110,7 @@ function RegisterPage() {
             <button type = "submit">회원가입</button>
         </form>
     </div>
-    )
-}
+    );
+};
 
-export default RegisterPage
+export default RegisterPage;

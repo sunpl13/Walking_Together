@@ -1,6 +1,6 @@
-import React from 'react'
-import '../../styles/stipulation.scss'
-import TopBar from '../../utils/TopBar'
+import React from 'react';
+import '../../styles/stipulation.scss';
+import TopBar from '../../utils/TopBar';
 
 function LocationStipulation() {
     return (
@@ -15,8 +15,8 @@ function LocationStipulation() {
         size="small"/>
         </header>
         <div>
-                        <h3>제1조(목적)</h3>
-                <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 
+            <h3>제1조(목적)</h3>
+            <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 
                 의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
             <h3>제2조(정의)</h3>
             <ul>
@@ -58,7 +58,7 @@ function LocationStipulation() {
                 문화체육관광부장관이 정하는 디지털콘텐츠이용자보호지침, 기타 관계법령 또는 상관례에 따릅니다.</p>
         </div>
         </>
-    )
-}
+    );
+};
 
-export default LocationStipulation
+export default LocationStipulation;

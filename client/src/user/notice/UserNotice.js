@@ -12,7 +12,9 @@ function UserNotice() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    let noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
+    let noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
 
     //page
     const [current, setCurrent] = useState(0);  //현재 페이지
@@ -22,47 +24,85 @@ function UserNotice() {
 
     //공지사항 검색함수
     const Search = () => {
-        dispatch(getNoticeList(current+1,keyword))
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                dispatch(getNoticeList(current+1,keyword));
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
     
     //엔터키 사용시 실행되는 함수 Search함수와 같음
-    const enterKey = () => {
-     if(window.event.keyCode === 13) {
-        dispatch(getNoticeList(current+1,keyword))
-     }   
-    }
+    const enterKey = () => { 
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(window.event.keyCode === 13) {
+                    dispatch(getNoticeList(current+1,keyword));
+                 }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
-        setCurrent(page.selected)
-    }
+        setCurrent(page.selected);
+    };
 
 
     const ChangeKeywordHandler = (e) => {
-        setkeyword(e.target.value)
-    }
+        setkeyword(e.target.value);
+    };
 
     //param function
     function goBack() {
-        history.push('/user/home')
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.push('/user/home');
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     useEffect(() => {
         return (
             dispatch(getNoticeList(1))  //공지사항 목록 받아오기
-        )
-    }, [dispatch])
+        );
+    }, [dispatch]);
 
 //화면에 출력하기 위해 map 함수를 활용
 let homeNotice = noticeList.map(
     item => 
-   {
+    {
        return(
              <NoticeDetail key = {item.noticeId} noticeId = {item.noticeId} title = {item.title} active = {active} setactive = {setactive} content = {item.content}/>
-             )  
+        );
     }
-)
-
+);
 
     return (
         <div id="noticeListWrap">
@@ -98,7 +138,7 @@ let homeNotice = noticeList.map(
                     />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default UserNotice
+export default UserNotice;

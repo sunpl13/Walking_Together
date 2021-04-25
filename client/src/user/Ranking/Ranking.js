@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import TopBar from '../../utils/TopBar';
 import { CgProfile } from "react-icons/cg";
@@ -7,23 +7,40 @@ import '../../styles/ranking.scss';
 import Winners_Flatline from "../../source/Winners_Flatline.svg";
 
 const Ranking = () => {
-    const [ranking, setRanking] = useState([])
+    const [ranking, setRanking] = useState([]);
 
-    useEffect(() => {
-        refresh()
-        return {}
-    }, [])
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     //refresh
-    const refresh = async() => {
-        await axios.get(`/ranking`,
-         {
+    const refresh = useCallback(async() => {
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                await axios.get(`/ranking`, {
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                }).then((res) => {
+                    setRanking(res.data.data);
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    },[timer]);
+
+    useEffect(() => {
+        axios.get(`/ranking`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-        })
-        .then((res) => {
-            setRanking(res.data.data)
-        })
-    }
+        }).then((res) => {
+            setRanking(res.data.data);
+        });
+        return {};
+    }, [refresh]);
 
     return (
         <div id="ranking">

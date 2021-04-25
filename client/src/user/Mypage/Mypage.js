@@ -17,8 +17,11 @@ const Mypage = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"")
-    const [updateState, setUpdateState] = useState(false)
+    
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
+    const stdId = localStorage.getItem('user_info');
+    const [updateState, setUpdateState] = useState(false);
     const [userInfo, setUserInfo] = useState(
         {
             name:'',
@@ -31,97 +34,149 @@ const Mypage = () => {
     );
 
     //state
-    const [dept, setDept] = useState("")
-    const [profilePicture, setProfilePicture] = useState([])
-    const [password1, setPassword1] = useState("")
-    const [password2, setPassword2] = useState("")
+    const [dept, setDept] = useState("");
+    const [profilePicture, setProfilePicture] = useState([]);
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
     
     //회원 정보 가져오기
     const getMypage = useCallback(async() => {
         await axios.get(`/mypage?stdId=${stdId}`,{headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}})
         .then((res) => {
             if(res.data.status===200) {
-                setUserInfo(res.data.data)
-                setDept(res.data.data.department)
+                setUserInfo(res.data.data);
+                setDept(res.data.data.department);
             } else if(res.data.status===400) {
-                console.log("일치하는 회원이 없습니다.")
+                console.log("일치하는 회원이 없습니다.");
             }
-        })
-    },[stdId])
+        });
+    },[stdId]);
 
     //로그아웃 구현
     const logout = useCallback(() => { 
-        if(!stdId){
-            alert("데이터가 없습니다.")
-        } else{
-            if(window.confirm("로그아웃 하시겠습니까?")) {
-                
-                dispatch(logoutHandler());
-                if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                    history.push('/login');
-                }
-            }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    },[stdId, dispatch, history])
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(!stdId){
+                    alert("데이터가 없습니다.");
+                } else{
+                    if(window.confirm("로그아웃 하시겠습니까?")) {
+                        
+                        dispatch(logoutHandler());
+                        if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                            history.push('/login');
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    },[stdId, dispatch, history, timer]);
 
     //파트너로 이동
     const goPartner = useCallback(async() => {
-        await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-        .then(() => history.push('/user/partner'))
-    },[stdId, dispatch, history])
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
+                .then(() => history.push('/user/partner'));
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    },[stdId, dispatch, history, timer]);
 
     //업데이트 상태 리셋
     const reset = useCallback(async() => {
-        setPassword1("")
-        setPassword2("")
-        setProfilePicture([])
-    },[])
+        setPassword1("");
+        setPassword2("");
+        setProfilePicture([]);
+    },[]);
 
     //개인정보 업데이트 취소
     const cancel = useCallback(async() => {
-        await reset()
-        .then(() => {
-            setUpdateState(false)
-        })
-    },[reset])
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                await reset()
+                .then(() => {
+                    setUpdateState(false);
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    },[reset, timer]);
 
     //개인정보 업데이트 제출
     const submit = (e) => {
         e.preventDefault();
 
-        if(password1!==password2) {
-            alert("비밀번호 확인이 일치하지 않습니다.")
-        } else {
-            //create formdata
-            const formData = new FormData();
-            formData.append("stdId", stdId);
-            formData.append("password", password1);
-            formData.append("department", dept);
-            if(profilePicture[0]!==undefined) {
-                formData.append("profilePicture", profilePicture[0]);
-            }
-
-            axios.post(`/mypage/change`, formData, {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                    'Authorization' : `Bearer ${localStorage.getItem("token")}`
-                }
-            }).then(async(res) => {
-                if(res.data.status===200) {
-                    alert("회원 정보 수정 완료")
-                    await getMypage()
-                    .then(() => setUpdateState(false))
-                } else if(res.data.status===400) {
-                    console.log("일치하는 회원이 없습니다.")
-                    setUpdateState(false)
-                }
-            })
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(password1!==password2) {
+                    alert("비밀번호 확인이 일치하지 않습니다.");
+                } else {
+                    //create formdata
+                    const formData = new FormData();
+                    formData.append("stdId", stdId);
+                    formData.append("password", password1);
+                    formData.append("department", dept);
+                    if(profilePicture[0]!==undefined) {
+                        formData.append("profilePicture", profilePicture[0]);
+                    }
+        
+                    axios.post(`/mypage/change`, formData, {
+                        headers: {
+                            'content-type': 'multipart/form-data',
+                            'Authorization' : `Bearer ${localStorage.getItem("token")}`
+                        }
+                    }).then(async(res) => {
+                        if(res.data.status===200) {
+                            alert("회원 정보 수정 완료");
+                            await getMypage()
+                            .then(() => setUpdateState(false));
+                        } else if(res.data.status===400) {
+                            console.log("일치하는 회원이 없습니다.");
+                            setUpdateState(false);
+                        }
+                    })
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     useEffect(() => {
         getMypage();
-    }, [stdId, getMypage, reset])
+    }, [stdId, getMypage, reset]);
 
     return (
         <div id="profileWrap">
@@ -225,7 +280,7 @@ const Mypage = () => {
             </table>
             : null}
         </div>
-    )
-}
+    );
+};
 
 export default Mypage;

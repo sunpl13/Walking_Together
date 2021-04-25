@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import pdfMake from 'pdfmake';
-import '../../../node_modules/pdfmake/build/vfs_fonts.js'
+import '../../../node_modules/pdfmake/build/vfs_fonts.js';
 import { useLocation } from "react-router";
 import TopBar from '../../utils/TopBar';
 import '../../styles/certification.scss';
@@ -20,7 +20,7 @@ const format = (data) => {
             {text: data[0].partnerName, fontSize: 11, alignment: 'center'},
             {text: data[0].careTime, fontSize: 11, alignment: 'center'},
             {text: data[0].ordinaryTime, fontSize: 11, alignment: 'center'}
-        ])
+        ]);
     } else {
         return(data.map((item) => {
             return ([
@@ -32,12 +32,14 @@ const format = (data) => {
                 {text: item.careTime, fontSize: 11, alignment: 'center'},
                 {text: item.ordinaryTime, fontSize: 11, alignment: 'center'}
             ])
-        }))
+        }));
     }
-}
+};
 
 const CertificationAction = () => {
     const location = useLocation();
+
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const data = location.state.res;
     const from = location.state.from;
@@ -118,8 +120,21 @@ const CertificationAction = () => {
     };
 
 	const func = () => {
-        pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
         
     return (
         <div id="certificationAction">
@@ -140,7 +155,7 @@ const CertificationAction = () => {
                 <img src={Files_And_Folder_Flatline} alt=""/>
             </div>
         </div>
-    )
+    );
 };
 
 export default CertificationAction;

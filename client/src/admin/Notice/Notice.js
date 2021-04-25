@@ -12,36 +12,64 @@ const Notice = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     //page
     const [current, setCurrent] = useState(0);  //현재 페이지
-    const pageInfo = useSelector(state => state.noticeReducer.pageInfo)  //전체 페이지 정보
+    const pageInfo = useSelector(state => state.noticeReducer.pageInfo);  //전체 페이지 정보
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
-        setCurrent(page.selected)
-    }
+        setCurrent(page.selected);
+    };
 
-    const noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
+    const noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
 
     //function
     const dispatchNoticeList = useCallback(() => {  //공지사항 목록 받아오기
-        dispatch(getNoticeList(current+1,null))
-    },[dispatch, current])
+        dispatch(getNoticeList(current+1,null));
+    },[dispatch, current]);
 
     //go action
     const goDetail = async(noticeId) => {  //공지사항 세부로 이동
-        await dispatch(selectNotice(noticeId))
-        .then(() => history.push(`/admin/notice-detail/${noticeId}`))
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+        
+        const newTimer = setTimeout(async () => {
+            try {
+                await dispatch(selectNotice(noticeId))
+                .then(() => history.push(`/admin/notice-detail/${noticeId}`));
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+        
+        setTimer(newTimer);
+    };
 
     const goAction = async() => {  //공지사항 삽입으로 이동
-        await dispatch(initSelectedNotice())
-        .then(() => history.push('/admin/notice-insert'))
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+        
+        const newTimer = setTimeout(async () => {
+            try {
+                await dispatch(initSelectedNotice())
+                .then(() => history.push('/admin/notice-insert'));
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+        
+        setTimer(newTimer);
+    };
 
     //useEffect
     useEffect(() => {
         dispatchNoticeList();
-    }, [current, dispatchNoticeList])
+    }, [current, dispatchNoticeList]);
 
     return (
         <div id="noticeWrap">

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react';
 import '../../styles/activity.scss';
 import TopBar from '../../utils/TopBar';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import { getPartner } from '../../modules/activity';
 
 function ActivityStart() {
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const style = {
         display: "flex",
@@ -22,10 +23,23 @@ function ActivityStart() {
     const dispatch = useDispatch();
 
     const onclickHandler = () => {
-        if(window.confirm("활동을 생성하시겠습니까?")) {
-            dispatch(getPartner(stdId, history))
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(window.confirm("활동을 생성하시겠습니까?")) {
+                    dispatch(getPartner(stdId, history));
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
 
     return (
@@ -43,7 +57,7 @@ function ActivityStart() {
                 <button className = "circle" onClick = {onclickHandler}>Start</button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ActivityStart
+export default ActivityStart;

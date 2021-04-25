@@ -6,27 +6,42 @@ import '../../styles/admin.scss';
 const UserInfo = () => {
     const [res,setRes] = useState([]);
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     //filter state
     const [keyword, setKeyword] = useState("");
 
     //button
     const search = () => {
-        axios.get(`/admin/userinfo?keyword=${keyword}`, {
-            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-        }).then((response) => {
-            if(response.data.length!==0) {
-                setRes(response.data.data)
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                axios.get(`/admin/userinfo?keyword=${keyword}`, {
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                }).then((response) => {
+                    if(response.data.length!==0) {
+                        setRes(response.data.data);
+                    }
+                    else {
+                        setRes([]);
+                    }
+                })
+            } catch (e) {
+                console.error('error', e);
             }
-            else {
-                setRes([]);
-            }
-        })
-    }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     //change action
     const changeKeyword = (e) => {
         setKeyword(e.target.value);
-    }
+    };
 
     return (
         <div>

@@ -4,6 +4,12 @@
 .find {
   @include box-default;
 
+  header {
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+
   .find_input {
     display: flex;
     justify-content: center;

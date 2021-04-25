@@ -1,4 +1,4 @@
-import {React} from 'react';
+import {React, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {selectNotice} from '../../modules/notice';
@@ -10,31 +10,58 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     const toggleHandler = () => {           //같은 콘텐츠 클릭시 화면 지우기 구현
-        setactive(title);
-        if(active === title) {
-            setactive("")
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                setactive(title);
+                if(active === title) {
+                    setactive("");
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     const goDetail = async(noticeId) => {
-        await dispatch(selectNotice(noticeId))
-        .then(() => {
-            history.push({
-                pathname : '/user/viewdetail',
-                state : {noticeId : noticeId}
-            })
-        })
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                await dispatch(selectNotice(noticeId))
+                .then(() => {
+                    history.push({
+                        pathname : '/user/viewdetail',
+                        state : {noticeId : noticeId}
+                    })
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div className = "accordion">
             <div className = "accordionHeading">
                 <div className = "container" >
-                    <p onClick = {() => goDetail(noticeId)}>{title}</p>
+                    <p onClick = {goDetail}>{title}</p>
                     <span id="toggle" onClick = {toggleHandler}>{active === title ? "X" : "|||"}</span>
-                    <div className = "info">
-                        </div>
+                    <div className = "info"></div>
                 </div>
             </div>
             <div className = {(active === title ? "show" : "") + " accordionContent"}>
@@ -43,7 +70,7 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default NoticeDetail
+export default NoticeDetail;

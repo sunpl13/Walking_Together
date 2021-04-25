@@ -7,24 +7,39 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 const UserActivityDatail = ({match}) => {
     const history = useHistory();
     
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     const [res,setRes] = useState({});
-    const activityId = match.params.activityId
+    const activityId = match.params.activityId;
 
     useEffect(() => {
         axios.get(`/admin/activityInfo/detail?activityId=${activityId}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             if(res.data.status===404) {
-                alert("존재하지 않는 활동입니다.")
+                alert("존재하지 않는 활동입니다.");
             } else {
-                setRes(res.data.data)
+                setRes(res.data.data);
             }
         })
-    },[activityId])
+    },[activityId]);
 
     const goBack = () => {
-        history.goBack()
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.goBack();
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div id="userActivityDetailWrap">

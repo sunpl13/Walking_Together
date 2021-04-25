@@ -1,4 +1,4 @@
-import {React, useEffect} from 'react'
+import {React, useState, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,6 +7,7 @@ import Couple_Flatline from '../../source/Couple_Flatline.svg';
 import '../../styles/home.scss';
 
 function Home() {
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -15,20 +16,50 @@ function Home() {
     useEffect(() => {
         dispatch(getNoticeList(pages, null));
         //redux에서 notice데이터를 받아옴
-    }, [dispatch])
+    }, [dispatch]);
 
     const notice = useSelector(state => state.noticeReducer.list);
 
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
     const goDetail = async(noticeId) => {
-        await dispatch(selectNotice(noticeId))
-        .then(() => {
-            history.push({
-                pathname : '/user/viewdetail',
-                state : {noticeId : noticeId}
-            })
-        })
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                await dispatch(selectNotice(noticeId))
+                .then(() => {
+                    history.push({
+                        pathname : '/user/viewdetail',
+                        state : {noticeId : noticeId}
+                    })
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
+
+    const goNotice = () => {
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.push('/user/noticelist');
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
     }
 
 
@@ -47,7 +78,7 @@ function Home() {
                 </tbody>
             )
         }
-    )
+    );
 
     return (
         <div id="home">
@@ -67,7 +98,7 @@ function Home() {
                 <div id="noticeWrap">
                     <div id="noticeTop">
                         <span id="noticeTitle"># 공지사항</span>
-                        <button className="user_btn_blue" onClick = {() => {history.push('/user/noticelist')}}> 더보기</button>
+                        <button className="user_btn_blue" onClick = {goNotice}> 더보기</button>
                     </div>
                     <table id="noticeTable">
                         {homeNotice}
@@ -75,7 +106,7 @@ function Home() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

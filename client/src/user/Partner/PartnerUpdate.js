@@ -5,13 +5,13 @@ import { changePartnerHandler, getPartnerBriefInfo } from '../../modules/partner
 import TopBar from '../../utils/TopBar';
 
 const PartnerUpdate = ({match}) => {
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
     const ref = useRef();
 
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"");
+    const stdId = localStorage.getItem('user_info');
 
-    const partner = useSelector(state => state.partner.partnerDetail)  //PARTNER-LIST
+    const partner = useSelector(state => state.partner.partnerDetail);  //PARTNER-LIST
     const partnerId = useState(match.params.partnerId);
 
     const [partnerName, setPartnerName] = useState(partner.partnerName);
@@ -22,51 +22,92 @@ const PartnerUpdate = ({match}) => {
     const [gender, setGender] = useState(partner.gender);
     const [partnerBirth, setPartnerBirth] = useState(partner.partnerBirth);
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     //submit function
     function submit(e) {
         e.preventDefault();
 
-        if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
-            alert("모든 항목을 기입해주세요.");
-        } else {
-            const res = window.confirm("등록하시겠습니까?");
-            if(res===true) {
-                updatePartner()
-            }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
+                    alert("모든 항목을 기입해주세요.");
+                } else {
+                    const res = window.confirm("등록하시겠습니까?");
+                    if(res===true) {
+                        updatePartner();
+                    }
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     //param function
     const updatePartner = async() => {
-        //create formdata
-        const formData = new FormData();
-        formData.append("partnerId", partnerId[0]);
-        formData.append("partnerName", partnerName);
-        formData.append("partnerDetail", partnerDetail);
-        formData.append("partnerPhoto", partnerPhoto[0]);
-        formData.append("selectionReason", selectionReason);
-        formData.append("relationship", relationship);
-        formData.append("gender", gender);
-        formData.append("partnerBirth", partnerBirth);
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
 
-        await dispatch(changePartnerHandler(formData))
-        .then(async() => {
-            await dispatch(getPartnerBriefInfo(stdId))
-            .then(() => {
-                alert("정보 수정이 완료되었습니다.")
-                history.push('/user/partner')
-            })
-        })
-    }
+        const newTimer = setTimeout(async () => {
+            try {
+                //create formdata
+                const formData = new FormData();
+                formData.append("partnerId", partnerId[0]);
+                formData.append("partnerName", (partnerName).replaceAll(" ",""));
+                formData.append("partnerDetail", partnerDetail);
+                formData.append("partnerPhoto", partnerPhoto[0]);
+                formData.append("selectionReason", selectionReason);
+                formData.append("relationship", relationship);
+                formData.append("gender", gender);
+                formData.append("partnerBirth", partnerBirth);
+
+                await dispatch(changePartnerHandler(formData))
+                .then(async() => {
+                    await dispatch(getPartnerBriefInfo(stdId))
+                    .then(() => {
+                        alert("정보 수정이 완료되었습니다.");
+                        history.push('/user/partner');
+                    })
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     function cancel() {
-        const res = window.confirm("취소하시겠습니까?")
-        if(res === true) {
-            history.push('/user/partner')
-        }else{
-            return;
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                const res = window.confirm("취소하시겠습니까?");
+                if(res === true) {
+                    history.push('/user/partner');
+                }else{
+                    return;
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div>

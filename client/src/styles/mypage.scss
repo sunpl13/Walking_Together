@@ -16,6 +16,11 @@
         padding: 40px 0px;
         .td1 {
             width: 40%;
+            img {
+                width: 100px;
+                height: 100px;
+                border-radius: 100px;
+            }   
         }
         .td2 {
             width: 60%;
@@ -33,7 +38,7 @@
             font-weight: bold;
             border-top: 1px solid $tableBorder-;
             * {
-                padding: 20px 40px;
+                padding: 20px 35px;
                 text-decoration: none;
                 color: $fontGray;
             }

@@ -5,24 +5,38 @@ import TopBar from '../../utils/TopBar';
 import { checkPartnerDetail } from "../../utils/Function";
 
 const PartnerDetail = ({match}) => {
-    const history = useHistory()
+    const history = useHistory();
+
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const partner = useSelector(state => state.partner.partnerDetail);
 
     //state
     const [partnerId] = useState(match.params.partnerId);
-    
     const [detail, setDetail] = useState("");
 
     //param function
     function goBack() {
-        history.push('/user/partner')
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.push('/user/partner');
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     //useEffect
     useEffect(() => {
-        setDetail(checkPartnerDetail(partner.partnerDetail))
-    }, [partner])
+        setDetail(checkPartnerDetail(partner.partnerDetail));
+    }, [partner]);
     
     return (
         <div>
@@ -62,7 +76,7 @@ const PartnerDetail = ({match}) => {
                         <tr>
                             <td className="td1">파트너 사진</td>
                             <td className="td2">
-                                <img src={partner.partnerPhoto||''} alt="파트너 이미지"></img>
+                            {partner.partnerPhoto!==null?<img src={partner.partnerPhoto} alt="파트너 이미지"/>:null}
                             </td>
                         </tr>
                     </tbody>

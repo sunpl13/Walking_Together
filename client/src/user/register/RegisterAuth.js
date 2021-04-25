@@ -1,33 +1,47 @@
-import React, {useState} from 'react'
-import {useHistory, useLocation} from 'react-router-dom'
-import '../../styles/register.scss'
-import TopBar from '../../utils/TopBar'
+import React, {useState} from 'react';
+import {useHistory, useLocation} from 'react-router-dom';
+import '../../styles/register.scss';
+import TopBar from '../../utils/TopBar';
 
 function RegisterAuth() {
     const location = useLocation();
     const history = useHistory();
-    console.log(location.state);
 
-    const [authNum, setauthNum] = useState("")
+    const [authNum, setauthNum] = useState("");
+
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
 
     //인증번호를 통한 본인인증
     const identificationHandler = () => {
-        if(location.state.state.authNum === authNum) {
-            if(window.confirm("본인 인증이 완료 되었습니다.")) {
-                history.push({
-                    pathname : '/register',
-                    state : {email : location.state.email}
-                });
-            }
-        } else {
-            alert("인증번호가 일치하지 않습니다.")
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(location.state.state.authNum === authNum) {
+                    if(window.confirm("본인 인증이 완료 되었습니다.")) {
+                        history.push({
+                            pathname : '/register',
+                            state : {email : location.state.email}
+                        });
+                    }
+                } else {
+                    alert("인증번호가 일치하지 않습니다.");
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     const onChangeHandler = e => {
-        setauthNum(e.target.value)
-    }
+        setauthNum(e.target.value);
+    };
 
     return (
         <>
@@ -52,7 +66,7 @@ function RegisterAuth() {
             </div>
         </div>
     </>
-    )
-}
+    );
+};
 
-export default RegisterAuth
+export default RegisterAuth;

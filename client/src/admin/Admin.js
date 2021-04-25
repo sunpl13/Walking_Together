@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux';
 
 import { logoutHandler } from '../modules/user';
 
@@ -17,24 +17,39 @@ import NoticeDetail from './Notice/NoticeDetail';
 import '../styles/admin.scss';
 
 const Admin = () => {
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"")
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
+    const stdId = localStorage.getItem('user_info').replace(/"/g,"");
     const dispatch = useDispatch();
     const history = useHistory();
 
     //function
     const logout = () => {  //logout
-        if(!stdId){
-            alert("데이터가 없습니다.")
-        } else{
-            if(window.confirm("로그아웃 하시겠습니까?")) {
-                
-                dispatch(logoutHandler());
-                if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                    history.push('/login');
-                }
-            }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(!stdId){
+                    alert("데이터가 없습니다.");
+                } else{
+                    if(window.confirm("로그아웃 하시겠습니까?")) {
+                        
+                        dispatch(logoutHandler());
+                        if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                            history.push('/login');
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div>

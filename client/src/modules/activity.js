@@ -30,17 +30,17 @@ export const getPartner = (
     })
     .then((res) => {
         if(res.data.status===400) {
-            alert("파트너 정보가 존재하지 않습니다.")
-            history.push('/partner')
+            alert("파트너 정보가 존재하지 않습니다.");
+            history.push('/partner');
         } else {
             dispatch({
                 type: GETPARTNER,
                 payload: res.data.partners
-            })
-            history.push('/user/createactivity')
+            });
+            history.push('/user/createactivity');
         }
     }).catch((err) => alert(err));
-}
+};
 
 //활동 생성
 export const createActivity = (
@@ -59,13 +59,13 @@ export const createActivity = (
                     partnerId: formData.get('partnerId'),
                     activityId: res.data.activityId
                 }
-            })
-            alert(res.data.message)
+            });
+            alert(res.data.message);
         } else {
-            alert(res.data.message)
+            alert(res.data.message);
         }
-    }).catch((err) => alert(err))
-}
+    }).catch((err) => alert(err));
+};
 
 //위치 정보 업데이트
 export const getLocation = (
@@ -80,8 +80,8 @@ export const getLocation = (
                 lng: longitude,
                 time: time
             }
-        })
-}
+        });
+};
 
 //활동 종료
 export const finishActivity = (
@@ -98,8 +98,8 @@ export const finishActivity = (
 
     dispatch({
         type: FINISHACTIVITY
-    })
-}
+    });
+};
 
 //강제종료된 활동 처리
 export const quitActivity = (
@@ -119,8 +119,8 @@ export const quitActivity = (
 
     dispatch({
         type: FINISHACTIVITY
-    })
-}
+    });
+};
 
 
 //reducer
@@ -131,7 +131,7 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
             return { 
                 ...state, 
                 partner: action.payload 
-            }
+            };
         
         case CREATEACTIVITY:
             return {
@@ -140,7 +140,7 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
                     partnerId: action.payload.partnerId,
                     activityId: action.payload.activityId
                 }
-            }
+            };
 
         case UPDATEPHOTO:
             return {
@@ -149,7 +149,7 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
                     startTime: action.payload,
                     activity: 1
                 }
-            }
+            };
         
         case GETLOCATION:
             return {
@@ -161,7 +161,7 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
                         time: action.payload.time
                     }
                 ]
-            }
+            };
 
         case FINISHACTIVITY:
             return {
@@ -173,11 +173,11 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
                     startTime: 0,
                 },
                 location: {}
-            }
+            };
 
         default:
-            return state
-    }
-}
+            return state;
+    };
+};
 
 export default activityReducer;

@@ -1,4 +1,4 @@
-import { React, useState, useRef } from 'react'
+import { React, useState, useRef } from 'react';
 import { createActivity } from '../../modules/activity';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
@@ -7,15 +7,17 @@ import TopBar from '../../utils/TopBar';
 import '../../styles/activity.scss';
 
 function ActivityRegister() {
-    const history = useHistory()
-    const dispatch = useDispatch()
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    const stdId = localStorage.getItem('user_info')
-    const partnerId = localStorage.getItem('partnerId')
-    localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId))
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
-    const [picture, setPicture] = useState([])
-    const [buttonFirst, setButtonFirst] = useState(true)
+    const stdId = localStorage.getItem('user_info');
+    const partnerId = localStorage.getItem('partnerId');
+    localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId));
+
+    const [picture, setPicture] = useState([]);
+    const [buttonFirst, setButtonFirst] = useState(true);
 
     const camera = useRef();
     const frame = useRef();
@@ -24,32 +26,58 @@ function ActivityRegister() {
         let reader = new FileReader();
 
         reader.onloadend = () => {
-            const base64 = reader.result
+            const base64 = reader.result;
             if (base64) {
               frame.current.src=base64;
             }
         }
         if (e.target.files[0]) {
-            reader.readAsDataURL(e.target.files[0]) // 파일을 버퍼에 저장
-            setPicture(e.target.files[0]) // 파일 상태 업데이트
-            setButtonFirst(false)
+            reader.readAsDataURL(e.target.files[0]); // 파일을 버퍼에 저장
+            setPicture(e.target.files[0]); // 파일 상태 업데이트
+            setButtonFirst(false);
         }
-    }
+    };
 
     //param function
     function goBack() {
-        history.goBack()
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.goBack();
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     function createAction(e) {
         e.preventDefault();
 
-        if(picture.length===0) {
-            alert("사진 촬영 후 활동 등록이 가능합니다.")
-        } else {
-            submit()
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(picture.length===0) {
+                    alert("사진 촬영 후 활동 등록이 가능합니다.");
+                } else {
+                    submit();
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     const submit = async() => {
         //create formdata
@@ -59,8 +87,8 @@ function ActivityRegister() {
         formData.append("startPhoto", picture);
 
         await dispatch(createActivity(formData))
-        .then(() => history.push('/activity'))
-    }
+        .then(() => history.push('/activity'));
+    };
 
 
     return (
@@ -102,7 +130,7 @@ function ActivityRegister() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ActivityRegister
+export default ActivityRegister;

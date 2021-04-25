@@ -10,51 +10,91 @@ function FeedDetail() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
-    
 
     const [reviewState, setReviewState] = useState(false);
     const [review, setReview] = useState("");
 
     const reviewChange = (e) => {
         setReview(e.target.value)
-    }
+    };
 
     const updateReview = () => {
-        if(review.length>=100) {
-            dispatch(updateFeed(feedItem.activityId, review))
-            .then(() => {
-                setReviewState(!reviewState)
-            })
-        } else {
-            alert("소감문을 100자 이상 작성해주세요.");
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(review.length>=100) {
+                    dispatch(updateFeed(feedItem.activityId, review))
+                    .then(() => {
+                        setReviewState(!reviewState);
+                    });
+                } else {
+                    alert("소감문을 100자 이상 작성해주세요.");
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     const buttonAction = () => {
-        if(feedItem.endTime!==null) {
-            if(reviewState===true) {
-                return (
-                    <div>
-                        <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>
-                    </div>
-                )
-            }
-            else {
-                if(feedItem.review===null) {
-                    return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>
-                }
-                else {
-                    return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>
-                }
-            }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(feedItem.endTime!==null) {
+                    if(reviewState===true) {
+                        return (
+                            <div>
+                                <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>
+                            </div>
+                        );
+                    }
+                    else {
+                        if(feedItem.review===null) {
+                            return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>
+                        }
+                        else {
+                            return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     //param function
     function goBack() {
-        history.push('/user/feed')
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.push('/user/feed');
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div>
@@ -100,7 +140,7 @@ function FeedDetail() {
                         <tr>
                             <td className="td1">소감문</td>
                             <td className="td2">
-                            { buttonAction() }
+                            {buttonAction}
                             </td>
                         </tr>       
                     </tbody>
@@ -111,7 +151,7 @@ function FeedDetail() {
                     :
                         <textarea className="inputText" onChange={reviewChange} 
                         placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
-                        minLength="100" maxLength="300" defaultValue={feedItem.review}></textarea>
+                        minLength="100" maxLength="800" defaultValue={feedItem.review}></textarea>
                     }     
                 </div>
             </div>

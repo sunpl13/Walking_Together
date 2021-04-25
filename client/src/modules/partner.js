@@ -22,8 +22,8 @@ export const createPartnerHandler = (
 
     await dispatch({
         type : CREATE_PARTNER,
-    })
-}
+    });
+};
 
 //파트너 간단한 정보 받아오는 액션
 export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
@@ -34,10 +34,10 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
         dispatch({
             type : GET_PARTNER_BRIEF_INFO,
             payload : res.data.partnerList
-        })
+        });
     })
     .catch(err => console.log(err));
-}
+};
 
 //파트너의 상세정보 받아오기
 export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
@@ -55,7 +55,7 @@ export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
         }
     })
     .catch(err => console.log(err));
-}
+};
 
 //파트너 정보 변경
 export const changePartnerHandler = (
@@ -74,8 +74,8 @@ export const changePartnerHandler = (
 
     await dispatch({
         type : CHANGE_PARTNER
-    })
-}
+    });
+};
 
 //파트너 삭제
 export const deletePartnerHandler = (partnerId) => async(dispatch) => {
@@ -89,8 +89,8 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 
     await dispatch({
         type : DELETE_PARTNER
-    })
-}
+    });
+};
 
 
 
@@ -135,5 +135,5 @@ export default function partner(state = initialstate, action) {
             }
         default :
         return state;
-    }
-}
+    };
+};

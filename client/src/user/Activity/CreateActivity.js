@@ -1,37 +1,63 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { checkPartnerDetail } from "../../utils/Function";
 import TopBar from '../../utils/TopBar';
 
-import '../../styles/activity.scss'
+import '../../styles/activity.scss';
 import Notifications_Flatline from '../../source/Notifications_Flatline.svg';
 
 const CreateActivity = () => {
     const history = useHistory();
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
-    const partners = useSelector(state => state.activityReducer.partner)
-
-    const [partnerId, setPartnerId] = useState(0)
+    const partners = useSelector(state => state.activityReducer.partner);
+    const [partnerId, setPartnerId] = useState(0);
 
     //param function
     function goBack() {
-        history.goBack()
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.goBack();
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     function createActivity() {  //사진과 한 번에 보내야 하므로 일단 로컬스토리지에 저장
-        if(partnerId===0) {
-            alert("파트너를 선택해주세요.");
-        } else {
-            const res = window.confirm("등록하시겠습니까?");
-            if(res) {
-                localStorage.setItem('partnerId', partnerId)
-                history.push('/user/activity-register')
-            } else {
-                return;
-            }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                if(partnerId===0) {
+                    alert("파트너를 선택해주세요.");
+                } else {
+                    const res = window.confirm("등록하시겠습니까?");
+                    if(res) {
+                        localStorage.setItem('partnerId', partnerId);
+                        history.push('/user/activity-register');
+                    } else {
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     const today = new Date();
     const year = today.getFullYear().toString();
@@ -58,7 +84,7 @@ const CreateActivity = () => {
                 
                 <div id="create_activity_wrap">
                     <label className="tdActTitle">파트너</label>
-                    <select className="tdActCon" onChange={(e) => setPartnerId(e.target.value)}>
+                    <select className="inputSelect" onChange={(e) => setPartnerId(e.target.value)}>
                         <option value={0}>선택</option>
                         {partners.length!==0 ?
                             partners.map((partner) => {

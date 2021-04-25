@@ -7,34 +7,49 @@ import '../../styles/certification.scss';
 const Certification = () => {
     const history = useHistory();
 
-    const stdId = localStorage.getItem('user_info')
-    const [from, setFrom] = useState()
-    const [to, setTo] = useState()
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
+    const stdId = localStorage.getItem('user_info');
+    const [from, setFrom] = useState();
+    const [to, setTo] = useState();
 
     const submit = async() => {
-        if(from===undefined||to===undefined) {
-            alert("기간을 지정해주세요.")
-        } else {
-            const replaceFrom = from.replaceAll("-","/")
-            const replaceTo = to.replaceAll("-","/")
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
 
-            await axios.post(`/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`, {}, {
-                headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-            }).then(async(res) => {
-                if(res.data.data.length!==0) {
-                    history.push({
-                        pathname: '/user/certification-action',
-                        state: {
-                            res: res.data,
-                            from: replaceFrom,
-                            to: replaceTo
+        const newTimer = setTimeout(async () => {
+            try {
+                if(from===undefined||to===undefined) {
+                    alert("기간을 지정해주세요.");
+                } else {
+                    const replaceFrom = from.replaceAll("-","/");
+                    const replaceTo = to.replaceAll("-","/");
+        
+                    await axios.post(`/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`, {}, {
+                        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                    }).then(async(res) => {
+                        if(res.data.data.length!==0) {
+                            history.push({
+                                pathname: '/user/certification-action',
+                                state: {
+                                    res: res.data,
+                                    from: replaceFrom,
+                                    to: replaceTo
+                                }
+                            });
+                        } else {
+                            alert("검색 결과가 없습니다.");
                         }
                     })
-                } else {
-                    alert("검색 결과가 없습니다.")
                 }
-            })
-        }
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
     }
 
     return (

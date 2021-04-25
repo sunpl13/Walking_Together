@@ -12,6 +12,8 @@ const NoticeInsert = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     const [title,setTitle] = useState("");
     const [content, setContent] = useState("");
     const [attachedFiles, setAttachedFiles] = useState([]);
@@ -20,58 +22,86 @@ const NoticeInsert = () => {
     //취소 시 이전 페이지로 이동
     const cancel = (e) => {
         e.preventDefault();
-        const res = window.confirm("취소하시겠습니까?")
-        if(res === true) {
-            history.goBack();
-        }else{
-            console.log("cancel");
+
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
-    }
+        
+        const newTimer = setTimeout(async () => {
+            try {
+                const res = window.confirm("취소하시겠습니까?")
+                if(res === true) {
+                    history.goBack();
+                }else{
+                    console.log("cancel");
+                }
+            } catch (e) {
+            console.error('error', e);
+            }
+        }, 800);
+        
+        setTimer(newTimer);
+    };
 
     const setImage = (e) => {
-        setImageFiles(e.target.files)
-    }
+        setImageFiles(e.target.files);
+    };
     
     const setAttached = (e) => {
-        setAttachedFiles(e.target.files)
-    }
+        setAttachedFiles(e.target.files);
+    };
 
     //submit
     const submit = (e) => {
         e.preventDefault();
-        if(content==="") {
-            return(alert("내용을 입력해주세요."))
+
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
         }
         
-        //create formdata
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("content", content);
-
-        //files null check
-        if(attachedFiles.length!==0) {
-            if(attachedFiles.length===1) {
-                formData.append("attachedFiles", attachedFiles[0])
-            }
-            else {
-                for (let i = 0; i < attachedFiles.length; i++) {
-                    formData.append(`attachedFiles`, attachedFiles[i])
+        const newTimer = setTimeout(async () => {
+            try {
+                if(content==="") {
+                    return(alert("내용을 입력해주세요."));
                 }
+                
+                //create formdata
+                const formData = new FormData();
+                formData.append("title", title);
+                formData.append("content", content);
+        
+                //files null check
+                if(attachedFiles.length!==0) {
+                    if(attachedFiles.length===1) {
+                        formData.append("attachedFiles", attachedFiles[0]);
+                    }
+                    else {
+                        for (let i = 0; i < attachedFiles.length; i++) {
+                            formData.append(`attachedFiles`, attachedFiles[i]);
+                        }
+                    }
+                }
+                if(imageFiles.length!==0) {
+                    formData.append("imageFiles", imageFiles[0]);
+                }
+        
+                //action dispatch
+                dispatch(insertNotice(formData))
+                .then(() => getNotice());
+            } catch (e) {
+            console.error('error', e);
             }
-        }
-        if(imageFiles.length!==0) {
-            formData.append("imageFiles", imageFiles[0])
-        }
-
-        //action dispatch
-        dispatch(insertNotice(formData))
-        .then(() => getNotice())
-    }
+        }, 800);
+        
+        setTimer(newTimer);
+    };
 
     const getNotice = async() => {
         await dispatch(getNoticeList(1,null))
-        .then(() => history.push('/admin/notice'))
-    }
+        .then(() => history.push('/admin/notice'));
+    };
 
     //editor module and formats
     const modules = {
@@ -83,7 +113,7 @@ const NoticeInsert = () => {
           [{ 'align': [] }, { 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
           ['clean']
         ],
-      }
+    };
     
     const formats = [
         //'font',
@@ -92,7 +122,7 @@ const NoticeInsert = () => {
         'list', 'bullet', 'indent',
         'link',
         'align', 'color', 'background',        
-      ]
+    ];
 
     return (
         <div id="noticeActionForm">

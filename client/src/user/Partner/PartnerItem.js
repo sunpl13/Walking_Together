@@ -7,21 +7,36 @@ import { getPartnerDetailInfo } from '../../modules/partner';
 import { IoIosArrowForward } from "react-icons/io";
 
 const PartnerItem = ({state}) => {
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const [detail, setDetail] = useState("");
 
     useEffect(() => {
-        setDetail(checkPartnerDetail(state.partnerDetail))
-    }, [state])
+        setDetail(checkPartnerDetail(state.partnerDetail));
+    }, [state]);
 
     const itemClick = async() => {
-        await dispatch(getPartnerDetailInfo(state.partnerId))
-        .then(() => {
-            history.push(`/user/partner-datail/${state.partnerId}`)
-        })
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                await dispatch(getPartnerDetailInfo(state.partnerId))
+                .then(() => {
+                    history.push(`/user/partner-datail/${state.partnerId}`);
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <tr id="partner_item" onClick={itemClick}>

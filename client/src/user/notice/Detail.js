@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectNotice} from '../../modules/notice';
@@ -11,16 +11,31 @@ function Detail() {
     const history = useHistory();
     const location = useLocation();
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     let view = useSelector(state => state.noticeReducer.selectedNotice);
 
     useEffect(() => {
-        dispatch(selectNotice(location.state.noticeId))
-    },[dispatch, location.state.noticeId])
+        dispatch(selectNotice(location.state.noticeId));
+    },[dispatch, location.state.noticeId]);
 
     //param function
     function goBack() {
-        history.goBack()
-    }
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(async () => {
+            try {
+                history.goBack();
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     return (
         <div>
@@ -44,7 +59,7 @@ function Detail() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Detail
+export default Detail;

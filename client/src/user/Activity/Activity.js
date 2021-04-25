@@ -10,6 +10,8 @@ import '../../styles/activity.scss';
 const Activity = () => {
     const dispatch = useDispatch();
 
+    const [timer, setTimer] = useState(0); // 디바운싱 타이머
+
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
     script.async = true;
@@ -23,7 +25,7 @@ const Activity = () => {
 
     window.getLoc1State = function() {  //get function
         return loc1State;
-    }
+    };
 
     //location 1
     const [loc1, setLoc1] = useState({lat:0, lon:0});  //state
@@ -44,7 +46,7 @@ const Activity = () => {
     const [index, setIndex] = useState(0);  //state
     window.getIndex = function() {  //get function
         return index;
-    }
+    };
 
     
 
@@ -69,7 +71,7 @@ const Activity = () => {
       } else {
           console.log("not ready");
       }
-    }
+    };
 
 
     //F-지도 생성
@@ -103,20 +105,20 @@ const Activity = () => {
             } else {
                 clearInterval(interval);  //활동 중지
             }
-        }
+        };
 
         //F-위치 받아오기 => 맵 중심 이동 => 선 생성 30초마다 반복
         const interval = setInterval(() => {
             func();  //활동 상태 체크
-        }, 30000)
-    }
+        }, 3000);
+    };
 
 
     //F-지도 중심 이동
     const panTo = (map, lat, lon) => {
         var moveLatLon = new window.kakao.maps.LatLng(lat, lon);  //이동할 위치 좌표 생성
         map.panTo(moveLatLon); //부드럽게 move
-    }
+    };
 
     //F-geolocation 사용자 위치 받아오기
     const getLocation = async() => {
@@ -153,8 +155,7 @@ const Activity = () => {
         })
         }
         alert('GPS를 지원하지 않습니다');
-    }
-
+    };
 
 
     //useEffect
@@ -162,8 +163,8 @@ const Activity = () => {
         script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
             window.kakao.maps.load(() => {
                 creation();
-            })
-        }
+            });
+        };
 
     }, []);
 
@@ -171,8 +172,8 @@ const Activity = () => {
         getLocation()
         .then((res) => {
             createMap(res.latitude, res.longitude);
-        })
-    }
+        });
+    };
 
 
 
@@ -180,22 +181,35 @@ const Activity = () => {
     const captureRef = useRef();
 
     const stop = async() => {
-        setActivityState(false);
+        // 디바운싱
+        if (timer) {
+            clearTimeout(timer);
+        }
 
-        await getScreenshot()
-        .then((res) => {
-            const endLocation = JSON.parse(localStorage.getItem("location"+window.getIndex()));
+        const newTimer = setTimeout(async () => {
+            try {
+                setActivityState(false);
 
-            const formData = new FormData();
-            formData.append("activityId", localStorage.getItem("activityId"));
-            formData.append("map", res);
-            formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
-            formData.append("distance", localStorage.getItem("distance"));
-            formData.append("checkNormalQuit", 0);
+                await getScreenshot()
+                .then((res) => {
+                    const endLocation = JSON.parse(localStorage.getItem("location"+window.getIndex()));
 
-            dispatch(finishActivity(formData));
-        })
-    }
+                    const formData = new FormData();
+                    formData.append("activityId", localStorage.getItem("activityId"));
+                    formData.append("map", res);
+                    formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
+                    formData.append("distance", localStorage.getItem("distance"));
+                    formData.append("checkNormalQuit", 0);
+
+                    dispatch(finishActivity(formData));
+                });
+            } catch (e) {
+                console.error('error', e);
+            }
+        }, 800);
+
+        setTimer(newTimer);
+    };
 
     const getScreenshot = async() => {
         await html2canvas(captureRef.current)
@@ -205,7 +219,7 @@ const Activity = () => {
 
             return image;
         }
-    )}
+    )};
 
 
     return (
@@ -226,6 +240,6 @@ const Activity = () => {
             <input type="hidden" value={activityState} ref={state} onChange={(e) => setActivityState(e.target.value)}/>
         </div>
     );
-}
+};
 
 export default Activity;
