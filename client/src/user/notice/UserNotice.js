@@ -4,6 +4,8 @@ import ReactPaginate from 'react-paginate';
 import {getNoticeList} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { debounce } from "lodash";
+
 import NoticeDetail from './NoticeDetail';
 import TopBar from '../../utils/TopBar';
 
@@ -11,8 +13,6 @@ import TopBar from '../../utils/TopBar';
 function UserNotice() {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     let noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
 
@@ -23,42 +23,16 @@ function UserNotice() {
     const [active, setactive] = useState("");
 
     //공지사항 검색함수
-    const Search = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                dispatch(getNoticeList(current+1,keyword));
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const Search = debounce(() => {
+        dispatch(getNoticeList(current+1,keyword));
+    }, 800);
     
     //엔터키 사용시 실행되는 함수 Search함수와 같음
-    const enterKey = () => { 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+    const enterKey = debounce(() => { 
+        if(window.event.keyCode === 13) {
+            dispatch(getNoticeList(current+1,keyword));
         }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(window.event.keyCode === 13) {
-                    dispatch(getNoticeList(current+1,keyword));
-                 }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    }, 800);
 
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
@@ -71,22 +45,9 @@ function UserNotice() {
     };
 
     //param function
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/user/home');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goBack = debounce(() => {
+        history.push('/user/home');
+    }, 800);
 
     useEffect(() => {
         return (

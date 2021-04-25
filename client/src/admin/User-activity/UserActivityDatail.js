@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { debounce } from "lodash";
 
 import { AiFillCloseCircle } from 'react-icons/ai';
 
 const UserActivityDatail = ({match}) => {
     const history = useHistory();
-    
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const [res,setRes] = useState({});
     const activityId = match.params.activityId;
@@ -24,22 +23,9 @@ const UserActivityDatail = ({match}) => {
         })
     },[activityId]);
 
-    const goBack = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.goBack();
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
     return (
         <div id="userActivityDetailWrap">

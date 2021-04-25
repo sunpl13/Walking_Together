@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
 import TopBar from '../../utils/TopBar';
+import { debounce } from "lodash";
 
 import '../../styles/feed.scss';
 
 function FeedDetail() {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
 
@@ -21,80 +20,41 @@ function FeedDetail() {
         setReview(e.target.value)
     };
 
-    const updateReview = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+    const updateReview = debounce(() => {
+        if(review.length>=100) {
+            dispatch(updateFeed(feedItem.activityId, review))
+            .then(() => {
+                setReviewState(!reviewState);
+            });
+        } else {
+            alert("소감문을 100자 이상 작성해주세요.");
         }
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                if(review.length>=100) {
-                    dispatch(updateFeed(feedItem.activityId, review))
-                    .then(() => {
-                        setReviewState(!reviewState);
-                    });
-                } else {
-                    alert("소감문을 100자 이상 작성해주세요.");
-                }
-            } catch (e) {
-                console.error('error', e);
+    const buttonAction = debounce(() => {
+        if(feedItem.endTime!==null) {
+            if(reviewState===true) {
+                return (
+                    <div>
+                        <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>
+                    </div>
+                );
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
-
-    const buttonAction = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+            else {
+                if(feedItem.review===null) {
+                    return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>
+                }
+                else {
+                    return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>
+                }
+            }
         }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(feedItem.endTime!==null) {
-                    if(reviewState===true) {
-                        return (
-                            <div>
-                                <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>
-                            </div>
-                        );
-                    }
-                    else {
-                        if(feedItem.review===null) {
-                            return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>
-                        }
-                        else {
-                            return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>
-                        }
-                    }
-                }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    }, 800);
 
     //param function
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/user/feed');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goBack = debounce(() => {
+        history.push('/user/feed');
+    }, 800);
 
     return (
         <div>

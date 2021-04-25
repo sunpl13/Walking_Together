@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { debounce } from "lodash";
+
 import PartnerItem from '../Partner/PartnerItem';
 import TopBar from '../../utils/TopBar';
 
@@ -10,42 +12,14 @@ const Partner = () => {
     const history = useHistory();
     const partner = useSelector(state => state.partner.briefPartner);  //PARTNER-LIST
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     //param function
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
+    const goBack = debounce(() => {
+        history.push('/user/mypage');
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/user/mypage');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
-
-    function goCreatePartner() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push(`/user/partner-insert`);
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goCreatePartner = debounce(() => {
+        history.push(`/user/partner-insert`);
+    }, 800);
 
     return (
         <div>

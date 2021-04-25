@@ -3,14 +3,13 @@ import { createActivity } from '../../modules/activity';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import TopBar from '../../utils/TopBar';
+import { debounce } from "lodash";
 
 import '../../styles/activity.scss';
 
 function ActivityRegister() {
     const history = useHistory();
     const dispatch = useDispatch();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const stdId = localStorage.getItem('user_info');
     const partnerId = localStorage.getItem('partnerId');
@@ -39,45 +38,19 @@ function ActivityRegister() {
     };
 
     //param function
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                history.goBack();
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
-
-    function createAction(e) {
+    const createAction = debounce((e) => {
         e.preventDefault();
 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+        if(picture.length===0) {
+            alert("사진 촬영 후 활동 등록이 가능합니다.");
+        } else {
+            submit();
         }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(picture.length===0) {
-                    alert("사진 촬영 후 활동 등록이 가능합니다.");
-                } else {
-                    submit();
-                }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    }, 800);
 
     const submit = async() => {
         //create formdata

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../styles/activity.scss';
 import TopBar from '../../utils/TopBar';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import { getPartner } from '../../modules/activity';
+import { debounce } from "lodash";
 
 function ActivityStart() {
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     const style = {
         display: "flex",
         justifyContent: "center",
@@ -22,24 +21,11 @@ function ActivityStart() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const onclickHandler = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+    const onclickHandler = debounce(() => {
+        if(window.confirm("활동을 생성하시겠습니까?")) {
+            dispatch(getPartner(stdId, history));
         }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(window.confirm("활동을 생성하시겠습니까?")) {
-                    dispatch(getPartner(stdId, history));
-                }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    }, 800);
 
 
     return (

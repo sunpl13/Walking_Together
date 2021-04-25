@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
+import { debounce } from "lodash";
+
 import '../../styles/register.scss';
 import TopBar from '../../utils/TopBar';
 
@@ -9,35 +11,20 @@ function RegisterAuth() {
 
     const [authNum, setauthNum] = useState("");
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
 
     //인증번호를 통한 본인인증
-    const identificationHandler = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(location.state.state.authNum === authNum) {
-                    if(window.confirm("본인 인증이 완료 되었습니다.")) {
-                        history.push({
-                            pathname : '/register',
-                            state : {email : location.state.email}
-                        });
-                    }
-                } else {
-                    alert("인증번호가 일치하지 않습니다.");
-                }
-            } catch (e) {
-                console.error('error', e);
+    const identificationHandler = debounce(() => {
+        if(location.state.state.authNum === authNum) {
+            if(window.confirm("본인 인증이 완료 되었습니다.")) {
+                history.push({
+                    pathname : '/register',
+                    state : {email : location.state.email}
+                });
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+        } else {
+            alert("인증번호가 일치하지 않습니다.");
+        }
+    }, 800);
 
     const onChangeHandler = e => {
         setauthNum(e.target.value);

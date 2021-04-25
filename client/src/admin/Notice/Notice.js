@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
+import { debounce } from "lodash";
 import '../../styles/notice.scss';
 import '../../styles/admin.scss';
 
@@ -11,8 +12,6 @@ import { selectNotice, initSelectedNotice } from '../../modules/notice';
 const Notice = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     //page
     const [current, setCurrent] = useState(0);  //현재 페이지
@@ -30,41 +29,15 @@ const Notice = () => {
     },[dispatch, current]);
 
     //go action
-    const goDetail = async(noticeId) => {  //공지사항 세부로 이동
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-        
-        const newTimer = setTimeout(async () => {
-            try {
-                await dispatch(selectNotice(noticeId))
-                .then(() => history.push(`/admin/notice-detail/${noticeId}`));
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-        
-        setTimer(newTimer);
-    };
+    const goDetail = debounce((noticeId) => {  //공지사항 세부로 이동
+        dispatch(selectNotice(noticeId))
+        .then(() => history.push(`/admin/notice-detail/${noticeId}`));
+    },800);
 
-    const goAction = async() => {  //공지사항 삽입으로 이동
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-        
-        const newTimer = setTimeout(async () => {
-            try {
-                await dispatch(initSelectedNotice())
-                .then(() => history.push('/admin/notice-insert'));
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-        
-        setTimer(newTimer);
-    };
+    const goAction = debounce(() => {  //공지사항 삽입으로 이동
+        dispatch(initSelectedNotice())
+        .then(() => history.push('/admin/notice-insert'));
+    }, 800);
 
     //useEffect
     useEffect(() => {

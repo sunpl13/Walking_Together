@@ -4,12 +4,11 @@ import axios from 'axios';
 import { useHistory } from 'react-router';
 import TopBar from '../../utils/TopBar';
 import '../../styles/find.scss';
+import { debounce } from "lodash";
 
 function FindPassword() {
 
     const history = useHistory();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const [birth, setbirth] = useState("");
     const [stdId, setstdId] = useState("");
@@ -23,39 +22,26 @@ function FindPassword() {
         setstdId(e.currentTarget.value);
     };
 
-    const findpasswordHandler = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                axios.post('/findpassword', {
-                    stdId : stdId,
-                    name : Name,
-                    birth : birth
+    const findpasswordHandler = debounce(() => {
+        axios.post('/findpassword', {
+            stdId : stdId,
+            name : Name,
+            birth : birth
+        })
+        .then(res => {if(res.data.status === "200") {
+            if(window.confirm(res.data.message)) {
+                history.push({
+                    pathname : '/findresult',
+                    state : {email : res.data.email}
                 })
-                .then(res => {if(res.data.status === "200") {
-                    if(window.confirm(res.data.message)) {
-                        history.push({
-                            pathname : '/findresult',
-                            state : {email : res.data.email}
-                        })
-                    }
-                } else {
-                    alert(res.data.message);
-                }}
-                    
-                )
-                .catch(err => err);
-            } catch (e) {
-                console.error('error', e);
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+        } else {
+            alert(res.data.message);
+        }}
+            
+        )
+        .catch(err => err);
+    }, 800);
 
     /*
     if(res.data.status == 200) {
@@ -70,22 +56,9 @@ function FindPassword() {
     }
 */
 
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.goBack();
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
     return (
     

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import pdfMake from 'pdfmake';
 import '../../../node_modules/pdfmake/build/vfs_fonts.js';
 import { useLocation } from "react-router";
 import TopBar from '../../utils/TopBar';
 import '../../styles/certification.scss';
+import { debounce } from "lodash";
 
 import Files_And_Folder_Flatline from '../../source/Files_And_Folder_Flatline.svg';
 
@@ -38,8 +39,6 @@ const format = (data) => {
 
 const CertificationAction = () => {
     const location = useLocation();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const data = location.state.res;
     const from = location.state.from;
@@ -119,22 +118,9 @@ const CertificationAction = () => {
         }
     };
 
-	const func = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+	const func = debounce(() => {
+        pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
+    }, 800);
         
     return (
         <div id="certificationAction">

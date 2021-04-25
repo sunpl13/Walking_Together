@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { debounce } from "lodash";
+
 import { createPartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 import TopBar from '../../utils/TopBar';
 
 const PartnerInsert = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const stdId = localStorage.getItem('user_info');
     
@@ -21,54 +21,28 @@ const PartnerInsert = () => {
     const [partnerBirth, setPartnerBirth] = useState("");
 
     //param function
-    function cancel() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+    const cancel = debounce(() => {
+        const res = window.confirm("취소하시겠습니까?");
+        if(res===true) {
+            history.goBack();
         }
+        else {
+            return;
+        }
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                const res = window.confirm("취소하시겠습니까?");
-                if(res===true) {
-                    history.goBack();
-                }
-                else {
-                    return;
-                }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
-
-    function submit(e) {
+    const submit = debounce((e) => {
         e.preventDefault();
 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
-                    alert("모든 항목을 기입해주세요.");
-                } else {
-                    const res = window.confirm("등록하시겠습니까?");
-                    if(res===true) {
-                        createPartner();
-                    }
-                }
-            } catch (e) {
-                console.error('error', e);
+        if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
+            alert("모든 항목을 기입해주세요.");
+        } else {
+            const res = window.confirm("등록하시겠습니까?");
+            if(res===true) {
+                createPartner();
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+        }
+    }, 800);
 
     //button action
     const createPartner = async() => {

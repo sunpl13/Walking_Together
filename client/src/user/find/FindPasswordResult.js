@@ -1,31 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router';
 import '../../styles/find.scss';
 import TopBar from '../../utils/TopBar';
+import { debounce } from "lodash";
 
 function FindPasswordResult() {
 
     const history = useHistory();
     const location = useLocation();
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
-    const goLogin = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/login')
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goLogin = debounce(() => {
+        history.push('/login')        
+    }, 800);
 
     return (
         <div className = "find_auth">

@@ -1,14 +1,14 @@
-import {React, useState, useEffect} from 'react';
+import {React, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
+import { debounce } from "lodash";
+
 import TopBar from '../../utils/TopBar';
 import Couple_Flatline from '../../source/Couple_Flatline.svg';
 import '../../styles/home.scss';
 
 function Home() {
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     const history = useHistory();
     const dispatch = useDispatch();
     const pages = 1;    //공지사항 최근 페이지를 불러옴
@@ -22,45 +22,19 @@ function Home() {
 
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
-    const goDetail = async(noticeId) => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
+    const goDetail = debounce(async(noticeId) => {
+        await dispatch(selectNotice(noticeId))
+        .then(() => {
+            history.push({
+                pathname : '/user/viewdetail',
+                state : {noticeId : noticeId}
+            })
+        });
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                await dispatch(selectNotice(noticeId))
-                .then(() => {
-                    history.push({
-                        pathname : '/user/viewdetail',
-                        state : {noticeId : noticeId}
-                    })
-                });
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
-
-    const goNotice = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/user/noticelist');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    }
+    const goNotice = debounce(() => {
+        history.push('/user/noticelist');
+    }, 800);
 
 
     //화면에 출력하기 위해 map 함수를 활용

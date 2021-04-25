@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { CSVLink } from "react-csv";
+import { debounce } from "lodash";
 
 
 const UserActivity = () => {
     const [res,setRes] = useState([]);
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     //filter state
     const [keyword, setKeyword] = useState("");
@@ -20,48 +19,35 @@ const UserActivity = () => {
         {code: 1, name: "돌봄 걷기" }
     ];
 
-    const search = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(from===""||to==="") {
-                    alert("조회 기간을 지정해주세요.");
-                } else {
-                    if(keyword==="") {
-                        axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
-                            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-                        }).then((response) => {
-                            if(response.data.data.length!==0) {
-                                setRes(response.data.data);
-                            }
-                            else {
-                                setRes([]);
-                            }
-                        })
-                    } else {
-                        axios.get(`/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
-                            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-                        }).then((response) => {
-                            if(response.data.data.length!==0) {
-                                setRes(response.data.data);
-                            }
-                            else {
-                                setRes([]);
-                            }
-                        })
+    const search = debounce(() => {
+        if(from===""||to==="") {
+            alert("조회 기간을 지정해주세요.");
+        } else {
+            if(keyword==="") {
+                axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                }).then((response) => {
+                    if(response.data.data.length!==0) {
+                        setRes(response.data.data);
                     }
-                }
-            } catch (e) {
-                console.error('error', e);
+                    else {
+                        setRes([]);
+                    }
+                })
+            } else {
+                axios.get(`/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+                }).then((response) => {
+                    if(response.data.data.length!==0) {
+                        setRes(response.data.data);
+                    }
+                    else {
+                        setRes([]);
+                    }
+                })
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+        }
+    }, 800);
 
     //change action
     const changeKeyword = (e) => {  //keyword change

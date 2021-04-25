@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
+import { debounce } from "lodash";
+
 import TopBar from '../../utils/TopBar';
 import { checkPartnerDetail } from "../../utils/Function";
 
 const PartnerDetail = ({match}) => {
     const history = useHistory();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const partner = useSelector(state => state.partner.partnerDetail);
 
@@ -16,22 +16,9 @@ const PartnerDetail = ({match}) => {
     const [detail, setDetail] = useState("");
 
     //param function
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/user/partner');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goBack = debounce(() => {
+        history.push('/user/partner');
+    }, 800);
 
     //useEffect
     useEffect(() => {

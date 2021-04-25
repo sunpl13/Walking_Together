@@ -4,13 +4,12 @@ import { useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
 import TopBar from '../../utils/TopBar';
 import { finishActivity } from '../../modules/activity';
+import { debounce } from "lodash";
 
 import '../../styles/activity.scss';
 
 const Activity = () => {
     const dispatch = useDispatch();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
@@ -110,7 +109,7 @@ const Activity = () => {
         //F-위치 받아오기 => 맵 중심 이동 => 선 생성 30초마다 반복
         const interval = setInterval(() => {
             func();  //활동 상태 체크
-        }, 3000);
+        }, 30000);
     };
 
 
@@ -180,36 +179,23 @@ const Activity = () => {
     //stop function
     const captureRef = useRef();
 
-    const stop = async() => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
+    const stop = debounce(async() => {
+        setActivityState(false);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                setActivityState(false);
+        await getScreenshot()
+        .then((res) => {
+            const endLocation = localStorage.getItem("location"+window.getIndex());
 
-                await getScreenshot()
-                .then((res) => {
-                    const endLocation = JSON.parse(localStorage.getItem("location"+window.getIndex()));
+            const formData = new FormData();
+            formData.append("activityId", localStorage.getItem("activityId"));
+            formData.append("map", res);
+            formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
+            formData.append("distance", localStorage.getItem("distance"));
+            formData.append("checkNormalQuit", 0);
 
-                    const formData = new FormData();
-                    formData.append("activityId", localStorage.getItem("activityId"));
-                    formData.append("map", res);
-                    formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
-                    formData.append("distance", localStorage.getItem("distance"));
-                    formData.append("checkNormalQuit", 0);
-
-                    dispatch(finishActivity(formData));
-                });
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+            dispatch(finishActivity(formData));
+        });
+    }, 800);
 
     const getScreenshot = async() => {
         await html2canvas(captureRef.current)

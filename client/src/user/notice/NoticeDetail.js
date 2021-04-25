@@ -1,59 +1,32 @@
-import {React, useState} from 'react';
+import {React} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {selectNotice} from '../../modules/notice';
 import  '../../styles/accordion.scss';
 
 import ReactHtmlParser from 'react-html-parser';
+import { debounce } from "lodash";
 
 function NoticeDetail({title, active, setactive, content, noticeId}) {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
-    const toggleHandler = () => {           //같은 콘텐츠 클릭시 화면 지우기 구현
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+    const toggleHandler = debounce(() => {           //같은 콘텐츠 클릭시 화면 지우기 구현
+        setactive(title);
+        if(active === title) {
+            setactive("");
         }
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                setactive(title);
-                if(active === title) {
-                    setactive("");
-                }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
-
-    const goDetail = async(noticeId) => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                await dispatch(selectNotice(noticeId))
-                .then(() => {
-                    history.push({
-                        pathname : '/user/viewdetail',
-                        state : {noticeId : noticeId}
-                    })
-                });
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goDetail = debounce(async(noticeId) => {
+        await dispatch(selectNotice(noticeId))
+        .then(() => {
+            history.push({
+                pathname : '/user/viewdetail',
+                state : {noticeId : noticeId}
+            })
+        });
+    }, 800);
 
     return (
         <div className = "accordion">

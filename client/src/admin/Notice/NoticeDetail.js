@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
+import { debounce } from "lodash";
 
 import { deleteNotice } from '../../modules/notice';
 import '../../styles/admin.scss';
@@ -11,48 +12,17 @@ const NoticeDetail = ({match}) => {
     const dispatch = useDispatch();
     const noticeId = match.params.noticeId;
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
     //action
-    const delNotice = useCallback(async() => {              //공지글 삭제
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-        
-        const newTimer = setTimeout(async () => {
-            try {
-                const delConfirm = window.confirm("삭제하시겠습니까?");
-                if (delConfirm === true) {
-                    await dispatch(deleteNotice(noticeId))
-                    .then(()=> history.push('/admin/notice'));
-                }
-            } catch (e) {
-            console.error('error', e);
-            }
-        }, 800);
-        
-        setTimer(newTimer);
-    },[dispatch, history, noticeId, timer]);
+    const delNotice = debounce(() => {              //공지글 삭제
+        dispatch(deleteNotice(noticeId))
+        .then(()=> history.push('/admin/notice'));
+    },800);
 
-    const goUpdate = useCallback(async() => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-        
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/admin/notice-update');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-        
-        setTimer(newTimer);
-    }, [history, timer]);
+    const goUpdate = debounce(() => {
+        history.push('/admin/notice-update');
+    }, 800);
 
     return (
         <div id="noticeDetail">

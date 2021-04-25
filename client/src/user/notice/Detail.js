@@ -1,6 +1,8 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect} from 'react';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
+import { debounce } from "lodash";
+
 import {selectNotice} from '../../modules/notice';
 import TopBar from '../../utils/TopBar';
 
@@ -11,8 +13,6 @@ function Detail() {
     const history = useHistory();
     const location = useLocation();
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     let view = useSelector(state => state.noticeReducer.selectedNotice);
 
     useEffect(() => {
@@ -20,22 +20,9 @@ function Detail() {
     },[dispatch, location.state.noticeId]);
 
     //param function
-    function goBack() {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.goBack();
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
     return (
         <div>

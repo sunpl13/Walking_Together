@@ -3,6 +3,8 @@ import {signupHanlder} from '../../modules/user';
 import {useDispatch} from 'react-redux';
 import {useHistory, useLocation} from 'react-router-dom';
 import moment from 'moment';
+import { debounce } from "lodash";
+
 import {option} from '../../utils/options';
 import TopBar from '../../utils/TopBar';
 import '../../styles/register.scss';
@@ -13,8 +15,6 @@ function RegisterPage() {
     const history = useHistory();
     const location = useLocation();
         
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     const Email = location.state.email;
     const [Name, setName] = useState("");
     const [Password, setPassword] = useState("");
@@ -49,29 +49,15 @@ function RegisterPage() {
         setPasswordConfrim(e.currentTarget.value)
     };
 
-    const register = async(e) => {
+    const register = debounce(async(e) => {
         e.preventDefault();  
 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+        if(Password === PasswordConfrim) {                    
+            dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
+        } else {
+            alert ("두 비밀번호가 일치하지 않습니다.");
         }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(Password === PasswordConfrim) {                    
-
-                    dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
-                } else {
-                    alert ("두 비밀번호가 일치하지 않습니다.");
-                }
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+    }, 800);
 
     return (
 

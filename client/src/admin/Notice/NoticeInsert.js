@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { insertNotice, getNoticeList } from '../../modules/notice';
+import { debounce } from "lodash";
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -12,37 +13,22 @@ const NoticeInsert = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
     const [title,setTitle] = useState("");
     const [content, setContent] = useState("");
     const [attachedFiles, setAttachedFiles] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
 
     //취소 시 이전 페이지로 이동
-    const cancel = (e) => {
+    const cancel = debounce((e) => {
         e.preventDefault();
 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+        const res = window.confirm("취소하시겠습니까?")
+        if(res === true) {
+            history.goBack();
+        }else{
+            console.log("cancel");
         }
-        
-        const newTimer = setTimeout(async () => {
-            try {
-                const res = window.confirm("취소하시겠습니까?")
-                if(res === true) {
-                    history.goBack();
-                }else{
-                    console.log("cancel");
-                }
-            } catch (e) {
-            console.error('error', e);
-            }
-        }, 800);
-        
-        setTimer(newTimer);
-    };
+    },800);
 
     const setImage = (e) => {
         setImageFiles(e.target.files);
@@ -53,50 +39,37 @@ const NoticeInsert = () => {
     };
 
     //submit
-    const submit = (e) => {
+    const submit = debounce((e) => {
         e.preventDefault();
 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
+        if(content==="") {
+            return(alert("내용을 입력해주세요."));
         }
         
-        const newTimer = setTimeout(async () => {
-            try {
-                if(content==="") {
-                    return(alert("내용을 입력해주세요."));
-                }
-                
-                //create formdata
-                const formData = new FormData();
-                formData.append("title", title);
-                formData.append("content", content);
-        
-                //files null check
-                if(attachedFiles.length!==0) {
-                    if(attachedFiles.length===1) {
-                        formData.append("attachedFiles", attachedFiles[0]);
-                    }
-                    else {
-                        for (let i = 0; i < attachedFiles.length; i++) {
-                            formData.append(`attachedFiles`, attachedFiles[i]);
-                        }
-                    }
-                }
-                if(imageFiles.length!==0) {
-                    formData.append("imageFiles", imageFiles[0]);
-                }
-        
-                //action dispatch
-                dispatch(insertNotice(formData))
-                .then(() => getNotice());
-            } catch (e) {
-            console.error('error', e);
+        //create formdata
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+
+        //files null check
+        if(attachedFiles.length!==0) {
+            if(attachedFiles.length===1) {
+                formData.append("attachedFiles", attachedFiles[0]);
             }
-        }, 800);
-        
-        setTimer(newTimer);
-    };
+            else {
+                for (let i = 0; i < attachedFiles.length; i++) {
+                    formData.append(`attachedFiles`, attachedFiles[i]);
+                }
+            }
+        }
+        if(imageFiles.length!==0) {
+            formData.append("imageFiles", imageFiles[0]);
+        }
+
+        //action dispatch
+        dispatch(insertNotice(formData))
+        .then(() => getNotice());
+    },800);
 
     const getNotice = async() => {
         await dispatch(getNoticeList(1,null))

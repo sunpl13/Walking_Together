@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { CSVLink } from "react-csv";
+import { debounce } from "lodash";
 
 import '../../styles/admin.scss';
 
 const PartnerInfo = () => {
     const [res,setRes] = useState([]);
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     //filter state
     const [keyword, setKeyword] = useState("");
@@ -22,31 +21,18 @@ const PartnerInfo = () => {
     ];
 
     //button
-    const search = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
-                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-                }).then((res) => {
-                    if(res.data.data.length===0) {
-                        alert("조회 결과가 없습니다.");
-                        setRes([]);
-                    } else {
-                        setRes(res.data.data);
-                    }
-                })
-            } catch (e) {
-                console.error('error', e);
+    const search = debounce(() => {
+        axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        }).then((res) => {
+            if(res.data.data.length===0) {
+                alert("조회 결과가 없습니다.");
+                setRes([]);
+            } else {
+                setRes(res.data.data);
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+        })
+    }, 800);
 
     //change action
     const changeKeyword = (e) => {

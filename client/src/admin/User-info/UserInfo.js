@@ -1,42 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { debounce } from "lodash";
 
 import '../../styles/admin.scss';
 
 const UserInfo = () => {
     const [res,setRes] = useState([]);
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
+    
     //filter state
     const [keyword, setKeyword] = useState("");
 
     //button
-    const search = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                axios.get(`/admin/userinfo?keyword=${keyword}`, {
-                    headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-                }).then((response) => {
-                    if(response.data.length!==0) {
-                        setRes(response.data.data);
-                    }
-                    else {
-                        setRes([]);
-                    }
-                })
-            } catch (e) {
-                console.error('error', e);
+    const search = debounce(() => {
+        axios.get(`/admin/userinfo?keyword=${keyword}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        }).then((response) => {
+            if(response.data.length!==0) {
+                setRes(response.data.data);
             }
-        }, 800);
-
-        setTimer(newTimer);
-    };
+            else {
+                setRes([]);
+            }
+        });
+    }, 800);
 
     //change action
     const changeKeyword = (e) => {

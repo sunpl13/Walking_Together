@@ -1,13 +1,14 @@
 import {React,useState} from 'react';
 import {useDispatch} from 'react-redux';
 import { useHistory } from 'react-router';
+import { debounce } from "lodash";
+
 import {loginHandler} from '../../modules/user';
 import '../../styles/login.scss';
+
 function Login() {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const [stdId, setstdId] = useState("");
     const [Password, setPassword] = useState("");
@@ -25,56 +26,17 @@ function Login() {
     };
 
 
-    const login = () => {                                                //회원정보를 서버에 전송
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
+    const login = debounce(() => {                                                //회원정보를 서버에 전송
+        dispatch(loginHandler(stdId, Password, history));
+    }, 800);
 
-        const newTimer = setTimeout(async () => {
-            try {
-                dispatch(loginHandler(stdId, Password, history));
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
+    const goSignup = debounce(() => {
+        history.push('/signup');
+    }, 800);
 
-        setTimer(newTimer);
-    };
-
-    const goSignup = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/signup');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    }
-
-    const goFindPw = () => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                history.push('/findpassword');
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer); 
-    }
+    const goFindPw = debounce(() => {
+        history.push('/findpassword');
+    }, 800);
 
     return (
         <div>

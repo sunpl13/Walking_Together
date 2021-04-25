@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
 import {useDispatch} from 'react-redux'
 import axios from 'axios';
+import { debounce } from "lodash";
 
 import { CgProfile } from "react-icons/cg";
 import { IoIosArrowForward } from "react-icons/io";
@@ -16,9 +17,6 @@ import '../../styles/mypage.scss';
 const Mypage = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-
-    
-    const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
     const stdId = localStorage.getItem('user_info');
     const [updateState, setUpdateState] = useState(false);
@@ -53,51 +51,25 @@ const Mypage = () => {
     },[stdId]);
 
     //로그아웃 구현
-    const logout = useCallback(() => { 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(!stdId){
-                    alert("데이터가 없습니다.");
-                } else{
-                    if(window.confirm("로그아웃 하시겠습니까?")) {
-                        
-                        dispatch(logoutHandler());
-                        if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                            history.push('/login');
-                        }
-                    }
+    const logout = debounce(() => { 
+        if(!stdId){
+            alert("데이터가 없습니다.");
+        } else{
+            if(window.confirm("로그아웃 하시겠습니까?")) {
+                
+                dispatch(logoutHandler());
+                if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                    history.push('/login');
                 }
-            } catch (e) {
-                console.error('error', e);
             }
-        }, 800);
-
-        setTimer(newTimer);
-    },[stdId, dispatch, history, timer]);
+        }
+    }, 800);
 
     //파트너로 이동
-    const goPartner = useCallback(async() => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-                .then(() => history.push('/user/partner'));
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    },[stdId, dispatch, history, timer]);
+    const goPartner = debounce(async() => {
+        await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
+        .then(() => history.push('/user/partner'));
+    }, 800);
 
     //업데이트 상태 리셋
     const reset = useCallback(async() => {
@@ -107,72 +79,46 @@ const Mypage = () => {
     },[]);
 
     //개인정보 업데이트 취소
-    const cancel = useCallback(async() => {
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                await reset()
-                .then(() => {
-                    setUpdateState(false);
-                });
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-
-        setTimer(newTimer);
-    },[reset, timer]);
+    const cancel = debounce(async() => {
+        await reset()
+        .then(() => {
+            setUpdateState(false);
+        });
+    }, 800);
 
     //개인정보 업데이트 제출
-    const submit = (e) => {
+    const submit = debounce((e) => {
         e.preventDefault();
 
-        // 디바운싱
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        const newTimer = setTimeout(async () => {
-            try {
-                if(password1!==password2) {
-                    alert("비밀번호 확인이 일치하지 않습니다.");
-                } else {
-                    //create formdata
-                    const formData = new FormData();
-                    formData.append("stdId", stdId);
-                    formData.append("password", password1);
-                    formData.append("department", dept);
-                    if(profilePicture[0]!==undefined) {
-                        formData.append("profilePicture", profilePicture[0]);
-                    }
-        
-                    axios.post(`/mypage/change`, formData, {
-                        headers: {
-                            'content-type': 'multipart/form-data',
-                            'Authorization' : `Bearer ${localStorage.getItem("token")}`
-                        }
-                    }).then(async(res) => {
-                        if(res.data.status===200) {
-                            alert("회원 정보 수정 완료");
-                            await getMypage()
-                            .then(() => setUpdateState(false));
-                        } else if(res.data.status===400) {
-                            console.log("일치하는 회원이 없습니다.");
-                            setUpdateState(false);
-                        }
-                    })
-                }
-            } catch (e) {
-                console.error('error', e);
+        if(password1!==password2) {
+            alert("비밀번호 확인이 일치하지 않습니다.");
+        } else {
+            //create formdata
+            const formData = new FormData();
+            formData.append("stdId", stdId);
+            formData.append("password", password1);
+            formData.append("department", dept);
+            if(profilePicture[0]!==undefined) {
+                formData.append("profilePicture", profilePicture[0]);
             }
-        }, 800);
 
-        setTimer(newTimer);
-    };
+            axios.post(`/mypage/change`, formData, {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                    'Authorization' : `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then(async(res) => {
+                if(res.data.status===200) {
+                    alert("회원 정보 수정 완료");
+                    await getMypage()
+                    .then(() => setUpdateState(false));
+                } else if(res.data.status===400) {
+                    console.log("일치하는 회원이 없습니다.");
+                    setUpdateState(false);
+                }
+            })
+        }
+    }, 800);
 
     useEffect(() => {
         getMypage();
