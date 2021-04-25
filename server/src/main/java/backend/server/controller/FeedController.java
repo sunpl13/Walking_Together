@@ -56,7 +56,7 @@ public class FeedController {
     }
 
     @PostMapping("/feed/detail/review")
-    public Map<String, Object> feedReview(@RequestParam(value="activityId") Long activityId,
+    public Map<String, Object> feedReview(@RequestParam(value = "activityId") Long activityId,
                                           @RequestParam(value = "review") @Nullable String review) {
 
         Map<String, Object> response = new HashMap<>();
