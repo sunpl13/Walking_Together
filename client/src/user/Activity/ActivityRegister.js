@@ -2,7 +2,7 @@ import { React, useState, useRef } from 'react'
 import { createActivity } from '../../modules/activity';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 
 import '../../styles/activity.scss';
 
@@ -64,16 +64,15 @@ function ActivityRegister() {
 
 
     return (
-        <div id="activityRegisterWrap">
-            <header>
-                <TopBar 
-                    left="cancel" 
-                    center={{title:"사진 등록", data:null}} 
-                    right="create" 
-                    lfunc={goBack}
-                    rfunc={createAction}
-                    size="small"/>
-            </header>
+        <MainContainer header ={{
+        left : "cancel",
+        center : {title : "사진등록", data : null},
+        right :  "create",
+        lfunc : () => goBack(),
+        rfunc : () => createAction(),
+        size :"small"
+        }}>
+            <div id="activityRegisterWrap" >
             <div id="activityRegister">
                 <div className = "picture_container">
                     {picture.length===0?
@@ -101,7 +100,8 @@ function ActivityRegister() {
                     </form>
                 </div>
             </div>
-        </div>
+            </div>
+        </MainContainer>
     )
 }
 

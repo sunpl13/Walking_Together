@@ -2,7 +2,7 @@ import React from 'react';
 import pdfMake from 'pdfmake';
 import '../../../node_modules/pdfmake/build/vfs_fonts.js'
 import { useLocation } from "react-router";
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 import '../../styles/certification.scss';
 
 import Files_And_Folder_Flatline from '../../source/Files_And_Folder_Flatline.svg';
@@ -122,16 +122,15 @@ const CertificationAction = () => {
     }
         
     return (
-        <div id="certificationAction">
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"인증서 발급", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "인증서발급", data : null},
+            right : "null" ,
+            lfunc : () => null,
+            rfunc : () => null,
+            size :"small"
+        }}>
+            <div id="certificationAction">
             <div id="buttonWrap">
                 <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
             </div>
@@ -139,7 +138,8 @@ const CertificationAction = () => {
             <div id="imageWrap">
                 <img src={Files_And_Folder_Flatline} alt=""/>
             </div>
-        </div>
+            </div>
+        </MainContainer>
     )
 };
 

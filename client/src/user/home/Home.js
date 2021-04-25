@@ -2,7 +2,7 @@ import {React, useEffect} from 'react'
 import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 import Couple_Flatline from '../../source/Couple_Flatline.svg';
 import '../../styles/home.scss';
 
@@ -50,31 +50,30 @@ function Home() {
     )
 
     return (
-        <div id="home">
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"HOME", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
-            <div id="homeWrap">
-                <span id="logo">Walking Together</span>
-                <img src={Couple_Flatline} width="250" alt="logo"/>
+        <MainContainer header = {{ 
+        left : "null",
+        center : {title : "HOME", data : null},
+        right : "null" ,
+        lfunc : "null",
+        rfunc : "null",
+        size :"small"}}>
+            <div id="home" >
+                <div id="homeWrap">
+                        <span id="logo">Walking Together</span>
+                        <img src={Couple_Flatline} width="250" alt="logo"/>
                 
-                <div id="noticeWrap">
-                    <div id="noticeTop">
-                        <span id="noticeTitle"># 공지사항</span>
-                        <button className="user_btn_blue" onClick = {() => {history.push('/user/noticelist')}}> 더보기</button>
-                    </div>
-                    <table id="noticeTable">
-                        {homeNotice}
-                    </table>
+                        <div id="noticeWrap">
+                            <div id="noticeTop">
+                                <span id="noticeTitle"># 공지사항</span>
+                                <button className="user_btn_blue" onClick = {() => {history.push('/user/noticelist')}}> 더보기</button>
+                            </div>
+                            <table id="noticeTable">
+                                {homeNotice}
+                            </table>
+                        </div>
                 </div>
             </div>
-        </div>
+        </MainContainer>
     )
 }
 

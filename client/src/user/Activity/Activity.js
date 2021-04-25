@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux'
 import html2canvas from 'html2canvas';
-import TopBar from '../../utils/TopBar';
 import { finishActivity } from '../../modules/activity';
+import MainContainer from '../../utils/MainContainer'
 
 import '../../styles/activity.scss';
 
@@ -206,22 +206,20 @@ const Activity = () => {
 
 
     return (
-        <div className="map">
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"활동", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer className="map" header = {{
+            left : "null",
+            center : {title : "활동", data : null},
+            right : "null" ,
+            lfunc : "null",
+            rfunc : "null",
+            size :"small"
+            }}>
             <div id='map' ref={captureRef}></div>
             <div id="buttonWrap">
                 <button onClick={stop} className="user_btn_blue">중단</button>
             </div>
             <input type="hidden" value={activityState} ref={state} onChange={(e) => setActivityState(e.target.value)}/>
-        </div>
+        </MainContainer>
     );
 }
 

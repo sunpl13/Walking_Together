@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createPartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 
 const PartnerInsert = () => {
     const dispatch = useDispatch();
@@ -64,16 +64,15 @@ const PartnerInsert = () => {
     }
     
     return (
-        <div>
-            <header>
-                <TopBar 
-                    left="cancel" 
-                    center={{title:"파트너 등록", data:null}} 
-                    right="create" 
-                    lfunc={cancel}
-                    rfunc={submit}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "cancel",
+            center : {title : "파트너 등록", data : null},
+            right : "create" ,
+            lfunc : () => cancel(),
+            rfunc : () => submit(),
+            size :"small"
+        }}>
+            
             <form action="/partner/create" className="partner_form" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <label>파트너 구분</label>
                 <select className="inputSelect" name="partnerDetail" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
@@ -116,7 +115,7 @@ const PartnerInsert = () => {
                 <label>파트너 사진</label>
                 <input className="inputFile" type="file" name="partnerPhoto" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
             </form>
-        </div>
+        </MainContainer>
     );
 };
 

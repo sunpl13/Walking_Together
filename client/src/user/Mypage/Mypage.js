@@ -175,7 +175,7 @@ const Mypage = () => {
                             <label>프로필 이미지</label>
                             <input className="inputFile" type="file" name="profilePicture" accept="image/*" onChange={(e) => setProfilePicture(e.target.files)}></input>
                         </div>
-                        <br />
+                        <br/>
 
                         <div className="mypageInputWrap">
                             <label>학과</label>
@@ -185,19 +185,19 @@ const Mypage = () => {
                                 })}
                             </select>
                         </div>
-                        <br />
+                        <br/>
 
                         <div className="mypageInputWrap">
                             <label>비밀번호</label>
                             <input className="input" type="password" name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)}></input>
                         </div>
-                        <br />
+                        <br/>
                         
                         <div className="mypageInputWrap">
                             <label>비밀번호 확인</label>
                             <input className="input" type="password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}></input>
                         </div>
-                        <br />
+                        <br/>
                     </form>
                 </div>
             }

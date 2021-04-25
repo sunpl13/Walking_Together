@@ -1,9 +1,10 @@
 import React from 'react'
 import '../../styles/activity-start.scss';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux';
 import { getPartner } from '../../modules/activity';
+
 
 function ActivityStart() {
 
@@ -29,20 +30,18 @@ function ActivityStart() {
 
 
     return (
-        <div>
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"활동", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "활동", data : null},
+            right : "null" ,
+            lfunc : "null",
+            rfunc : "null",
+            size :"small"
+        }}>
             <div style = {style}>
                 <button className = "circle" onClick = {onclickHandler}>시작</button>
             </div>
-        </div>
+        </MainContainer>
     )
 }
 
