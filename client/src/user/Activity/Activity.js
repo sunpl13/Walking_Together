@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux'
 import html2canvas from 'html2canvas';
 import TopBar from '../../utils/TopBar';
+import { finishActivity } from '../../modules/activity';
 
 import '../../styles/activity.scss';
 
 const Activity = () => {
+    const dispatch = useDispatch()
+
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
     script.async = true;
@@ -174,21 +178,31 @@ const Activity = () => {
     //stop function
     const captureRef = useRef();
 
-    const stop = () => {
+    const stop = async() => {
         setActivityState(false)
-        getScreenshot();
+
+        await getScreenshot()
+        .then((res) => {
+            const formData = new FormData()
+            formData.append("activityId", localStorage.getItem("activityId"));
+            formData.append("map", res);
+            formData.append("endTime", localStorage.getItem("location"+window.getIndex()));
+            formData.append("distance", localStorage.getItem("distance"));
+            formData.append("checkNormalQuit", 0);
+
+            dispatch(finishActivity(formData))
+        })
     }
 
-    const getScreenshot = () => {
-        html2canvas(captureRef.current)
+    const getScreenshot = async() => {
+        await html2canvas(captureRef.current)
         .then(canvas => {
             const capture = canvas.toDataURL("image/png", 0.8);
             const image = capture.replace("data:image/png;base64,","");
-            const param = {
-                img : image
-            }
-            console.log(capture);
-    })}
+
+            return image;
+        }
+    )}
 
 
     return (

@@ -59,7 +59,7 @@ function ActivityRegister() {
         formData.append("startPhoto", picture);
 
         await dispatch(createActivity(formData))
-        .then(() => history.push('/user/activity'))
+        .then(() => history.push('/activity'))
     }
 
 
