@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { changePartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 
 const PartnerUpdate = ({match}) => {
     const dispatch = useDispatch()
@@ -69,17 +69,14 @@ const PartnerUpdate = ({match}) => {
     }
 
     return (
-        <div>
-            <header>
-            {/* top bar */}
-                <TopBar 
-                    left="cancel" 
-                    center={{title:"파트너 수정", data:null}} 
-                    right="create" 
-                    lfunc={cancel}
-                    rfunc={submit}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "cancel",
+            center : {title : "파트너 수정", data : null},
+            right : "create" ,
+            lfunc : () => cancel(),
+            rfunc : () => submit(),
+            size :"small"
+        }}>
             <form action="/partner/change" className="partner_form" id={ref} encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
                 <label>파트너 구분</label>
                 <select className="inputSelect" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
@@ -125,7 +122,7 @@ const PartnerUpdate = ({match}) => {
 
                 <input type="hidden" name="partnerId" value={partnerId}/>
             </form>
-        </div>
+        </MainContainer>
     );
 };
 

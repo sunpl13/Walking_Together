@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 import { checkPartnerDetail } from "../../utils/Function";
 
 const PartnerDetail = ({match}) => {
@@ -25,17 +25,15 @@ const PartnerDetail = ({match}) => {
     }, [partner])
     
     return (
-        <div>
-            <header>
-            {/* top bar */}
-                <TopBar 
-                    left="null" 
-                    center={{title:partner.partnerName, data:null}} 
-                    right="cancel" 
-                    lfunc={null}
-                    rfunc={goBack}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title:partner.partnerName, data:null},
+            right : "cancel" ,
+            lfunc : () => null,
+            rfunc : () => goBack(),
+            size :"small"
+        }}>
+            
             <div id="partner_detail">
                 <table id="partner_detail_table">
                     <tbody>
@@ -72,7 +70,7 @@ const PartnerDetail = ({match}) => {
                     <Link to={`/user/partner-update/${partnerId}`} className="user_btn_blue">수정</Link>
                 </div>
             </div>
-        </div>
+        </MainContainer>
     );
 };
 

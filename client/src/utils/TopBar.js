@@ -25,13 +25,13 @@ const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
     }
 
     const getRight = () => {
-        if(right==="cancel") {
+        if(right==="cancel") {              //x표시
             return(
                 <div className="cancel" onClick={rfunc}>
                     <IoCloseSharp />
                 </div>
             );
-        } else if(right==="plus") {
+        } else if(right==="plus") {         //+표시
             return(
                 <div className="plus" onClick={rfunc}>
                     <IoAddSharp />
@@ -43,7 +43,7 @@ const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
                     <p>등록</p>
                 </div>
             );
-        } else if(right==="refresh") {
+        } else if(right==="refresh") {      //새로고침
             return(
                 <div className="refresh" onClick={rfunc}>
                     <HiOutlineRefresh />
@@ -57,7 +57,7 @@ const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
     }
     
     return (
-        <div className="topBar" id={size}>  {/* size param(small or big)에 따라서 css결정 */}
+        <header className="topBar" id={size}>  {/* size param(small or big)에 따라서 css결정 */}
             
             {/* left option : {back, null, cancel} */}
             <div className="left">
@@ -81,7 +81,7 @@ const TopBar = ({left, center, right, lfunc, rfunc, size}) => {
                 {getRight()}
             </div>
 
-        </div>
+        </header>
     );
 };
 

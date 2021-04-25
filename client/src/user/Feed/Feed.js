@@ -3,8 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom'
 import {sort} from '../../utils/options';
 import {getFeedList, selectFeed} from '../../modules/feed';
-
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 import '../../styles/feed.scss';
 
 function Feed() {
@@ -40,16 +39,15 @@ function Feed() {
     }
 
     return (
-        <div>
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"피드", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "피드", data : null},
+            right : "null" ,
+            lfunc : () => null,
+            rfunc : () => null,
+            size :"small"
+        }}>
+        
             <div id="feedWrap">
                 <select className="inputSelect" onChange = {sortHandler}>{sortList}</select>
                 <div id="feedItemsWrap">
@@ -73,7 +71,7 @@ function Feed() {
                 }
                 </div>
             </div>
-        </div>
+        </MainContainer>
     )
 }
 
