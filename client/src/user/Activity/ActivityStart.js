@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../styles/activity-start.scss';
+import '../../styles/activity.scss';
 import TopBar from '../../utils/TopBar';
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux';
@@ -40,7 +40,7 @@ function ActivityStart() {
                     size="small"/>
             </header>
             <div style = {style}>
-                <button className = "circle" onClick = {onclickHandler}>시작</button>
+                <button className = "circle" onClick = {onclickHandler}>Start</button>
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux'
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
 import TopBar from '../../utils/TopBar';
 import { finishActivity } from '../../modules/activity';
@@ -7,13 +8,13 @@ import { finishActivity } from '../../modules/activity';
 import '../../styles/activity.scss';
 
 const Activity = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
-    document.head.appendChild(script)
+    document.head.appendChild(script);
 
 
     //*****states*****
@@ -40,7 +41,7 @@ const Activity = () => {
     const [activityState, setActivityState] = useState(true);
 
     //index (localstorage에 저장될 좌표 순번)
-    const [index, setIndex] = useState(0)  //state
+    const [index, setIndex] = useState(0);  //state
     window.getIndex = function() {  //get function
         return index;
     }
@@ -73,7 +74,7 @@ const Activity = () => {
 
     //F-지도 생성
     const createMap = (lat, lon) => {
-        const container = document.getElementById('map')  //지도 담을 div
+        const container = document.getElementById('map');  //지도 담을 div
         const options = {
             center: new window.kakao.maps.LatLng(lat, lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
             level: 3,  //확대 수준, 작을수록 범위 좁아짐
@@ -85,7 +86,7 @@ const Activity = () => {
         const marker = new window.kakao.maps.Marker({   //마커 생성
             position: makerPosition
         });
-        marker.setMap(map)  // 마커를 지도 위에 표시
+        marker.setMap(map);  // 마커를 지도 위에 표시
 
         localStorage.setItem('distance', 0);  //거리 초기화
 
@@ -128,13 +129,13 @@ const Activity = () => {
                     timestamp: position.timestamp
                 });
                 if (window.getLoc1State()===true) {  //true: loc1에 업데이트, false: loc2에 업데이트
-                    setLoc1({lat: position.coords.latitude, lon: position.coords.longitude}) //speed: coords.speed, timestamp: coords.timestamp})
-                    setLoc1State(false)
+                    setLoc1({lat: position.coords.latitude, lon: position.coords.longitude}); //speed: coords.speed, timestamp: coords.timestamp})
+                    setLoc1State(false);
                 } else {
-                    setLoc2({lat: position.coords.latitude, lon: position.coords.longitude}) //speed: coords.speed, timestamp: coords.timestamp})
-                    setLoc1State(true)
+                    setLoc2({lat: position.coords.latitude, lon: position.coords.longitude}); //speed: coords.speed, timestamp: coords.timestamp})
+                    setLoc1State(true);
                 }
-                localStorage.setItem('lastIndex',window.getIndex()) //로컬스토리지에 마지막 인덱스 업데이트
+                localStorage.setItem('lastIndex',window.getIndex()); //로컬스토리지에 마지막 인덱스 업데이트
             },
             (error) => {
                 alert(error.message);
@@ -146,8 +147,8 @@ const Activity = () => {
             },
             );
         }).then((coords) => {
-            localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}))
-            setIndex(window.getIndex()+1)
+            localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}));
+            setIndex(window.getIndex()+1);
             return coords;
         })
         }
@@ -160,7 +161,7 @@ const Activity = () => {
     useEffect(() => {
         script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
             window.kakao.maps.load(() => {
-                creation()
+                creation();
             })
         }
 
@@ -169,7 +170,7 @@ const Activity = () => {
     const creation = () => {  //좌표 받아와서 맵 생성
         getLocation()
         .then((res) => {
-            createMap(res.latitude, res.longitude)
+            createMap(res.latitude, res.longitude);
         })
     }
 
@@ -179,18 +180,20 @@ const Activity = () => {
     const captureRef = useRef();
 
     const stop = async() => {
-        setActivityState(false)
+        setActivityState(false);
 
         await getScreenshot()
         .then((res) => {
-            const formData = new FormData()
+            const endLocation = JSON.parse(localStorage.getItem("location"+window.getIndex()));
+
+            const formData = new FormData();
             formData.append("activityId", localStorage.getItem("activityId"));
             formData.append("map", res);
-            formData.append("endTime", localStorage.getItem("location"+window.getIndex()));
+            formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
             formData.append("distance", localStorage.getItem("distance"));
             formData.append("checkNormalQuit", 0);
 
-            dispatch(finishActivity(formData))
+            dispatch(finishActivity(formData));
         })
     }
 

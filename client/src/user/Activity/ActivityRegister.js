@@ -90,8 +90,8 @@ function ActivityRegister() {
                         <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
                         
                         {buttonFirst===true ? 
-                        <label htmlFor="inputFile" className="btn fileBtn">사진 촬영</label>
-                        : <label htmlFor="inputFile" className="btn fileBtn">다시 촬영</label>
+                        <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
+                        : <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
                         }
                         <br/>
                         {picture.length===0?
