@@ -61,7 +61,7 @@ function FindPassword() {
             <header>
                 <TopBar
                     left="null" 
-                    center={{title:"회원가입", data:null}} 
+                    center={{title:"비밀번호 찾기", data:null}} 
                     right="null" 
                     lfunc={null}
                     rfunc={null}

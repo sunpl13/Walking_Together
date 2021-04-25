@@ -5,14 +5,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100%;
+  width: 96%;
   height: 70vh;
 }
 
 @mixin input-default {
   margin-bottom: 10px;
   height: 40px;
-  width: 100%;
+  width: calc(96% - 5px);
   border: 1px solid $BorderGray;
   padding-left: 10px;
   outline: none;
@@ -27,7 +27,7 @@
   height: 40px;
   border: none;
   outline: none;
-  background-color: $BackBlue;
+  background-color: $BackSkyBlue;
   color: $fontWhite;
   font-size: 1rem;
   font-weight: bold;
@@ -40,11 +40,17 @@
   @include box-default;
   margin-top: 50px;
 
+  header {
+    position: fixed;
+    left: 0px;
+  }
+
   .register_coment {
     text-align: center;
-    font-size: x-large;
+    font-size: large;
     font-weight: bold;
-    margin: 30px 0 20px 0;
+    margin: 80px 10px 30px 10px;
+    color: $fontGray;
   }
 
   .check_container {
@@ -68,12 +74,14 @@
     }
 
     .total {
-      border-bottom: 3px black solid;
-      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 3px $fontGray solid;
+      margin-bottom: 10px;
       p {
+        text-align: justify;
         font-size: small;
-        color: #d4d3d3;
-        padding: 10px 0 5px 15px;
+        color: #b6b6b6;
+        padding: 10px 15px 5px 15px;
       }
     }
   }
@@ -83,15 +91,15 @@
   @include box-default;
 
   .e_container {
-    line-height: 10vh;
+    line-height: 40px;
     width: 70%;
+    height: auto;
     border: 1px solid none;
-    border-radius: 6px;
-    background-color: $BackSky;
     margin-bottom: 5%;
     text-align: center;
     span {
-      color: $fontWhite;
+      color: $fontGray;
+      font-style: italic;
       font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
     }
   }
@@ -116,11 +124,18 @@
 
   p {
     color: $fontGray;
+    text-align: justify;
   }
 }
 
 .register_page {
   @include box-default;
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 
   form {
     width: 90%;
@@ -135,9 +150,17 @@
     }
   }
 
-  select {
-    @include input-default {
-      height: 30px;
+  .inputSelect {
+    height: 30px;
+    margin-bottom: 10px;
+    font: 400 13.3333px Arial;
+    color: #434343;
+    width: calc(96% + 5px);
+    border: none;
+    padding-left: 10px;
+    outline: none;
+    &:focus {
+      box-shadow: 1px 1px 10px $BackSky-;
     }
   }
   button {

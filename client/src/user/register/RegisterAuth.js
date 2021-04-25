@@ -43,7 +43,7 @@ function RegisterAuth() {
         <div className = "register_auth">
            <p>메일로 발송된 인증 코드를 입력해 주세요.</p>
             <div className = "e_container">
-                <span>{location.state.email}</span>
+                <span>" {location.state.email} "</span>
             </div>
  
             <div className = "email_container">

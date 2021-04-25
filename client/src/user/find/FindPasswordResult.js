@@ -25,7 +25,7 @@ function FindPasswordResult() {
             로그인 후 반드시 비밀번호를 변경해주세요!</span>
             </div>
             <div className = "e_container">
-            <span>{location.state.email}</span>
+            <span>" {location.state.email} "</span>
             </div>
             <button className = "find_button" onClick = {() => {history.push('/login')}}>로그인하러 가기</button>
         </div>

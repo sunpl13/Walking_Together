@@ -61,40 +61,41 @@ function RegisterPage() {
 
     return (
 
-<div className = "register_page">
-    <header>
-    <TopBar
-        left="null" 
-        center={{title:"회원가입", data:null}} 
-        right="null" 
-        lfunc={null}
-        rfunc={null}
-        size="small"/>
+    <div className = "register_page">
+        <header>
+            <TopBar
+            left="null" 
+            center={{title:"회원가입", data:null}} 
+            right="null" 
+            lfunc={null}
+            rfunc={null}
+            size="small"/>
         </header>
-            <form onSubmit ={register}>
 
-                <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
+        <form onSubmit ={register}>
 
- 
-                <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
-
-    
-                <input type = "text" value = {pNumber} onChange = {pNumHandler} placeholder = "휴대폰번호"/>
+            <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
 
 
-                <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
+            <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
 
-                <select onChange = {departmentHandler} placeholder = "학과">
-                    {depList}
-                </select>
 
-                <input type = "password" value = {Password} onChange = {PasswordHandler} placeholder = "비밀번호"/>
+            <input type = "text" value = {pNumber} onChange = {pNumHandler} placeholder = "휴대폰번호"/>
 
-                <input type = "Password" value = {PasswordConfrim} onChange = {PasswordConfrimHandler} placeholder = "비밀번호 확인"/>
-                <br/>
-                <button type = "submit">회원가입</button>
-            </form>
-            </div>
+
+            <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
+
+            <select className="inputSelect" onChange = {departmentHandler} placeholder = "학과">
+                {depList}
+            </select>
+
+            <input type = "password" value = {Password} onChange = {PasswordHandler} placeholder = "비밀번호"/>
+
+            <input type = "Password" value = {PasswordConfrim} onChange = {PasswordConfrimHandler} placeholder = "비밀번호 확인"/>
+            <br/>
+            <button type = "submit">회원가입</button>
+        </form>
+    </div>
     )
 }
 

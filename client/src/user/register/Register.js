@@ -53,18 +53,22 @@ function Register() {
       setemail(e.currentTarget.value)
     }
 
+    function goBack() {
+      history.goBack();
+    }
+
 
     return (
         <div className = "register">
           <header>
-          <TopBar
-            left="null" 
+            <TopBar
+            left="back" 
             center={{title:"회원가입", data:null}} 
             right="null" 
-            lfunc={null}
+            lfunc={goBack}
             rfunc={null}
             size="small"/>
-            </header>
+          </header>
           <div className = "register_coment">
             Walking Together<br/>
             서비스 약관에 동의해 주세요.
