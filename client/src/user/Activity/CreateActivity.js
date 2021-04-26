@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkPartnerDetail } from "../../utils/Function";
 import { debounce } from "lodash";
 
 import '../../styles/activity.scss';
-import MainContainer from '../../utils/MainContainer';
+import { changeBar } from '../../modules/topbar';
 
 import Notifications_Flatline from '../../source/Notifications_Flatline.svg';
 
 const CreateActivity = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const partners = useSelector(state => state.activityReducer.partner);
     const [partnerId, setPartnerId] = useState(0);
@@ -20,7 +21,7 @@ const CreateActivity = () => {
         history.goBack();
     }, 800);
 
-    const createActivity = debounce(() => {  //사진과 한 번에 보내야 하므로 일단 로컬스토리지에 저장
+    const createActivity = debounce((partnerId) => {  //사진과 한 번에 보내야 하므로 일단 로컬스토리지에 저장
         if(partnerId===0) {
             alert("파트너를 선택해주세요.");
         } else {
@@ -34,21 +35,17 @@ const CreateActivity = () => {
         }
     }, 800);
 
+    useEffect(() => {
+        dispatch(changeBar("cancel", {title:"활동생성", data:null}, "create", goBack, () => createActivity(partnerId), "small"));  //상단바 변경
+    }, [partnerId, createActivity, dispatch, goBack])
+
     const today = new Date();
     const year = today.getFullYear().toString();
     const month = (today.getMonth()+1).toString();
     const date = today.getDate().toString();
 
     return (
-        <MainContainer header = {{
-            left : "cancel",
-            center : {title : "활동생성", data : null},
-            right : "create" ,
-            lfunc : () => goBack(),
-            rfunc : () => createActivity(),
-            size :"small"
-        }}>
-            <div id="create_activity">
+        <div id="create_activity">
             <form className="create_activity_form">
                 <div id="create_activity_wrap">
                     <label className="tdActTitle">활동일</label>
@@ -76,8 +73,7 @@ const CreateActivity = () => {
             </form>
 
             <img src={Notifications_Flatline} height="250" width="250" id="bottom_svg" alt="walking"></img>
-            </div>
-        </MainContainer>
+        </div>
     );
 };
 

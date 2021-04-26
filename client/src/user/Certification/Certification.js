@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import MainContainer from '../../utils/MainContainer'
+
 import '../../styles/certification.scss';
 import { debounce } from "lodash";
+import { changeBar } from '../../modules/topbar';
 
 const Certification = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const stdId = localStorage.getItem('user_info');
     const [from, setFrom] = useState();
@@ -38,16 +41,12 @@ const Certification = () => {
         }
     }, 800);
 
+    useEffect(() => {
+        dispatch(changeBar("null", {title:"인증서발급", data:null}, "null", "null", "null", "small"));  //상단바 변경
+    }, [dispatch])
+
     return (
-        <MainContainer header = {{
-            left : "null",
-            center : {title : "인증서발급", data : null},
-            right : "null" ,
-            lfunc : () => null,
-            rfunc : () => null,
-            size :"small"
-        }}>
-            <div id="certificationWrap">
+        <div id="certificationWrap">
             <div id="certification">
                 <div id="pSet">
                     <p>활동 기간을 선택한 후</p>
@@ -67,8 +66,7 @@ const Certification = () => {
                     <button onClick={submit} className="user_btn_blue">조회</button>
                 </div>
             </div>
-            </div>
-        </MainContainer>
+        </div>
     );
 };
 

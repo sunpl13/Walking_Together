@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
 import { debounce } from "lodash";
+import { changeBar } from '../../modules/topbar';
 
-import MainContainer from '../../utils/MainContainer';
 import '../../styles/feed.scss';
 
 function FeedDetail() {
@@ -36,67 +36,61 @@ function FeedDetail() {
         history.push('/user/feed');
     }, 800);
 
+    useEffect(() => {
+        dispatch(changeBar("back", {title:"활동 상세", data:null}, "null", goBack, "null", "small"));  //상단바 변경
+    }, [dispatch, goBack])
+
     return (
-        <MainContainer header = {{
-        left : "back",
-        center : {title : "활동 상세", data : null},
-        right : "null" ,
-        lfunc : () => goBack(),
-        rfunc : () => null,
-        size :"small"
-        }}>
-            
-            <div id="feedDetail">
-                <table id="activity_detail_table">
-                    <tbody>
-                        <tr>
-                            <td className="td1">활동일</td>
-                            <td className="td2">{feedItem.activityDate}</td>
-                        </tr>
+        <div id="feedDetail">
+            <table id="activity_detail_table">
+                <tbody>
+                    <tr>
+                        <td className="td1">활동일</td>
+                        <td className="td2">{feedItem.activityDate}</td>
+                    </tr>
 
-                        <tr>
-                            <td className="td1">파트너</td>
-                            <td className="td2">{feedItem.partnerName}</td>
-                        </tr>
+                    <tr>
+                        <td className="td1">파트너</td>
+                        <td className="td2">{feedItem.partnerName}</td>
+                    </tr>
 
-                        <tr>
-                            <td className="td1">시작 시간</td>
-                            <td className="td2">{(feedItem.startTime).substring(11,19)}</td>
-                        </tr>
+                    <tr>
+                        <td className="td1">시작 시간</td>
+                        <td className="td2">{(feedItem.startTime).substring(11,19)}</td>
+                    </tr>
 
-                        <tr>
-                            <td className="td1">종료 시간</td>
-                            <td className="td2">{(feedItem.endTime).substring(11,19)}</td>
-                        </tr>
-                        
-                        <tr>
-                            <td className="td1">경로 사진</td>
-                            <td className="td2">
-                                <img src={feedItem.mapPicture} id="mapPicture" alt="mapImage"/>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td className="td1">종료 시간</td>
+                        <td className="td2">{(feedItem.endTime).substring(11,19)}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td className="td1">경로 사진</td>
+                        <td className="td2">
+                            <img src={feedItem.mapPicture} id="mapPicture" alt="mapImage"/>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td className="td1">소감문</td>
-                            <td className="td2">
-                            {reviewState===true && <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>}
-                            {reviewState===false && feedItem.review===null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
-                            {reviewState===false && feedItem.review!==null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
-                            </td>
-                        </tr>       
-                    </tbody>
-                </table>
-                <div id="textarea">
-                    {reviewState===false ?
-                        feedItem.review
-                    :
-                        <textarea className="inputText" onChange={reviewChange} 
-                        placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
-                        minLength="100" maxLength="800" defaultValue={feedItem.review}></textarea>
-                    }     
-                </div>
+                    <tr>
+                        <td className="td1">소감문</td>
+                        <td className="td2">
+                        {reviewState===true && <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>}
+                        {reviewState===false && feedItem.review===null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
+                        {reviewState===false && feedItem.review!==null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
+                        </td>
+                    </tr>       
+                </tbody>
+            </table>
+            <div id="textarea">
+                {reviewState===false ?
+                    feedItem.review
+                :
+                    <textarea className="inputText" onChange={reviewChange} 
+                    placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
+                    minLength="100" maxLength="800" defaultValue={feedItem.review}></textarea>
+                }     
             </div>
-        </MainContainer>
+        </div>
     );
 };
 

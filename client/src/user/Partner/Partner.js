@@ -1,15 +1,16 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { debounce } from "lodash";
 
 import PartnerItem from '../Partner/PartnerItem';
-import MainContainer from '../../utils/MainContainer'
+import { changeBar } from '../../modules/topbar';
 
 import '../../styles/partner.scss';
 
 const Partner = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const partner = useSelector(state => state.partner.briefPartner);  //PARTNER-LIST
 
     //param function
@@ -21,30 +22,23 @@ const Partner = () => {
         history.push(`/user/partner-insert`);
     }, 800);
 
-    return (
-        <MainContainer header = {{
-            left : "back",
-            center : {title : "파트너", data : null},
-            right : "plus" ,
-            lfunc : () => goBack(),
-            rfunc : () => goCreatePartner(),
-            size :"small"
+    useEffect(() => {
+        dispatch(changeBar("back", {title:"파트너",data:null}, "plus", goBack, goCreatePartner, "small"));  //상단바 변경
+    },[dispatch, goBack, goCreatePartner]);
 
-        }}>
-            
-            <table id="partner_table">
-                <tbody>
-                    { partner.length!==0 ?
-                    partner.map((res) => {
-                        return (
-                            <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
-                        )
-                    })
-                    : "파트너 정보가 없습니다."
-                    }
-                </tbody>
-            </table>
-        </MainContainer>
+    return (
+        <table id="partner_table">
+            <tbody>
+                { partner.length!==0 ?
+                partner.map((res) => {
+                    return (
+                        <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
+                    )
+                })
+                : "파트너 정보가 없습니다."
+                }
+            </tbody>
+        </table>
     );
 };
 

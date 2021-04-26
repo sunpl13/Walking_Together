@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
 import { finishActivity } from '../../modules/activity';
 import { debounce } from "lodash";
-import MainContainer from '../../utils/MainContainer';
+import { changeBar } from '../../modules/topbar';
 
 import '../../styles/activity.scss';
 
@@ -155,7 +155,6 @@ const Activity = () => {
         }).then((coords) => {
             if(window.getIndex()!==1) {
                 localStorage.removeItem('location'+(window.getIndex()-1));
-                console.log((window.getIndex()-1));
             }
             localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}));
             setIndex(window.getIndex()+1);
@@ -168,12 +167,12 @@ const Activity = () => {
 
     //useEffect
     useEffect(() => {
+        dispatch(changeBar("null", {title:"활동",data:null}, "null", "null", "null", "small"));  //상단바 변경
         script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
             window.kakao.maps.load(() => {
                 creation();
             });
         };
-
     }, []);
 
     const creation = () => {  //좌표 받아와서 맵 생성
@@ -227,19 +226,12 @@ const Activity = () => {
 
 
     return (
-        <MainContainer className="map" header = {{
-            left : "null",
-            center : {title : "활동", data : null},
-            right : "null" ,
-            lfunc : "null",
-            rfunc : "null",
-            size :"small"
-            }}>
+        <div className="map">
             <div id='map' ref={captureRef}></div>
             <div id="buttonWrap">
                 <button onClick={stop} className="user_btn_blue">중단</button>
             </div>
-        </MainContainer>
+        </div>
     );
 };
 

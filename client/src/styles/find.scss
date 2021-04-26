@@ -3,6 +3,8 @@
 
 .find {
   @include box-default;
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
 
   header {
     position: fixed;
@@ -31,6 +33,8 @@
 
 .find_auth {
   @include box-default;
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
 
   header {
     position: fixed;

@@ -8,16 +8,16 @@ import { RiAccountCircleFill } from "react-icons/ri";
 import '../styles/nav.scss';
 
 function Nav() {
-    const history = useHistory()
-    const activityId = localStorage.getItem("activityId")
+    const history = useHistory();
+    const activityId = localStorage.getItem("activityId");
 
     const goActivity = useCallback(() => {
         if(activityId===null) {
-            history.push('/user/activitystart')
+            history.push('/user/activitystart');
         } else {
-            history.push('/activity')
+            history.push('/activity');
         }
-    }, [activityId, history])
+    }, [activityId, history]);
 
     return (
         <nav>
@@ -56,7 +56,7 @@ function Nav() {
                 </Link>
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default Nav
+export default Nav;

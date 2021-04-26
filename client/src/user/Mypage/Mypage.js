@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
-import {useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import { debounce } from "lodash";
 
@@ -10,7 +10,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 import { department } from "../../utils/options";
 import { getPartnerBriefInfo } from '../../modules/partner';
-import TopBar from '../../utils/TopBar';
+import { changeBar } from '../../modules/topbar';
 
 import '../../styles/mypage.scss';
 
@@ -84,6 +84,7 @@ const Mypage = () => {
         .then(() => {
             setUpdateState(false);
         });
+        dispatch(changeBar("null", {title:"마이페이지", data:null}, "null", "null", "null", "small"));  //상단바 변경
     }, 800);
 
     //개인정보 업데이트 제출
@@ -120,21 +121,18 @@ const Mypage = () => {
         }
     }, 800);
 
+    const setState = (state) => {
+        dispatch(changeBar("cancel", {title:"정보 수정", data:null}, "create", cancel, (e)=>submit(e), "small"));  //상단바 변경
+        setUpdateState(true);
+    };
+
     useEffect(() => {
+        dispatch(changeBar("null", {title:"마이페이지", data:null}, "null", "null", "null", "small"));  //상단바 변경
         getMypage();
-    }, [stdId, getMypage, reset]);
+    }, [stdId, getMypage, dispatch]);
 
     return (
         <div id="profileWrap">
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"마이페이지", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
             {updateState===false ?
                 <div>
                     <table id="profileTable">
@@ -161,15 +159,6 @@ const Mypage = () => {
                 </div>
                 :
                 <div id="mypageUpdate"> {/* update */}
-                    <header>
-                        <TopBar
-                            left="cancel" 
-                            center={{title:"정보 수정", data:null}} 
-                            right="create" 
-                            lfunc={cancel}
-                            rfunc={(e) => submit(e)}
-                            size="small"/>
-                    </header>
                     <form action="/mypage/change" id="mypageForm" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
 
                         <div className="mypageInputWrap" id="profileImage">
@@ -214,7 +203,7 @@ const Mypage = () => {
                         <td>인증서 발급</td>
                         <td><IoIosArrowForward/></td>
                     </tr>
-                    <tr onClick={() => setUpdateState(true)}>
+                    <tr onClick={() => setState(true)}>
                         <td>회원 정보 수정</td>
                         <td><IoIosArrowForward/></td>
                     </tr>

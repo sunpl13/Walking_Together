@@ -55,7 +55,7 @@ export const signupHanlder = (
     department,
     history
 ) => async(dispatch) => {
-     await axios.post('/signup', {
+     await axios.post('/user1/signup', {
         email : email,
         name : name,
         password : password,

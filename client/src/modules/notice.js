@@ -90,7 +90,7 @@ export const deleteNotice = (           //공지글 삭제
 export const selectNotice = (          //공지글 세부내용 조회
     noticeId
     ) => async(dispatch) => { 
-        await axios.get(`/notice`, {
+        await axios.get('/notice', {
             params: {
                 noticeId: noticeId
             },
