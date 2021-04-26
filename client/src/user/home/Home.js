@@ -66,7 +66,7 @@ function Home() {
                     size="small"/>
             </header>
             <div id="homeWrap">
-                <span id="logo">Walking Together</span>
+                <span id="logo">Walking Together</span><br/>
                 <img src={Couple_Flatline} width="250" alt="logo"/>
                 
                 <div id="noticeWrap">

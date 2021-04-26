@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
@@ -10,6 +11,7 @@ import '../../styles/activity.scss';
 
 const Activity = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
@@ -38,8 +40,11 @@ const Activity = () => {
         return loc2;
     };
 
-    const state = useRef();
+    //activity state
     const [activityState, setActivityState] = useState(true);
+    window.getActivityState = function() {
+        return activityState;
+    };
 
     //index (localstorage에 저장될 좌표 순번)
     const [index, setIndex] = useState(0);  //state
@@ -94,7 +99,7 @@ const Activity = () => {
         //활동 상태가 true면 getlocation, panMove, createLine
         //활동 상태가 false면 interval 중단
         const func = () => {
-            if(state.current.value==="true") {
+            if(window.getActivityState()===true) {
                 getLocation()
                 .then((res) => {
                     panTo(map, res.latitude, res.longitude);
@@ -148,6 +153,10 @@ const Activity = () => {
             },
             );
         }).then((coords) => {
+            if(window.getIndex()!==1) {
+                localStorage.removeItem('location'+(window.getIndex()-1));
+                console.log((window.getIndex()-1));
+            }
             localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}));
             setIndex(window.getIndex()+1);
             return coords;
@@ -184,7 +193,7 @@ const Activity = () => {
 
         await getScreenshot()
         .then((res) => {
-            const endLocation = localStorage.getItem("location"+window.getIndex());
+            const endLocation = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex")));
 
             const formData = new FormData();
             formData.append("activityId", localStorage.getItem("activityId"));
@@ -193,7 +202,16 @@ const Activity = () => {
             formData.append("distance", localStorage.getItem("distance"));
             formData.append("checkNormalQuit", 0);
 
-            dispatch(finishActivity(formData));
+            //remove at local storage
+            localStorage.removeItem("location0");
+            localStorage.removeItem("location"+localStorage.getItem("lastIndex"));
+            localStorage.removeItem("activityId");
+            localStorage.removeItem("partnerId");
+            localStorage.removeItem("distance");
+            localStorage.removeItem("lastIndex");
+
+            dispatch(finishActivity(formData))
+            .then(() => history.push('/user/feed'));
         });
     }, 800);
 
@@ -223,7 +241,6 @@ const Activity = () => {
             <div id="buttonWrap">
                 <button onClick={stop} className="user_btn_blue">중단</button>
             </div>
-            <input type="hidden" value={activityState} ref={state} onChange={(e) => setActivityState(e.target.value)}/>
         </div>
     );
 };
