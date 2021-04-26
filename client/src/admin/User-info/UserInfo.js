@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { debounce } from "lodash";
 
 import '../../styles/admin.scss';
 
 const UserInfo = () => {
     const [res,setRes] = useState([]);
-
+    
     //filter state
     const [keyword, setKeyword] = useState("");
 
     //button
-    const search = () => {
+    const search = debounce(() => {
         axios.get(`/admin/userinfo?keyword=${keyword}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((response) => {
             if(response.data.length!==0) {
-                setRes(response.data.data)
+                setRes(response.data.data);
             }
             else {
                 setRes([]);
             }
-        })
-    }
+        });
+    }, 800);
 
     //change action
     const changeKeyword = (e) => {
         setKeyword(e.target.value);
-    }
+    };
 
     return (
         <div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { insertNotice, getNoticeList } from '../../modules/notice';
+import { debounce } from "lodash";
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -18,29 +19,31 @@ const NoticeInsert = () => {
     const [imageFiles, setImageFiles] = useState([]);
 
     //취소 시 이전 페이지로 이동
-    const cancel = (e) => {
+    const cancel = debounce((e) => {
         e.preventDefault();
+
         const res = window.confirm("취소하시겠습니까?")
         if(res === true) {
             history.goBack();
         }else{
             console.log("cancel");
         }
-    }
+    },800);
 
     const setImage = (e) => {
-        setImageFiles(e.target.files)
-    }
+        setImageFiles(e.target.files);
+    };
     
     const setAttached = (e) => {
-        setAttachedFiles(e.target.files)
-    }
+        setAttachedFiles(e.target.files);
+    };
 
     //submit
-    const submit = (e) => {
+    const submit = debounce((e) => {
         e.preventDefault();
+
         if(content==="") {
-            return(alert("내용을 입력해주세요."))
+            return(alert("내용을 입력해주세요."));
         }
         
         //create formdata
@@ -51,27 +54,27 @@ const NoticeInsert = () => {
         //files null check
         if(attachedFiles.length!==0) {
             if(attachedFiles.length===1) {
-                formData.append("attachedFiles", attachedFiles[0])
+                formData.append("attachedFiles", attachedFiles[0]);
             }
             else {
                 for (let i = 0; i < attachedFiles.length; i++) {
-                    formData.append(`attachedFiles`, attachedFiles[i])
+                    formData.append(`attachedFiles`, attachedFiles[i]);
                 }
             }
         }
         if(imageFiles.length!==0) {
-            formData.append("imageFiles", imageFiles[0])
+            formData.append("imageFiles", imageFiles[0]);
         }
 
         //action dispatch
         dispatch(insertNotice(formData))
-        .then(() => getNotice())
-    }
+        .then(() => getNotice());
+    },800);
 
     const getNotice = async() => {
         await dispatch(getNoticeList(1,null))
-        .then(() => history.push('/admin/notice'))
-    }
+        .then(() => history.push('/admin/notice'));
+    };
 
     //editor module and formats
     const modules = {
@@ -83,7 +86,7 @@ const NoticeInsert = () => {
           [{ 'align': [] }, { 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
           ['clean']
         ],
-      }
+    };
     
     const formats = [
         //'font',
@@ -92,7 +95,7 @@ const NoticeInsert = () => {
         'list', 'bullet', 'indent',
         'link',
         'align', 'color', 'background',        
-      ]
+    ];
 
     return (
         <div id="noticeActionForm">

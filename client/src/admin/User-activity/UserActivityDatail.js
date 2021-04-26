@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { debounce } from "lodash";
 
 import { AiFillCloseCircle } from 'react-icons/ai';
 
 const UserActivityDatail = ({match}) => {
     const history = useHistory();
-    
+
     const [res,setRes] = useState({});
-    const activityId = match.params.activityId
+    const activityId = match.params.activityId;
 
     useEffect(() => {
         axios.get(`/admin/activityInfo/detail?activityId=${activityId}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             if(res.data.status===404) {
-                alert("존재하지 않는 활동입니다.")
+                alert("존재하지 않는 활동입니다.");
             } else {
-                setRes(res.data.data)
+                setRes(res.data.data);
             }
         })
-    },[activityId])
+    },[activityId]);
 
-    const goBack = () => {
-        history.goBack()
-    }
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
     return (
         <div id="userActivityDetailWrap">

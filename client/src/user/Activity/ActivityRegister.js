@@ -1,21 +1,22 @@
-import { React, useState, useRef } from 'react'
+import { React, useState, useRef } from 'react';
 import { createActivity } from '../../modules/activity';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import MainContainer from '../../utils/MainContainer'
+import { debounce } from "lodash";
+import MainContainer from '../../utils/MainContainer';
 
 import '../../styles/activity.scss';
 
 function ActivityRegister() {
-    const history = useHistory()
-    const dispatch = useDispatch()
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    const stdId = localStorage.getItem('user_info')
-    const partnerId = localStorage.getItem('partnerId')
-    localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId))
+    const stdId = localStorage.getItem('user_info');
+    const partnerId = localStorage.getItem('partnerId');
+    localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId));
 
-    const [picture, setPicture] = useState([])
-    const [buttonFirst, setButtonFirst] = useState(true)
+    const [picture, setPicture] = useState([]);
+    const [buttonFirst, setButtonFirst] = useState(true);
 
     const camera = useRef();
     const frame = useRef();
@@ -24,32 +25,32 @@ function ActivityRegister() {
         let reader = new FileReader();
 
         reader.onloadend = () => {
-            const base64 = reader.result
+            const base64 = reader.result;
             if (base64) {
               frame.current.src=base64;
             }
         }
         if (e.target.files[0]) {
-            reader.readAsDataURL(e.target.files[0]) // 파일을 버퍼에 저장
-            setPicture(e.target.files[0]) // 파일 상태 업데이트
-            setButtonFirst(false)
+            reader.readAsDataURL(e.target.files[0]); // 파일을 버퍼에 저장
+            setPicture(e.target.files[0]); // 파일 상태 업데이트
+            setButtonFirst(false);
         }
-    }
+    };
 
     //param function
-    function goBack() {
-        history.goBack()
-    }
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
-    function createAction(e) {
+    const createAction = debounce((e) => {
         e.preventDefault();
 
         if(picture.length===0) {
-            alert("사진 촬영 후 활동 등록이 가능합니다.")
+            alert("사진 촬영 후 활동 등록이 가능합니다.");
         } else {
-            submit()
+            submit();
         }
-    }
+    }, 800);
 
     const submit = async() => {
         //create formdata
@@ -59,8 +60,8 @@ function ActivityRegister() {
         formData.append("startPhoto", picture);
 
         await dispatch(createActivity(formData))
-        .then(() => history.push('/activity'))
-    }
+        .then(() => history.push('/activity'));
+    };
 
 
     return (
@@ -73,36 +74,36 @@ function ActivityRegister() {
         size :"small"
         }}>
             <div id="activityRegisterWrap" >
-            <div id="activityRegister">
-                <div className = "picture_container">
-                    {picture.length===0?
-                    <div className="preview"></div>
-                    :
-                    <div className="preview">
-                        <img ref={frame} alt="none"/>
-                    </div>
-                    }
-                </div>
-
-                <div id="pictureInput">
-                    <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
-                        <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
-                        
-                        {buttonFirst===true ? 
-                        <label htmlFor="inputFile" className="btn fileBtn">사진 촬영</label>
-                        : <label htmlFor="inputFile" className="btn fileBtn">다시 촬영</label>
-                        }
-                        <br/>
+                <div id="activityRegister">
+                    <div className = "picture_container">
                         {picture.length===0?
-                        <span id="fileName">선택된 사진 없음</span>
-                        : <span id="fileName">{picture.name}</span>
+                        <div className="preview"></div>
+                        :
+                        <div className="preview">
+                            <img ref={frame} alt="none"/>
+                        </div>
                         }
-                    </form>
+                    </div>
+
+                    <div id="pictureInput">
+                        <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
+                            <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
+
+                            {buttonFirst===true ? 
+                            <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
+                            : <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
+                            }
+                            <br/>
+                            {picture.length===0?
+                            <span id="fileName">선택된 사진 없음</span>
+                            : <span id="fileName">{picture.name}</span>
+                            }
+                        </form>
+                    </div>
                 </div>
-            </div>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default ActivityRegister
+export default ActivityRegister;

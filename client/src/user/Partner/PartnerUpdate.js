@@ -1,17 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { debounce } from "lodash";
+
 import { changePartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 import MainContainer from '../../utils/MainContainer'
 
 const PartnerUpdate = ({match}) => {
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
     const ref = useRef();
 
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"");
+    const stdId = localStorage.getItem('user_info');
 
-    const partner = useSelector(state => state.partner.partnerDetail)  //PARTNER-LIST
+    const partner = useSelector(state => state.partner.partnerDetail);  //PARTNER-LIST
     const partnerId = useState(match.params.partnerId);
 
     const [partnerName, setPartnerName] = useState(partner.partnerName);
@@ -23,7 +25,7 @@ const PartnerUpdate = ({match}) => {
     const [partnerBirth, setPartnerBirth] = useState(partner.partnerBirth);
 
     //submit function
-    function submit(e) {
+    const submit = debounce((e) => {
         e.preventDefault();
 
         if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
@@ -31,17 +33,17 @@ const PartnerUpdate = ({match}) => {
         } else {
             const res = window.confirm("등록하시겠습니까?");
             if(res===true) {
-                updatePartner()
+                updatePartner();
             }
         }
-    }
+    }, 800);
 
     //param function
-    const updatePartner = async() => {
+    const updatePartner = debounce(async() => {
         //create formdata
         const formData = new FormData();
         formData.append("partnerId", partnerId[0]);
-        formData.append("partnerName", partnerName);
+        formData.append("partnerName", (partnerName).replaceAll(" ",""));
         formData.append("partnerDetail", partnerDetail);
         formData.append("partnerPhoto", partnerPhoto[0]);
         formData.append("selectionReason", selectionReason);
@@ -53,20 +55,20 @@ const PartnerUpdate = ({match}) => {
         .then(async() => {
             await dispatch(getPartnerBriefInfo(stdId))
             .then(() => {
-                alert("정보 수정이 완료되었습니다.")
-                history.push('/user/partner')
+                alert("정보 수정이 완료되었습니다.");
+                history.push('/user/partner');
             })
-        })
-    }
+        });
+    }, 800);
 
-    function cancel() {
-        const res = window.confirm("취소하시겠습니까?")
+    const cancel = debounce(() => {
+        const res = window.confirm("취소하시겠습니까?");
         if(res === true) {
-            history.push('/user/partner')
+            history.push('/user/partner');
         }else{
             return;
         }
-    }
+    }, 800);
 
     return (
         <MainContainer header = {{

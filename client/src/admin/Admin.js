@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux';
+import { debounce } from "lodash";
 
 import { logoutHandler } from '../modules/user';
 
@@ -17,14 +18,14 @@ import NoticeDetail from './Notice/NoticeDetail';
 import '../styles/admin.scss';
 
 const Admin = () => {
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"")
+    const stdId = localStorage.getItem('user_info');
     const dispatch = useDispatch();
     const history = useHistory();
 
     //function
-    const logout = () => {  //logout
+    const logout = debounce(() => {  //logout
         if(!stdId){
-            alert("데이터가 없습니다.")
+            alert("데이터가 없습니다.");
         } else{
             if(window.confirm("로그아웃 하시겠습니까?")) {
                 
@@ -34,7 +35,7 @@ const Admin = () => {
                 }
             }
         }
-    }
+    }, 800);
 
     return (
         <div>

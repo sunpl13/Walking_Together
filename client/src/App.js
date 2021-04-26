@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 //인증 가능할 시에 인증
 import Auth from './hoc/Auth';
@@ -9,7 +9,7 @@ import Admin from './admin/Admin';
 
 //user
 import RegisterPage from './user/register/RegisterPage';
-import Login from './user/login/Login'
+import Login from './user/login/Login';
 import Register from './user/register/Register';
 import RegisterAuth from './user/register/RegisterAuth';
 import FindPassword from './user/find/FindPassword';

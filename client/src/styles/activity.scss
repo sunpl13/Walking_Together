@@ -17,7 +17,7 @@
             }
             .tdActCon {
                 display: inline-block;
-                width: 140px;
+                width: 160px;
                 height: 28px;
             }
         }
@@ -31,6 +31,7 @@
 #activityRegisterWrap {
     #activityRegister {
         margin-top: 60px;
+        padding-bottom: 70px;
         .picture_container {
             text-align: center;
             .preview {
@@ -51,19 +52,11 @@
             #inputFile {
                 display: none;
             }
-            label {
-                width: max-content;
-                height: max-content;
-                background-color: $BackWhiteGray;
-                border: 1px solid $tableBorder;
-                border-radius: 5px;
-                padding: 5px;
-                margin-right: 5px;
-            }
             #fileName {
                 font-size: $small;
                 display: inline-block;
-                margin-top: 15px;
+                margin-top: 10px;
+                color: $fontGray;
             }
         }
     }
@@ -86,3 +79,22 @@
         font-weight: bold;
     }
 }
+
+//activity start
+.circle {
+    -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+	        animation: heartbeat 1.5s ease-in-out infinite both;
+
+    width: 160px;
+    height: 160px;
+    line-height: 160px;
+    border-radius: 50%;
+    background-color: $BackSkyBlue-;
+    color: $white;
+    font-size: 22px;
+    text-align: center;
+    font-weight: bolder;
+    border: 5px solid #fff;
+    box-shadow: 0 0 16px rgb(221, 221, 221);
+  }
+  

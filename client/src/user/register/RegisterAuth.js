@@ -1,18 +1,20 @@
-import React, {useState} from 'react'
-import {useHistory, useLocation} from 'react-router-dom'
-import '../../styles/register.scss'
-import MainContainer from '../../utils/MainContainer'
+import React, {useState} from 'react';
+import {useHistory, useLocation} from 'react-router-dom';
+import { debounce } from "lodash";
+
+import '../../styles/register.scss';
+
+import MainContainer from '../../utils/MainContainer';
 
 function RegisterAuth() {
     const location = useLocation();
     const history = useHistory();
-    console.log(location.state);
 
-    const [authNum, setauthNum] = useState("")
+    const [authNum, setauthNum] = useState("");
 
 
     //인증번호를 통한 본인인증
-    const identificationHandler = () => {
+    const identificationHandler = debounce(() => {
         if(location.state.state.authNum === authNum) {
             if(window.confirm("본인 인증이 완료 되었습니다.")) {
                 history.push({
@@ -21,13 +23,13 @@ function RegisterAuth() {
                 });
             }
         } else {
-            alert("인증번호가 일치하지 않습니다.")
+            alert("인증번호가 일치하지 않습니다.");
         }
-    }
+    }, 800);
 
     const onChangeHandler = e => {
-        setauthNum(e.target.value)
-    }
+        setauthNum(e.target.value);
+    };
 
     return (
         <MainContainer header = {{
@@ -42,7 +44,7 @@ function RegisterAuth() {
         <div className = "register_auth">
            <p>메일로 발송된 인증 코드를 입력해 주세요.</p>
             <div className = "e_container">
-                <span>{location.state.email}</span>
+                <span>" {location.state.email} "</span>
             </div>
  
             <div className = "email_container">
@@ -51,7 +53,7 @@ function RegisterAuth() {
             </div>
         </div>
     </MainContainer>
-    )
-}
+    );
+};
 
-export default RegisterAuth
+export default RegisterAuth;

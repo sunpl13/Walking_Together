@@ -74,6 +74,7 @@ body {
 
 //input
 .input {
+    font-family:"Helvetica Neue", Helvetica, sans-serif; 
     box-sizing: border-box;
        -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -81,18 +82,21 @@ body {
     -moz-appearance: none;
     appearance: none;
     border-radius: 0px;
+    padding-left: 5px;
 }
 
 .inputSelect, .inputDate {
+    font-family:"Helvetica Neue", Helvetica, sans-serif; 
 	display: inline-block;
 	font-size: $medium;
 	line-height: 20px;
 	width: 160px;
     height: 28px;
+    padding-left: 5px;
 	box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-	border: 1px solid $BorderGray;
+	border: none;
 	border-radius: 0px;
 	-moz-appearance: none;
 	-webkit-appearance: none;
@@ -113,7 +117,7 @@ body {
 }
 
 input:focus, .inputSelect:focus, .inputDate:focus {
-	border-color: #aaa;
+	border-color: none;
 	box-shadow: 0 0 1px 3px $BackSkyBlue;
 	box-shadow: 0 0 0 3px $BackSkyBlue;
 	color: #222; 
@@ -145,10 +149,9 @@ input:focus, .inputSelect:focus, .inputDate:focus {
 
 .input, .inputSelect, .inputDate {
     height: 28px;
-    border: 1px solid $BorderGray;
+    border: none;
     font-size: $medium;
     position: relative;
-    //border-radius: 5px;
 }
 
 .input {
@@ -167,11 +170,13 @@ input:focus, .inputSelect:focus, .inputDate:focus {
     min-height: 60px;
     font-size: $medium;
     resize: vertical;
-    border: 1px solid $BorderGray;
+    border: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border-radius: 0px;
+    padding-left: 5px;
+    font-family:"Helvetica Neue", Helvetica, sans-serif;
 }
 
 .inputDate {

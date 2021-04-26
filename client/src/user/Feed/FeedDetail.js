@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
-import MainContainer from '../../utils/MainContainer'
+import { debounce } from "lodash";
+
+import MainContainer from '../../utils/MainContainer';
 import '../../styles/feed.scss';
 
 function FeedDetail() {
@@ -10,26 +12,29 @@ function FeedDetail() {
     const history = useHistory();
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
-    
 
     const [reviewState, setReviewState] = useState(false);
     const [review, setReview] = useState("");
 
     const reviewChange = (e) => {
         setReview(e.target.value)
-    }
+    };
 
-    const updateReview = () => {
-        dispatch(updateFeed(feedItem.activityId, review))
-        .then(() => {
-            setReviewState(!reviewState)
-        })
-    }
+    const updateReview = debounce(() => {
+        if(review.length>=100) {
+            dispatch(updateFeed(feedItem.activityId, review))
+            .then(() => {
+                setReviewState(!reviewState);
+            });
+        } else {
+            alert("소감문을 100자 이상 작성해주세요.");
+        }
+    }, 800);
 
     //param function
-    function goBack() {
-        history.push('/user/feed')
-    }
+    const goBack = debounce(() => {
+        history.push('/user/feed');
+    }, 800);
 
     return (
         <MainContainer header = {{
@@ -61,7 +66,7 @@ function FeedDetail() {
 
                         <tr>
                             <td className="td1">종료 시간</td>
-                            <td className="td2">{feedItem.endTime}</td>
+                            <td className="td2">{(feedItem.endTime).substring(11,19)}</td>
                         </tr>
                         
                         <tr>
@@ -74,37 +79,22 @@ function FeedDetail() {
                         <tr>
                             <td className="td1">소감문</td>
                             <td className="td2">
-                            { () => {
-                                if(feedItem.endTime!==null) {
-                                    if(reviewState===true) {
-                                        return <button onClick={() => updateReview()}>완료</button>
-                                    }
-                                    else {
-                                        if(feedItem.review===null) {
-                                            return <button onClick={() => setReviewState(!reviewState)}>작성</button>
-                                        }
-                                        else {
-                                            return <button onClick={() => setReviewState(!reviewState)}>수정</button>
-                                        }
-                                    }
-                                } else {
-                                    return null;
-                                }
-                            }}
+                            {reviewState===true && <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>}
+                            {reviewState===false && feedItem.review===null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
+                            {reviewState===false && feedItem.review!==null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
                             </td>
-                        </tr>
-                        
-                        <tr>
-                            <td colSpan="2">
-                                {reviewState===false ?
-                                    feedItem.review
-                                :
-                                    <textarea onChange={reviewChange} placeholder="내용을 입력해주세요." maxLength="250" defaultValue={feedItem.review} value={review}></textarea>
-                                }     
-                            </td>
-                        </tr>         
+                        </tr>       
                     </tbody>
-                </table>  
+                </table>
+                <div id="textarea">
+                    {reviewState===false ?
+                        feedItem.review
+                    :
+                        <textarea className="inputText" onChange={reviewChange} 
+                        placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
+                        minLength="100" maxLength="800" defaultValue={feedItem.review}></textarea>
+                    }     
+                </div>
             </div>
         </MainContainer>
     );

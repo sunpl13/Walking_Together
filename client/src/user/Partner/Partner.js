@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { debounce } from "lodash";
+
 import PartnerItem from '../Partner/PartnerItem';
 import MainContainer from '../../utils/MainContainer'
 
@@ -8,16 +10,16 @@ import '../../styles/partner.scss';
 
 const Partner = () => {
     const history = useHistory();
-    const partner = useSelector(state => state.partner.briefPartner)  //PARTNER-LIST
+    const partner = useSelector(state => state.partner.briefPartner);  //PARTNER-LIST
 
     //param function
-    function goBack() {
-        history.push('/user/mypage')
-    }
+    const goBack = debounce(() => {
+        history.push('/user/mypage');
+    }, 800);
 
-    function goCreatePartner() {
-        history.push(`/user/partner-insert`)
-    }
+    const goCreatePartner = debounce(() => {
+        history.push(`/user/partner-insert`);
+    }, 800);
 
     return (
         <MainContainer header = {{

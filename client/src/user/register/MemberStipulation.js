@@ -1,7 +1,7 @@
-import React from 'react'
-import '../../styles/stipulation.scss'
-import {useHistory} from 'react-router-dom'
-import MainContainer from '../../utils/MainContainer'
+import React from 'react';
+import {useHistory} from 'react-router-dom';
+import '../../styles/stipulation.scss';
+import MainContainer from '../../utils/MainContainer';
 
 function MemberStipulation() {
     const history = useHistory();
@@ -32,7 +32,7 @@ function MemberStipulation() {
                     <li>"아이디(ID)"라 함은 "회원"의 식별과 서비스이용을 위하여 "회원"이 정하고 "회사"가 승인하는 문자 또는 숫자의 조합을 말합니다.</li>
                     <li>"비밀번호(PASSWORD)"라 함은 "회원"이 부여받은 "아이디"와 일치되는 "회원"임을 확인하고 비밀보호를 위해 "회원" 자신이 정한 문자 또는 숫자의 조합을 말합니다.</li>
                 </ul>
-                <h3>제3조(신원정보 등의 제공)</h3> 
+                <h3>제3조(신원정보 등의 제공)</h3>
                 <p className = "a">"회사"는 이 약관의 내용, 상호, 대표자 성명, 영업소 소재지 주소(소비자의 불만을 처리할 수 있는 곳의 주소를 포함),
                 전화번호, 모사전송번호, 전자우편주소, 사업자등록번호, 통신판매업 신고번호 및 개인정보관리책임자 등을 이용자가 쉽게 알 수 있도록 온라인 서비스초기화면에 게시합니다.
                 다만, 약관은 이용자가 연결화면을 통하여 볼 수 있도록 할 수 있습니다.</p>
@@ -50,9 +50,9 @@ function MemberStipulation() {
                 </ul>
                 <h3>제6조(약관의 해석)</h3> 
                 <p className = "a">이 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 온라인 디지털콘텐츠산업 발전법, 전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한 법률, 문화체육관광부장관이 정하는 디지털콘텐츠이용자보호지침, 기타 관계법령 또는 상관례에 따릅니다.</p>
-        </div>
+            </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default MemberStipulation
+export default MemberStipulation;

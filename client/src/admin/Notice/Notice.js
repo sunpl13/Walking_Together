@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNoticeList } from '../../modules/notice';
 import ReactPaginate from 'react-paginate';
+import { debounce } from "lodash";
 import '../../styles/notice.scss';
 import '../../styles/admin.scss';
 
@@ -14,34 +15,34 @@ const Notice = () => {
 
     //page
     const [current, setCurrent] = useState(0);  //현재 페이지
-    const pageInfo = useSelector(state => state.noticeReducer.pageInfo)  //전체 페이지 정보
+    const pageInfo = useSelector(state => state.noticeReducer.pageInfo);  //전체 페이지 정보
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
-        setCurrent(page.selected)
-    }
+        setCurrent(page.selected);
+    };
 
-    const noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
+    const noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
 
     //function
     const dispatchNoticeList = useCallback(() => {  //공지사항 목록 받아오기
-        dispatch(getNoticeList(current+1,null))
-    },[dispatch, current])
+        dispatch(getNoticeList(current+1,null));
+    },[dispatch, current]);
 
     //go action
-    const goDetail = async(noticeId) => {  //공지사항 세부로 이동
-        await dispatch(selectNotice(noticeId))
-        .then(() => history.push(`/admin/notice-detail/${noticeId}`))
-    }
+    const goDetail = debounce((noticeId) => {  //공지사항 세부로 이동
+        dispatch(selectNotice(noticeId))
+        .then(() => history.push(`/admin/notice-detail/${noticeId}`));
+    },800);
 
-    const goAction = async() => {  //공지사항 삽입으로 이동
-        await dispatch(initSelectedNotice())
-        .then(() => history.push('/admin/notice-insert'))
-    }
+    const goAction = debounce(() => {  //공지사항 삽입으로 이동
+        dispatch(initSelectedNotice())
+        .then(() => history.push('/admin/notice-insert'));
+    }, 800);
 
     //useEffect
     useEffect(() => {
         dispatchNoticeList();
-    }, [current, dispatchNoticeList])
+    }, [current, dispatchNoticeList]);
 
     return (
         <div id="noticeWrap">

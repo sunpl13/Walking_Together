@@ -1,14 +1,16 @@
 import axios from 'axios';
-import {React,useState} from 'react'
-import {useHistory} from 'react-router-dom'
-import {FaAngleRight} from 'react-icons/fa'
-import '../../styles/register.scss'
-import MainContainer from '../../utils/MainContainer'
+import {React,useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {FaAngleRight} from 'react-icons/fa';
+import { debounce } from "lodash";
+
+import '../../styles/register.scss';
+import MainContainer from '../../utils/MainContainer';
 
 function Register() {
 
     const history = useHistory();
-    
+
     const [agree1, setAgree1] = useState(false);                                //회원정보 동의
     const [agree2, setAgree2] = useState(false);                                //개인정보 수집 및 이용동의
     const [agree3, setAgree3] = useState(false);                                //위치정보 동의
@@ -27,36 +29,34 @@ function Register() {
   const isDisabled = !isAgreedAll || !emailLooksValid;
 
 
-    const clickFunction = () => {
+    const clickFunction = debounce(() => {
       axios.get(`/signup/authNum?email=${email}`)
       .then(res => {
           if(res.data.status === 404) {
-            alert(res.data.message)
+            alert(res.data.message);
           } else if(res.data.status === 400) {
-            alert(res.data.message)
+            alert(res.data.message);
           } else if(res.data.status === 200) {
-        if(window.confirm("인증번호 전송이 완료되었습니다")){
-          history.push({
-            pathname : 'registerauth',
-            state : {state : res.data,
-              email : email
+            if(window.confirm("인증번호 전송이 완료되었습니다")){
+              history.push({
+                pathname : 'registerauth',
+                state : {state : res.data,
+                  email : email
+                }
+              });
             }
-          })
-         
-        }
-      }
+          }
       })
       .catch(err => {console.log(err)})
-   }
+   }, 800);
 
     const EmailHandler = (e) => {
-      setemail(e.currentTarget.value)
-    }
+      setemail(e.currentTarget.value);
+    };
 
-    function goBack() {
-      history.goBack()
-  }
-
+    const goBack = debounce(() => {
+      history.goBack();
+    }, 800);
 
     return (
         <MainContainer header = {{
@@ -72,6 +72,7 @@ function Register() {
               Walking Together<br/>
               서비스 약관에 동의해 주세요.
             </div>
+
             <div className = "check_container">
               <div className = "total">
                 <input type="checkbox" name="total_agree" value="total_agree" checked={isAgreedAll} onChange={handleCheckAll} />
@@ -102,9 +103,9 @@ function Register() {
                 <button name="button" disabled = {isDisabled} onClick = {clickFunction}>인증코드 발송</button>
                 <p>입력해주신 이메일 정보는 회원가입 시 이메일로 설정됩니다.</p>
               </div>
-          </div>
+           </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;

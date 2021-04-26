@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import MainContainer from '../../utils/MainContainer'
+import { debounce } from "lodash";
+
+import MainContainer from '../../utils/MainContainer';
 import { checkPartnerDetail } from "../../utils/Function";
 
 const PartnerDetail = ({match}) => {
-    const history = useHistory()
+    const history = useHistory();
 
     const partner = useSelector(state => state.partner.partnerDetail);
 
     //state
     const [partnerId] = useState(match.params.partnerId);
-    
     const [detail, setDetail] = useState("");
 
     //param function
-    function goBack() {
-        history.push('/user/partner')
-    }
+    const goBack = debounce(() => {
+        history.push('/user/partner');
+    }, 800);
 
     //useEffect
     useEffect(() => {
-        setDetail(checkPartnerDetail(partner.partnerDetail))
-    }, [partner])
+        setDetail(checkPartnerDetail(partner.partnerDetail));
+    }, [partner]);
     
     return (
         <MainContainer header = {{
@@ -60,7 +61,7 @@ const PartnerDetail = ({match}) => {
                         <tr>
                             <td className="td1">파트너 사진</td>
                             <td className="td2">
-                                <img src={partner.partnerPhoto||''} alt="파트너 이미지"></img>
+                            {partner.partnerPhoto!==null?<img src={partner.partnerPhoto} alt="파트너 이미지"/>:null}
                             </td>
                         </tr>
                     </tbody>

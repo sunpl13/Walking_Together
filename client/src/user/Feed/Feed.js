@@ -1,42 +1,45 @@
 import {React, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 import {sort} from '../../utils/options';
 import {getFeedList, selectFeed} from '../../modules/feed';
-import MainContainer from '../../utils/MainContainer'
+import { debounce } from "lodash";
+
+import MainContainer from '../../utils/MainContainer';
 import '../../styles/feed.scss';
 
 function Feed() {
     const ID = localStorage.getItem("user_info");
     const history = useHistory();
     const dispatch = useDispatch();
-    const [sor, setsor] = useState("desc");             // 정렬을 위한 state 지정
+    const [sor, setsor] = useState("asc");             // 정렬을 위한 state 지정
+
 
     useEffect(() => {
-        dispatch(getFeedList(ID,sor))
-    },[sor,ID,dispatch])
+        dispatch(getFeedList(ID,sor));
+    },[sor,ID,dispatch]);
 
     let myFeed = useSelector(state => state.feedReducer.list);
 
 
     const sortList = sort.map(
         item => {
-            return ( <option key = {item.label} value = {item.value}>{item.label}</option>)
+            return ( <option key = {item.label} value = {item.value}>{item.label}</option>);
         }
     );
 
     const sortHandler = (e) => {
-        setsor(e.currentTarget.value)
-    }
+        setsor(e.currentTarget.value);
+    };
 
-    const goDetail = (activityId, activityStatus) => {
+    const goDetail = debounce((activityId, activityStatus) => {
         if(activityStatus=== 0) {
             dispatch(selectFeed(activityId))
-            .then(() => history.push('/user/feeddetail'))
+            .then(() => history.push('/user/feeddetail'));
         } else {
             alert("활동 종료 후 상세 정보를 확인할 수 있습니다.");
         }
-    }
+    }, 800);
 
     return (
         <MainContainer header = {{
@@ -49,7 +52,7 @@ function Feed() {
         }}>
         
             <div id="feedWrap">
-                <select className="inputSelect" onChange = {sortHandler}>{sortList}</select>
+                <select className="inputSelect" selectedvalue="desc" onChange = {(e) => sortHandler(e)}>{sortList}</select>
                 <div id="feedItemsWrap">
                     {myFeed.length!==undefined ? 
                     myFeed.map(
@@ -72,7 +75,7 @@ function Feed() {
                 </div>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default Feed
+export default Feed;

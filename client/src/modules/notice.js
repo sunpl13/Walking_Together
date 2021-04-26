@@ -48,8 +48,8 @@ export const insertNotice = (       //공지글 등록 (==>form에서 직접 sub
 
         dispatch({
             type: INSERTNOTICE
-        })
-    }
+        });
+};
 
 export const updateNotice = (       //공지글 수정
     formData
@@ -69,8 +69,8 @@ export const updateNotice = (       //공지글 수정
             content: formData.get("content"),
             imageFiles: formData.get("imageFiles"),
             attachedFiles: formData.get("attachedFiles")
-        })
-    }
+        });
+};
 
 export const deleteNotice = (           //공지글 삭제
     noticeId
@@ -84,8 +84,8 @@ export const deleteNotice = (           //공지글 삭제
 
         dispatch({
             type: DELETENOTICE
-        })
-}
+        });
+};
 
 export const selectNotice = (          //공지글 세부내용 조회
     noticeId
@@ -103,8 +103,8 @@ export const selectNotice = (          //공지글 세부내용 조회
                 type: SELECTNOTICE,
                 payload: res.data
             })
-        })
-}
+        });
+};
 
 export const getNoticeList = (          //공지사항 목록 가져오기
     page,
@@ -137,7 +137,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                                 pageList: []
                             }
                         }
-                    })
+                    });
                 }
             })
         }else {
@@ -171,13 +171,13 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                 }
             })
         }
-}
+};
 
 export const initSelectedNotice = () => async(dispatch) => {        //redux selectedNotice 초기화
     dispatch({
         type: INITSELECTEDNOTICE
-    })
-}
+    });
+};
 
 
 //reducer
@@ -187,7 +187,7 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
         case INSERTNOTICE:
             return {
                 state
-            }
+            };
 
         case UPDATENOTICE:
             return {
@@ -197,7 +197,7 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     content: action.content,
                     imageFiles: action.imageFiles,
                     attachedFiles: action.attachedFiles
-                }}
+            }};
 
         case DELETENOTICE:
             return {
@@ -210,20 +210,20 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     imageFiles: null,
                     attachedFiles: null
                 }
-            }
+            };
 
         case SELECTNOTICE:
             return {
                 ...state, 
                 selectedNotice: action.payload
-            }
+            };
 
         case GETLIST:
             return {
                 ...state,
                 list: action.payload.data,
                 pageInfo: action.payload.pageInfo
-            }
+            };
         
         case INITSELECTEDNOTICE:
             return {
@@ -236,11 +236,11 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     imageFiles: null,
                     attachedFiles: null
                 }
-            }
+            };
             
         default:
-            return state
-    }
-}
+            return state;
+    };
+};
 
 export default noticeReducer;

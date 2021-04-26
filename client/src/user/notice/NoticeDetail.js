@@ -5,36 +5,36 @@ import {selectNotice} from '../../modules/notice';
 import  '../../styles/accordion.scss';
 
 import ReactHtmlParser from 'react-html-parser';
+import { debounce } from "lodash";
 
 function NoticeDetail({title, active, setactive, content, noticeId}) {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const toggleHandler = () => {           //같은 콘텐츠 클릭시 화면 지우기 구현
+    const toggleHandler = debounce(() => {           //같은 콘텐츠 클릭시 화면 지우기 구현
         setactive(title);
         if(active === title) {
-            setactive("")
+            setactive("");
         }
-    }
+    }, 800);
 
-    const goDetail = async(noticeId) => {
+    const goDetail = debounce(async(noticeId) => {
         await dispatch(selectNotice(noticeId))
         .then(() => {
             history.push({
                 pathname : '/user/viewdetail',
                 state : {noticeId : noticeId}
             })
-        })
-    }
+        });
+    }, 800);
 
     return (
         <div className = "accordion">
             <div className = "accordionHeading">
                 <div className = "container" >
-                    <p onClick = {() => goDetail(noticeId)}>{title}</p>
+                    <p onClick = {goDetail}>{title}</p>
                     <span id="toggle" onClick = {toggleHandler}>{active === title ? "X" : "|||"}</span>
-                    <div className = "info">
-                        </div>
+                    <div className = "info"></div>
                 </div>
             </div>
             <div className = {(active === title ? "show" : "") + " accordionContent"}>
@@ -43,7 +43,7 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default NoticeDetail
+export default NoticeDetail;

@@ -3,20 +3,21 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import MainContainer from '../../utils/MainContainer'
 import '../../styles/certification.scss';
+import { debounce } from "lodash";
 
 const Certification = () => {
     const history = useHistory();
 
-    const stdId = localStorage.getItem('user_info')
-    const [from, setFrom] = useState()
-    const [to, setTo] = useState()
+    const stdId = localStorage.getItem('user_info');
+    const [from, setFrom] = useState();
+    const [to, setTo] = useState();
 
-    const submit = async() => {
+    const submit = debounce(async() => {
         if(from===undefined||to===undefined) {
-            alert("기간을 지정해주세요.")
+            alert("기간을 지정해주세요.");
         } else {
-            const replaceFrom = from.replaceAll("-","/")
-            const replaceTo = to.replaceAll("-","/")
+            const replaceFrom = from.replaceAll("-","/");
+            const replaceTo = to.replaceAll("-","/");
 
             await axios.post(`/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`, {}, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
@@ -29,13 +30,13 @@ const Certification = () => {
                             from: replaceFrom,
                             to: replaceTo
                         }
-                    })
+                    });
                 } else {
-                    alert("검색 결과가 없습니다.")
+                    alert("검색 결과가 없습니다.");
                 }
             })
         }
-    }
+    }, 800);
 
     return (
         <MainContainer header = {{

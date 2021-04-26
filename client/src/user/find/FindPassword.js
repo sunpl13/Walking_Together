@@ -1,28 +1,29 @@
-import {React,useState} from 'react'
-import moment from 'moment'
-import axios from 'axios'
-import { useHistory } from 'react-router'
-import MainContainer from '../../utils/MainContainer'
-import '../../styles/find.scss'
+import {React,useState} from 'react';
+import moment from 'moment';
+import axios from 'axios';
+import { useHistory } from 'react-router';
+import TopBar from '../../utils/TopBar';
+import '../../styles/find.scss';
+import { debounce } from "lodash";
+import MainContainer from '../../utils/MainContainer';
 
 function FindPassword() {
 
     const history = useHistory();
-
 
     const [birth, setbirth] = useState("");
     const [stdId, setstdId] = useState("");
     const [Name, setName] = useState("");
 
     const NameHandler = (e) => {
-        setName(e.currentTarget.value)
+        setName(e.currentTarget.value);
     };
 
     const stdIdHandler = (e) => {
-        setstdId(e.currentTarget.value)
+        setstdId(e.currentTarget.value);
     };
 
-    const findpasswordHandler = () => {
+    const findpasswordHandler = debounce(() => {
         axios.post('/findpassword', {
             stdId : stdId,
             name : Name,
@@ -36,21 +37,18 @@ function FindPassword() {
                 })
             }
         } else {
-            alert(res.data.message)
+            alert(res.data.message);
         }}
             
         )
-        .catch(err => err)
-    }
+        .catch(err => err);
+    }, 800);
 
-
-
-    function goBack() {
+    const goBack = debounce(() => {
         history.goBack();
-    }
+    }, 800);
 
     return (
-    
         <MainContainer header = {{
             left : "back",
             center : {title : "찾기", data : null},
@@ -61,18 +59,14 @@ function FindPassword() {
         }}>
            <div className = "find" >
                 <form className = "find_input">
-            
-                <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
-
-                <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
-            
-                <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
-
-             </form>
+                    <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
+                    <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
+                    <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
+                </form>
                 <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
              </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default FindPassword
+export default FindPassword;

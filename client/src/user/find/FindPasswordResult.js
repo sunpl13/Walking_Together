@@ -1,13 +1,17 @@
-import React from 'react'
-import { useHistory, useLocation } from 'react-router'
-import '../../styles/find.scss'
-import MainContainer from '../../utils/MainContainer'
+import React from 'react';
+import { useHistory, useLocation } from 'react-router';
+import '../../styles/find.scss';
+import { debounce } from "lodash";
+import MainContainer from '../../utils/MainContainer';
 
 function FindPasswordResult() {
 
     const history = useHistory();
     const location = useLocation();
-    console.log(location);
+
+    const goLogin = debounce(() => {
+        history.push('/login')        
+    }, 800);
 
     return (
         <MainContainer header = {{
@@ -24,12 +28,12 @@ function FindPasswordResult() {
                     로그인 후 반드시 비밀번호를 변경해주세요!</span>
                 </div>
                 <div className = "e_container">
-                    <span>{location.state.email}</span>
+                    <span>" {location.state.email} "</span>
                 </div>
-                <button className = "find_button" onClick = {() => {history.push('/login')}}>로그인하러 가기</button>
+                <button className = "find_button" onClick = {goLogin}>로그인하러 가기</button>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default FindPasswordResult
+export default FindPasswordResult;

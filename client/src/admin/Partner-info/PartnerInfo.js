@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { CSVLink } from "react-csv";
+import { debounce } from "lodash";
 
 import '../../styles/admin.scss';
 
@@ -17,30 +18,30 @@ const PartnerInfo = () => {
         {code: "c", name: "아동"},
         {code: "e", name: "어르신"},
         {code: "o", name: "일반인"}
-    ]
+    ];
 
     //button
-    const search = () => {
+    const search = debounce(() => {
         axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             if(res.data.data.length===0) {
-                alert("조회 결과가 없습니다.")
-                setRes([])
+                alert("조회 결과가 없습니다.");
+                setRes([]);
             } else {
-                setRes(res.data.data)
+                setRes(res.data.data);
             }
         })
-    }
+    }, 800);
 
     //change action
     const changeKeyword = (e) => {
         setKeyword(e.target.value);
-    }
+    };
 
     const changePartnerDetail = (e) => {
         setPartnerDetail(e.target.value);
-    }
+    };
 
     //엑셀 출력
     const headers = [
@@ -52,7 +53,7 @@ const PartnerInfo = () => {
         { label: '파트너 성별', key: 'gender'},
         { label: '파트너 생년월일', key: 'partnerBirth'},
         { label: '파트너와의 관계', key: 'relation'}
-      ];
+    ];
 
 
     return (

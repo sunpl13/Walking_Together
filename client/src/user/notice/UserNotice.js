@@ -4,6 +4,8 @@ import ReactPaginate from 'react-paginate';
 import {getNoticeList} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { debounce } from "lodash";
+
 import NoticeDetail from './NoticeDetail';
 import MainContainer from '../../utils/MainContainer'
 
@@ -12,7 +14,7 @@ function UserNotice() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    let noticeList = useSelector(state => state.noticeReducer.list) //현재 페이지에 띄워질 공지 리스트
+    let noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
 
     //page
     const [current, setCurrent] = useState(0);  //현재 페이지
@@ -21,48 +23,47 @@ function UserNotice() {
     const [active, setactive] = useState("");
 
     //공지사항 검색함수
-    const Search = () => {
-        dispatch(getNoticeList(current+1,keyword))
-    }
+    const Search = debounce(() => {
+        dispatch(getNoticeList(current+1,keyword));
+    }, 800);
     
     //엔터키 사용시 실행되는 함수 Search함수와 같음
-    const enterKey = () => {
-     if(window.event.keyCode === 13) {
-        dispatch(getNoticeList(current+1,keyword))
-     }   
-    }
+    const enterKey = debounce(() => { 
+        if(window.event.keyCode === 13) {
+            dispatch(getNoticeList(current+1,keyword));
+        }
+    }, 800);
 
 
     const changePage = (page) => {  //pagination 페이지 변경 시 실행
-        setCurrent(page.selected)
-    }
+        setCurrent(page.selected);
+    };
 
 
     const ChangeKeywordHandler = (e) => {
-        setkeyword(e.target.value)
-    }
+        setkeyword(e.target.value);
+    };
 
     //param function
-    function goBack() {
-        history.push('/user/home')
-    }
+    const goBack = debounce(() => {
+        history.push('/user/home');
+    }, 800);
 
     useEffect(() => {
         return (
             dispatch(getNoticeList(1))  //공지사항 목록 받아오기
-        )
-    }, [dispatch])
+        );
+    }, [dispatch]);
 
 //화면에 출력하기 위해 map 함수를 활용
 let homeNotice = noticeList.map(
     item => 
-   {
+    {
        return(
              <NoticeDetail key = {item.noticeId} noticeId = {item.noticeId} title = {item.title} active = {active} setactive = {setactive} content = {item.content}/>
-             )  
+        );
     }
-)
-
+);
 
     return (
         <MainContainer header = {{
@@ -99,7 +100,7 @@ let homeNotice = noticeList.map(
                 </div>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default UserNotice
+export default UserNotice;

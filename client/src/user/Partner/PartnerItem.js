@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { debounce } from "lodash";
+
 import { checkPartnerDetail } from "../../utils/Function";
 import { getPartnerDetailInfo } from '../../modules/partner';
 
 import { IoIosArrowForward } from "react-icons/io";
 
 const PartnerItem = ({state}) => {
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const [detail, setDetail] = useState("");
 
     useEffect(() => {
-        setDetail(checkPartnerDetail(state.partnerDetail))
-    }, [state])
+        setDetail(checkPartnerDetail(state.partnerDetail));
+    }, [state]);
 
-    const itemClick = async() => {
+    const itemClick = debounce(async() => {
         await dispatch(getPartnerDetailInfo(state.partnerId))
         .then(() => {
-            history.push(`/user/partner-datail/${state.partnerId}`)
-        })
-    }
+            history.push(`/user/partner-datail/${state.partnerId}`);
+        });
+    }, 800);
 
     return (
         <tr id="partner_item" onClick={itemClick}>

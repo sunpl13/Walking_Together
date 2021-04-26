@@ -1,6 +1,8 @@
 import React,{useEffect} from 'react';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
+import { debounce } from "lodash";
+
 import {selectNotice} from '../../modules/notice';
 import MainContainer from '../../utils/MainContainer'
 
@@ -14,13 +16,13 @@ function Detail() {
     let view = useSelector(state => state.noticeReducer.selectedNotice);
 
     useEffect(() => {
-        dispatch(selectNotice(location.state.noticeId))
-    },[dispatch, location.state.noticeId])
+        dispatch(selectNotice(location.state.noticeId));
+    },[dispatch, location.state.noticeId]);
 
     //param function
-    function goBack() {
-        history.goBack()
-    }
+    const goBack = debounce(() => {
+        history.goBack();
+    }, 800);
 
     return (
         <MainContainer header = {{
@@ -43,7 +45,7 @@ function Detail() {
                 </div>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default Detail
+export default Detail;

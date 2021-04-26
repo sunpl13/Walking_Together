@@ -4,11 +4,18 @@
 .find {
   @include box-default;
 
+  header {
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+
   .find_input {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 90%;
 
     input {
       @include input-default;
@@ -17,13 +24,19 @@
 
   button {
     @include button-default {
-      width: 195px;
+      width: 90%;
     }
   }
 }
 
 .find_auth {
   @include box-default;
+
+  header {
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
 
   .coment {
     width: 80%;
@@ -37,12 +50,16 @@
     width: 70%;
     border: 1px solid none;
     border-radius: 6px;
-    background-color: $BackSky;
     margin-bottom: 10%;
     text-align: center;
     span {
-      color: $fontWhite;
+      color: $fontGray;
+      font-style: italic;
       font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
     }
+  }
+
+  .find_button {
+    width: 90%;
   }
 }

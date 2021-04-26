@@ -1,22 +1,24 @@
-import {React,useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {React,useState} from 'react';
+import {useDispatch} from 'react-redux';
 import { useHistory } from 'react-router';
+import { debounce } from "lodash";
+
 import {loginHandler} from '../../modules/user';
 import '../../styles/login.scss';
+
 function Login() {
     const dispatch = useDispatch();
     const history = useHistory();
-
 
     const [stdId, setstdId] = useState("");
     const [Password, setPassword] = useState("");
 
     const stdIdHandler = (e) => {
-        setstdId(e.currentTarget.value)
+        setstdId(e.currentTarget.value);
     };
 
     const PasswordHandler = (e) => {
-        setPassword(e.currentTarget.value)
+        setPassword(e.currentTarget.value);
     };
 
     const SubmitHandler =(e) => {
@@ -24,9 +26,17 @@ function Login() {
     };
 
 
-    const login = () => {                                                //회원정보를 서버에 전송
+    const login = debounce(() => {                                                //회원정보를 서버에 전송
         dispatch(loginHandler(stdId, Password, history));
-    }
+    }, 800);
+
+    const goSignup = debounce(() => {
+        history.push('/signup');
+    }, 800);
+
+    const goFindPw = debounce(() => {
+        history.push('/findpassword');
+    }, 800);
 
     return (
         <div>
@@ -41,12 +51,12 @@ function Login() {
                             <input type = "password" value = {Password} onChange = {PasswordHandler} placeholder = "비밀번호"/>
                         <button className = "login_btn" type = "submit" onClick = {login}>Login</button>                
                     </div>
-                        <button className = "signup_btn" onClick = {() => {history.push('/signup')}}>회원가입</button>        
-                        <button className = "signup_btn" onClick = {() => {history.push('/findpassword')}}>비밀번호 찾기</button>
+                        <button className = "signup_btn" onClick = {goSignup}>회원가입</button>        
+                        <button className = "signup_btn" onClick = {goFindPw}>비밀번호 찾기</button>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

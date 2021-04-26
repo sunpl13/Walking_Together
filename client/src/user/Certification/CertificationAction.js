@@ -1,9 +1,10 @@
 import React from 'react';
 import pdfMake from 'pdfmake';
-import '../../../node_modules/pdfmake/build/vfs_fonts.js'
+import '../../../node_modules/pdfmake/build/vfs_fonts.js';
 import { useLocation } from "react-router";
 import MainContainer from '../../utils/MainContainer'
 import '../../styles/certification.scss';
+import { debounce } from "lodash";
 
 import Files_And_Folder_Flatline from '../../source/Files_And_Folder_Flatline.svg';
 
@@ -20,7 +21,7 @@ const format = (data) => {
             {text: data[0].partnerName, fontSize: 11, alignment: 'center'},
             {text: data[0].careTime, fontSize: 11, alignment: 'center'},
             {text: data[0].ordinaryTime, fontSize: 11, alignment: 'center'}
-        ])
+        ]);
     } else {
         return(data.map((item) => {
             return ([
@@ -32,9 +33,9 @@ const format = (data) => {
                 {text: item.careTime, fontSize: 11, alignment: 'center'},
                 {text: item.ordinaryTime, fontSize: 11, alignment: 'center'}
             ])
-        }))
+        }));
     }
-}
+};
 
 const CertificationAction = () => {
     const location = useLocation();
@@ -117,9 +118,9 @@ const CertificationAction = () => {
         }
     };
 
-	const func = () => {
+	const func = debounce(() => {
         pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
-    }
+    }, 800);
         
     return (
         <MainContainer header = {{
@@ -131,16 +132,16 @@ const CertificationAction = () => {
             size :"small"
         }}>
             <div id="certificationAction">
-            <div id="buttonWrap">
-                <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
-            </div>
+                <div id="buttonWrap">
+                    <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
+                </div>
             
-            <div id="imageWrap">
-                <img src={Files_And_Folder_Flatline} alt=""/>
-            </div>
+                <div id="imageWrap">
+                    <img src={Files_And_Folder_Flatline} alt=""/>
+                </div>
             </div>
         </MainContainer>
-    )
+    );
 };
 
 export default CertificationAction;

@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MainContainer from '../../utils/MainContainer'
+import { debounce } from "lodash";
+
+import MainContainer from '../../utils/MainContainer';
 import { CgProfile } from "react-icons/cg";
 import '../../styles/ranking.scss';
 
 import Winners_Flatline from "../../source/Winners_Flatline.svg";
 
 const Ranking = () => {
-    const [ranking, setRanking] = useState([])
-
-    useEffect(() => {
-        refresh()
-        return {}
-    }, [])
+    const [ranking, setRanking] = useState([]);
 
     //refresh
-    const refresh = async() => {
-        await axios.get(`/ranking`,
-         {
+    const refresh = debounce(async() => {
+        await axios.get(`/ranking`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-        })
-        .then((res) => {
-            setRanking(res.data.data)
-        })
-    }
+        }).then((res) => {
+            setRanking(res.data.data);
+        });
+    }, 800);
+
+    useEffect(() => {
+        axios.get(`/ranking`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+        }).then((res) => {
+            setRanking(res.data.data);
+        });
+        return {};
+    }, []);
 
     return (
         <MainContainer header = {{

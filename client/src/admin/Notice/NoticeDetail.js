@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
+import { debounce } from "lodash";
 
 import { deleteNotice } from '../../modules/notice';
 import '../../styles/admin.scss';
@@ -14,17 +15,14 @@ const NoticeDetail = ({match}) => {
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
     //action
-    const delNotice = useCallback(async() => {              //공지글 삭제
-        const delConfirm = window.confirm("삭제하시겠습니까?");
-        if (delConfirm === true) {
-            await dispatch(deleteNotice(noticeId))
-            .then(()=> history.push('/admin/notice'))
-        }
-    },[dispatch, history, noticeId])
+    const delNotice = debounce(() => {              //공지글 삭제
+        dispatch(deleteNotice(noticeId))
+        .then(()=> history.push('/admin/notice'));
+    },800);
 
-    const goUpdate = useCallback(async() => {
-        history.push('/admin/notice-update')
-    }, [history])
+    const goUpdate = debounce(() => {
+        history.push('/admin/notice-update');
+    }, 800);
 
     return (
         <div id="noticeDetail">
@@ -38,7 +36,7 @@ const NoticeDetail = ({match}) => {
 
             <div id="content">
                 <div id="image">
-                    {notice.imageFiles===null ? null
+                    {notice.imageFiles[0]===undefined ? null
                     : <img src={notice.imageFiles[0]} alt="error"></img>}
                 </div>
                 {ReactHtmlParser(notice.content)}
@@ -52,7 +50,7 @@ const NoticeDetail = ({match}) => {
                             <a href={file} download>{index+1}파일다운</a>
                             <br />
                         </div>
-                        )
+                    )
                 })}
             </div>
         </div>

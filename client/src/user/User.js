@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Auth from '../hoc/Auth';
-import Nav from '../utils/Nav'
+import Nav from '../utils/Nav';
 
 
 import Mypage from './Mypage/Mypage';

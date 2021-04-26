@@ -1,13 +1,14 @@
-import React from 'react'
-import '../../styles/activity-start.scss';
-import MainContainer from '../../utils/MainContainer'
-import {useHistory} from 'react-router-dom'
+import React from 'react';
+import '../../styles/activity.scss';
+import {useHistory} from 'react-router-dom';
+import MainContainer from '../../utils/MainContainer';
+
 import {useDispatch} from 'react-redux';
 import { getPartner } from '../../modules/activity';
+import { debounce } from "lodash";
 
 
 function ActivityStart() {
-
     const style = {
         display: "flex",
         justifyContent: "center",
@@ -22,11 +23,11 @@ function ActivityStart() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const onclickHandler = () => {
+    const onclickHandler = debounce(() => {
         if(window.confirm("활동을 생성하시겠습니까?")) {
-            dispatch(getPartner(stdId, history))
+            dispatch(getPartner(stdId, history));
         }
-    }
+    }, 800);
 
 
     return (
@@ -39,10 +40,10 @@ function ActivityStart() {
             size :"small"
         }}>
             <div style = {style}>
-                <button className = "circle" onClick = {onclickHandler}>시작</button>
+                <button className = "circle" onClick = {onclickHandler}>Start</button>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default ActivityStart
+export default ActivityStart;

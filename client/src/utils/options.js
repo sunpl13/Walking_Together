@@ -47,18 +47,18 @@ export const department = [
     {value: '건강운동학전공', label: '건강운동학전공'},
     {value: '자유전공학부', label: '자유전공학부'},
     {value: '교양성경과', label: '교양성경과'},
-]
+];
 
 export const option = department.sort(function(a,b) {                           //객체 정렬 형식 (오름차순), 실제로 import 시키는 값
     return a - b;
-})
+});
 
 
 export const soor = [
-    {value: 'desc', label: '오름차순'},
-    {value: 'asc', label: '내림차순'}
-]
+    {value: 'desc', label: '내림차순'},
+    {value: 'asc', label: '오름차순'}
+];
 
 export const sort = soor.sort(function(a,b) {
     return a.value < b.value ? -1 : a.value > b.value ? 1 : 0;
-})
+});

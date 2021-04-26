@@ -1,13 +1,14 @@
-import {React, useEffect} from 'react'
+import {React, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
 import {useSelector, useDispatch} from 'react-redux';
-import MainContainer from '../../utils/MainContainer'
+import { debounce } from "lodash";
+
+import MainContainer from '../../utils/MainContainer';
 import Couple_Flatline from '../../source/Couple_Flatline.svg';
 import '../../styles/home.scss';
 
 function Home() {
-
     const history = useHistory();
     const dispatch = useDispatch();
     const pages = 1;    //공지사항 최근 페이지를 불러옴
@@ -15,21 +16,25 @@ function Home() {
     useEffect(() => {
         dispatch(getNoticeList(pages, null));
         //redux에서 notice데이터를 받아옴
-    }, [dispatch])
+    }, [dispatch]);
 
     const notice = useSelector(state => state.noticeReducer.list);
 
     const mainNotice = notice.slice(0,4);       //4개만 보여주기 위해 자름
 
-    const goDetail = async(noticeId) => {
+    const goDetail = debounce(async(noticeId) => {
         await dispatch(selectNotice(noticeId))
         .then(() => {
             history.push({
                 pathname : '/user/viewdetail',
                 state : {noticeId : noticeId}
             })
-        })
-    }
+        });
+    }, 800);
+
+    const goNotice = debounce(() => {
+        history.push('/user/noticelist');
+    }, 800);
 
 
     //화면에 출력하기 위해 map 함수를 활용
@@ -47,7 +52,7 @@ function Home() {
                 </tbody>
             )
         }
-    )
+    );
 
     return (
         <MainContainer header = {{ 
@@ -59,22 +64,22 @@ function Home() {
         size :"small"}}>
             <div id="home" >
                 <div id="homeWrap">
-                        <span id="logo">Walking Together</span>
-                        <img src={Couple_Flatline} width="250" alt="logo"/>
-                
-                        <div id="noticeWrap">
-                            <div id="noticeTop">
-                                <span id="noticeTitle"># 공지사항</span>
-                                <button className="user_btn_blue" onClick = {() => {history.push('/user/noticelist')}}> 더보기</button>
-                            </div>
-                            <table id="noticeTable">
-                                {homeNotice}
-                            </table>
-                        </div>
+                      <span id="logo">Walking Together</span>
+                      <img src={Couple_Flatline} width="250" alt="logo"/>
+
+                      <div id="noticeWrap">
+                          <div id="noticeTop">
+                              <span id="noticeTitle"># 공지사항</span>
+                              <button className="user_btn_blue" onClick = {goNotice}> 더보기</button>
+                          </div>
+                          <table id="noticeTable">
+                              {homeNotice}
+                          </table>
+                      </div>
                 </div>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

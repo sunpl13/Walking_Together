@@ -1,7 +1,7 @@
-import React from 'react'
-import {useHistory} from 'react-router-dom'
-import '../../styles/stipulation.scss'
-import MainContainer from '../../utils/MainContainer'
+import React from 'react';
+import {useHistory} from 'react-router-dom';
+import '../../styles/stipulation.scss';
+import MainContainer from '../../utils/MainContainer';
 
 
 function InfoStipulation() {
@@ -65,7 +65,7 @@ function InfoStipulation() {
                     문화체육관광부장관이 정하는 디지털콘텐츠이용자보호지침, 기타 관계법령 또는 상관례에 따릅니다.</p>
             </div>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default InfoStipulation
+export default InfoStipulation;

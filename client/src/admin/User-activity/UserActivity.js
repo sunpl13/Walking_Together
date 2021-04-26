@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { CSVLink } from "react-csv";
+import { debounce } from "lodash";
 
 
 const UserActivity = () => {
@@ -16,22 +17,21 @@ const UserActivity = () => {
     const divisionOption = [
         {code: 0, name: "일반 걷기" },
         {code: 1, name: "돌봄 걷기" }
-    ]
+    ];
 
-    const search = () => {
+    const search = debounce(() => {
         if(from===""||to==="") {
-            alert("조회 기간을 지정해주세요.")
+            alert("조회 기간을 지정해주세요.");
         } else {
             if(keyword==="") {
                 axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
                     headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
                 }).then((response) => {
                     if(response.data.data.length!==0) {
-                        setRes(response.data.data)
+                        setRes(response.data.data);
                     }
                     else {
-                        setRes([])
-                        alert("결과가 없습니다.")
+                        setRes([]);
                     }
                 })
             } else {
@@ -39,34 +39,33 @@ const UserActivity = () => {
                     headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
                 }).then((response) => {
                     if(response.data.data.length!==0) {
-                        setRes(response.data.data)
+                        setRes(response.data.data);
                     }
                     else {
-                        setRes([])
-                        alert("결과가 없습니다.")
+                        setRes([]);
                     }
                 })
             }
         }
-    }
+    }, 800);
 
     //change action
     const changeKeyword = (e) => {  //keyword change
         setKeyword(e.target.value);
-    }
+    };
 
     const changeFrom = (e) => {  //from change
         setFrom(e.target.value);
-    }
+    };
 
     const changeTo = (e) => {  //to change
         setTo(e.target.value);
-    }
+    };
 
     const changeActivityDivision = (e) => {  //ativityDivision change
-        setActivityDivision(e.target.value)
-    }
-console.log(res)
+        setActivityDivision(e.target.value);
+    };
+
     //엑셀 출력
     const headers = [
         { label: '이름', key: 'stdName' },

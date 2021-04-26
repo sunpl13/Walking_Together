@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { debounce } from "lodash";
+
 import { createPartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 import MainContainer from '../../utils/MainContainer'
 
 const PartnerInsert = () => {
     const dispatch = useDispatch();
-    const history = useHistory()
+    const history = useHistory();
 
-    const stdId = localStorage.getItem('user_info').replace(/"/g,"");
+    const stdId = localStorage.getItem('user_info');
     
     const [partnerName, setPartnerName] = useState("");
     const [partnerDetail, setPartnerDetail] = useState("");
@@ -19,7 +21,7 @@ const PartnerInsert = () => {
     const [partnerBirth, setPartnerBirth] = useState("");
 
     //param function
-    function cancel() {
+    const cancel = debounce(() => {
         const res = window.confirm("취소하시겠습니까?");
         if(res===true) {
             history.goBack();
@@ -27,9 +29,9 @@ const PartnerInsert = () => {
         else {
             return;
         }
-    }
+    }, 800);
 
-    function submit(e) {
+    const submit = debounce((e) => {
         e.preventDefault();
 
         if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
@@ -37,10 +39,10 @@ const PartnerInsert = () => {
         } else {
             const res = window.confirm("등록하시겠습니까?");
             if(res===true) {
-                createPartner()
+                createPartner();
             }
         }
-    }
+    }, 800);
 
     //button action
     const createPartner = async() => {
@@ -48,7 +50,7 @@ const PartnerInsert = () => {
         //create formdata
         const formData = new FormData();
         formData.append("stdId", stdId);
-        formData.append("partnerName", partnerName);
+        formData.append("partnerName", (partnerName).replaceAll(" ",""));
         formData.append("partnerDetail", partnerDetail);
         formData.append("partnerPhoto", partnerPhoto[0]);
         formData.append("selectionReason", selectionReason);
@@ -59,9 +61,9 @@ const PartnerInsert = () => {
         await dispatch(createPartnerHandler(formData))
         .then(async() => { 
             await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-            .then(() => history.push('/user/partner'))
-        })
-    }
+            .then(() => history.push('/user/partner'));
+        });
+    };
     
     return (
         <MainContainer header = {{
