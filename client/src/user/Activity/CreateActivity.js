@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { checkPartnerDetail } from "../../utils/Function";
-import TopBar from '../../utils/TopBar';
 import { debounce } from "lodash";
 
 import '../../styles/activity.scss';
+import MainContainer from '../../utils/MainContainer';
+
 import Notifications_Flatline from '../../source/Notifications_Flatline.svg';
 
 const CreateActivity = () => {
@@ -39,16 +40,15 @@ const CreateActivity = () => {
     const date = today.getDate().toString();
 
     return (
-        <div id="create_activity">
-            <header>
-                <TopBar
-                    left="cancel"
-                    center={{title:"활동생성", data:null}} 
-                    right="create" 
-                    lfunc={goBack}
-                    rfunc={createActivity}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "cancel",
+            center : {title : "활동생성", data : null},
+            right : "create" ,
+            lfunc : () => goBack(),
+            rfunc : () => createActivity(),
+            size :"small"
+        }}>
+            <div id="create_activity">
             <form className="create_activity_form">
                 <div id="create_activity_wrap">
                     <label className="tdActTitle">활동일</label>
@@ -76,7 +76,8 @@ const CreateActivity = () => {
             </form>
 
             <img src={Notifications_Flatline} height="250" width="250" id="bottom_svg" alt="walking"></img>
-        </div>
+            </div>
+        </MainContainer>
     );
 };
 

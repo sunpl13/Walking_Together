@@ -2,8 +2,8 @@ import { React, useState, useRef } from 'react';
 import { createActivity } from '../../modules/activity';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import TopBar from '../../utils/TopBar';
 import { debounce } from "lodash";
+import MainContainer from '../../utils/MainContainer';
 
 import '../../styles/activity.scss';
 
@@ -65,44 +65,44 @@ function ActivityRegister() {
 
 
     return (
-        <div id="activityRegisterWrap">
-            <header>
-                <TopBar 
-                    left="cancel" 
-                    center={{title:"사진 등록", data:null}} 
-                    right="create" 
-                    lfunc={goBack}
-                    rfunc={createAction}
-                    size="small"/>
-            </header>
-            <div id="activityRegister">
-                <div className = "picture_container">
-                    {picture.length===0?
-                    <div className="preview"></div>
-                    :
-                    <div className="preview">
-                        <img ref={frame} alt="none"/>
-                    </div>
-                    }
-                </div>
-
-                <div id="pictureInput">
-                    <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
-                        <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
-                        
-                        {buttonFirst===true ? 
-                        <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
-                        : <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
-                        }
-                        <br/>
+        <MainContainer header ={{
+        left : "cancel",
+        center : {title : "사진등록", data : null},
+        right :  "create",
+        lfunc : () => goBack(),
+        rfunc : () => createAction(),
+        size :"small"
+        }}>
+            <div id="activityRegisterWrap" >
+                <div id="activityRegister">
+                    <div className = "picture_container">
                         {picture.length===0?
-                        <span id="fileName">선택된 사진 없음</span>
-                        : <span id="fileName">{picture.name}</span>
+                        <div className="preview"></div>
+                        :
+                        <div className="preview">
+                            <img ref={frame} alt="none"/>
+                        </div>
                         }
-                    </form>
+                    </div>
+
+                    <div id="pictureInput">
+                        <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
+                            <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
+
+                            {buttonFirst===true ? 
+                            <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
+                            : <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
+                            }
+                            <br/>
+                            {picture.length===0?
+                            <span id="fileName">선택된 사진 없음</span>
+                            : <span id="fileName">{picture.name}</span>
+                            }
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </MainContainer>
     );
 };
 

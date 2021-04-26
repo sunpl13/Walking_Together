@@ -1,10 +1,12 @@
 import React from 'react';
 import '../../styles/activity.scss';
-import TopBar from '../../utils/TopBar';
 import {useHistory} from 'react-router-dom';
+import MainContainer from '../../utils/MainContainer';
+
 import {useDispatch} from 'react-redux';
 import { getPartner } from '../../modules/activity';
 import { debounce } from "lodash";
+
 
 function ActivityStart() {
     const style = {
@@ -29,20 +31,18 @@ function ActivityStart() {
 
 
     return (
-        <div>
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"활동", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "활동", data : null},
+            right : "null" ,
+            lfunc : "null",
+            rfunc : "null",
+            size :"small"
+        }}>
             <div style = {style}>
                 <button className = "circle" onClick = {onclickHandler}>Start</button>
             </div>
-        </div>
+        </MainContainer>
     );
 };
 

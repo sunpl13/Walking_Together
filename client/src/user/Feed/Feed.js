@@ -5,7 +5,7 @@ import {sort} from '../../utils/options';
 import {getFeedList, selectFeed} from '../../modules/feed';
 import { debounce } from "lodash";
 
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer';
 import '../../styles/feed.scss';
 
 function Feed() {
@@ -42,16 +42,15 @@ function Feed() {
     }, 800);
 
     return (
-        <div>
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"피드", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "피드", data : null},
+            right : "null" ,
+            lfunc : () => null,
+            rfunc : () => null,
+            size :"small"
+        }}>
+        
             <div id="feedWrap">
                 <select className="inputSelect" selectedvalue="desc" onChange = {(e) => sortHandler(e)}>{sortList}</select>
                 <div id="feedItemsWrap">
@@ -75,7 +74,7 @@ function Feed() {
                 }
                 </div>
             </div>
-        </div>
+        </MainContainer>
     );
 };
 

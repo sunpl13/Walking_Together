@@ -3,7 +3,8 @@ import {useHistory, useLocation} from 'react-router-dom';
 import { debounce } from "lodash";
 
 import '../../styles/register.scss';
-import TopBar from '../../utils/TopBar';
+
+import MainContainer from '../../utils/MainContainer';
 
 function RegisterAuth() {
     const location = useLocation();
@@ -31,16 +32,15 @@ function RegisterAuth() {
     };
 
     return (
-        <>
-        <header>
-        <TopBar
-            left="null" 
-            center={{title:"회원가입", data:null}} 
-            right="null" 
-            lfunc={null}
-            rfunc={null}
-            size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "회원가입", data : null},
+            right : "null" ,
+            lfunc : () => null,
+            rfunc : () => null,
+            size :"small"
+        }}>
+
         <div className = "register_auth">
            <p>메일로 발송된 인증 코드를 입력해 주세요.</p>
             <div className = "e_container">
@@ -52,7 +52,7 @@ function RegisterAuth() {
                 <button onClick = {identificationHandler}>인증</button>
             </div>
         </div>
-    </>
+    </MainContainer>
     );
 };
 

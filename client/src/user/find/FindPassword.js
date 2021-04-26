@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import TopBar from '../../utils/TopBar';
 import '../../styles/find.scss';
 import { debounce } from "lodash";
+import MainContainer from '../../utils/MainContainer';
 
 function FindPassword() {
 
@@ -43,46 +44,28 @@ function FindPassword() {
         .catch(err => err);
     }, 800);
 
-    /*
-    if(res.data.status == 200) {
-        if(window.confirm(res.data.message)) {
-            history.push({
-                pathname : '/findresult',
-                state : {email : res.data.email}
-            })
-        }
-    } else {
-        alert(res.data.message);
-    }
-*/
-
     const goBack = debounce(() => {
         history.goBack();
     }, 800);
 
     return (
-    
-        <div className = "find">
-            <header>
-                <TopBar
-                    left="back" 
-                    center={{title:"비밀번호 찾기", data:null}} 
-                    right="null" 
-                    lfunc={goBack}
-                    rfunc={null}
-                    size="small"/>
-            </header>
-        <form className = "find_input">
-            
-            <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
-
-            <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
-            
-            <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
-
-             </form>
-             <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
-        </div>
+        <MainContainer header = {{
+            left : "back",
+            center : {title : "찾기", data : null},
+            right : "null" ,
+            lfunc : () => goBack(),
+            rfunc : () => null,
+            size :"small"
+        }}>
+           <div className = "find" >
+                <form className = "find_input">
+                    <input type = "text" value = {stdId} onChange = {stdIdHandler} placeholder = "학번"/>
+                    <input type = "text" value = {Name} onChange = {NameHandler} placeholder = "이름"/>
+                    <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} placeholder = "생년월일"/>
+                </form>
+                <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
+             </div>
+        </MainContainer>
     );
 };
 

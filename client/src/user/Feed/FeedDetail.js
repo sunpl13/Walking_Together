@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
-import TopBar from '../../utils/TopBar';
 import { debounce } from "lodash";
 
+import MainContainer from '../../utils/MainContainer';
 import '../../styles/feed.scss';
 
 function FeedDetail() {
@@ -37,16 +37,15 @@ function FeedDetail() {
     }, 800);
 
     return (
-        <div>
-            <header>
-                <TopBar
-                    left="back" 
-                    center={{title:"활동 상세", data:null}} 
-                    right="null" 
-                    lfunc={goBack}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+        left : "back",
+        center : {title : "활동 상세", data : null},
+        right : "null" ,
+        lfunc : () => goBack(),
+        rfunc : () => null,
+        size :"small"
+        }}>
+            
             <div id="feedDetail">
                 <table id="activity_detail_table">
                     <tbody>
@@ -97,7 +96,7 @@ function FeedDetail() {
                     }     
                 </div>
             </div>
-        </div>
+        </MainContainer>
     );
 };
 

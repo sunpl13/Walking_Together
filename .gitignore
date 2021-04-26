@@ -73,7 +73,7 @@ yarn-error.log*
 /server/src/main/resources/application-aws.properties
 
 ###  <<< AWS >>>  ###
-/server/build.gradle
-server/.gradle/6.8.3/executionHistory/executionHistory.lock
-server/.gradle/6.8.3/fileHashes/fileHashes.lock
-server/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+#/server/build.gradle
+#server/.gradle/6.8.3/executionHistory/executionHistory.lock
+#server/.gradle/6.8.3/fileHashes/fileHashes.lock
+#server/.gradle/buildOutputCleanup/buildOutputCleanup.lock

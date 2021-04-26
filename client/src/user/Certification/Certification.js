@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 import '../../styles/certification.scss';
 import { debounce } from "lodash";
 
@@ -39,16 +39,15 @@ const Certification = () => {
     }, 800);
 
     return (
-        <div id="certificationWrap">
-            <header>
-                <TopBar
-                    left="null" 
-                    center={{title:"인증서 발급", data:null}} 
-                    right="null" 
-                    lfunc={null}
-                    rfunc={null}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : "인증서발급", data : null},
+            right : "null" ,
+            lfunc : () => null,
+            rfunc : () => null,
+            size :"small"
+        }}>
+            <div id="certificationWrap">
             <div id="certification">
                 <div id="pSet">
                     <p>활동 기간을 선택한 후</p>
@@ -68,7 +67,8 @@ const Certification = () => {
                     <button onClick={submit} className="user_btn_blue">조회</button>
                 </div>
             </div>
-        </div>
+            </div>
+        </MainContainer>
     );
 };
 

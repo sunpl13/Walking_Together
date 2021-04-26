@@ -1,24 +1,30 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
 import '../../styles/stipulation.scss';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer';
 
 
 function InfoStipulation() {
+    const history = useHistory();
+
+    function goBack() {
+        history.goBack();
+    }
+
     return (
-        <>
-        <header>
-        <TopBar
-        left="null" 
-        center={{title:"회원가입", data:null}} 
-        right="null" 
-        lfunc={null}
-        rfunc={null}
-        size="small"/>
-        </header>
-            <div>
-                <h3>제1조(목적)</h3>
-                <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 
-                    의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
+        <MainContainer header = {{
+            left : "back",
+            center : {title : "회원가입", data : null},
+            right : "null" ,
+            lfunc : () => goBack(),
+            rfunc : () => null,
+            size :"small"
+        }}>
+        
+            <div style = {{marginTop : "50px"}}>
+                    <h3>제1조(목적)</h3>
+                    <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 
+                        의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
                 <h3>제2조(정의)</h3>
                 <ul>
                      <li>"회사"라 함은 "콘텐츠" 산업과 관련된 경제활동을 영위하는 자로서 콘텐츠 및 제반서비스를 제공하는 자를 말합니다.</li>
@@ -58,7 +64,7 @@ function InfoStipulation() {
                     온라인 디지털콘텐츠산업 발전법, 전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한 법률, 
                     문화체육관광부장관이 정하는 디지털콘텐츠이용자보호지침, 기타 관계법령 또는 상관례에 따릅니다.</p>
             </div>
-        </>
+        </MainContainer>
     );
 };
 

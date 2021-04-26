@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { debounce } from "lodash";
 
 import PartnerItem from '../Partner/PartnerItem';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 
 import '../../styles/partner.scss';
 
@@ -22,16 +22,16 @@ const Partner = () => {
     }, 800);
 
     return (
-        <div>
-            <header>
-                <TopBar
-                    left="back" 
-                    center={{title:"파트너", data:null}} 
-                    right="plus" 
-                    lfunc={goBack}
-                    rfunc={goCreatePartner}
-                    size="small"/>
-            </header>
+        <MainContainer header = {{
+            left : "back",
+            center : {title : "파트너", data : null},
+            right : "plus" ,
+            lfunc : () => goBack(),
+            rfunc : () => goCreatePartner(),
+            size :"small"
+
+        }}>
+            
             <table id="partner_table">
                 <tbody>
                     { partner.length!==0 ?
@@ -44,7 +44,7 @@ const Partner = () => {
                     }
                 </tbody>
             </table>
-        </div>
+        </MainContainer>
     );
 };
 

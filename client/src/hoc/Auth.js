@@ -22,7 +22,7 @@ export default function Auth (SpecialComponent, option, adminRoute = null) {
         }, [dispatch,history]);
 
 
-        if(pending) return <div>로딩중...</div>
+        if(pending) return <div></div>
         return <SpecialComponent {...props}/>
        
         

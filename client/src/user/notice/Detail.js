@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { debounce } from "lodash";
 
 import {selectNotice} from '../../modules/notice';
-import TopBar from '../../utils/TopBar';
+import MainContainer from '../../utils/MainContainer'
 
 import ReactHtmlParser from 'react-html-parser';
 
@@ -25,16 +25,15 @@ function Detail() {
     }, 800);
 
     return (
-        <div>
-            <header>
-                <TopBar 
-                    left="null" 
-                    center={{title : view.title, data : view.createTime}} 
-                    right="cancel" 
-                    lfunc={null}
-                    rfunc={goBack}
-                    size="big"/>
-            </header>
+        <MainContainer header = {{
+            left : "null",
+            center : {title : view.title, data : view.createTime},
+            right : "cancel" ,
+            lfunc : () => null,
+            rfunc : () => goBack(),
+            size :"big"
+        }}>
+            
             <div id="notice">
                 <div className = "thumbnail">
                     {view.imageFiles.length!==0 ?
@@ -45,7 +44,7 @@ function Detail() {
                     {ReactHtmlParser(view.content)}
                 </div>
             </div>
-        </div>
+        </MainContainer>
     );
 };
 
