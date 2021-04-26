@@ -15,8 +15,7 @@ import java.io.InputStream;
 @Component
 public class S3ServiceImpl implements S3Service {
 
-
-    private String bucket = "walkingtogether";
+    private String bucket = "syu-walkingtogether";
 
     private final AmazonS3Client amazonS3Client;
     private final S3Component s3Component;
