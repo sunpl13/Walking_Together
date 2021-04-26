@@ -39,6 +39,8 @@
 .register {
   @include box-default;
   margin-top: 50px;
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
 
   header {
     position: fixed;
@@ -89,6 +91,8 @@
 
 .register_auth {
   @include box-default;
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
 
   .e_container {
     line-height: 40px;
@@ -130,6 +134,8 @@
 
 .register_page {
   @include box-default;
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
 
   header {
     position: fixed;

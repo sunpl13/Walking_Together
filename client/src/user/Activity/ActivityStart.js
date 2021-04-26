@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../styles/activity.scss';
 import {useHistory} from 'react-router-dom';
-import MainContainer from '../../utils/MainContainer';
 
 import {useDispatch} from 'react-redux';
 import { getPartner } from '../../modules/activity';
 import { debounce } from "lodash";
+import { changeBar } from '../../modules/topbar';
 
 
-function ActivityStart() {
+const ActivityStart = () => {
     const style = {
         display: "flex",
         justifyContent: "center",
@@ -29,20 +29,15 @@ function ActivityStart() {
         }
     }, 800);
 
+    useEffect(() => {
+        dispatch(changeBar("null", {title:"활동", data:null}, "null", "null", "null", "small"));  //상단바 변경
+    }, [dispatch])
+
 
     return (
-        <MainContainer header = {{
-            left : "null",
-            center : {title : "활동", data : null},
-            right : "null" ,
-            lfunc : "null",
-            rfunc : "null",
-            size :"small"
-        }}>
-            <div style = {style}>
-                <button className = "circle" onClick = {onclickHandler}>Start</button>
-            </div>
-        </MainContainer>
+        <div style = {style}>
+            <button className = "circle" onClick = {onclickHandler}>Start</button>
+        </div>
     );
 };
 

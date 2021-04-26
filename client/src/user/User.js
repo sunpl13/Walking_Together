@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Auth from '../hoc/Auth';
 import Nav from '../utils/Nav';
+import TopBar from '../utils/TopBar';
 
 
 import Mypage from './Mypage/Mypage';
@@ -26,6 +27,7 @@ const User = () => {
 
     return (
         <div>
+            <TopBar/>
             <div id="userRoute">
                 <Switch>
                     <Route path="/user/mypage" component={Auth(Mypage,true)}/>

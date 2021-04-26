@@ -18,15 +18,15 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
         }
     }, 800);
 
-    const goDetail = debounce(async(noticeId) => {
+    const goDetail = async(noticeId) => {
         await dispatch(selectNotice(noticeId))
         .then(() => {
             history.push({
                 pathname : '/user/viewdetail',
                 state : {noticeId : noticeId}
-            })
+            });
         });
-    }, 800);
+    };
 
     return (
         <div className = "accordion">

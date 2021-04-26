@@ -1,10 +1,10 @@
 import {React, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import {getNoticeList, selectNotice} from '../../modules/notice';
+import { changeBar } from '../../modules/topbar';
 import {useSelector, useDispatch} from 'react-redux';
 import { debounce } from "lodash";
 
-import MainContainer from '../../utils/MainContainer';
 import Couple_Flatline from '../../source/Couple_Flatline.svg';
 import '../../styles/home.scss';
 
@@ -15,6 +15,7 @@ function Home() {
 
     useEffect(() => {
         dispatch(getNoticeList(pages, null));
+        dispatch(changeBar("null", {title:"HOME",date:null}, "null", "null", "null", "small"));  //상단바 변경
         //redux에서 notice데이터를 받아옴
     }, [dispatch]);
 
@@ -55,30 +56,22 @@ function Home() {
     );
 
     return (
-        <MainContainer header = {{ 
-        left : "null",
-        center : {title : "HOME", data : null},
-        right : "null" ,
-        lfunc : "null",
-        rfunc : "null",
-        size :"small"}}>
-            <div id="home" >
-                <div id="homeWrap">
-                      <span id="logo">Walking Together</span>
-                      <img src={Couple_Flatline} width="250" alt="logo"/>
+        <div id="home" >
+            <div id="homeWrap">
+                    <span id="logo">Walking Together</span>
+                    <img src={Couple_Flatline} width="250" alt="logo"/>
 
-                      <div id="noticeWrap">
-                          <div id="noticeTop">
-                              <span id="noticeTitle"># 공지사항</span>
-                              <button className="user_btn_blue" onClick = {goNotice}> 더보기</button>
-                          </div>
-                          <table id="noticeTable">
-                              {homeNotice}
-                          </table>
-                      </div>
-                </div>
+                    <div id="noticeWrap">
+                        <div id="noticeTop">
+                            <span id="noticeTitle"># 공지사항</span>
+                            <button className="user_btn_blue" onClick = {goNotice}> 더보기</button>
+                        </div>
+                        <table id="noticeTable">
+                            {homeNotice}
+                        </table>
+                    </div>
             </div>
-        </MainContainer>
+        </div>
     );
 };
 

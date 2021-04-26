@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {useDispatch} from 'react-redux';
 import pdfMake from 'pdfmake';
 import '../../../node_modules/pdfmake/build/vfs_fonts.js';
 import { useLocation } from "react-router";
-import MainContainer from '../../utils/MainContainer'
 import '../../styles/certification.scss';
 import { debounce } from "lodash";
+import { changeBar } from '../../modules/topbar';
 
 import Files_And_Folder_Flatline from '../../source/Files_And_Folder_Flatline.svg';
 
@@ -39,6 +40,7 @@ const format = (data) => {
 
 const CertificationAction = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
 
     const data = location.state.res;
     const from = location.state.from;
@@ -121,26 +123,21 @@ const CertificationAction = () => {
 	const func = debounce(() => {
         pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
     }, 800);
+
+    useEffect(() => {
+        dispatch(changeBar("null", {title:"인증서발급", data:null}, "null", "null", "null", "small"));  //상단바 변경
+    }, [dispatch])
         
     return (
-        <MainContainer header = {{
-            left : "null",
-            center : {title : "인증서발급", data : null},
-            right : "null" ,
-            lfunc : () => null,
-            rfunc : () => null,
-            size :"small"
-        }}>
-            <div id="certificationAction">
-                <div id="buttonWrap">
-                    <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
-                </div>
-            
-                <div id="imageWrap">
-                    <img src={Files_And_Folder_Flatline} alt=""/>
-                </div>
+        <div id="certificationAction">
+            <div id="buttonWrap">
+                <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
             </div>
-        </MainContainer>
+        
+            <div id="imageWrap">
+                <img src={Files_And_Folder_Flatline} alt=""/>
+            </div>
+        </div>
     );
 };
 
