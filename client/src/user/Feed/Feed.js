@@ -12,7 +12,7 @@ function Feed() {
     const ID = localStorage.getItem("user_info");
     const history = useHistory();
     const dispatch = useDispatch();
-    const [sor, setsor] = useState("desc");             // 정렬을 위한 state 지정
+    const [sor, setsor] = useState("asc");             // 정렬을 위한 state 지정
 
 
     useEffect(() => {
@@ -53,7 +53,7 @@ function Feed() {
                     size="small"/>
             </header>
             <div id="feedWrap">
-                <select className="inputSelect" onChange = {sortHandler}>{sortList}</select>
+                <select className="inputSelect" selectedvalue="desc" onChange = {(e) => sortHandler(e)}>{sortList}</select>
                 <div id="feedItemsWrap">
                     {myFeed.length!==undefined ? 
                     myFeed.map(

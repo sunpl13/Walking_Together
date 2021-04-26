@@ -31,26 +31,6 @@ function FeedDetail() {
         }
     }, 800);
 
-    const buttonAction = debounce(() => {
-        if(feedItem.endTime!==null) {
-            if(reviewState===true) {
-                return (
-                    <div>
-                        <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>
-                    </div>
-                );
-            }
-            else {
-                if(feedItem.review===null) {
-                    return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>
-                }
-                else {
-                    return <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>
-                }
-            }
-        }
-    }, 800);
-
     //param function
     const goBack = debounce(() => {
         history.push('/user/feed');
@@ -100,7 +80,9 @@ function FeedDetail() {
                         <tr>
                             <td className="td1">소감문</td>
                             <td className="td2">
-                            {buttonAction}
+                            {reviewState===true && <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>}
+                            {reviewState===false && feedItem.review===null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
+                            {reviewState===false && feedItem.review!==null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
                             </td>
                         </tr>       
                     </tbody>
