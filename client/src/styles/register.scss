@@ -122,8 +122,13 @@
     @include input-default;
   }
 
-  button {
+  .button1 {
     @include button-default;
+  }
+  .button2 {
+    @include button-default {
+      background-color: #5f5f5f;
+    }
   }
 
   p {
@@ -146,6 +151,7 @@
   form {
     width: 90%;
     padding: 5%;
+    margin-top: 40px;
   }
 
   input {
@@ -169,8 +175,13 @@
       box-shadow: 1px 1px 10px $BackSky-;
     }
   }
-  button {
+  .button1 {
     @include button-default;
+  }
+  .button2 {
+    @include button-default {
+      background-color: #5f5f5f;
+    }
   }
 }
 

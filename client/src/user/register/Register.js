@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {FaAngleRight} from 'react-icons/fa';
 import { debounce } from "lodash";
-
+import {lim_email} from '../../utils/options'
 import '../../styles/register.scss';
 import { changeBar } from '../../modules/topbar';
 
@@ -17,6 +17,10 @@ function Register() {
     const [agree2, setAgree2] = useState(false);                                //개인정보 수집 및 이용동의
     const [agree3, setAgree3] = useState(false);                                //위치정보 동의
     const [email, setemail] = useState("");
+    const [emailState, setemailState] = useState({
+      bool : true,
+      text : ""
+    })
     const isAgreedAll = agree1 && agree2 && agree3;
 
     const handleCheckAll = (e) => {
@@ -29,7 +33,9 @@ function Register() {
     // placeholder so that you can implement your own validation
   const emailLooksValid = email.length > 5;
   const [clickAgain,setClickAgain] = useState(false);
-  const isDisabled = !isAgreedAll || !emailLooksValid || clickAgain===true;
+  const isDisabled = !isAgreedAll || !emailLooksValid || clickAgain===true || !emailState.bool;
+
+  console.log(isDisabled)
 
 
     const clickFunction = debounce(() => {
@@ -52,7 +58,23 @@ function Register() {
       })
       .catch(err => {console.log(err)})
    }, 800);
+   
 
+   const checkEmail = () => {         //이메일 정규식 체크
+      if(lim_email.test(email)) {
+        setemailState({
+          bool : true,
+          text : ""
+        })
+      } else {
+        setemailState({
+          bool : false,
+          text : "이메일 형식에 맞지 않습니다."
+        })
+      }
+   }
+
+  
     const EmailHandler = (e) => {
       setemail(e.currentTarget.value);
     };
@@ -98,8 +120,9 @@ function Register() {
               </div>
           </div>
           <div className = "email_container">
-            <input type = "email" onChange = {EmailHandler} placeholder = "이메일"/>
-            <button name="button" disabled = {isDisabled} onClick = {clickFunction}>인증코드 발송</button>
+            <input type = "email" onChange = {EmailHandler} placeholder = "이메일" onBlur = {checkEmail}/>
+            <div style = {{fontSize : "0.8rem", color : "red"}}>{emailState.text}</div>
+            <button className = {isDisabled ? "button2" : "button1"} disabled = {isDisabled} onClick = {clickFunction}>인증코드 발송</button>
             <p>입력해주신 이메일 정보는 회원가입 시 이메일로 설정됩니다.</p>
           </div>
         </div>
