@@ -18,7 +18,7 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
         }
     }, 800);
 
-    const goDetail = async(noticeId) => {
+    const goDetail = debounce(async(noticeId) => {
         await dispatch(selectNotice(noticeId))
         .then(() => {
             history.push({
@@ -26,13 +26,13 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
                 state : {noticeId : noticeId}
             });
         });
-    };
+    }, 800);
 
     return (
         <div className = "accordion">
             <div className = "accordionHeading">
                 <div className = "container" >
-                    <p onClick = {goDetail}>{title}</p>
+                    <p onClick = {() => goDetail(noticeId)}>{title}</p>
                     <span id="toggle" onClick = {toggleHandler}>{active === title ? "X" : "|||"}</span>
                     <div className = "info"></div>
                 </div>

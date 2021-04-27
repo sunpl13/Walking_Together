@@ -1,7 +1,6 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useCallback} from 'react';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { debounce } from "lodash";
 
 import {selectNotice} from '../../modules/notice';
 import { changeBar } from '../../modules/topbar';
@@ -16,14 +15,18 @@ const Detail = () => {
     let view = useSelector(state => state.noticeReducer.selectedNotice);
 
     //param function
-    const goBack = debounce(() => {
+    const goBack = useCallback(() => {
         history.goBack();
-    }, 800);
+    }, [history]);
+
+    const dispatchTopbar = useCallback(() => {
+        dispatch(changeBar("null", {title:view.title, data:view.createTime}, "cancel", "null", goBack, "big"));  //상단바 변경
+    }, [dispatch, view.title, view.createTime, goBack]);
     
     useEffect(() => {
-        dispatch(changeBar("null", {title:view.title, data:view.createTime}, "cancel", "null", goBack, "big"));  //상단바 변경
+        dispatchTopbar();
         dispatch(selectNotice(location.state.noticeId));
-    },[dispatch, location.state.noticeId, goBack, view]);
+    },[dispatch, location.state.noticeId, dispatchTopbar]);
 
     return (
         <div id="notice">
