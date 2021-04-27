@@ -62,3 +62,9 @@ export const soor = [
 export const sort = soor.sort(function(a,b) {
     return a.value < b.value ? -1 : a.value > b.value ? 1 : 0;
 });
+
+export const lim_Specialc = /[^가-힣ㄱ-ㅎㅏ-ㅣ0-9a-zA-Z~!*?:;.,]/gi;       //특수문자 제한
+export const lim_num = /[^0-9]/gi;      //숫자만 허용
+export const lim_al = /[^a-z]/gi;       //영문만 허용
+export const lim_kor = /[a-z0-9]|[ \]{}()<>?|`~!@#$%^&*-_+=,.;:'\\]/g;      //한글만 허용
+export const lim_email = /^([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/; //이메일 정규식
