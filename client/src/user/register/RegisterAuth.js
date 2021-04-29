@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import {useHistory, useLocation} from 'react-router-dom';
 import { debounce } from "lodash";
-
 import '../../styles/register.scss';
 
 import { changeBar } from '../../modules/topbar';
@@ -14,6 +13,8 @@ const RegisterAuth = () => {
 
     const [authNum, setauthNum] = useState("");
 
+    const isabled = authNum.length === 7;
+    console.log(location.state.state.authNum);
 
     //인증번호를 통한 본인인증
     const identificationHandler = debounce(() => {
@@ -44,8 +45,8 @@ const RegisterAuth = () => {
             </div>
  
             <div className = "email_container">
-                <input type="text" onChange = {onChangeHandler} placeholder = "인증번호"/>
-                <button onClick = {identificationHandler}>인증</button>
+                <input type="number" onChange = {onChangeHandler} placeholder = "인증번호"/>
+                <button className = {isabled ? "button1" : "button2"} disabled = {!isabled} onClick = {identificationHandler}>인증</button>
             </div>
         </div>
     );
