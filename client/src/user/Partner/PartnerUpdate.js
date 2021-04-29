@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 
 import { changePartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 import { changeBar } from '../../modules/topbar';
+import { lim_kor, lim_al, lim_Specialc } from '../../utils/options';
 
 const PartnerUpdate = ({match}) => {
     const dispatch = useDispatch();
@@ -29,11 +30,23 @@ const PartnerUpdate = ({match}) => {
         e.preventDefault();
 
         if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
-            alert("모든 항목을 기입해주세요.");
-        } else {
-            const res = window.confirm("등록하시겠습니까?");
-            if(res===true) {
-                updatePartner();
+            alert("모든 항목을 입력해주세요.");
+        } else {  //모든 항목을 입력했을 때.
+            if(lim_kor.test(partnerName)&&lim_al.test(partnerName)) {
+                alert("이름은 한글/영문만 입력해주세요.");
+                return;
+            } else if(lim_Specialc.test(relationship)) {
+                alert("특수문자는 ~ ! * ? : ; . , 만 가능합니다");
+                return;
+            } else if(lim_Specialc.test(selectionReason)) {
+                alert("특수문자는 ~ ! * ? : ; . , 만 가능합니다");
+                return;
+            } else {
+                const res = window.confirm("등록하시겠습니까?");
+                if(res===true) {
+                    updatePartner();
+                }
+                return;
             }
         }
     }, 800);

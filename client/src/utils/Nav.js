@@ -12,10 +12,10 @@ function Nav() {
     const activityId = localStorage.getItem("activityId");
 
     const goActivity = useCallback(() => {
-        if(activityId===null) {
+        if(activityId===null||activityId===0) {
             history.push('/user/activitystart');
         } else {
-            history.push('/activity');
+            history.push('/user1/activity');
         }
     }, [activityId, history]);
 

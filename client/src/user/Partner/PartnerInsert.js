@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 
 import { createPartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 import { changeBar } from '../../modules/topbar';
+import { lim_kor, lim_al, lim_Specialc } from '../../utils/options';
 
 const PartnerInsert = () => {
     const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const PartnerInsert = () => {
     const [partnerPhoto, setPartnerPhoto] = useState([]);
     const [selectionReason, setSelectionReason] = useState("");
     const [relationship, setRelationship] = useState("");
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState("남성");
     const [partnerBirth, setPartnerBirth] = useState("");
 
     //param function
@@ -35,11 +36,23 @@ const PartnerInsert = () => {
         e.preventDefault();
 
         if(partnerName===""||partnerDetail===""||partnerPhoto[0]===undefined||selectionReason===""||relationship===""||gender===""||partnerBirth===""){
-            alert("모든 항목을 기입해주세요.");
-        } else {
-            const res = window.confirm("등록하시겠습니까?");
-            if(res===true) {
-                createPartner();
+            alert("모든 항목을 입력해주세요.");
+        } else {  //모든 항목을 입력했을 때.
+            if(lim_kor.test(partnerName)&&lim_al.test(partnerName)) {
+                alert("이름은 한글/영문만 입력해주세요.");
+                return;
+            } else if(lim_Specialc.test(relationship)) {
+                alert("관계 란에는 특수문자 입력이 불가능합니다.");
+                return;
+            } else if(lim_Specialc.test(selectionReason)) {
+                alert("선정이유 란에는 특수문자 입력이 불가능합니다.");
+                return;
+            } else {
+                const res = window.confirm("등록하시겠습니까?");
+                if(res===true) {
+                    createPartner();
+                }
+                return;
             }
         }
     }, 800);
