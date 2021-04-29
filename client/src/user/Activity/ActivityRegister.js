@@ -64,7 +64,7 @@ const ActivityRegister = () => {
     };
 
     useEffect(() => {
-        dispatch(changeBar("cancel", {title:"사진등록", data:null}, "create", goBack, createAction, "small"));
+        dispatch(changeBar("cancel", {title:"사진 등록", data:null}, "create", goBack, createAction, "small"));
     }, [goBack, createAction, dispatch]);
 
 

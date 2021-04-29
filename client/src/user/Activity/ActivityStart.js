@@ -9,14 +9,6 @@ import { changeBar } from '../../modules/topbar';
 
 
 const ActivityStart = () => {
-    const style = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        width: "100%",
-        height: "70vh"
-    }
 
     const stdId = localStorage.getItem("user_info");
 
@@ -35,8 +27,11 @@ const ActivityStart = () => {
 
 
     return (
-        <div style = {style}>
+        <div id="activityStart">
             <button className = "circle" onClick = {onclickHandler}>Start</button>
+            <div id="message">
+                ※ 활동 생성 후, 바로 활동이 시작됩니다. ※
+            </div>
         </div>
     );
 };

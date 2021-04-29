@@ -81,20 +81,32 @@
 }
 
 //activity start
-.circle {
-    -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
-	        animation: heartbeat 1.5s ease-in-out infinite both;
-
-    width: 160px;
-    height: 160px;
-    line-height: 160px;
-    border-radius: 50%;
-    background-color: $BackSkyBlue-;
-    color: $white;
-    font-size: 22px;
+#activityStart {
+    width: 90%;
+    margin: 60px auto;
     text-align: center;
-    font-weight: bolder;
-    border: 5px solid #fff;
-    box-shadow: 0 0 16px rgb(221, 221, 221);
-  }
-  
+    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    .circle {
+        margin: 70px auto;
+        -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+                animation: heartbeat 1.5s ease-in-out infinite both;
+        width: 160px;
+        height: 160px;
+        line-height: 160px;
+        border-radius: 50%;
+        background-color: $BackSkyBlue-;
+        color: $white;
+        font-size: 22px;
+        text-align: center;
+        font-weight: bolder;
+        border: 5px solid #fff;
+        box-shadow: 0 0 16px rgb(221, 221, 221);
+        text-shadow: 0px 0px 5px $BackSkyBlue;
+      }
+      #message {
+        color: $fontGray;
+        font-size: $small;
+      }
+      
+}

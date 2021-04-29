@@ -36,7 +36,7 @@ const CreateActivity = () => {
     }, 800);
 
     useEffect(() => {
-        dispatch(changeBar("cancel", {title:"활동생성", data:null}, "create", goBack, () => createActivity(partnerId), "small"));  //상단바 변경
+        dispatch(changeBar("cancel", {title:"활동 생성", data:null}, "create", goBack, () => createActivity(partnerId), "small"));  //상단바 변경
     }, [partnerId, createActivity, dispatch, goBack])
 
     const today = new Date();

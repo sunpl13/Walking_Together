@@ -229,7 +229,7 @@ const Activity = () => {
         <div className="map">
             <div id='map' ref={captureRef}></div>
             <div id="buttonWrap">
-                <button onClick={stop} className="user_btn_blue">중단</button>
+                <button onClick={stop} className="user_btn_blue">종료</button>
             </div>
         </div>
     );
