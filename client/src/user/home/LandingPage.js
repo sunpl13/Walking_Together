@@ -36,10 +36,8 @@ function LandingPage() {
                     localStorage.removeItem("activityId");
                     localStorage.removeItem("lastIndex");
                     localStorage.removeItem("partnerId");
-
-                    for (let i = 0; i <= lastIdx; i++) {
-                        localStorage.removeItem(`location${i}`);
-                    }
+                    localStorage.removeItem("location0");
+                    localStorage.removeItem(`location${lastIdx}`);
 
                     if(token === null) {
                         history.push('/login');
