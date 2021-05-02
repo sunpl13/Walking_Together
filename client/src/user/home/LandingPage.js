@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import '../../styles/landing.scss';
 import {finishActivity} from '../../modules/activity';
 import moment from 'moment';
+import logowhite from '../../source/logo-white.png';
 
 
 function LandingPage() {
@@ -54,7 +55,7 @@ function LandingPage() {
 
     return (
         <div id="landing_back">
-            <p id="landing_logo">Walking Together</p>
+            <img src={logowhite} id="landing_logo" alt="logo"/>
         </div>
     );
 };

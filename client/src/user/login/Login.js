@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 
 import {loginHandler} from '../../modules/user';
 import '../../styles/login.scss';
+import logo from '../../source/logo.png';
 
 function Login() {
     const dispatch = useDispatch();
@@ -42,8 +43,7 @@ function Login() {
         <div>
             <div className = "login">
                 <div className = "logo_container">
-                    <span className = "walking"><p>W</p>alking</span>
-                    <span className = "together"><p>T</p>ogether</span>
+                    <img src={logo} alt="logo"/>
                 </div>
                 <form className = "form" onSubmit = {SubmitHandler}>
                     <div className = "login_container">
