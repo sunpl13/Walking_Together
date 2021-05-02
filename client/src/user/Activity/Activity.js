@@ -13,10 +13,16 @@ const Activity = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const key = process.env.REACT_APP_MAP;
+    const creation = () => {  //좌표 받아와서 맵 생성
+        getLocation()
+        .then((res) => {
+            createMap(res.latitude, res.longitude);
+        });
+    };
+
+    const key = process.env.REACT_APP_NAVER_ID;
     const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
+    script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${key}`;
     document.head.appendChild(script);
 
 
@@ -52,49 +58,50 @@ const Activity = () => {
         return index;
     };
 
+    //map
+    const [mapImage, setMapImage] = useState();
+
     
 
     //F-지도에 표시할 선 생성
     const createLine = (map) => {
-      if(window.getLoc1().lat!==0&&window.getLoc2().lat!==0) {
+        if(window.getLoc1().lat!==0&&window.getLoc2().lat!==0) {
 
-          const polyline = new window.kakao.maps.Polyline({
-              path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
-                  new window.kakao.maps.LatLng(window.getLoc1().lat, window.getLoc1().lon),
-                  new window.kakao.maps.LatLng(window.getLoc2().lat, window.getLoc2().lon)
-              ],
-              strokeWeight: 6, //두께
-              strokeColor: '#FFAE00', //색상
-              strokeOpacity: 0.7, //불투명도
-              strokeStyle: 'solid', //스타일
-          });
-          const length = parseFloat(localStorage.getItem('distance'));
-          localStorage.setItem('distance',length + polyline.getLength());  //총 거리 update (m 단위)
-
-          polyline.setMap(map);  //지도에 표시
-      } else {
-          console.log("not ready");
-      }
+            const polyline = new window.naver.maps.Polyline({
+                map: map,
+                path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
+                    new window.naver.maps.LatLng(window.getLoc1().lat, window.getLoc1().lon),
+                    new window.naver.maps.LatLng(window.getLoc2().lat, window.getLoc2().lon)
+                ],
+                strokeWeight: 10, //두께
+                strokeColor: '#FFAE00', //색상
+                strokeOpacity: 0.7, //불투명도
+                strokeStyle: 'solid', //스타일
+            });
+            const length = parseFloat(localStorage.getItem('distance'));
+            localStorage.setItem('distance',length + polyline.getDistance());  //총 거리 update (m 단위)
+        } else {
+            console.log("not ready");
+        }
     };
 
 
     //F-지도 생성
     const createMap = (lat, lon) => {
         const container = document.getElementById('map');  //지도 담을 div
-        const options = {
-            center: new window.kakao.maps.LatLng(lat, lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
-            level: 3,  //확대 수준, 작을수록 범위 좁아짐
-        }
-
-        const map = new window.kakao.maps.Map(container, options);  //지도 생성
-
-        const makerPosition = new window.kakao.maps.LatLng(lat, lon);  //시작 마커 위치
-        const marker = new window.kakao.maps.Marker({   //마커 생성
-            position: makerPosition
+        const map = new window.naver.maps.Map(container,{
+            center: new window.naver.maps.LatLng(lat, lon), //지도의 초기 중심 좌표
+            zoom: 15, //지도의 초기 줌 레벨
+            minZoom: 10, //지도의 최소 줌 레벨
         });
-        marker.setMap(map);  // 마커를 지도 위에 표시
+
+        new window.naver.maps.Marker({   //마커 생성
+            position: new window.naver.maps.LatLng(lat, lon),
+            map: map
+        });
 
         localStorage.setItem('distance', 0);  //거리 초기화
+        console.log(map.getElement());
 
         //활동 상태가 true면 getlocation, panMove, createLine
         //활동 상태가 false면 interval 중단
@@ -102,11 +109,12 @@ const Activity = () => {
             if(window.getActivityState()===true) {
                 getLocation()
                 .then((res) => {
-                    panTo(map, res.latitude, res.longitude);
+                    map.panTo(new window.naver.maps.LatLng(res.latitude, res.longitude)); //지도 중심 이동
                     createLine(map);
                     }
                 )
             } else {
+                map.destroy();
                 clearInterval(interval);  //활동 중지
             }
         };
@@ -114,14 +122,7 @@ const Activity = () => {
         //F-위치 받아오기 => 맵 중심 이동 => 선 생성 30초마다 반복
         const interval = setInterval(() => {
             func();  //활동 상태 체크
-        }, 30000);
-    };
-
-
-    //F-지도 중심 이동
-    const panTo = (map, lat, lon) => {
-        var moveLatLon = new window.kakao.maps.LatLng(lat, lon);  //이동할 위치 좌표 생성
-        map.panTo(moveLatLon); //부드럽게 move
+        }, 10000);
     };
 
     //F-geolocation 사용자 위치 받아오기
@@ -168,19 +169,10 @@ const Activity = () => {
     //useEffect
     useEffect(() => {
         dispatch(changeBar("null", {title:"활동",data:null}, "null", "null", "null", "small"));  //상단바 변경
-        script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
-            window.kakao.maps.load(() => {
-                creation();
-            });
+        script.onload = () => {  //map script 로딩 완료 시, loading상태 true 로 변경
+            creation();
         };
     }, []);
-
-    const creation = () => {  //좌표 받아와서 맵 생성
-        getLocation()
-        .then((res) => {
-            createMap(res.latitude, res.longitude);
-        });
-    };
 
 
 
@@ -188,30 +180,11 @@ const Activity = () => {
     const captureRef = useRef();
 
     const stop = debounce(async() => {
-        setActivityState(false);
-
-        await getScreenshot()
-        .then((res) => {
-            const endLocation = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex")));
-
-            const formData = new FormData();
-            formData.append("activityId", localStorage.getItem("activityId"));
-            formData.append("map", res);
-            formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
-            formData.append("distance", localStorage.getItem("distance"));
-            formData.append("checkNormalQuit", 0);
-
-            //remove at local storage
-            localStorage.removeItem("location0");
-            localStorage.removeItem("location"+localStorage.getItem("lastIndex"));
-            localStorage.removeItem("activityId");
-            localStorage.removeItem("partnerId");
-            localStorage.removeItem("distance");
-            localStorage.removeItem("lastIndex");
-
-            dispatch(finishActivity(formData))
-            .then(() => history.push('/user/feed'));
-        });
+        await getScreenshot()  //get map image
+        .then(() => {
+            setActivityState(false);
+            dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
+        })
     }, 800);
 
     const getScreenshot = async() => {
@@ -220,17 +193,114 @@ const Activity = () => {
             const capture = canvas.toDataURL("image/png", 0.8);
             const image = capture.replace("data:image/png;base64,","");
 
-            return image;
+            setMapImage(image);
+            console.log(capture);
         }
     )};
 
+    const submit = debounce(async() => {
+        const endLocation = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex")));
+
+        const formData = new FormData();
+        formData.append("activityId", localStorage.getItem("activityId"));
+        formData.append("map", mapImage);
+        formData.append("endPhoto", window.getPicture());
+        formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
+        formData.append("distance", localStorage.getItem("distance"));
+        formData.append("checkNormalQuit", 0);
+
+        console.log(moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
+        //remove at local storage
+        localStorage.removeItem("location0");
+        localStorage.removeItem("location"+localStorage.getItem("lastIndex"));
+        localStorage.removeItem("activityId");
+        localStorage.removeItem("partnerId");
+        localStorage.removeItem("distance");
+        localStorage.removeItem("lastIndex");
+
+        dispatch(finishActivity(formData))
+        .then(() => history.push('/user/feed'));
+    }, 800);
+
+
+    //*******
+    //end photo
+    const [picture, setPicture] = useState([]);
+    window.getPicture = function() {
+        return picture;
+    };
+    const [buttonFirst, setButtonFirst] = useState(true);
+
+    const camera = useRef();
+    const frame = useRef();
+
+    const takePhoto = (e) => {
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+            const base64 = reader.result;
+            if (base64) {
+              frame.current.src=base64;
+            }
+        }
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]); // 파일을 버퍼에 저장
+            setPicture(e.target.files[0]); // 파일 상태 업데이트
+            setButtonFirst(false);
+        }
+    };
+
+    const createAction = debounce((e) => {
+        e.preventDefault();
+
+        if(window.getPicture().length===0) {
+            alert("사진 촬영 후 활동 종료가 가능합니다.");
+        } else {
+            submit();
+        }
+    }, 800);
 
     return (
-        <div className="map">
-            <div id='map' ref={captureRef}></div>
-            <div id="buttonWrap">
-                <button onClick={stop} className="user_btn_blue">종료</button>
+        <div>
+            {activityState===true ? 
+            <div className="map">
+                <div id='map' ref={captureRef}></div>
+                    <div id="buttonWrap">
+                    <button onClick={stop} className="user_btn_blue">종료</button>
+                </div>
             </div>
+            :
+            <div id="activityRegisterWrap" >
+                <p>사진등록</p>
+                <div id="activityRegister">
+                    <div className = "picture_container">
+                        {picture.length===0?
+                        <div className="preview"></div>
+                        :
+                        <div className="preview">
+                            <img ref={frame} alt="none"/>
+                        </div>
+                        }
+                    </div>
+
+                    <div id="pictureInput">
+                        <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
+                            <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
+
+                            {buttonFirst===true ? 
+                            <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
+                            : <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
+                            }
+                            <br/>
+                            {picture.length===0?
+                            <span id="fileName">선택된 사진 없음</span>
+                            : <span id="fileName">{picture.name}</span>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+            }
         </div>
     );
 };
