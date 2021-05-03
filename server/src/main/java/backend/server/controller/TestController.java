@@ -10,4 +10,9 @@ public class TestController {
     public String test() {
         return "Walking Together";
     }
+
+    @GetMapping("travisTest")
+    public String travis() {
+        return "Travis";
+    }
 }
