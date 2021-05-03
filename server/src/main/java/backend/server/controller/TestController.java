@@ -11,7 +11,7 @@ public class TestController {
         return "Walking Together";
     }
 
-    @GetMapping("travisTest")
+    @GetMapping("/travisTest")
     public String travis() {
         return "Travis";
     }
