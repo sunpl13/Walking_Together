@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import '../../styles/activity.scss';
 import {useHistory} from 'react-router-dom';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { getPartner } from '../../modules/activity';
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
@@ -10,7 +10,7 @@ import { changeBar } from '../../modules/topbar';
 
 const ActivityStart = () => {
 
-    const stdId = localStorage.getItem("user_info");
+    const stdId = useSelector(state => state.user.inLogin.stdId);
 
     const history = useHistory();
     const dispatch = useDispatch();

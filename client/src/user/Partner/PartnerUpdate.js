@@ -12,7 +12,7 @@ const PartnerUpdate = ({match}) => {
     const history = useHistory();
     const ref = useRef();
 
-    const stdId = localStorage.getItem('user_info');
+    const stdId = useSelector(state => state.user.inLogin.stdId);
 
     const partner = useSelector(state => state.partner.partnerDetail);  //PARTNER-LIST
     const partnerId = useState(match.params.partnerId);

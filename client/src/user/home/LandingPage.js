@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../styles/landing.scss';
 import {finishActivity} from '../../modules/activity';
-//import {returnStdid} from '../../modules/user';
+import {returnStdid} from '../../modules/user';
 import moment from 'moment';
 import logowhite from '../../source/logo-white.png';
 
@@ -21,7 +21,7 @@ function LandingPage() {
                 if(token === null) {
                     history.push('/login');
                 } else {
-                    //dispatch(returnStdid(token));
+                    dispatch(returnStdid(token));
                     history.push('/user/home');
                     }
             } else {

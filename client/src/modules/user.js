@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const SIGNUP_USER = 'SIGNUP_USER';
@@ -7,6 +8,7 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const AUTH_USER_PANDING = 'AUTH_USER_PANDING';
 const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
 const AUTH_USER_FAIL = 'AUTH_USER_FAIL';
+const RELOGIN_USER = 'RELOGIN_USER';
 
 
 
@@ -21,14 +23,13 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         if (response.data.token) {
             console.log(response);
             localStorage.setItem("token", response.data.token);                         //유저토큰 로컬스토리지에 user로 저장
-            localStorage.setItem("user_info", response.data.stdId);                    //유저정보 user_info로 로컬스토리지에 저장
             dispatch({
                 type: LOGIN_USER,
                 payload : response.data,
             });
             
             if(window.confirm("환영합니다!")) {
-                if(localStorage.getItem("user_info") === "0000000000") {
+                if(useSelector(state => state.user.inLogin.stdId) === "0000000000") {
                     history.push('/admin/user-info')
                 } else{
                 history.push('/user/home')
@@ -42,6 +43,19 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
     }
     })
     .catch(err => console.log(err));
+ };
+
+ //비정상종료 학번 리턴
+ export const returnStdid = (token) => async(dispatch) => {
+    const data = await axios.post('/user1/returnId', {
+         token : token
+     })
+     .then(res => res.data.stdId);
+
+     dispatch({
+        type : RELOGIN_USER,
+        payload : data
+     });
  };
 
 //회원가입
@@ -182,6 +196,11 @@ export default function user(state = initialstate, action) {
             return {
                 ...state,
                 authResult : action.payload
+            };
+        case RELOGIN_USER:
+            return {
+                ...state,
+                isLogin : action.payload
             };
           default :
             return state;
