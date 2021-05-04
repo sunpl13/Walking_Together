@@ -1,0 +1,19 @@
+language: java
+jdk:
+  - openjdk11
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clan build"
+
+notifications:
+  email:
+    recipients:
+      - rhdtn311@naver.com

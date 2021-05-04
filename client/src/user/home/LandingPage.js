@@ -46,7 +46,7 @@ function LandingPage() {
                     localStorage.removeItem("activityId");
                     localStorage.removeItem("lastIndex");
                     localStorage.removeItem("partnerId");
-
+                  
                     if(token === null) {
                         history.push('/login');
                     } else {

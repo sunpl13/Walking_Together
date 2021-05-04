@@ -21,6 +21,7 @@ public class FeedController {
 
     private final FeedService feedService;
 
+    // 피드 메인
     @GetMapping("/feed")
     public Map<String, Object> feedMain(@RequestParam(value = "stdId") String stdId,
                                         @RequestParam(value = "sort") String sort) {
@@ -55,8 +56,9 @@ public class FeedController {
         return response;
     }
 
+    // 소감문
     @PostMapping("/feed/detail/review")
-    public Map<String, Object> feedReview(@RequestParam(value = "activityId") Long activityId,
+    public Map<String, Object> feedReview(@RequestParam(value="activityId") Long activityId,
                                           @RequestParam(value = "review") @Nullable String review) {
 
         Map<String, Object> response = new HashMap<>();
@@ -90,6 +92,7 @@ public class FeedController {
         return response;
     }
 
+    // 인증서
     @PostMapping("/feed/certification")
     public Map<String, Object> createCertification(String stdId, String from, String to) {
 
