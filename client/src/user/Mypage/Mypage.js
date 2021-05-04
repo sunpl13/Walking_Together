@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import {logoutHandler} from '../../modules/user';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import { debounce } from "lodash";
 
@@ -18,7 +18,7 @@ const Mypage = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const stdId = localStorage.getItem('user_info');
+    const stdId = useSelector(state => state.user.inLogin.stdId);
     const [updateState, setUpdateState] = useState(false);
     const [userInfo, setUserInfo] = useState(
         {

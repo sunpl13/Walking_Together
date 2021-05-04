@@ -6,6 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { debounce } from "lodash";
 
 import Couple_Flatline from '../../source/Couple_Flatline.svg';
+import logo from '../../source/logo.png';
 import '../../styles/home.scss';
 
 function Home() {
@@ -58,7 +59,7 @@ function Home() {
     return (
         <div id="home" >
             <div id="homeWrap">
-                    <span id="logo">Walking Together</span>
+                    <span id="logo"><img src={logo} alt="logo" width="200px"/></span><br/>
                     <img src={Couple_Flatline} width="250" alt="logo"/>
 
                     <div id="noticeWrap">

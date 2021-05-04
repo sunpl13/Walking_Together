@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import logowhite from "../../source/logo-white.png";
 
 import '../../styles/menu.scss';
 
@@ -8,8 +9,7 @@ const Menu = () => {
     return (
         <div>
             <div id="logoWrap">
-                {/* <Link to='/admin'><img src="" id="logo" alt="로고이미지"/></Link> */}
-                <p id="logo">Walking Together</p>
+                <img src={logowhite} id="logo" alt="logo"/>
             </div>
 
             <div id="link">

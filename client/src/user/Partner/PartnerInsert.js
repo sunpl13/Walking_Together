@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { debounce } from "lodash";
 
@@ -11,7 +11,7 @@ const PartnerInsert = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const stdId = localStorage.getItem('user_info');
+    const stdId = useSelector(state => state.user.inLogin.stdId);
     
     const [partnerName, setPartnerName] = useState("");
     const [partnerDetail, setPartnerDetail] = useState("");

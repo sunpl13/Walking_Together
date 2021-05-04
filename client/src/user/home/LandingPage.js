@@ -3,8 +3,9 @@ import {useDispatch} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../styles/landing.scss';
 import {finishActivity} from '../../modules/activity';
-//import {returnStdid} from '../../modules/user';
+import {returnStdid} from '../../modules/user';
 import moment from 'moment';
+import logowhite from '../../source/logo-white.png';
 
 
 function LandingPage() {
@@ -20,13 +21,20 @@ function LandingPage() {
                 if(token === null) {
                     history.push('/login');
                 } else {
-                    // dispatch(returnStdid(token));
+                    dispatch(returnStdid(token));
                     history.push('/user/home');
                     }
             } else {
                 const location = JSON.parse(localStorage.getItem(`location${lastIdx}`));
+                let map = [];
+                for(let i = 0 ; i <= lastIdx ; i++) {
+                    map.concat(localStorage.getItem("location"+i));
+                    localStorage.removeItem("location"+i);
+                };
+
                 const formData = new FormData();
                 formData.append("activityId",localStorage.getItem("activityId"));
+                formData.append("map", map);
                 formData.append("distance", Math.ceil(localStorage.getItem("distance")));
                 formData.append("endTime", moment(location.timestamp).format('YYYYMMDDHHmmss'));
                 formData.append("checkNormalQuit", 1); //정상종료시 0, 비정상 종료시 1
@@ -38,9 +46,7 @@ function LandingPage() {
                     localStorage.removeItem("activityId");
                     localStorage.removeItem("lastIndex");
                     localStorage.removeItem("partnerId");
-                    localStorage.removeItem("location0");
-                    localStorage.removeItem(`location${lastIdx}`);
-
+                  
                     if(token === null) {
                         history.push('/login');
                     } else {
@@ -54,7 +60,7 @@ function LandingPage() {
 
     return (
         <div id="landing_back">
-            <p id="landing_logo">Walking Together</p>
+            <img src={logowhite} id="landing_logo" alt="logo"/>
         </div>
     );
 };

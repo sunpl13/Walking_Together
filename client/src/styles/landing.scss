@@ -5,14 +5,16 @@
     height: 100%;
     position: absolute;
     overflow: hidden;
+    text-align: center;
     background-image: linear-gradient(210deg,$BackSky-,$BackSkyBlue);
     background-size: 600% 100%;
     -webkit-animation: bg-pan-left 3s both;
 	        animation: bg-pan-left 3s both;
 
     #landing_logo {
+        width: 70%;
+        padding: 150px 0px;
         text-align: center;
-        font-size: xx-large;
         line-height: 50vh;
         color: $fontWhite;
         -webkit-animation: text-focus-in 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;

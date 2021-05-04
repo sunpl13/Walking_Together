@@ -13,6 +13,8 @@ import MemberStipulation from '../user/register/MemberStipulation';
 import InfoStipulation from '../user/register/InfoStipulation';
 import LocationStipulayion from '../user/register/LocationStipulation';
 import Activity from '../user/Activity/Activity';
+import CreateActivity from '../user/Activity/CreateActivity';
+import ActivityRegister from '../user/Activity/ActivityRegister';
 
 const User1 = () => {
     return (
@@ -30,6 +32,8 @@ const User1 = () => {
                     <Route path="/user1/locationstipulation" component={Auth(LocationStipulayion,false)}/>
                     <Route path="/user1/memberstipulation" component={Auth(MemberStipulation,false)}/>
                     <Route path="/user1/activity" component={Auth(Activity,true)}/>
+                    <Route path="/user1/createactivity" component={Auth(CreateActivity,true)}/>
+                    <Route path="/user1/activity-register" component={Auth(ActivityRegister, true)}/>
                 </Switch>
             </div>
         </div>

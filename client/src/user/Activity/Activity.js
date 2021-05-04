@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import html2canvas from 'html2canvas';
 import { finishActivity } from '../../modules/activity';
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
@@ -153,9 +152,6 @@ const Activity = () => {
             },
             );
         }).then((coords) => {
-            if(window.getIndex()!==1) {
-                localStorage.removeItem('location'+(window.getIndex()-1));
-            }
             localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}));
             setIndex(window.getIndex()+1);
             return coords;
@@ -173,7 +169,7 @@ const Activity = () => {
                 creation();
             });
         };
-    }, []);
+    }, [dispatch]);
 
     const creation = () => {  //좌표 받아와서 맵 생성
         getLocation()
@@ -185,52 +181,128 @@ const Activity = () => {
 
 
     //stop function
-    const captureRef = useRef();
+    const stop = debounce(() => {
+        const lastIndex = localStorage.getItem("lastIndex");
+        let map = [];
 
-    const stop = debounce(async() => {
+        for(let i = 0 ; i <= lastIndex ; i++) {
+            map.push(localStorage.getItem("location"+i));
+            localStorage.removeItem("location"+i);
+        };
         setActivityState(false);
-
-        await getScreenshot()
-        .then((res) => {
-            const endLocation = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex")));
-
-            const formData = new FormData();
-            formData.append("activityId", localStorage.getItem("activityId"));
-            formData.append("map", res);
-            formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
-            formData.append("distance", localStorage.getItem("distance"));
-            formData.append("checkNormalQuit", 0);
-
-            //remove at local storage
-            localStorage.removeItem("location0");
-            localStorage.removeItem("location"+localStorage.getItem("lastIndex"));
-            localStorage.removeItem("activityId");
-            localStorage.removeItem("partnerId");
-            localStorage.removeItem("distance");
-            localStorage.removeItem("lastIndex");
-
-            dispatch(finishActivity(formData))
-            .then(() => history.push('/user/feed'));
-        });
+        dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
     }, 800);
 
-    const getScreenshot = async() => {
-        await html2canvas(captureRef.current)
-        .then(canvas => {
-            const capture = canvas.toDataURL("image/png", 0.8);
-            const image = capture.replace("data:image/png;base64,","");
+    const submit = debounce(async() => {
+        const lastIndex = localStorage.getItem("lastIndex");
+        const endLocation = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex")));
+        let map = [];
 
-            return image;
+        for(let i = 0 ; i <= lastIndex ; i++) {
+            map.concat(localStorage.getItem("location"+i));
+            localStorage.removeItem("location"+i);
+        };
+
+        const formData = new FormData();
+        formData.append("activityId", localStorage.getItem("activityId"));
+        formData.append("map", map);
+        formData.append("endPhoto", window.getPicture());
+        formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
+        formData.append("distance", Math.ceil(localStorage.getItem("distance")));
+        formData.append("checkNormalQuit", 0);
+
+        console.log(moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
+        //remove at local storage
+        localStorage.removeItem("activityId");
+        localStorage.removeItem("partnerId");
+        localStorage.removeItem("distance");
+        localStorage.removeItem("lastIndex");
+
+        dispatch(finishActivity(formData))
+        .then(() => history.push('/user/feed'));
+    }, 800);
+
+
+    //*******
+    //end photo
+    const [picture, setPicture] = useState([]);
+    window.getPicture = function() {
+        return picture;
+    };
+    const [buttonFirst, setButtonFirst] = useState(true);
+
+    const camera = useRef();
+    const frame = useRef();
+
+    const takePhoto = (e) => {
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+            const base64 = reader.result;
+            if (base64) {
+              frame.current.src=base64;
+            }
         }
-    )};
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]); // 파일을 버퍼에 저장
+            setPicture(e.target.files[0]); // 파일 상태 업데이트
+            setButtonFirst(false);
+        }
+    };
+
+    const createAction = debounce((e) => {
+        e.preventDefault();
+
+        if(window.getPicture().length===0) {
+            alert("사진 촬영 후 활동 종료가 가능합니다.");
+        } else {
+            submit();
+        }
+    }, 800);
+
 
 
     return (
-        <div className="map">
-            <div id='map' ref={captureRef}></div>
-            <div id="buttonWrap">
-                <button onClick={stop} className="user_btn_blue">종료</button>
+        <div>
+            {activityState===true ? 
+            <div className="map">
+                <div id='map'></div>
+                    <div id="buttonWrap">
+                    <button onClick={stop} className="user_btn_blue">종료</button>
+                </div>
             </div>
+            :
+            <div id="activityRegisterWrap" >
+                <p>사진등록</p>
+                <div id="activityRegister">
+                    <div className = "picture_container">
+                        {picture.length===0?
+                        <div className="preview"></div>
+                        :
+                        <div className="preview">
+                            <img ref={frame} alt="none"/>
+                        </div>
+                        }
+                    </div>
+
+                    <div id="pictureInput">
+                        <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
+                            <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
+
+                            {buttonFirst===true ? 
+                            <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
+                            : <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
+                            }
+                            <br/>
+                            {picture.length===0?
+                            <span id="fileName">선택된 사진 없음</span>
+                            : <span id="fileName">{picture.name}</span>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+            }
         </div>
     );
 };

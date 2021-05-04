@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const SIGNUP_USER = 'SIGNUP_USER';
@@ -22,15 +23,14 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         if (response.data.token) {
             console.log(response);
             localStorage.setItem("token", response.data.token);                         //유저토큰 로컬스토리지에 user로 저장
-            localStorage.setItem("user_info", response.data.stdId);                    //유저정보 user_info로 로컬스토리지에 저장
             dispatch({
                 type: LOGIN_USER,
                 payload : response.data,
             });
             
             if(window.confirm("환영합니다!")) {
-                if(localStorage.getItem("user_info") === "0000000000") {
-                    history.push('/admin')
+                if(useSelector(state => state.user.inLogin.stdId) === "0000000000") {
+                    history.push('/admin/user-info')
                 } else{
                 history.push('/user/home')
             }
@@ -55,8 +55,8 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
      dispatch({
         type : RELOGIN_USER,
         payload : data
-     })
- }
+     });
+ };
 
 //회원가입
 export const signupHanlder = (
@@ -201,7 +201,7 @@ export default function user(state = initialstate, action) {
             return {
                 ...state,
                 isLogin : action.payload
-            }
+            };
           default :
             return state;
     };
