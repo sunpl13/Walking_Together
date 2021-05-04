@@ -7,6 +7,7 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const AUTH_USER_PANDING = 'AUTH_USER_PANDING';
 const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
 const AUTH_USER_FAIL = 'AUTH_USER_FAIL';
+const RELOGIN_USER = 'RELOGIN_USER';
 
 
 
@@ -43,6 +44,19 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
     })
     .catch(err => console.log(err));
  };
+
+ //비정상종료 학번 리턴
+ export const returnStdid = (token) => async(dispatch) => {
+    const data = await axios.post('/user1/returnId', {
+         token : token
+     })
+     .then(res => res.data.stdId);
+
+     dispatch({
+        type : RELOGIN_USER,
+        payload : data
+     })
+ }
 
 //회원가입
 export const signupHanlder = (
@@ -183,6 +197,11 @@ export default function user(state = initialstate, action) {
                 ...state,
                 authResult : action.payload
             };
+        case RELOGIN_USER:
+            return {
+                ...state,
+                isLogin : action.payload
+            }
           default :
             return state;
     };
