@@ -32,8 +32,8 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
                 if(useSelector(state => state.user.isLogin.stdId) === "0000000000") {
                     history.push('/admin/user-info')
                 } else{
-                history.push('/user/home')
-            }
+                    history.push('/user/home')
+                }
             }
         } 
         return response.data;
@@ -47,7 +47,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
 
  //비정상종료 학번 리턴
  export const returnStdid = (token) => async(dispatch) => {
-    const data = await axios.post('/user1/returnId', {
+    const data = await axios.post('/returnId', {
          token : token
      })
      .then(res => res.data.stdId);
@@ -69,7 +69,7 @@ export const signupHanlder = (
     department,
     history
 ) => async(dispatch) => {
-     await axios.post('/user1/signup', {
+     await axios.post('/signup', {
         email : email,
         name : name,
         password : password,
