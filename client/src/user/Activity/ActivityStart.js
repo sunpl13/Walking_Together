@@ -10,7 +10,7 @@ import { changeBar } from '../../modules/topbar';
 
 const ActivityStart = () => {
 
-    const stdId = useSelector(state => state.user.inLogin.stdId);
+    const stdId = useSelector(state => state.user.isLogin.stdId);
 
     const history = useHistory();
     const dispatch = useDispatch();

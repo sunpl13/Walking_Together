@@ -11,7 +11,7 @@ const Certification = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const stdId = useSelector(state => state.user.inLogin.stdId);
+    const stdId = useSelector(state => state.user.isLogin.stdId);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
 

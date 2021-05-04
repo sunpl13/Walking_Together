@@ -29,7 +29,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
             });
             
             if(window.confirm("환영합니다!")) {
-                if(useSelector(state => state.user.inLogin.stdId) === "0000000000") {
+                if(useSelector(state => state.user.isLogin.stdId) === "0000000000") {
                     history.push('/admin/user-info')
                 } else{
                 history.push('/user/home')
