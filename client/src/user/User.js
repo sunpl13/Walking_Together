@@ -14,13 +14,11 @@ import PartnerUpdate from './Partner/PartnerUpdate';
 import PartnerDetail from './Partner/PartnerDetail';
 import ActivityStart from './Activity/ActivityStart';
 import Detail from './notice/Detail';
-import CreateActivity from './Activity/CreateActivity';
 import Ranking from './Ranking/Ranking';
 import Certification from './Certification/Certification';
 import CertificationAction from './Certification/CertificationAction';
 import Feed from './Feed/Feed';
-import FeedDetail from './Feed/FeedDetail'
-import ActivityRegister from './Activity/ActivityRegister';
+import FeedDetail from './Feed/FeedDetail';
 
 
 const User = () => {
@@ -42,8 +40,6 @@ const User = () => {
                     <Route path="/user/ranking" component={Auth(Ranking,true)}/>
                     <Route path= "/user/activitystart" component={ActivityStart}/>
                     <Route path= "/user/viewdetail" component={Auth(Detail,true)}/>
-                    <Route path= "/user/createactivity" component={Auth(CreateActivity,true)}/>
-                    <Route path="/user/activity-register" component={Auth(ActivityRegister, true)}/>
                     <Route path= "/user/feed" component={Auth(Feed,true)}/>
                     <Route path = "/user/feeddetail" component={Auth(FeedDetail,true)}/>
                 </Switch>

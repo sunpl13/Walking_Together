@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
@@ -10,6 +10,12 @@ import '../../styles/feed.scss';
 function FeedDetail() {
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const key = process.env.REACT_APP_MAP;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
+    document.head.appendChild(script);
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
 
@@ -36,9 +42,51 @@ function FeedDetail() {
         history.push('/user/feed');
     }, 800);
 
+
+    //F-지도 생성
+    const createMap = useCallback(() => {
+        const container = document.getElementById('map');  //지도 담을 div
+        const point = [];
+        for(let i = 0 ; i < feedItem.mapPicture.length ; i++) {
+            point.push(new window.kakao.maps.LatLng(feedItem.mapPicture[i].lat, feedItem.mapPicture[i].lon));
+        }
+
+        const options = {
+            center: new window.kakao.maps.LatLng(feedItem.mapPicture[0].lat, feedItem.mapPicture[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
+            level: 5,  //확대 수준, 작을수록 범위 좁아짐
+        };
+
+        const map = new window.kakao.maps.Map(container, options);  //지도 생성
+
+        const makerPosition = new window.kakao.maps.LatLng(feedItem.mapPicture[0].lat, feedItem.mapPicture[0].lon);  //시작 마커 위치
+        const marker = new window.kakao.maps.Marker({   //마커 생성
+            position: makerPosition
+        });
+
+        marker.setMap(map);  // 마커를 지도 위에 표시
+
+        const polyline = new window.kakao.maps.Polyline({
+            path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
+                point
+            ],
+            strokeWeight: 4, //두께
+            strokeColor: '#FFAE00', //색상
+            strokeOpacity: 0.7, //불투명도
+            strokeStyle: 'solid', //스타일
+        });
+        polyline.setMap(map);  //경로 지도에 표시
+    },[feedItem.mapPicture]);
+
     useEffect(() => {
         dispatch(changeBar("back", {title:"활동 상세", data:null}, "null", goBack, "null", "small"));  //상단바 변경
-    }, [dispatch, goBack])
+        if(feedItem.length!==0) {
+            script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
+                window.kakao.maps.load(() => {
+                    createMap();
+                });
+            };
+        }
+    }, [dispatch, goBack, createMap, script, feedItem.length])
 
     return (
         <div id="feedDetail">
@@ -65,9 +113,9 @@ function FeedDetail() {
                     </tr>
                     
                     <tr>
-                        <td className="td1">경로 사진</td>
+                        <td className="td1">경로</td>
                         <td className="td2">
-                            <img src={feedItem.mapPicture} id="mapPicture" alt="mapImage"/>
+                            <div id="map"/>
                         </td>
                     </tr>
 

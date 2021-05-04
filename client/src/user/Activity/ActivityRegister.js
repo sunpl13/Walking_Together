@@ -39,6 +39,8 @@ const ActivityRegister = () => {
 
     //param function
     const goBack = debounce(() => {
+        localStorage.removeItem('partnerId');
+        localStorage.removeItem('activityId');
         history.goBack();
     }, 800);
 
