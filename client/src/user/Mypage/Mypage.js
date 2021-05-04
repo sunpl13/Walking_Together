@@ -18,7 +18,7 @@ const Mypage = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const stdId = useSelector(state => state.user.inLogin.stdId);
+    const stdId = useSelector(state => state.user.isLogin.stdId);
     const [updateState, setUpdateState] = useState(false);
     const [userInfo, setUserInfo] = useState(
         {

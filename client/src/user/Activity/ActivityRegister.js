@@ -11,7 +11,7 @@ const ActivityRegister = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const stdId = useSelector(state => state.user.inLogin.stdId);
+    const stdId = useSelector(state => state.user.isLogin.stdId);
     const partnerId = localStorage.getItem('partnerId');
     localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId));
 

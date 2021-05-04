@@ -9,7 +9,7 @@ import { changeBar } from '../../modules/topbar';
 import '../../styles/feed.scss';
 
 function Feed() {
-    const ID = useSelector(state => state.user.inLogin.stdId);
+    const ID = useSelector(state => state.user.isLogin.stdId);
     const history = useHistory();
     const dispatch = useDispatch();
     const [sor, setsor] = useState("asc");             // 정렬을 위한 state 지정

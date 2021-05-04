@@ -11,7 +11,7 @@ const PartnerInsert = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const stdId = useSelector(state => state.user.inLogin.stdId);
+    const stdId = useSelector(state => state.user.isLogin.stdId);
     
     const [partnerName, setPartnerName] = useState("");
     const [partnerDetail, setPartnerDetail] = useState("");
