@@ -10,7 +10,7 @@ const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
 const AUTH_USER_FAIL = 'AUTH_USER_FAIL';
 const RELOGIN_USER = 'RELOGIN_USER';
 
-const url = process.ent.REACT_APP_SERVER;
+const url = process.env.REACT_APP_SERVER;
 
 //로그인
 export const loginHandler = (stdId, password, history) => async(dispatch) => {
