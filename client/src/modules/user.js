@@ -10,11 +10,11 @@ const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
 const AUTH_USER_FAIL = 'AUTH_USER_FAIL';
 const RELOGIN_USER = 'RELOGIN_USER';
 
-
+const url = process.ent.REACT_APP_SERVER;
 
 //로그인
 export const loginHandler = (stdId, password, history) => async(dispatch) => {
-    await axios.post('/login', {
+    await axios.post(`${url}/login`, {
         stdId : stdId,
         password : password
     })
@@ -30,9 +30,9 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
             
             if(window.confirm("환영합니다!")) {
                 if(useSelector(state => state.user.isLogin.stdId) === "0000000000") {
-                    history.push('/admin/user-info')
+                    history.push('/admin/user-info');
                 } else{
-                    history.push('/user/home')
+                    history.push('/user/home');
                 }
             }
         } 
@@ -47,7 +47,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
 
  //비정상종료 학번 리턴
  export const returnStdid = (token) => async(dispatch) => {
-    const data = await axios.post('/returnId', {
+    const data = await axios.post(`${url}/returnId`, {
          token : token
      })
      .then(res => res.data.stdId);
@@ -69,7 +69,7 @@ export const signupHanlder = (
     department,
     history
 ) => async(dispatch) => {
-     await axios.post('/signup', {
+     await axios.post(`${url}/signup`, {
         email : email,
         name : name,
         password : password,
@@ -107,7 +107,7 @@ export const logoutHandler = () => async(dispatch) => {
 
 //페이지간 인증
 export const authHandler = (option, adminRoute, history) => async(dispatch) => {
-    const data = await axios.post('/auth', {token : localStorage.getItem('token')})
+    const data = await axios.post(`${url}/auth`, {token : localStorage.getItem('token')})
     .then(res => res.data)
     .catch(err => console.log(err));
 
