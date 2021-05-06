@@ -88,7 +88,7 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(mapCapture).on(mapCapture.activityId.eq(activity.activityId));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(member.name, member.department, member.stdId, activity.activityDate,
-                partner.partnerName, activity.review, mapCapture.mapCaptureUrl, activity.distance,
+                partner.partnerName, activity.review, mapCapture.map, activity.distance,
                 activity.startTime, activity.endTime);
 
         tuple.where(activity.activityId.eq(activityId));
@@ -143,7 +143,7 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(mapCapture).on(activity.activityId.eq(mapCapture.activityId));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, activity.partner.partnerName, activity.startTime, activity.endTime,
-                activity.activityDivision, activity.review, mapCapture.mapCaptureUrl);
+                activity.activityDivision, activity.review, mapCapture.map);
 
         tuple.where(activity.activityId.eq(activityId));
 

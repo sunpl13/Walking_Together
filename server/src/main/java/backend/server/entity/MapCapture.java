@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @AllArgsConstructor
@@ -22,9 +19,8 @@ public class MapCapture {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mapCaptureId;
 
-    private String mapCaptureUrl;
-
-    private String mapCaptureName;
+    @Column(columnDefinition = "LONGTEXT")
+    private String map; // 맵 좌표
 
     // join 할 활동 id
     private Long activityId;

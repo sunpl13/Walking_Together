@@ -230,34 +230,34 @@ public class FileUploadService {
     }
 
     // 활동 이미지 사진을 DB에 저장
-    public void saveMapCapture(String fileName, Long activityId) {
-
-        String fileUrl = s3Service.getFileUrl(fileName);
-
-        MapCapture entity = MapCapture.builder()
-                .activityId(activityId)
-                .mapCaptureUrl(fileUrl)
-                .mapCaptureName(fileName)
-                .build();
-
-        mapCaptureRepository.save(entity);
-    }
-
-    // 활동 이미지 파일을 S3서버에 업로드
-    public String uploadMapCapture(MultipartFile file, Long activityId) {
-
-        String fileName = "Activity_Captured_Image_" + createFileName(file.getOriginalFilename());
-
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(file.getContentType());
-
-        try (InputStream inputStream = file.getInputStream()) {
-            s3Service.uploadFile(inputStream, objectMetadata, fileName);
-            saveMapCapture(fileName, activityId);
-        } catch (IOException e) {
-            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
-                    file.getOriginalFilename()));
-        } return s3Service.getFileUrl(fileName);
-    }
+//    public void saveMapCapture(String fileName, Long activityId) {
+//
+//        String fileUrl = s3Service.getFileUrl(fileName);
+//
+//        MapCapture entity = MapCapture.builder()
+//                .activityId(activityId)
+//                .mapCaptureUrl(fileUrl)
+//                .mapCaptureName(fileName)
+//                .build();
+//
+//        mapCaptureRepository.save(entity);
+//    }
+//
+//    // 활동 이미지 파일을 S3서버에 업로드
+//    public String uploadMapCapture(MultipartFile file, Long activityId) {
+//
+//        String fileName = "Activity_Captured_Image_" + createFileName(file.getOriginalFilename());
+//
+//        ObjectMetadata objectMetadata = new ObjectMetadata();
+//        objectMetadata.setContentType(file.getContentType());
+//
+//        try (InputStream inputStream = file.getInputStream()) {
+//            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+//            saveMapCapture(fileName, activityId);
+//        } catch (IOException e) {
+//            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다. (%s)",
+//                    file.getOriginalFilename()));
+//        } return s3Service.getFileUrl(fileName);
+//    }
 }
 
