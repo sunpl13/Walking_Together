@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signup/authNum").permitAll()
                 .antMatchers("/auth").permitAll()
                 .antMatchers("/admin/*").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/test").permitAll()
+                .antMatchers("/test","/travisTest","/webconfigTest").permitAll()
                 .antMatchers("/profile").permitAll()
                 .anyRequest().authenticated() // 나머지 요청은 모두 인증을 요구한다.
 
