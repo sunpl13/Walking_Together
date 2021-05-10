@@ -15,4 +15,10 @@ public class TestController {
     public String travis() {
         return "Travis";
     }
+
+    @GetMapping("/webconfigTest")
+    public String webConfigTest() {
+        return "CorsError";
+    }
+
 }
