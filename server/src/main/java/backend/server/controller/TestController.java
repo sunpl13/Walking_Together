@@ -18,7 +18,7 @@ public class TestController {
 
     @GetMapping("/webconfigTest")
     public String webConfigTest() {
-        return "CorsError";
+        return "CORS TEST";
     }
 
 }

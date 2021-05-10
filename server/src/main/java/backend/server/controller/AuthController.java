@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ public class AuthController {
 
 
     // 로그인
+    @CrossOrigin(origins = "https://walking2gether.com")
     @PostMapping("/login")
     public ResponseEntity<Map> authorize(@Valid @RequestBody LoginDTO loginDto) {
 
@@ -75,6 +77,7 @@ public class AuthController {
     }
 
     // 페이지간 검증
+    @CrossOrigin(origins = "https://walking2gether.com")
     @PostMapping("/auth")
     public Map<String, Object> auth(@RequestBody TokenDTO tokenDTO) {
 
