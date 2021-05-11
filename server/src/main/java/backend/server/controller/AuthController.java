@@ -30,7 +30,7 @@ public class AuthController {
 
 
     // 로그인
-    @CrossOrigin(origins = "https://walking2gether.com")
+//    @CrossOrigin(origins = "https://walking2gether.com")
     @PostMapping("/login")
     public ResponseEntity<Map> authorize(@Valid @RequestBody LoginDTO loginDto) {
 
@@ -77,7 +77,7 @@ public class AuthController {
     }
 
     // 페이지간 검증
-    @CrossOrigin(origins = "https://walking2gether.com")
+//    @CrossOrigin(origins = "https://walking2gether.com")
     @PostMapping("/auth")
     public Map<String, Object> auth(@RequestBody TokenDTO tokenDTO) {
 
