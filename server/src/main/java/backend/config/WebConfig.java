@@ -10,6 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://walking2gether.com");
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .maxAge(3000);
     }
 }
