@@ -18,7 +18,7 @@ public class TestController {
 
     @GetMapping("/webconfigTest")
     public String webConfigTest() {
-        return "CORS TEST 0511-3시5분";
+        return "CORS TEST 0511-10시24분";
     }
 
 }
