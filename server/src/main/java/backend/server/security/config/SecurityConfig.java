@@ -49,15 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/favicon.ico")
-                .antMatchers(HttpMethod.OPTIONS);
+                .antMatchers("/favicon.ico");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
                 // 토큰을 사용하기 때문에 csrf는 disable
                 .csrf().disable()
                 // Exception 을 핸들링 할 때 우리가 만든 클래스로 추가
@@ -94,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("'");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**",config);
