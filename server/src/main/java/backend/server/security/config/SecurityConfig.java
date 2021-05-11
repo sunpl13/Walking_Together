@@ -4,11 +4,7 @@ import backend.server.security.jwt.JwtAccessDeniedHandler;
 import backend.server.security.jwt.JwtAuthenticationEntryPoint;
 import backend.server.security.jwt.JwtSecurityConfig;
 import backend.server.security.jwt.TokenProvider;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -17,12 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-
-@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) // @PreAuthorize 어노테이션을 메소드 단위로 추기하기 위해 적용
 // jwt 폴더에 만든 5개의 클래스를 추가
@@ -82,23 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // JwtSecurityConfig 클래스 적용
                 .and().apply(new JwtSecurityConfig(tokenProvider));
-
     }
-
     // CORS 허용
-    @Bean
-    public FilterRegistrationBean processCorsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("'");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**",config);
-
-        final FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
-
-    }
 }
