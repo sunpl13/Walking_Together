@@ -23,6 +23,7 @@ public class UserController {
     private final UserService userService;
 
     // 회원가입
+    @CrossOrigin(origins = "https://api.walking2gether.com")
     @PostMapping("/signup")
     public Map<String, Object> signup(@Valid @RequestBody UserDTO userDto) throws Exception {
 
