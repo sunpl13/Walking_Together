@@ -7,11 +7,13 @@ const CREATE_PARTNER = 'CREATE_PARTNER';
 const CHANGE_PARTNER = 'CHANGE_PARTNER';
 const DELETE_PARTNER = 'DELETE_PARTNER';
 
+const url = process.env.REACT_APP_SERVER;
+
 //파트너 생성 액션
 export const createPartnerHandler = (
     formData
     ) => async(dispatch) => {
-     await axios.post('/partner/create', formData, {
+     await axios.post(`${url}/partner/create`, formData, {
         headers: {
             'content-type': 'multipart/form-data',
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -27,7 +29,7 @@ export const createPartnerHandler = (
 
 //파트너 간단한 정보 받아오는 액션
 export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
-    await axios.get(`/mypage/partnerInfo?stdId=${stdId}`, {
+    await axios.get(`${url}/mypage/partnerInfo?stdId=${stdId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then(res => {
@@ -41,7 +43,7 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
 
 //파트너의 상세정보 받아오기
 export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
-    await axios.get(`/mypage/partnerInfo/detail?partnerId=${partnerId}`, {
+    await axios.get(`${url}/mypage/partnerInfo/detail?partnerId=${partnerId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then(res => {
@@ -61,7 +63,7 @@ export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
 export const changePartnerHandler = (
     formData
 ) => async(dispatch) => {
-    await axios.post('/partner/change', formData, {
+    await axios.post(`${url}/partner/change`, formData, {
         headers: {
             'content-type': 'multipart/form-data',
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -79,7 +81,7 @@ export const changePartnerHandler = (
 
 //파트너 삭제
 export const deletePartnerHandler = (partnerId) => async(dispatch) => {
-    await axios.post('/partner/delete', {
+    await axios.post(`${url}/partner/delete`, {
         partnerId : partnerId
     }, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}

@@ -32,10 +32,12 @@ const GETCERTIFICATION = "GETCERTIFICATION";
 const UPDATEFEED = "UPDATEFEED";
 const SELECTFEED = "SELECTFEED";
 
+const url = process.env.REACT_APP_SERVER;
+
 
 //action
 export const getFeedList = (stdId, sort) => async(dispatch) => {
-    const res = await axios.get(`/feed?stdId=${stdId}&sort=${sort}`,
+    const res = await axios.get(`${url}/feed?stdId=${stdId}&sort=${sort}`,
     {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
@@ -51,7 +53,7 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
 };
 
 export const getCertification = (stdId, from, to) => async(dispatch) => {
-    const res = await axios.post(`/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
+    const res = await axios.post(`${url}/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     }).then((res) => res
     ).catch((err) => alert(err));
@@ -63,7 +65,7 @@ export const getCertification = (stdId, from, to) => async(dispatch) => {
 };
 
 export const updateFeed = (activityId, review) => async(dispatch) => {
-    await axios.post(`/feed/detail/review?activityId=${activityId}&review=${review}`, {}, {
+    await axios.post(`${url}/feed/detail/review?activityId=${activityId}&review=${review}`, {}, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     }).then((response) => console.log(response.data))
     .catch((err) => alert(err));
@@ -78,7 +80,7 @@ export const updateFeed = (activityId, review) => async(dispatch) => {
 };
 
 export const selectFeed = (activityId) => async(dispatch) => {
-    const res = await axios.get(`/feed/detail?activityId=${activityId}`, {
+    const res = await axios.get(`${url}/feed/detail?activityId=${activityId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then((res) => res.data)

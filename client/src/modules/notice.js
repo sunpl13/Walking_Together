@@ -31,12 +31,14 @@ const SELECTNOTICE = 'SELECTNOTICE';
 const GETLIST = 'GETLIST';
 const INITSELECTEDNOTICE = 'INITSELECTEDNOTICE';
 
+const url = process.env.REACT_APP_SERVER;
+
 
 //action
 export const insertNotice = (       //공지글 등록 (==>form에서 직접 submit해야 파일 전송돼서 사용 안 했음 ㅠ)
     formData
     ) => async(dispatch) => {
-        await axios.post('/admin/createpost' ,formData, {
+        await axios.post(`${url}/admin/createpost` ,formData, {
             headers: {
                 'content-type': 'multipart/form-data',
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -54,7 +56,7 @@ export const insertNotice = (       //공지글 등록 (==>form에서 직접 sub
 export const updateNotice = (       //공지글 수정
     formData
     ) => async(dispatch) => { 
-        await axios.post('/admin/update', formData, {
+        await axios.post(`${url}/admin/update`, formData, {
             headers: {
                 'content-type': 'multipart/form-data',
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -75,7 +77,7 @@ export const updateNotice = (       //공지글 수정
 export const deleteNotice = (           //공지글 삭제
     noticeId
     ) => async(dispatch) => {   
-        await axios.get(`/admin/delete?noticeId=${noticeId}`, {
+        await axios.get(`${url}/admin/delete?noticeId=${noticeId}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         })
         .then((res) => {
@@ -90,7 +92,7 @@ export const deleteNotice = (           //공지글 삭제
 export const selectNotice = (          //공지글 세부내용 조회
     noticeId
     ) => async(dispatch) => { 
-        await axios.get('/notice', {
+        await axios.get(`${url}/notice`, {
             params: {
                 noticeId: noticeId
             },
@@ -111,7 +113,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
     keyword
     ) => async(dispatch) => {
         if(keyword!=null) {
-            await axios.post(`/noticeList`,{
+            await axios.post(`${url}/noticeList`,{
                 page: page,
                 keyword: keyword
             },{
@@ -141,7 +143,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                 }
             })
         }else {
-            await axios.post(`/noticeList`, {
+            await axios.post(`${url}/noticeList`, {
                 page: page,
                 
             }, {

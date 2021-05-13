@@ -21,11 +21,13 @@ const UPDATEPHOTO = "UPDATEPHOTO";
 const GETLOCATION = "GETLOCATION";
 const FINISHACTIVITY = "FINISHACTIVITY";
 
+const url = process.env.REACT_APP_SERVER;
+
 //파트너 정보 받아오기
 export const getPartner = (
     stdId, history
     ) => async(dispatch) => {
-    await axios.get(`/activity/create?stdId=${stdId}`, {
+    await axios.get(`${url}/activity/create?stdId=${stdId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then((res) => {
@@ -46,7 +48,7 @@ export const getPartner = (
 export const createActivity = (
     formData //stdId, partnerId, startPhoto formdate로 묶어서 보내기
 ) => async(dispatch) => {
-    await axios.post(`/activity/createActivity`, formData, {
+    await axios.post(`${url}/activity/createActivity`, formData, {
         headers: {
             'content-type': 'multipart/form-data',
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -87,7 +89,7 @@ export const getLocation = (
 export const finishActivity = (
     formData,  //activityId, map, endTime, distance, endPhoto, checkNormalQuit
     ) => async(dispatch) => {
-        await axios.post(`/activity/end`, formData, {
+        await axios.post(`${url}/activity/end`, formData, {
             headers: {
                 'content-type': 'multipart/form-data',
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -107,7 +109,7 @@ export const quitActivity = (
     endTime, 
     distance
     ) => async(dispatch) => {
-        await axios.post(`/activity/quit`,{
+        await axios.post(`${url}/activity/quit`,{
             activityId : activityId,
             endTime : endTime,
             distance : distance

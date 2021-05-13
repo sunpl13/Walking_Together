@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
 import '../../styles/certification.scss';
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
@@ -10,11 +9,12 @@ import { changeBar } from '../../modules/topbar';
 const Certification = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-
+    
     const stdId = useSelector(state => state.user.isLogin.stdId);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
-
+    const url = process.env.REACT_APP_SERVER;
+    
     const submit = debounce(async() => {
         if(from===undefined||to===undefined) {
             alert("기간을 지정해주세요.");
@@ -22,7 +22,7 @@ const Certification = () => {
             const replaceFrom = from.replaceAll("-","/");
             const replaceTo = to.replaceAll("-","/");
 
-            await axios.post(`/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`, {}, {
+            await axios.post(`${url}/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`, {}, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then(async(res) => {
                 if(res.data.data.length!==0) {
