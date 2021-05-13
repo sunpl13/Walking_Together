@@ -49,7 +49,7 @@ public class UserController {
     }
 
     // 회원가입시 인증코드 전송
-    @CrossOrigin(origins = "https://walking2gether.com")
+//    @CrossOrigin(origins = "https://walking2gether.com")
     @GetMapping("/signup/authNum") // {}로 바꾸기
     public Map<String, Object> sendAuthNum(@RequestParam(value = "email", required = false) String email) {
 
