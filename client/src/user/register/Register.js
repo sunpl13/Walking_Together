@@ -105,17 +105,17 @@ function Register() {
                 <div>
                   <input type="checkbox" name="agree1" value="agree1" checked={agree1} onChange={(e) => setAgree1(e.target.checked)} />
                       <label>회원 약관</label>
-                      <span><FaAngleRight onClick = {() => {history.push('/memberstipulation')}}/></span>
+                      <span><FaAngleRight onClick = {() => {history.push('/user1/memberstipulation')}}/></span>
                 </div>
                 <div>
                   <input type="checkbox" name="agree2" value="agree2" checked={agree2} onChange={(e) => setAgree2(e.target.checked)} />
                       <label>개인정보 수집 및 이용</label>
-                      <span><FaAngleRight onClick = {() => {history.push('/infostipulation')}}/></span>
+                      <span><FaAngleRight onClick = {() => {history.push('/user1/infostipulation')}}/></span>
                 </div>
                 <div>
                   <input type="checkbox" name="agree3" value="agree3" checked={agree3} onChange={(e) => setAgree3(e.target.checked)} />
                       <label>위치 정보 이용 동의</label>
-                      <span><FaAngleRight onClick = {() => {history.push('/locationstipulation')}}/></span>
+                      <span><FaAngleRight onClick = {() => {history.push('/user1/locationstipulation')}}/></span>
                 </div>
               </div>
           </div>

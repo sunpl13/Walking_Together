@@ -11,10 +11,11 @@ import Winners_Flatline from "../../source/Winners_Flatline.svg";
 const Ranking = () => {
     const dispatch = useDispatch();
     const [ranking, setRanking] = useState([]);
+    const url = process.env.REACT_APP_SERVER;
 
     useEffect(() => {
         dispatch(changeBar("null", {title:"랭킹",data:null}, "null", "null", "null", "small"));
-        axios.get(`/ranking`, {
+        axios.get(`${url}/ranking`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             setRanking(res.data.data);

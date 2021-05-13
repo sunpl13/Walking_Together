@@ -9,6 +9,7 @@ const UserActivityDatail = ({match}) => {
     const history = useHistory();
 
     const key = process.env.REACT_APP_MAP;
+    const url = process.env.REACT_APP_SERVER;
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
@@ -53,7 +54,7 @@ const UserActivityDatail = ({match}) => {
     }, [res.mapPicture]);
 
     useEffect(() => {
-        axios.get(`/admin/activityInfo/detail?activityId=${activityId}`, {
+        axios.get(`${url}/admin/activityInfo/detail?activityId=${activityId}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             if(res.data.status===404) {

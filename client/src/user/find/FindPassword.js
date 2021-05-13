@@ -16,7 +16,7 @@ const FindPassword = () => {
     const [birth, setbirth] = useState("");
     const [stdId, setstdId] = useState("");
     const [Name, setName] = useState("");
-
+    const url = process.env.REACT_APP_SERVER;
     const NameHandler = (e) => {
         setName(e.currentTarget.value);
     };
@@ -26,7 +26,7 @@ const FindPassword = () => {
     };
 
     const findpasswordHandler = debounce(() => {
-        axios.post('/findpassword', {
+        axios.post(`${url}/findpassword`, {
             stdId : stdId,
             name : Name,
             birth : birth
@@ -34,7 +34,7 @@ const FindPassword = () => {
         .then(res => {if(res.data.status === "200") {
             if(window.confirm(res.data.message)) {
                 history.push({
-                    pathname : '/findresult',
+                    pathname : '/user1/findresult',
                     state : {email : res.data.email}
                 })
             }

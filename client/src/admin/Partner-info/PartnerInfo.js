@@ -7,6 +7,7 @@ import '../../styles/admin.scss';
 
 const PartnerInfo = () => {
     const [res,setRes] = useState([]);
+    const url = process.env.REACT_APP_SERVER;
 
     //filter state
     const [keyword, setKeyword] = useState("");
@@ -22,7 +23,7 @@ const PartnerInfo = () => {
 
     //button
     const search = debounce(() => {
-        axios.get(`/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
+        axios.get(`${url}/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
             if(res.data.data.length===0) {

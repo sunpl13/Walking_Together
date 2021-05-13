@@ -7,6 +7,7 @@ import { debounce } from "lodash";
 
 const UserActivity = () => {
     const [res,setRes] = useState([]);
+    const url = process.env.REACT_APP_SERVER;
 
     //filter state
     const [keyword, setKeyword] = useState("");
@@ -24,7 +25,7 @@ const UserActivity = () => {
             alert("조회 기간을 지정해주세요.");
         } else {
             if(keyword==="") {
-                axios.get(`/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+                axios.get(`${url}/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
                     headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
                 }).then((response) => {
                     if(response.data.data.length!==0) {

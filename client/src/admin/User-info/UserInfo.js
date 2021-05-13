@@ -6,13 +6,14 @@ import '../../styles/admin.scss';
 
 const UserInfo = () => {
     const [res,setRes] = useState([]);
+    const url = process.env.REACT_APP_SERVER;
     
     //filter state
     const [keyword, setKeyword] = useState("");
 
     //button
     const search = debounce(() => {
-        axios.get(`/admin/userinfo?keyword=${keyword}`, {
+        axios.get(`${url}/admin/userinfo?keyword=${keyword}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((response) => {
             if(response.data.length!==0) {

@@ -17,6 +17,7 @@ import '../../styles/mypage.scss';
 const Mypage = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const url = process.env.REACT_APP_SERVER;
 
     const stdId = useSelector(state => state.user.isLogin.stdId);
     const [updateState, setUpdateState] = useState(false);
@@ -39,7 +40,7 @@ const Mypage = () => {
     
     //회원 정보 가져오기
     const getMypage = useCallback(async() => {
-        await axios.get(`/mypage?stdId=${stdId}`,{headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}})
+        await axios.get(`${url}/mypage?stdId=${stdId}`,{headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}})
         .then((res) => {
             if(res.data.status===200) {
                 setUserInfo(res.data.data);
@@ -103,7 +104,7 @@ const Mypage = () => {
                 formData.append("profilePicture", profilePicture[0]);
             }
 
-            axios.post(`/mypage/change`, formData, {
+            axios.post(`${url}/mypage/change`, formData, {
                 headers: {
                     'content-type': 'multipart/form-data',
                     'Authorization' : `Bearer ${localStorage.getItem("token")}`
