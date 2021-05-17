@@ -21,7 +21,7 @@ const Ranking = () => {
             setRanking(res.data.data);
         });
         return {};
-    }, [dispatch]);
+    }, [dispatch, url]);
 
     return (
         <div id="ranking">

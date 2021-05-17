@@ -49,7 +49,7 @@ const Mypage = () => {
                 console.log("일치하는 회원이 없습니다.");
             }
         });
-    },[stdId]);
+    },[stdId, url]);
 
     //로그아웃 구현
     const logout = debounce(() => { 
