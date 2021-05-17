@@ -50,20 +50,22 @@ const Ranking = () => {
                         } else {   /// 4~10
                             return (
                                 <table id={"p"+(index+1)} key={index+1} className="rank_table">
-                                    <tr>
-                                        <td rowspan="4" id="rank">{index+1}</td>
-                                        <td rowspan="4" id="profile"><CgProfile size="70" color="#9a9a9a"/></td>
-                                        <td id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="dept">{item.department}</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="stdId">{item.stdId}</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="distance">{item.totalDistance}km</td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td rowSpan="4" id="rank">{index+1}</td>
+                                            <td rowSpan="4" id="profile"><CgProfile size="70" color="#9a9a9a"/></td>
+                                            <td id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="dept">{item.department}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="stdId">{item.stdId}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="distance">{item.totalDistance}km</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             )
                         }
