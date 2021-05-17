@@ -2,8 +2,12 @@ package backend.server.controller;
 
 import backend.server.DTO.feed.FeedDTO;
 import backend.server.DTO.feed.FeedDetailDTO;
+import backend.server.exception.ApiException;
+import backend.server.message.Message;
 import backend.server.service.FeedService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,45 +27,38 @@ public class FeedController {
 
     // 피드 메인
     @GetMapping("/feed")
-    public Map<String, Object> feedMain(@RequestParam(value = "stdId") String stdId,
-                                        @RequestParam(value = "sort") String sort) {
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", 200);
-        response.put("message", "조회 완료");
+    public ResponseEntity<Message> feedMain(@RequestParam(value = "stdId") String stdId,
+                                            @RequestParam(value = "sort") String sort) {
 
         List<FeedDTO> feedDTO = feedService.feedMain(stdId, sort);
 
-        response.put("data",feedDTO);
+        Message resBody = new Message();
+        resBody.setData(feedDTO);
+        resBody.setMessage("조회 완료");
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 피드 상세
     @GetMapping("/feed/detail")
-    public Map<String, Object> feedDetail(@RequestParam("activityId") Long activityId) {
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", 200);
-        response.put("message", "조회 완료");
+    public ResponseEntity<Message> feedDetail(@RequestParam("activityId") Long activityId) {
 
         FeedDetailDTO data = feedService.feedDetail(activityId);
         if(data == null) {
-            response.put("status", 404);
-            response.put("message", "존재하지 않는 활동입니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 활동입니다.", 404L);
         }
-        response.put("data", data);
 
-        return response;
+        Message resBody = new Message();
+        resBody.setData(data);
+        resBody.setMessage("조회 완료");
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 소감문
     @PostMapping("/feed/detail/review")
-    public Map<String, Object> feedReview(@RequestParam(value="activityId") Long activityId,
+    public ResponseEntity<Message> feedReview(@RequestParam(value="activityId") Long activityId,
                                           @RequestParam(value = "review") @Nullable String review) {
-
-        Map<String, Object> response = new HashMap<>();
 
         FeedDetailDTO dto = FeedDetailDTO.builder()
                 .review(review).build();
@@ -69,27 +66,21 @@ public class FeedController {
         Long result = feedService.activityReview(activityId, dto);
 
         if(result == 404L) {
-            response.put("status", 400);
-            response.put("message", "존재하지 않는 활동입니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 활동입니다.", 400L);
         }
 
         if(result ==405L) {
-            response.put("status", 405);
-            response.put("message", "소감문을 작성해주세요.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "소감문을 작성해주세요.", 405L);
         }
 
         if(result ==406L) {
-            response.put("status", 406);
-            response.put("message", "진행 중인 활동은 소감문 작성이 불가능합니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "진행 중인 활동은 소감문 작성이 불가능합니다.", 406L);
         }
 
-        response.put("status", 200);
-        response.put("message", "소감문 저장 완료");
+        Message resBody = new Message();
+        resBody.setMessage("소감문 저장 완료");
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 인증서

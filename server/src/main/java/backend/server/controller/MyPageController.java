@@ -3,10 +3,14 @@ package backend.server.controller;
 import backend.server.DTO.myPage.MyPageMemberDTO;
 import backend.server.DTO.myPage.MyPagePartnerDTO;
 import backend.server.entity.MemberProfilePictures;
+import backend.server.exception.ApiException;
+import backend.server.message.Message;
 import backend.server.repository.MemberProfilePicturesRepository;
 import backend.server.s3.FileUploadService;
 import backend.server.service.MyPageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.midi.MetaMessage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,19 +32,12 @@ public class MyPageController {
     private final MemberProfilePicturesRepository profilePicturesRepository;
 
     @GetMapping("/mypage")
-    public Map<String, Object> myPageMain(@RequestParam(value = "stdId") String stdId) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", 200);
-        response.put("message", "불러오기 성공");
+    public ResponseEntity<Message> myPageMain(@RequestParam(value = "stdId") String stdId) {
 
         MyPageMemberDTO member = myPageService.myPageMain(stdId);
 
         if (member == null) {
-            response.put("status", 400);
-            response.put("message", "일치하는 회원이 없습니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND,"일치하는 회원이 없습니다.", 400L);
         }
 
         MemberProfilePictures profilePicture = profilePicturesRepository.findMemberProfilePicturesByStdId(stdId);
@@ -55,33 +53,30 @@ public class MyPageController {
             data.put("profilePicture", null);
         }
 
-        response.put("data", data);
-
-        return response;
+        Message resBody = new Message();
+        resBody.setMessage("불러오기 성공");
+        resBody.setData(data);
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 마이페이지-변경
     @PostMapping("/mypage/change")
-    public Map<String, Object> myPageChange(@RequestParam(value = "stdId") @Nullable String stdId,
+    public ResponseEntity<Message> myPageChange(@RequestParam(value = "stdId") @Nullable String stdId,
                                             @RequestParam(value = "password") @Nullable String password,
                                             @RequestParam(value = "department") @Nullable String department,
                                             @RequestParam(value = "profilePicture")@Nullable  MultipartFile profilePicture)
     {
         String updateResult = myPageService.update(stdId, password, department, profilePicture);
 
-        Map<String, Object> response = new HashMap<>();
-
         if (updateResult == null) {
-            response.put("status", 400);
-            response.put("message", "회원 정보 찾을 수 없음");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "회원 정보 찾을 수 없음", 400L);
         }
 
-        response.put("status", 200);
-        response.put("message", "회원 정보 수정 완료");
+        Message resBody = new Message();
+        resBody.setMessage("회원 정보 수정 완료");
+        resBody.setData(stdId);
 
-
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 마이페이지 - 파트너
@@ -95,8 +90,7 @@ public class MyPageController {
         List<MyPagePartnerDTO> myPagePartners = myPageService.myPagePartnerInfo(stdId);
 
         if(myPagePartners.isEmpty()) {
-            response.put("status", 400);
-            response.put("message" , "파트너가 존재하지 않습니다.");
+            throw new ApiException(HttpStatus.NOT_FOUND, "파트너가 존재하지 않습니다.", 400L);
         }
 
         List<Map<String,Object>> partnerList = new ArrayList<>();
@@ -118,19 +112,12 @@ public class MyPageController {
 
     // 마이페이지 -파트너 detail
     @GetMapping("/mypage/partnerInfo/detail")
-    public Map<String, Object> myPagePartnerDetail(@RequestParam(value = "partnerId") Long partnerId) {
-
-        Map<String,Object> response = new HashMap<>();
+    public ResponseEntity<Message> myPagePartnerDetail(@RequestParam(value = "partnerId") Long partnerId) {
 
         MyPagePartnerDTO myPagePartnerInfo = myPageService.myPagePartnerDetail(partnerId);
 
-        response.put("status", 200);
-        response.put("message", "파트너 세부 조회 완료");
-
         if(myPagePartnerInfo == null) {
-            response.put("status", 400);
-            response.put("message", "파트너가 존재하지 않습니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "파트너가 존재하지 않습니다.", 400L);
         }
 
         Map<String, Object> data = new HashMap<>();
@@ -141,13 +128,16 @@ public class MyPageController {
         data.put("selectionReason", myPagePartnerInfo.getSelectionReason());
         data.put("relationship", myPagePartnerInfo.getRelationship());
 
-        response.put("data", data);
-        return response;
+        Message resBody = new Message();
+        resBody.setMessage("파트너 세부 조회 완료");
+        resBody.setData(data);
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 마이페이지 - 파트너 생성
     @PostMapping("/partner/create")
-    public Map<String, Object> createPartner(@RequestParam(value = "stdId") String stdId,
+    public ResponseEntity<Message> createPartner(@RequestParam(value = "stdId") String stdId,
                                              @RequestParam(value = "partnerName") String partnerName,
                                              @RequestParam(value = "partnerDetail") String partnerDetail,
                                              @RequestParam(value = "partnerPhoto") MultipartFile partnerPhoto,
@@ -171,22 +161,20 @@ public class MyPageController {
                 .gender(gender)
                 .build();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", 200);
-        response.put("message", "파트너 저장 완료");
-
         Long result = myPageService.createPartner(savePartner, partnerPhoto);
         if(result == null) {
-            response.put("status", 400);
-            response.put("message", "존재하지 않는 회원입니다.");
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.", 400L);
         }
 
-        return response;
+        Message resBody = new Message();
+        resBody.setMessage("파트너 저장 완료");
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 마이페이지 - 파트너 정보 수정
     @PostMapping("/partner/change")
-    public Map<String, Object> changePartner(@RequestParam(value = "partnerId") String partnerId,
+    public ResponseEntity<Message> changePartner(@RequestParam(value = "partnerId") String partnerId,
                               @RequestParam(value = "partnerName") @Nullable String partnerName,
                               @RequestParam(value = "partnerDetail") @Nullable String partnerDetail,
                               @RequestParam(value = "selectionReason") @Nullable String selectionReason,
@@ -195,11 +183,6 @@ public class MyPageController {
                               @RequestParam(value = "partnerBirth") @Nullable String partnerBirth,
                               @RequestParam(value = "partnerPhoto") @Nullable MultipartFile partnerPhoto)
     {
-
-        Map<String ,Object> response = new HashMap<>();
-        response.put("status", 200);
-        response.put("message", "파트너 정보가 성공적으로 변경되었습니다.");
-
         Long partnerIdU = Long.parseLong(partnerId);
 
         String partnerBirthU = partnerBirth.replace("-","");
@@ -217,36 +200,34 @@ public class MyPageController {
         Long updateResult = myPageService.updatePartner(updatePartner, partnerPhoto);
 
         if(updateResult == null) {
-            response.put("status", 400);
-            response.put("message", "변경 실패");
+            throw new ApiException(HttpStatus.NOT_FOUND,"존재하지 않는 파트너입니다.", 400L);
         }
 
-        return response;
+        Message resBody = new Message();
+        resBody.setMessage("파트너 정보가 성공적으로 변경되었습니다.");
+        resBody.setData(partnerId);
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 마이페이지 - 파트너 삭제
     @GetMapping("/partner/delete")
-    public Map<String, Object> deletePartner(@RequestParam(value = "partnerId") Long partnerId) {
-
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Message> deletePartner(@RequestParam(value = "partnerId") Long partnerId) {
 
         Long result = myPageService.deletePartner(partnerId);
 
-        response.put("status", 200);
-        response.put("message", "파트너를 성공적으로 삭제했습니다.");
+        Message resBody = new Message();
+        resBody.setMessage("파트너를 성공적으로 삭제했습니다.");
+        resBody.setData(partnerId);
 
         if (result == 400L) {
-            response.put("status", 400);
-            response.put("message", "활동을 가지고 있는 파트너입니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "활동을 가지고 있는 파트너입니다.", 400L);
         }
 
         if (result == 404L) {
-            response.put("status", 404);
-            response.put("message", "존재하지 않는 파트너입니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 파트너입니다.", 404L);
         }
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 }

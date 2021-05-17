@@ -113,7 +113,7 @@ public class UserService {
     public String sendAuthNumber(String email, String authNum) {
         Optional<Member> member = userRepository.findMemberByEmail(email);
         if(member.isPresent()) {
-            return "404";
+            return "409";
         }
 
         MailDTO sendAuthNum = MailDTO.builder()

@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 토큰을 사용하기 때문에 csrf는 disable
                 .csrf().disable()
-                // Exception 을 핸들링 할 때 우리가 만든 클래스로 추가
+                // Exception 을 핸들링 할 때 리가 만든 클래스로 추가
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 

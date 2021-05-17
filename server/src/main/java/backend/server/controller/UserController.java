@@ -3,10 +3,15 @@ package backend.server.controller;
 import backend.server.DTO.FindPasswordDTO;
 import backend.server.DTO.UserDTO;
 import backend.server.entity.Member;
+import backend.server.exception.ApiException;
+import backend.server.message.Message;
+import backend.server.message.StatusEnum;
 import backend.server.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,40 +27,35 @@ public class UserController {
 
     private final UserService userService;
 
-    // 회원가입
-//    @CrossOrigin(origins = "https://walking2gether.com")
+//     회원가입
     @PostMapping("/signup")
-    public Map<String, Object> signup(@Valid @RequestBody UserDTO userDto) throws Exception {
+    public ResponseEntity<Message> signup(@Valid @RequestBody UserDTO userDto) throws Exception {
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", 200);
+        Message resBody = new Message();
 
         if (userService.signup(userDto) == null) {
-            response.put("status", "406");
-            response.put("message", "중복된 회원입니다.");
-            return response;
+            throw new ApiException(HttpStatus.CONFLICT, "중복된 회원입니다.", 409L);
+//            return new ResponseEntity<>(message,null, HttpStatus.CONFLICT);
         }
 
         if (userService.signup(userDto) == "emailDup") {
-            response.put("status", "407");
-            response.put("message", "이미 가입된 이메일입니다.");
-            return response;
+            throw new ApiException(HttpStatus.CONFLICT, "중복된 이메일입니다.", 409L);
         }
 
         userService.signup(userDto);
-        response.put("status", "200");
-        response.put("message", "회원가입이 성공적으로 완료되었습니다.");
-        return response;
+        resBody.setMessage("회원가입이 성공적으로 완료되었습니다.");
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 회원가입시 인증코드 전송
-//    @CrossOrigin(origins = "https://walking2gether.com")
     @GetMapping("/signup/authNum") // {}로 바꾸기
-    public Map<String, Object> sendAuthNum(@RequestParam(value = "email", required = false) String email) {
+    public ResponseEntity<Message> sendAuthNum(@RequestParam(value = "email", required = false) String email) {
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", 200);
-        response.put("message", "메일이 성공적으로 발송되었습니다.");
+        Map<String ,Object> response = new HashMap<>();
+
+        Message resBody = new Message();
+        resBody.setMessage("메일이 성공적으로 발송되었습니다.");
 
         String authNumber = "";
 
@@ -63,21 +63,14 @@ public class UserController {
         Long l = abs(random.nextLong());
         authNumber += String.valueOf(l).substring(0, 7);
 
-        try {
-            String result = userService.sendAuthNumber(email, authNumber);
-            if(result.equals("404")) {
-                response.put("status", 404);
-                response.put("message", "이미 가입된 이메일입니다.");
-                return response;
-            }
+        String result = userService.sendAuthNumber(email, authNumber);
+        if (result.equals("409")) {
+            throw new ApiException(HttpStatus.CONFLICT, "이미 가입된 메일입니다.", 409L);
 
-        } catch (Exception e) {
-            response.put("status", 400);
-            response.put("message", "인증번호 전송에 실패했습니다.");
-            return response;
         }
-        response.put("authNum", authNumber);
-        return response;
+            response.put("authNum", authNumber);
+        resBody.setData(response);
+            return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     @GetMapping("/user")
@@ -95,25 +88,24 @@ public class UserController {
 
     // 비밀번호 찾기
     @PostMapping("/findpassword")
-    public Map<String, Object> findPassword(@RequestBody FindPasswordDTO findPasswordDTO) {
+    public ResponseEntity<Message> findPassword(@RequestBody FindPasswordDTO findPasswordDTO) {
 
         String email = userService.findPassword(findPasswordDTO.getStdId(), findPasswordDTO.getName(),
                 findPasswordDTO.getBirth());
 
         Map<String, Object> response = new HashMap<>();
-        response.put("status", "200");
-        response.put("message", "임시 비밀번호가 입력하신 이메일로 발송 되었습니다.");
         response.put("email", email);
+
+        Message resBody = new Message();
+        resBody.setMessage("임시 비밀번호가 입력하신 이메일로 발송 되었습니다.");
+        resBody.setData(response);
 
         if (email == "noMember") {
 
-            response.put("status", "400");
-            response.put("message", "일치하는 정보가 없습니다.");
-            response.remove("email");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND,"일치하는 정보가 없습니다." ,400L);
         }
 
-        return response;
+        return new ResponseEntity<>(resBody,null, HttpStatus.OK);
     }
 
     @GetMapping("/authenticTest")

@@ -2,9 +2,13 @@ package backend.server.controller;
 
 import backend.server.DTO.ActivityDTO;
 import backend.server.DTO.TokenDTO;
+import backend.server.exception.ApiException;
+import backend.server.message.Message;
 import backend.server.service.ActivityService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,10 +38,7 @@ public class ActivityController {
         List<ActivityDTO> activity = activityService.createActivity(stdId);
 
         if (activity == null) {
-            response.put("status", 400);
-            response.put("message", "파트너가 존재하지 않습니다.");
-
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "파트너가 존재하지 않습니다.", 400L);
         }
 
         List<Map<String, Object>> partners = new ArrayList<>();
@@ -67,36 +68,33 @@ public class ActivityController {
 
     // 활동 생성 완료
     @PostMapping("/activity/createActivity")
-    public Map<String, Object> createActivityDone(@RequestParam(value = "partnerId") Long partnerId,
-                                                  @RequestParam(value = "stdId") String stdId,
-                                                  @RequestParam(value = "startPhoto") MultipartFile startPhoto) {
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", 200);
-        response.put("message", "저장완료");
+    public ResponseEntity<Message> createActivityDone(@RequestParam(value = "partnerId") Long partnerId,
+                                                      @RequestParam(value = "stdId") String stdId,
+                                                      @RequestParam(value = "startPhoto") MultipartFile startPhoto) {
 
         Long result = activityService.createActivityDone(partnerId, stdId, startPhoto);
 
         if (result == 404L) {
-            response.put("status", 404);
-            response.put("message", "존재하지 않는 파트너입니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 파트너입니다.", 404L);
         }
 
         if (result == 405L) {
-            response.put("status", 405L);
-            response.put("message", "존재하지 않는 사용자입니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 사용자입니다.", 405L);
         }
 
+        Map<String, Object> response = new HashMap<>();
         response.put("activityId", result);
 
-        return response;
+        Message resBody = new Message();
+        resBody.setMessage("저장 완료");
+        resBody.setData(response);
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 활동 종료
     @PostMapping("/activity/end")
-    public Map<String, Object> endActivity(@RequestParam(value = "endTime") String endTime,
+    public ResponseEntity<Message> endActivity(@RequestParam(value = "endTime") String endTime,
                                            @RequestParam(value = "map") @Nullable String map,
                                            @RequestParam(value = "endPhoto") @Nullable MultipartFile endPhoto,
                                            @RequestParam(value = "activityId") Long activityId,
@@ -108,52 +106,36 @@ public class ActivityController {
 
         Long result = activityService.endActivity(activityEndTime, endPhoto, activityId, distance, map, checkNormalQuit);
 
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", 200);
-        response.put("message", "저장 성공");
-
         if (result == 404L) {
-            response.put("status", 404);
-            response.put("message", "활동이 존재하지 않습니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "활동이 존재하지 않습니다.", 404L);
         }
         if (result == 405L) {
-            response.put("status", 405);
-            response.put("message", "종료 사진이 전송되지 않았습니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST,"종료 사진이 전송되지 않았습니다.", 405L);
         }
         if (result == 406L) {
-            response.put("status", 405);
-            response.put("message", "맵 경로 사진이 전송되지 않았습니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "맵 경로 사진이 전송되지 않았습니다.", 406L);
         }
         if (result == 407L) {
-            response.put("status", 407);
-            response.put("message", "이미 종료된 활동입니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "이미 종료된 활동입니다.", 407L);
         }
 
         if(result == 500L) {
-            response.put("status", 500);
-            response.put("message", "최소 활동 시간을 초과하지 못했습니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "최소 활동 시간을 초과하지 못했습니다.", 500L);
         }
         if(result == 501L) {
-            response.put("status", 501);
-            response.put("message", "최소 활동 거리를 초과하지 못했습니다.");
-            return response;
+            throw new ApiException(HttpStatus.BAD_REQUEST, "최소 활동 거리를 초과하지 못했습니다.", 501L);
         }
         if(result == 502L) {
-            response.put("status", 502);
-            response.put("message", "활동이 비정상적으로 종료되었고 시간을 충족시키지 못했습니다.");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "활동이 비정상적으로 종료되었고 시간을 충족시키지 못했습니다.", 502L);
         }
         if(result == 503L) {
-            response.put("status", 503);
-            response.put("message", "활동이 비정상적으로 종료되었고 거리를 충족시키지 못했습니다.");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "활동이 비정상적으로 종료되었고 거리를 충족시키지 못했습니다.", 503L);
         }
 
-        return response;
+        Message resBody = new Message();
+        resBody.setMessage("저장 성공");
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 활동 비정상 종료시 학번 리턴
