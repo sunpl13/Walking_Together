@@ -38,7 +38,6 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         return response.data;
     } else {
         alert("로그인 정보가 일치하지 않습니다.");
-        console.log(response);
     }
     })
     .catch(err => console.log(err));

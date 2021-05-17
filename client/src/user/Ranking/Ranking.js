@@ -21,7 +21,7 @@ const Ranking = () => {
             setRanking(res.data.data);
         });
         return {};
-    }, [dispatch]);
+    }, [dispatch, url]);
 
     return (
         <div id="ranking">
@@ -32,20 +32,44 @@ const Ranking = () => {
             <div id="items">
                 {ranking.length!==0 ?
                     ranking.map((item, index) => {
-                        return (
-                            <span id={"p"+(index+1)} key={index+1}>
-                                <span id="rank">{index+1}</span><br/>
-
-                                <CgProfile size=
-                                    {index===0 ? "110" : "90"}
-                                    color="#9a9a9a"/><br/>
-                            
-                                <span id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</span><br/>
-                                <span id="dept">{item.department}</span><br/>
-                                <span id="stdId">{item.stdId}</span><br/>
-                                <span id="distance">{item.totalDistance}km</span><br/>
-                            </span>
-                        )})
+                        if(index<3) {   //1~3
+                            return (
+                                <span id={"p"+(index+1)} key={index+1}>
+                                    <span id="rank">{index+1}</span><br/>
+    
+                                    <CgProfile size=
+                                        {index===0 ? "110" : "90"}
+                                        color="#9a9a9a"/><br/>
+                                
+                                    <span id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</span><br/>
+                                    <span id="dept">{item.department}</span><br/>
+                                    <span id="stdId">{item.stdId}</span><br/>
+                                    <span id="distance">{item.totalDistance}km</span><br/>
+                                </span>
+                            )
+                        } else {   /// 4~10
+                            return (
+                                <table id={"p"+(index+1)} key={index+1} className="rank_table">
+                                    <tbody>
+                                        <tr>
+                                            <td rowSpan="4" id="rank">{index+1}</td>
+                                            <td rowSpan="4" id="profile"><CgProfile size="70" color="#9a9a9a"/></td>
+                                            <td id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="dept">{item.department}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="stdId">{item.stdId}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="distance">{item.totalDistance}km</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            )
+                        }
+                    })
                     :
                         <p>랭킹 정보가 없습니다.</p>
                 }

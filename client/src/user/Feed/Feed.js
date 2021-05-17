@@ -46,7 +46,7 @@ function Feed() {
         <div id="feedWrap">
             <select className="inputSelect" selectedvalue="desc" onChange = {(e) => sortHandler(e)}>{sortList}</select>
             <div id="feedItemsWrap">
-                {myFeed.length!==undefined ? 
+                {myFeed.length!==0 ? 
                 myFeed.map(
                     (item,index) => (
                         <table key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>
@@ -62,7 +62,7 @@ function Feed() {
                             </tbody>
                         </table>
                     )
-                ) : "피드 정보가 없습니다."
+                ) : <p id="notice">피드 정보가 없습니다.</p>
             }
             </div>
         </div>

@@ -35,7 +35,10 @@ const Partner = () => {
                         <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
                     )
                 })
-                : "파트너 정보가 없습니다."
+                : 
+                <tr>
+                    <td>파트너 정보가 없습니다.</td>
+                </tr>
                 }
             </tbody>
         </table>

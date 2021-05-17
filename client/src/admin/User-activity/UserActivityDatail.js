@@ -70,7 +70,7 @@ const UserActivityDatail = ({match}) => {
                 });
             };
         }
-    },[activityId, createMap, res.length, script]);
+    },[activityId, createMap, res.length, script, url]);
 
     const goBack = debounce(() => {
         history.goBack();
