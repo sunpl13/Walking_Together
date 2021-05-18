@@ -30,16 +30,13 @@ const FindPassword = () => {
             stdId : stdId,
             name : Name,
             birth : birth
-        })
-        .then(res => {
+        }).then(res => {
             alert(res.data.message)
             history.push({
                 pathname : '/user1/findresult',
                 state : {email : res.data.data.email}
             })
-        }
-        )
-        .catch(err => {
+        }).catch(err => {
             if(err.response.data.code === 400) {
                 alert(err.response.data.message)
             }

@@ -185,13 +185,16 @@ public class MyPageController {
     {
         Long partnerIdU = Long.parseLong(partnerId);
 
-        String partnerBirthU = partnerBirth.replace("-","");
+        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer birth = stringBuffer.append(partnerBirth);
+        birth.replace(4,5,"/");
+        birth.replace(7,8,"/");
 
         MyPagePartnerDTO updatePartner = MyPagePartnerDTO.builder()
                 .partnerId(partnerIdU)
                 .partnerName(partnerName)
                 .partnerDetail(partnerDetail)
-                .partnerBirth(partnerBirthU)
+                .partnerBirth(birth.toString())
                 .selectionReason(selectionReason)
                 .relationship(relationship)
                 .gender(gender)

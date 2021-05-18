@@ -34,9 +34,21 @@ const Mypage = () => {
 
     //state
     const [dept, setDept] = useState("");
+    window.getDept = function() {
+        return dept;
+    };
     const [profilePicture, setProfilePicture] = useState([]);
+    window.getProfilePicture = function() {
+        return profilePicture[0];
+    }
     const [password1, setPassword1] = useState("");
+    window.getPassword1 = function() {
+        return password1;
+    };
     const [password2, setPassword2] = useState("");
+    window.getPassword2 = function() {
+        return password2;
+    };
     
     //회원 정보 가져오기
     const getMypage = useCallback(async() => {
@@ -53,11 +65,10 @@ const Mypage = () => {
 
     //로그아웃 구현
     const logout = debounce(() => { 
-            if(window.confirm("로그아웃 하시겠습니까?")) {
-                dispatch(logoutHandler());
-                if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                    history.push('/login');
-                }
+        if(window.confirm("로그아웃 하시겠습니까?")) {            
+            dispatch(logoutHandler());
+            if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                history.push('/login');
             }
     }, 800);
 
@@ -87,16 +98,18 @@ const Mypage = () => {
     const submit = debounce((e) => {
         e.preventDefault();
 
-        if(password1!==password2) {
+        if(window.getPassword1()!==window.getPassword2()) {
             alert("비밀번호 확인이 일치하지 않습니다.");
         } else {
             //create formdata
             const formData = new FormData();
             formData.append("stdId", stdId);
-            formData.append("password", password1);
-            formData.append("department", dept);
-            if(profilePicture[0]!==undefined) {
-                formData.append("profilePicture", profilePicture[0]);
+            if(window.getPassword1()!=="") {
+                formData.append("password", window.getPassword1());
+            }
+            formData.append("department", window.getDept());
+            if(window.getProfilePicture()!==undefined) {
+                formData.append("profilePicture", window.getProfilePicture());
             }
 
             axios.post(`${url}/mypage/change`, formData, {
@@ -108,7 +121,10 @@ const Mypage = () => {
                 if(res.data.status===200) {
                     alert("회원 정보 수정 완료");
                     await getMypage()
-                    .then(() => setUpdateState(false));
+                    .then(() => {
+                        setUpdateState(false);
+                        dispatch(changeBar("null", {title:"마이페이지", data:null}, "null", "null", "null", "small"));  //상단바 변경
+                    });
                 } else if(res.data.status===400) {
                     console.log("일치하는 회원이 없습니다.");
                     setUpdateState(false);
@@ -117,7 +133,7 @@ const Mypage = () => {
         }
     }, 800);
 
-    const setState = (state) => {
+    const setState = () => {
         dispatch(changeBar("cancel", {title:"정보 수정", data:null}, "create", cancel, (e)=>submit(e), "small"));  //상단바 변경
         setUpdateState(true);
     };

@@ -46,7 +46,7 @@ export const insertNotice = (       //공지글 등록 (==>form에서 직접 sub
         })
         .then((res) => {
             alert(res.data.message);
-        }).catch((err) => console.log(err));
+        }).catch((err) => alert(err.response.data.message));
 
         dispatch({
             type: INSERTNOTICE
@@ -63,7 +63,7 @@ export const updateNotice = (       //공지글 수정
             }
         }).then((res) => {
             alert(res.data.message);
-        }).catch((err) => console.log(err));
+        }).catch((err) => alert(err.response.data.message));
 
         dispatch({
             type: UPDATENOTICE,
@@ -82,7 +82,7 @@ export const deleteNotice = (           //공지글 삭제
         })
         .then((res) => {
             alert(res.data.message);
-        }).catch((err) => console.log(err));
+        }).catch((err) => alert(err.response.data.message));
 
         dispatch({
             type: DELETENOTICE
@@ -103,9 +103,9 @@ export const selectNotice = (          //공지글 세부내용 조회
         .then((res) => {
             dispatch({
                 type: SELECTNOTICE,
-                payload: res.data
+                payload: res.data.data
             })
-        });
+        }).catch((err) => alert(err.response.data.message));
 };
 
 export const getNoticeList = (          //공지사항 목록 가져오기
@@ -119,59 +119,56 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             },{
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.data.status===200) {
-                    dispatch({
-                        type: GETLIST,
-                        payload: res.data
-                    })
-                } else {
-                    dispatch({
-                        type: GETLIST,
-                        payload: {
-                            data: [],
-                            pageInfo: {             //페이지 정보
-                                page: 0,
-                                totalPage: 0,
-                                start: 0,
-                                end: 0,
-                                prev: false,
-                                next: false,
-                                pageList: []
-                            }
+                dispatch({
+                    type: GETLIST,
+                    payload: res.data
+                })
+            }).catch((err) => {
+                alert(err.response.data.message);
+                dispatch({
+                    type: GETLIST,
+                    payload: {
+                        data: [],
+                        pageInfo: {             //페이지 정보
+                            page: 0,
+                            totalPage: 0,
+                            start: 0,
+                            end: 0,
+                            prev: false,
+                            next: false,
+                            pageList: []
                         }
-                    });
-                }
-            })
+                    }
+                })
+            });
         }else {
             await axios.post(`${url}/noticeList`, {
-                page: page,
-                
+                page: page,   
             }, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.data.status===200) {
-                    dispatch({
-                        type: GETLIST,
-                        payload: res.data
-                    })
-                } else {
-                    dispatch({
-                        type: GETLIST,
-                        payload: {
-                            data: [],
-                            pageInfo: {             //페이지 정보
-                                page: 0,
-                                totalPage: 0,
-                                start: 0,
-                                end: 0,
-                                prev: false,
-                                next: false,
-                                pageList: []
-                            }
+                dispatch({
+                    type: GETLIST,
+                    payload: res.data
+                });
+            }).catch((err) => {
+                alert(err.response.data.message);
+                dispatch({
+                    type: GETLIST,
+                    payload: {
+                        data: [],
+                        pageInfo: {             //페이지 정보
+                            page: 0,
+                            totalPage: 0,
+                            start: 0,
+                            end: 0,
+                            prev: false,
+                            next: false,
+                            pageList: []
                         }
-                    })
-                }
-            })
+                    }
+                })
+            });
         }
 };
 

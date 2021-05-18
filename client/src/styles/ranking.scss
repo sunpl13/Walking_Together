@@ -25,26 +25,27 @@
     text-align: center;
 }
 
-#p1 {
-    width: 110px;
-    left: calc(50% - 55px);
-    position: absolute;
-    display: inline;
-    z-index: 1;
+#p1, #p2, #p3 {
     #rank {
-        font-size: $large;
+        font-size: $medium;
+        width: 25px;
+        height: 25px;
+        line-height: 24px;
+        display: inline-block;
+        color: #FFFFFF;
+        border-radius: 25px;
     }
     #name {
-        font-size: $large;
-    }
-    #dept {
-        font-size: $small;
-    }
-    #stdId {
         font-size: $medium;
     }
+    #dept {
+        font-size: $x-small;
+    }
+    #stdId {
+        font-size: $small;
+    }
     #distance {
-        font-size: $x-large;
+        font-size: $large;
     }
 }
 
@@ -52,60 +53,67 @@
     width: 90px;
     height: max-content;
     display: inline;
-    top: 20px;
+    top: 10px;
+    margin: 10px auto;
+}
+
+#p1 {
     #rank {
-        font-size: $medium;
+        background-color: #FFE400;
     }
-    #name {
-        font-size: $medium;
-    }
-    #dept {
-        font-size: $x-small;
-    }
-    #stdId {
-        font-size: $small;
-    }
-    #distance {
-        font-size: $large;
-    }
+    width: 110px;
+    left: calc(50% - 55px);
+    position: absolute;
+    display: inline;
+    z-index: 1;
 }
 
 #p2 {
+    #rank {
+        background-color: #BDBDBD;
+    }
     float: left;
-    left: 12px;
+    margin-left: 5%;
 }
 
 #p3 {
+    #rank {
+        background-color: #CCA63D;
+    }
     float: right;
-    right: 12px;
+    margin-right: 5%;
 }
 
 #p4, #p5, #p6, #p7, #p8, #p9, #p10 {
     width: 90%;
     margin: 20px auto;
     position: relative;
-    top: 60px;
+    top: 40px;
+    background-color: #ffffff;
+    padding: 10px 0px;
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px $shadowGray;
     #rank {
         width: 15%;
-        font-size: $medium;
+        font-size: $x-small;
     }
     #profile {
         width: 25%;
     }
     #name {
         width: 60%;
-        font-size: $medium;
+        font-size: $small;
     }
     #dept {
         width: 60%;
-        font-size: $x-small;
+        font-size: $xx-small;
     }
     #stdId {
         width: 60%;
-        font-size: $small;
+        font-size: $x-small;
     }
     #distance {
         width: 60%;
-        font-size: $large;
+        font-size: $medium;
     }
 }

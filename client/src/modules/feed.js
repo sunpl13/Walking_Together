@@ -41,10 +41,8 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
     {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
-    .then((response) => 
-        response.data
-    )
-    .catch((err) => alert(err));
+    .then((response) => response.data)
+    .catch((err) => alert(err.response.data.message));
 
     dispatch({
         type: GETFEEDLIST,
@@ -55,8 +53,8 @@ export const getFeedList = (stdId, sort) => async(dispatch) => {
 export const getCertification = (stdId, from, to) => async(dispatch) => {
     const res = await axios.post(`${url}/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    }).then((res) => res
-    ).catch((err) => alert(err));
+    }).then((res) => res)
+    .catch((err) => alert(err.response.data.message));
 
     dispatch({
         type: GETCERTIFICATION,
@@ -67,8 +65,8 @@ export const getCertification = (stdId, from, to) => async(dispatch) => {
 export const updateFeed = (activityId, review) => async(dispatch) => {
     await axios.post(`${url}/feed/detail/review?activityId=${activityId}&review=${review}`, {}, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    }).then((response) => console.log(response.data))
-    .catch((err) => alert(err));
+    }).then((res) => res)
+    .catch((err) => alert(err.response.data.message));
 
     dispatch({
         type: UPDATEFEED,
@@ -84,7 +82,7 @@ export const selectFeed = (activityId) => async(dispatch) => {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then((res) => res.data)
-    .catch((err) => alert(err));
+    .catch((err) => alert(err.response.data.message));
 
     dispatch({
         type: SELECTFEED,

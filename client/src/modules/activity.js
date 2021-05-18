@@ -33,7 +33,7 @@ export const getPartner = (
     .then((res) => {
         if(res.data.status===400) {
             alert("파트너 정보가 존재하지 않습니다.");
-            history.push('/partner');
+            history.push('/user/partner');
         } else {
             dispatch({
                 type: GETPARTNER,

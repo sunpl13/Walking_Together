@@ -36,7 +36,6 @@ function Register() {
   const [clickAgain,setClickAgain] = useState(false);
   const isDisabled = !isAgreedAll || !emailLooksValid || clickAgain===true || !emailState.bool;
 
-  console.log(isDisabled)
 
 
     const clickFunction = debounce(() => {
