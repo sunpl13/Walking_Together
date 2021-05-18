@@ -70,6 +70,7 @@ const Mypage = () => {
             if(window.confirm("로그아웃이 완료 되었습니다.")) {
                 history.push('/login');
             }
+        }
     }, 800);
 
     //파트너로 이동

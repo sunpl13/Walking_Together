@@ -50,7 +50,7 @@ export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
             type : GET_PARTNER_DETAIL_INFO,
             payload : res.data.data
         })
-    }).catch((err) => alert(err.response.data.message));
+    });
 };
 
 //파트너 정보 변경
