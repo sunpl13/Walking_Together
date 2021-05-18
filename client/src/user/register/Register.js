@@ -12,6 +12,7 @@ function Register() {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const url = process.env.REACT_APP_SERVER;
 
     const [agree1, setAgree1] = useState(false);                                //회원정보 동의
     const [agree2, setAgree2] = useState(false);                                //개인정보 수집 및 이용동의
@@ -40,23 +41,23 @@ function Register() {
 
     const clickFunction = debounce(() => {
       setClickAgain(true);
-      axios.get(`/signup/authNum?email=${email}`)
+      axios.get(`${url}/signup/authNum?email=${email}`)
       .then(res => {
-          if(res.data.status === 404) {
-            alert(res.data.message);
-          } else if(res.data.status === 400) {
-            alert(res.data.message);
-          } else if(res.data.status === 200) {
               alert("인증번호 전송이 완료되었습니다");
+              console.log(res.data.data.authNum);
               history.push({
                 pathname : '/user1/registerauth',
-                state : {state : res.data,
+                state : {state : res.data.data.authNum,
                   email : email
                 }
               });
-          }
+          
       })
-      .catch(err => {console.log(err)})
+      .catch(err => {
+        if (err.response.status === 409) {
+          alert(err.response.data.message)
+        }
+      })
    }, 800);
    
 

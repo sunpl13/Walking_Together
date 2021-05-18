@@ -13,6 +13,7 @@ function RegisterPage() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
+    console.log(location)
         
     const Email = location.state.email;
     const [Name, setName] = useState("");
@@ -109,8 +110,7 @@ function RegisterPage() {
     };
 
     const register = debounce(async(e) => {
-        e.preventDefault();  
-
+        e.preventDefault() 
         if(Password === PasswordConfrim) {                    
             dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
         } else {

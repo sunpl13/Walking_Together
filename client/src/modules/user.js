@@ -77,20 +77,21 @@ export const signupHanlder = (
         department : department
     })
     .then((res) =>{
-        if(res.data.status === "200") {
             dispatch({
                 type : SIGNUP_USER
             })
             if (window.confirm(res.data.message)){
                 history.push("/login");
             }
-        } else if(res.data.status === "406"){          //학번 중복
-            return alert(res.data.message);
-        } else if(res.data.status === "407"){           //이메일 중복
-            return alert(res.data.message);
-        }}
+    }
     )
-    .catch(err => alert(err)); 
+    .catch(err =>{ 
+        if (err.response.status === 409) {
+          alert(err.response.data.message)
+        } else if(err.response.status === 410) {
+            alert(err.response.data.message)
+        }
+    })
 };
 
 

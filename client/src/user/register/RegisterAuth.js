@@ -11,14 +11,15 @@ const RegisterAuth = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    console.log(location.state.state)
+
     const [authNum, setauthNum] = useState("");
 
     const isabled = authNum.length === 7;
-    console.log(location.state.state.authNum);
 
     //인증번호를 통한 본인인증
     const identificationHandler = debounce(() => {
-        if(location.state.state.authNum === authNum) {
+        if(location.state.state === authNum) {
             alert("본인 인증이 완료 되었습니다.");
             history.push({
                 pathname : '/user1/register',

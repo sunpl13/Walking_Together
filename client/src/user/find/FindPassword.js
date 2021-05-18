@@ -31,19 +31,19 @@ const FindPassword = () => {
             name : Name,
             birth : birth
         })
-        .then(res => {if(res.data.status === "200") {
-            if(window.confirm(res.data.message)) {
-                history.push({
-                    pathname : '/user1/findresult',
-                    state : {email : res.data.email}
-                })
-            }
-        } else {
-            alert(res.data.message);
-        }}
-            
+        .then(res => {
+            alert(res.data.message)
+            history.push({
+                pathname : '/user1/findresult',
+                state : {email : res.data.data.email}
+            })
+        }
         )
-        .catch(err => err);
+        .catch(err => {
+            if(err.response.data.code === 400) {
+                alert(err.response.data.message)
+            }
+        });
     }, 800);
 
     const goBack = debounce(() => {

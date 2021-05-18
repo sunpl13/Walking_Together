@@ -54,19 +54,21 @@ export const createActivity = (
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
         }
     }).then((res) => {
-        if(res.data.status===200) {
             dispatch({
                 type: CREATEACTIVITY,
                 payload: {
                     partnerId: formData.get('partnerId'),
-                    activityId: res.data.activityId
+                    activityId: res.data.data.activityId
                 }
             });
             alert(res.data.message);
-        } else {
-            alert(res.data.message);
+    }).catch((err) => {
+        if(err.response.status === 404) {
+            alert(err.response.data.message)
+        } else if (err.response.status === 405) {
+            alert(err.response.data.message)
         }
-    }).catch((err) => alert(err));
+    });
 };
 
 //위치 정보 업데이트
