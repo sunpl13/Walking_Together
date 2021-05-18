@@ -182,13 +182,6 @@ const Activity = () => {
 
     //stop function
     const stop = debounce(() => {
-        const lastIndex = localStorage.getItem("lastIndex");
-        let map = [];
-
-        for(let i = 0 ; i <= lastIndex ; i++) {
-            map.push(localStorage.getItem("location"+i));
-            localStorage.removeItem("location"+i);
-        };
         setActivityState(false);
         dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
     }, 800);
@@ -211,7 +204,6 @@ const Activity = () => {
         formData.append("distance", Math.ceil(localStorage.getItem("distance")));
         formData.append("checkNormalQuit", 0);
 
-        console.log(moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
         //remove at local storage
         localStorage.removeItem("activityId");
         localStorage.removeItem("partnerId");
