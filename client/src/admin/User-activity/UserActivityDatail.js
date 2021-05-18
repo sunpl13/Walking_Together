@@ -57,12 +57,9 @@ const UserActivityDatail = ({match}) => {
         axios.get(`${url}/admin/activityInfo/detail?activityId=${activityId}`, {
             headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
         }).then((res) => {
-            if(res.data.status===404) {
-                alert("존재하지 않는 활동입니다.");
-            } else {
-                setRes(res.data.data);
-            }
-        });
+            setRes(res.data.data);
+        }).catch((err) => alert(err.response.data.message));
+
         if(res.length!==0) {
             script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
                 window.kakao.maps.load(() => {

@@ -20,7 +20,7 @@ export const createPartnerHandler = (
         }
     })
     .then(res => alert(res.data.message))
-    .catch(err => console.log(err));
+    .catch((err) => alert(err.response.data.message));
 
     await dispatch({
         type : CREATE_PARTNER,
@@ -37,8 +37,7 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
             type : GET_PARTNER_BRIEF_INFO,
             payload : res.data.partnerList
         });
-    })
-    .catch(err => console.log(err));
+    }).catch((err) => alert(err.response.data.message));
 };
 
 //파트너의 상세정보 받아오기
@@ -47,16 +46,11 @@ export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then(res => {
-        if(res.status===400) {
-            alert(res.message)
-        } else {
-            dispatch({
-                type : GET_PARTNER_DETAIL_INFO,
-                payload : res.data.data
-            })
-        }
-    })
-    .catch(err => console.log(err));
+        dispatch({
+            type : GET_PARTNER_DETAIL_INFO,
+            payload : res.data.data
+        })
+    }).catch((err) => alert(err.response.data.message));
 };
 
 //파트너 정보 변경
@@ -71,8 +65,7 @@ export const changePartnerHandler = (
     })
     .then((res) => {
         return (res.status);
-    })
-    .catch(err => console.log(err));
+    }).catch((err) => alert(err.response.data.message));
 
     await dispatch({
         type : CHANGE_PARTNER
@@ -87,7 +80,7 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then(res => res.data)
-    .catch(err => console.log(err))
+    .catch((err) => alert(err.response.data.message));
 
     await dispatch({
         type : DELETE_PARTNER
