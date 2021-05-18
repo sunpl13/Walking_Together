@@ -35,7 +35,7 @@ const FindPassword = () => {
             if(window.confirm(res.data.message)) {
                 history.push({
                     pathname : '/user1/findresult',
-                    state : {email : res.data.email}
+                    state : {email : res.data.data.email}
                 })
             }
         } else {

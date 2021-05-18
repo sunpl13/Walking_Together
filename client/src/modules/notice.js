@@ -103,7 +103,7 @@ export const selectNotice = (          //공지글 세부내용 조회
         .then((res) => {
             dispatch({
                 type: SELECTNOTICE,
-                payload: res.data
+                payload: res.data.data
             })
         });
 };
