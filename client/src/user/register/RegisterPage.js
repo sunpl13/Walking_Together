@@ -116,7 +116,7 @@ function RegisterPage() {
         } else {
             alert ("두 비밀번호가 일치하지 않습니다.");
         }
-    }, 800);
+    }, 800,{trailing:false,leading:true});
 
     useEffect(() => {
         dispatch(changeBar("null", {title:"회원가입", data:null}, "null", "null", "null", "small"));  //상단바 변경
