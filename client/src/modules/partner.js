@@ -19,8 +19,7 @@ export const createPartnerHandler = (
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
         }
     })
-    .then(res => alert(res.data.message))
-    .catch((err) => alert(err.response.data.message));
+    .then(res => alert(res.data.message));
 
     await dispatch({
         type : CREATE_PARTNER,
@@ -37,7 +36,7 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
             type : GET_PARTNER_BRIEF_INFO,
             payload : res.data.partnerList
         });
-    }).catch((err) => alert(err.response.data.message));
+    });
 };
 
 //파트너의 상세정보 받아오기
@@ -65,7 +64,7 @@ export const changePartnerHandler = (
     })
     .then((res) => {
         return (res.status);
-    }).catch((err) => alert(err.response.data.message));
+    });
 
     await dispatch({
         type : CHANGE_PARTNER

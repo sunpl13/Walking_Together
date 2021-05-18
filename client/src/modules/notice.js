@@ -119,31 +119,33 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             },{
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                dispatch({
-                    type: GETLIST,
-                    payload: res.data
-                })
-            }).catch((err) => {
-                alert(err.response.data.message);
-                dispatch({
-                    type: GETLIST,
-                    payload: {
-                        data: [],
-                        pageInfo: {             //페이지 정보
-                            page: 0,
-                            totalPage: 0,
-                            start: 0,
-                            end: 0,
-                            prev: false,
-                            next: false,
-                            pageList: []
+                if(res.data.status===200) {
+                    dispatch({
+                        type: GETLIST,
+                        payload: res.data
+                    })
+                } else {
+                    dispatch({
+                        type: GETLIST,
+                        payload: {
+                            data: [],
+                            pageInfo: {             //페이지 정보
+                                page: 0,
+                                totalPage: 0,
+                                start: 0,
+                                end: 0,
+                                prev: false,
+                                next: false,
+                                pageList: []
+                            }
                         }
-                    }
-                })
-            });
+                    });
+                }
+            })
         }else {
             await axios.post(`${url}/noticeList`, {
-                page: page,   
+                page: page,
+                
             }, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
