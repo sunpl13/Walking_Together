@@ -248,8 +248,8 @@ public class MyPageService {
     public Long deletePartner(Long partnerId) {
 
         // 파트너가 활동을 가지고 있으면 삭제 불가능
-        Optional<Activity> activity = activityRepository.findActivityByPartner_PartnerId(partnerId);
-        if (activity.isPresent()) {
+        Optional<List<Activity>> activity = activityRepository.findActivitiesByPartner_PartnerId(partnerId);
+        if (activity.get().size() != 0) {
             return 400L;
         }
 

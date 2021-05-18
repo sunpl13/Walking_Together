@@ -13,6 +13,7 @@ function RegisterPage() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
+    console.log(location)
         
     const Email = location.state.email;
     const [Name, setName] = useState("");
@@ -109,14 +110,13 @@ function RegisterPage() {
     };
 
     const register = debounce(async(e) => {
-        e.preventDefault();  
-
+        e.preventDefault() 
         if(Password === PasswordConfrim) {                    
             dispatch(signupHanlder(Name, Email, Password, stdId, pNumber, birth, department, history));
         } else {
             alert ("두 비밀번호가 일치하지 않습니다.");
         }
-    }, 800);
+    }, 800,{trailing:false,leading:true});
 
     useEffect(() => {
         dispatch(changeBar("null", {title:"회원가입", data:null}, "null", "null", "null", "small"));  //상단바 변경

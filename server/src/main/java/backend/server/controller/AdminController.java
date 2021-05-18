@@ -4,8 +4,12 @@ import backend.server.DTO.admin.ActivityDetailInfoDTO;
 import backend.server.DTO.admin.ActivityInfoDTO;
 import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
+import backend.server.exception.ApiException;
+import backend.server.message.Message;
 import backend.server.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +31,7 @@ public class AdminController {
 
     // 학생정보조회
     @GetMapping("/admin/userinfo")
-    public Map<String,Object> userInfo(@RequestParam(value = "keyword") @Nullable String keyword) {
-
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Message> userInfo(@RequestParam(value = "keyword") @Nullable String keyword) {
 
         List<MemberInfoDTO> stdList = adminService.userInfo(keyword);
 
@@ -47,22 +49,20 @@ public class AdminController {
 
         }).collect(Collectors.toList());
 
-        response.put("status", 200);
-        response.put("message" , "조회 완료");
-        response.put("data", data);
+        Message resBody = new Message();
+        resBody.setMessage("조회 완료");
+        resBody.setData(data);
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 활동정보조회
     @GetMapping("/admin/activityInfo")
-    public Map<String,Object> activityInfo(@RequestParam(value = "keyword") @Nullable String keyword,
+    public ResponseEntity<Message> activityInfo(@RequestParam(value = "keyword") @Nullable String keyword,
                                            @RequestParam(value = "from") @Nullable String from,
                                            @RequestParam(value = "to") @Nullable String to,
                                            @RequestParam(value = "activityDivision") @Nullable int activityDivision)
     {
-        Map<String, Object> response = new HashMap<>();
-
         LocalDate fromDate = LocalDate.of(2020,01,01);
         LocalDate toDate = LocalDate.of(2030,01,01);
 
@@ -98,48 +98,39 @@ public class AdminController {
 
         }).collect(Collectors.toList());
 
-        response.put("status", 200);
-        response.put("message" , "조회 완료");
-        response.put("data", data);
+        Message resBody = new Message();
+        resBody.setData(data);
+        resBody.setMessage("조회 완료");
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 특정 활동 상세 조회
     @GetMapping("/admin/activityInfo/detail")
-    public Map<String, Object> activityInfoDetail(Long activityId) {
+    public ResponseEntity<Message> activityInfoDetail(Long activityId) {
 
         ActivityDetailInfoDTO result = adminService.activityDetail(activityId);
-        Map<String, Object> response = new HashMap<>();
 
         if(result == null) {
-            response.put("status", 404);
-            response.put("message", "존재하지 않는 활동입니다.");
-            return response;
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 활동입니다.", 404L);
         }
 
-        response.put("status", 200);
-        response.put("message", "불러오기완료");
+        Message resBody = new Message();
+        resBody.setMessage("불러오기 완료");
+        resBody.setData(result);
 
-        response.put("data", result);
-
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
     // 파트너 정보 조회
     @GetMapping("/admin/partnerInfo")
-    public Map<String, Object> partnerInfo(@RequestParam(value = "keyword") @Nullable String keyword,
+    public ResponseEntity<Message> partnerInfo(@RequestParam(value = "keyword") @Nullable String keyword,
                                            @RequestParam(value = "partnerDetail") @Nullable String partnerDetail) {
-
-        Map<String, Object> response = new HashMap<>();
 
         List<PartnerInfoDTO> partnerList = adminService.partnerInfo(keyword, partnerDetail);
 
         List<HashMap<String, Object>> data = partnerList.stream().map(partner -> {
             HashMap<String, Object> value = new HashMap<>();
-
-            //member.name, member.stdId, member.department, partner.partnerName,
-            //                partner.gender, partner.partnerBirth, partner.relationship, partner.partnerDivision
 
             value.put("stdName",partner.getStdName());
             value.put("stdId",partner.getStdId());
@@ -154,10 +145,10 @@ public class AdminController {
 
         }).collect(Collectors.toList());
 
-        response.put("status", 200);
-        response.put("message" , "조회 완료");
-        response.put("data", data);
+        Message resBody = new Message();
+        resBody.setData(data);
+        resBody.setMessage("조회 완료");
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 }

@@ -65,13 +65,11 @@ const Mypage = () => {
 
     //로그아웃 구현
     const logout = debounce(() => { 
-        if(window.confirm("로그아웃 하시겠습니까?")) {
-            
+        if(window.confirm("로그아웃 하시겠습니까?")) {            
             dispatch(logoutHandler());
             if(window.confirm("로그아웃이 완료 되었습니다.")) {
                 history.push('/login');
             }
-        }
     }, 800);
 
     //파트너로 이동

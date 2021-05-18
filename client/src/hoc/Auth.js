@@ -16,9 +16,13 @@ export default function Auth (SpecialComponent, option, adminRoute = null) {
 
 
         useEffect(() => {
+            let mounted = true;
+            if(mounted) {
             dispatch(authHandler(option, adminRoute, history))        // 페이지간 인증
             .then(() => setpending(false));
-
+        }
+            //clean up
+            return () => (mounted = false)
         }, [dispatch,history]);
 
 

@@ -30,20 +30,17 @@ const FindPassword = () => {
             stdId : stdId,
             name : Name,
             birth : birth
-        })
-        .then(res => {if(res.data.status === "200") {
-            if(window.confirm(res.data.message)) {
-                history.push({
-                    pathname : '/user1/findresult',
-                    state : {email : res.data.data.email}
-                })
+        }).then(res => {
+            alert(res.data.message)
+            history.push({
+                pathname : '/user1/findresult',
+                state : {email : res.data.data.email}
+            })
+        }).catch(err => {
+            if(err.response.data.code === 400) {
+                alert(err.response.data.message)
             }
-        } else {
-            alert(res.data.message);
-        }}
-            
-        )
-        .catch(err => err);
+        });
     }, 800);
 
     const goBack = debounce(() => {

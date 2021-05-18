@@ -1,8 +1,11 @@
 package backend.server.controller;
 
 import backend.server.DTO.RankingDTO;
+import backend.server.message.Message;
 import backend.server.service.RankingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +20,14 @@ public class RankingController {
     private final RankingService rankingService;
 
     @GetMapping("/ranking")
-    public Map<String, Object> ranking() {
+    public ResponseEntity<Message> ranking() {
 
-        Map<String, Object> response = new HashMap<>();
-
+        Message resBody = new Message();
         List<RankingDTO> rankers = rankingService.ranking();
 
-        response.put("status", 200);
-        response.put("message", "랭킹 불러오기 성공");
-        response.put("data", rankers);
+        resBody.setMessage("랭킹 불러오기 성공");
+        resBody.setData(rankers);
 
-        return response;
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 }
