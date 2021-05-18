@@ -38,7 +38,7 @@ const Ranking = () => {
                                     <span id="rank">{index+1}</span><br/>
     
                                     <CgProfile size=
-                                        {index===0 ? "110" : "90"}
+                                        {index===0 ? "105" : "85"}
                                         color="#9a9a9a"/><br/>
                                 
                                     <span id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</span><br/>
