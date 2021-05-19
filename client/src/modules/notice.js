@@ -35,7 +35,7 @@ const url = process.env.REACT_APP_SERVER;
 
 
 //action
-export const insertNotice = (       //공지글 등록 (==>form에서 직접 submit해야 파일 전송돼서 사용 안 했음 ㅠ)
+export const insertNotice = (       //공지글 등록
     formData
     ) => async(dispatch) => {
         await axios.post(`${url}/admin/createpost` ,formData, {
