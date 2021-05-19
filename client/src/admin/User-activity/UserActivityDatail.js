@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { debounce } from "lodash";
@@ -8,50 +8,53 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 const UserActivityDatail = ({match}) => {
     const history = useHistory();
 
-    const key = process.env.REACT_APP_MAP;
-    const url = process.env.REACT_APP_SERVER;
     const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
-    document.head.appendChild(script);
+
+    const url = process.env.REACT_APP_SERVER;
+    const key = process.env.REACT_APP_MAP;
 
     const [res,setRes] = useState({});
     const activityId = match.params.activityId;
 
 
-    //F-지도 생성
-    const createMap = useCallback(() => {
-        const container = document.getElementById('map');  //지도 담을 div
-        const point = [];
-        for(let i = 0 ; i < res.mapPicture.length ; i++) {
-            point.push(new window.kakao.maps.LatLng(res.mapPicture[i].lat, res.mapPicture[i].lon));
+    // //F-지도 생성
+    const createMap = () => {
+        script.onload = () => {
+            window.kakao.maps.load(() => {
+                const container = document.getElementById('map');  //지도 담을 div
+                const point = [];
+                if(res.mapPicture!==null&&res.mapPicture!==undefined) {
+                    for(let i = 0 ; i < res.mapPicture.length ; i++) {
+                        point.push(new window.kakao.maps.LatLng(res.mapPicture[i].lat, res.mapPicture[i].lon));
+                    }
+                    const options = {
+                        center: new window.kakao.maps.LatLng(res.mapPicture[0].lat, res.mapPicture[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
+                        level: 5,  //확대 수준, 작을수록 범위 좁아짐
+                    }
+
+                    const map = new window.kakao.maps.Map(container, options);  //지도 생성
+
+                    const makerPosition = new window.kakao.maps.LatLng(res.mapPicture[0].lat, res.mapPicture[0].lon);  //시작 마커 위치
+                    const marker = new window.kakao.maps.Marker({   //마커 생성
+                        position: makerPosition
+                    });
+
+                    marker.setMap(map);  // 마커를 지도 위에 표시
+
+                    const polyline = new window.kakao.maps.Polyline({
+                        path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
+                            point
+                        ],
+                        strokeWeight: 4, //두께
+                        strokeColor: '#FFAE00', //색상
+                        strokeOpacity: 0.7, //불투명도
+                        strokeStyle: 'solid', //스타일
+                    });
+                    polyline.setMap(map);  //경로 지도에 표시
+                };
+            })
         }
-
-        const options = {
-            center: new window.kakao.maps.LatLng(res.mapPicture[0].lat, res.mapPicture[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
-            level: 5,  //확대 수준, 작을수록 범위 좁아짐
-        }
-
-        const map = new window.kakao.maps.Map(container, options);  //지도 생성
-
-        const makerPosition = new window.kakao.maps.LatLng(res.mapPicture[0].lat, res.mapPicture[0].lon);  //시작 마커 위치
-        const marker = new window.kakao.maps.Marker({   //마커 생성
-            position: makerPosition
-        });
-
-        marker.setMap(map);  // 마커를 지도 위에 표시
-
-        const polyline = new window.kakao.maps.Polyline({
-            path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
-                point
-            ],
-            strokeWeight: 4, //두께
-            strokeColor: '#FFAE00', //색상
-            strokeOpacity: 0.7, //불투명도
-            strokeStyle: 'solid', //스타일
-        });
-        polyline.setMap(map);  //경로 지도에 표시
-    }, [res.mapPicture]);
+    };
 
     useEffect(() => {
         axios.get(`${url}/admin/activityInfo/detail?activityId=${activityId}`, {
@@ -60,14 +63,12 @@ const UserActivityDatail = ({match}) => {
             setRes(res.data.data);
         }).catch((err) => alert(err.response.data.message));
 
-        if(res.length!==0) {
-            script.onload = () => {  //kakao map script 로딩 완료 시, loading상태 true 로 변경
-                window.kakao.maps.load(() => {
-                    createMap();
-                });
-            };
-        }
-    },[activityId, createMap, res.length, script, url]);
+        script.async = true;
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
+        document.head.appendChild(script);
+        
+        createMap();
+    },[activityId, url]);
 
     const goBack = debounce(() => {
         history.goBack();
