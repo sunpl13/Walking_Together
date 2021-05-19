@@ -140,7 +140,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                         }
                     })
                 }
-            }).then(err => {console.log(err.response.message)})
+            }).then(err => {console.log(err.response.data.message)})
         }else {
             await axios.post(`${url}/noticeList`, {
                 page: page
