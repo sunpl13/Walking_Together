@@ -45,7 +45,7 @@ export const insertNotice = (       //공지글 등록
             }
         })
         .then((res) => {
-            alert(res.data.message);
+            alert(res.message);
         }).catch((err) => alert(err.response.data.message));
 
         dispatch({
@@ -82,7 +82,7 @@ export const deleteNotice = (           //공지글 삭제
         })
         .then((res) => {
             alert(res.data.message);
-        }).catch((err) => alert(err.response.data.message));
+        }).catch((err) => console.log(err));
 
         dispatch({
             type: DELETENOTICE
@@ -119,12 +119,14 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             },{
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.data.status===200) {
+                console.log(res)
+                if(res.status === 200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
                     })
-                } else {
+                } else if(res.data.code === 400) {
+                    console.log(res)
                     dispatch({
                         type: GETLIST,
                         payload: {
@@ -139,39 +141,42 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                                 pageList: []
                             }
                         }
-                    });
+                    })
                 }
             })
+            .then(err => {return err.response.message})
         }else {
             await axios.post(`${url}/noticeList`, {
                 page: page,
-                
+                keyword : keyword
             }, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.data.status === 200) {
+                console.log(res)
+                if(res.status === 200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
                     })
-                } else {
-                    dispatch({
-                        type: GETLIST,
-                        payload: {
-                            data: [],
-                            pageInfo: {             //페이지 정보
-                                page: 0,
-                                totalPage: 0,
-                                start: 0,
-                                end: 0,
-                                prev: false,
-                                next: false,
-                                pageList: []
-                            }
+                } else if(res.data.code === 400) {
+                dispatch({
+                    type: GETLIST,
+                    payload: {
+                        data: [],
+                        pageInfo: {             //페이지 정보
+                            page: 0,
+                            totalPage: 0,
+                            start: 0,
+                            end: 0,
+                            prev: false,
+                            next: false,
+                            pageList: []
                         }
-                    })
-                }
+                    }
+                })
+            }
             })
+            .catch (err => {return err.response.data.message})
         }
 };
 

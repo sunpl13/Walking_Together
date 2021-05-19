@@ -11,7 +11,7 @@ import '../../styles/partner.scss';
 const Partner = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const partner = useSelector(state => state.partner.briefPartner);  //PARTNER-LIST
+    const partner = useSelector(state => state.partner.briefPartner.partnerList);  //PARTNER-LIST
 
     //param function
     const goBack = debounce(() => {

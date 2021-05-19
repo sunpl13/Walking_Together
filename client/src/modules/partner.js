@@ -19,7 +19,7 @@ export const createPartnerHandler = (
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
         }
     })
-    .then(res => alert(res.data.message));
+    .then(res => console.log(res));
 
     await dispatch({
         type : CREATE_PARTNER,
@@ -34,9 +34,14 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
     .then(res => {
         dispatch({
             type : GET_PARTNER_BRIEF_INFO,
-            payload : res.data.partnerList
+            payload : res.data
         });
-    });
+    }).catch(err => {
+        if(err.response.data.code === 400) {
+            alert(err.response.data.message)
+        }
+    })
+    ;
 };
 
 //파트너의 상세정보 받아오기
