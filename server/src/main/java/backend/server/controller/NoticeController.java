@@ -39,7 +39,9 @@ public class NoticeController {
         Map<String, Object> response = new HashMap<>();
 
         if(result.getTotalPage() < pageRequestDTO.getPage()) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "해당 페이지에 데이터가 존재하지 않습니다.", 400L);
+            response.put("code", 400);
+            response.put("message", "해당 페이지에 데이터가 존재하지 않습니다.");
+            return response;
         }
 
         Map<String, Object> pageInfo = new HashMap<>();
