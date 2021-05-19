@@ -182,20 +182,27 @@ const Activity = () => {
 
     //stop function
     const stop = debounce(() => {
-        setActivityState(false);
-        dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
+        const startTime = JSON.parse(localStorage.getItem("location0")).timestamp;
+        const endTime = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex"))).timestamp;
+        
+        if(endTime-startTime>=180000) {
+            setActivityState(false);
+            dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
+        } else {
+            alert("활동 시간은 30분 이상이어야 종료 가능합니다.");
+        }
     }, 800);
 
     const submit = debounce(async() => {
         const lastIndex = localStorage.getItem("lastIndex");
-        const endLocation = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex")));
+        const endLocation = JSON.parse(localStorage.getItem("location"+lastIndex));
         let map = [];
 
         for(let i = 0 ; i <= lastIndex ; i++) {
-            map.concat(localStorage.getItem("location"+i));
+            map.push(localStorage.getItem("location"+i));
             localStorage.removeItem("location"+i);
         };
-
+        
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
         formData.append("map", map);
