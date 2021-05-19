@@ -36,7 +36,7 @@ const NoticeDetail = ({match}) => {
 
             <div id="content">
                 <div id="image">
-                    {notice.imageFiles[0]===undefined ? null
+                    {notice.imageFiles[0] === undefined ? null
                     : <img src={notice.imageFiles[0]} alt="error"></img>}
                 </div>
                 {ReactHtmlParser(notice.content)}

@@ -18,6 +18,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         password : password
     })
     .then((response) => {
+        console.log(response)
         if(response.data.success) {
         if (response.data.token) {
             localStorage.setItem("token", response.data.token);                         //유저토큰 로컬스토리지에 user로 저장
@@ -27,7 +28,7 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
             });
             
             if(window.confirm("환영합니다!")) {
-                if(stdId === "0000000000") {
+                if(stdId === "00000") {
                     history.push('/admin/user-info');
                 } else{
                     history.push('/user/home');

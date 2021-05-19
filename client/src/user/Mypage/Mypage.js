@@ -19,7 +19,7 @@ const Mypage = () => {
     const dispatch = useDispatch();
     const url = process.env.REACT_APP_SERVER;
 
-    const stdId = useSelector(state => state.user.isLogin.stdId);
+    const stdId = useSelector(state => state.user.authResult.stdId);
     const [updateState, setUpdateState] = useState(false);
     const [userInfo, setUserInfo] = useState(
         {
@@ -119,17 +119,22 @@ const Mypage = () => {
                     'Authorization' : `Bearer ${localStorage.getItem("token")}`
                 }
             }).then(async(res) => {
-                if(res.data.status===200) {
+
                     alert("회원 정보 수정 완료");
                     await getMypage()
                     .then(() => {
                         setUpdateState(false);
                         dispatch(changeBar("null", {title:"마이페이지", data:null}, "null", "null", "null", "small"));  //상단바 변경
-                    });
-                } else if(res.data.status===400) {
-                    console.log("일치하는 회원이 없습니다.");
-                    setUpdateState(false);
-                }
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        if(err.response.data.code === 400){
+                            console.log(err.response.data.message);
+                            setUpdateState(false);
+                        }
+                    })
+
+
             })
         }
     }, 800);
