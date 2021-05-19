@@ -125,7 +125,7 @@ const feedReducer = (state = INIT_FEED_STATE, action) => {
                     startTime: action.payload.startTime,
                     endTime: action.payload.endTime,
                     review: action.payload.review,
-                    mapPicture: JSON.parse(action.payload.mapPicture)
+                    mapPicture: action.payload.mapPicture
                 }
             };
 

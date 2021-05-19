@@ -98,7 +98,7 @@ export const finishActivity = (
             }
         }).then((res) => {
             alert(res.data.message);
-        }).catch((err) => err.response.data.message);
+        }).catch((err) => alert(err.response.data.message));
 
     dispatch({
         type: FINISHACTIVITY

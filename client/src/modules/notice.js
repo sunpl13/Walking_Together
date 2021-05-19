@@ -35,7 +35,7 @@ const url = process.env.REACT_APP_SERVER;
 
 
 //action
-export const insertNotice = (       //공지글 등록 (==>form에서 직접 submit해야 파일 전송돼서 사용 안 했음 ㅠ)
+export const insertNotice = (       //공지글 등록
     formData
     ) => async(dispatch) => {
         await axios.post(`${url}/admin/createpost` ,formData, {
@@ -99,8 +99,7 @@ export const selectNotice = (          //공지글 세부내용 조회
             headers: {
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }
-        })
-        .then((res) => {
+        }).then((res) => {
             dispatch({
                 type: SELECTNOTICE,
                 payload: res.data.data
@@ -119,14 +118,41 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             },{
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                console.log(res)
                 if(res.status === 200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
                     })
                 } else if(res.data.code === 400) {
-                    console.log(res)
+                    dispatch({
+                        type: GETLIST,
+                        payload: {
+                            data: [],
+                            pageInfo: {             //페이지 정보
+                                page: 0,
+                                totalPage: 0,
+                                start: 0,
+                                end: 0,
+                                prev: false,
+                                next: false,
+                                pageList: []
+                            }
+                        }
+                    })
+                }
+            }).then(err => {console.log(err.response.data.message)})
+        }else {
+            await axios.post(`${url}/noticeList`, {
+                page: page
+            }, {
+                headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+            }).then((res) => {
+                if(res.status === 200) {
+                    dispatch({
+                        type: GETLIST,
+                        payload: res.data
+                    })
+                } else if(res.data.code === 400) {
                     dispatch({
                         type: GETLIST,
                         payload: {
@@ -144,39 +170,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                     })
                 }
             })
-            .then(err => {return err.response.data.message})
-        }else {
-            await axios.post(`${url}/noticeList`, {
-                page: page,
-                keyword : keyword
-            }, {
-                headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-            }).then((res) => {
-                console.log(res)
-                if(res.status === 200) {
-                    dispatch({
-                        type: GETLIST,
-                        payload: res.data
-                    })
-                } else if(res.data.code === 400) {
-                dispatch({
-                    type: GETLIST,
-                    payload: {
-                        data: [],
-                        pageInfo: {             //페이지 정보
-                            page: 0,
-                            totalPage: 0,
-                            start: 0,
-                            end: 0,
-                            prev: false,
-                            next: false,
-                            pageList: []
-                        }
-                    }
-                })
-            }
-            })
-            .catch (err => {return err.response.data.message})
+            .catch (err => {console.log(err.response.data.message)})
         }
 };
 

@@ -14,9 +14,21 @@ const NoticeInsert = () => {
     const dispatch = useDispatch();
 
     const [title,setTitle] = useState("");
+    window.getTitle = function() {
+        return title;
+    };
     const [content, setContent] = useState("");
+    window.getContent = function() {
+        return content;
+    };
     const [attachedFiles, setAttachedFiles] = useState([]);
+    window.getAttachedFiles = function() {
+        return attachedFiles;
+    };
     const [imageFiles, setImageFiles] = useState([]);
+    window.getImageFiles = function() {
+        return imageFiles;
+    };
 
     //취소 시 이전 페이지로 이동
     const cancel = debounce((e) => {
@@ -42,28 +54,28 @@ const NoticeInsert = () => {
     const submit = debounce((e) => {
         e.preventDefault();
 
-        if(content==="") {
+        if(window.getContent()==="") {
             return(alert("내용을 입력해주세요."));
         }
-        
+
         //create formdata
         const formData = new FormData();
-        formData.append("title", title);
-        formData.append("content", content);
+        formData.append("title", window.getTitle());
+        formData.append("content", window.getContent());
 
         //files null check
-        if(attachedFiles.length!==0) {
-            if(attachedFiles.length===1) {
-                formData.append("attachedFiles", attachedFiles[0]);
+        if(window.getAttachedFiles().length!==0) {
+            if(window.getAttachedFiles().length===1) {
+                formData.append("attachedFiles", window.getAttachedFiles()[0]);
             }
             else {
-                for (let i = 0; i < attachedFiles.length; i++) {
-                    formData.append(`attachedFiles`, attachedFiles[i]);
+                for (let i = 0; i < window.getAttachedFiles().length; i++) {
+                    formData.append(`attachedFiles`, window.getAttachedFiles()[i]);
                 }
             }
         }
-        if(imageFiles.length!==0) {
-            formData.append("imageFiles", imageFiles[0]);
+        if(window.getImageFiles().length!==0) {
+            formData.append("imageFiles", window.getImageFiles()[0]);
         }
 
         //action dispatch
