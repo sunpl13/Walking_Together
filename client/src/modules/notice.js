@@ -82,7 +82,7 @@ export const deleteNotice = (           //공지글 삭제
         })
         .then((res) => {
             alert(res.data.message);
-        }).catch((err) => console.log(err));
+        }).catch((err) => alert(err.response.data.message));
 
         dispatch({
             type: DELETENOTICE
@@ -118,7 +118,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             },{
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.status === 200) {
+                if(res.data.status === 200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
@@ -147,7 +147,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             }, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.status === 200) {
+                if(res.data.status === 200) {
                     dispatch({
                         type: GETLIST,
                         payload: res.data
