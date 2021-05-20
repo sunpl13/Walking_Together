@@ -32,12 +32,21 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then(res => {
+        if(res.data.status === 200) {
         dispatch({
             type : GET_PARTNER_BRIEF_INFO,
             payload : res.data
-        });
+        })
+    } else if(res.data.code === 204) {
+        dispatch({
+            type: GET_PARTNER_BRIEF_INFO,
+            payload: {
+                briefPartner: []
+            }
+        })
+    }
     }).catch(err => {
-        if(err.response.data.code === 400) {
+        if(err.response.data.code === 204) {
             alert(err.response.data.message)
         }
     })

@@ -53,7 +53,7 @@ function Register() {
           
       })
       .catch(err => {
-        if (err.response.status === 409) {
+        if (err.response.data.code === 409) {
           alert(err.response.data.message)
         }
       })
