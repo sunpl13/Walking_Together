@@ -9,6 +9,22 @@ const DELETE_PARTNER = 'DELETE_PARTNER';
 
 const url = process.env.REACT_APP_SERVER;
 
+
+const initialstate = {
+    briefPartner : [],
+    partnerList : [],
+    partnerDetail : {
+        partnerId: '',
+        partnerName: '',
+        partnerDetail: '',
+        partnerPhoto: '',
+        selectionReason: '',
+        relationship: '',
+        gender: '',
+        partnerBirth: ''
+    },
+};
+
 //파트너 생성 액션
 export const createPartnerHandler = (
     formData
@@ -101,20 +117,6 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 };
 
 
-
-const initialstate = {
-    briefPartner : [],
-    partnerDetail : {
-        partnerId: '',
-        partnerName: '',
-        partnerDetail: '',
-        partnerPhoto: '',
-        selectionReason: '',
-        relationship: '',
-        gender: '',
-        partnerBirth: ''
-    },
-};
 
 //reducer
 export default function partner(state = initialstate, action) {
