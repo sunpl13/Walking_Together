@@ -118,12 +118,7 @@ export const getNoticeList = (          //공지사항 목록 가져오기
             },{
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.status === 200) {
-                    dispatch({
-                        type: GETLIST,
-                        payload: res.data
-                    })
-                } else if(res.data.code === 400) {
+                if(res.data.code === 400) {
                     dispatch({
                         type: GETLIST,
                         payload: {
@@ -139,20 +134,20 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                             }
                         }
                     })
+                } else if(res.status === 200) {
+                    dispatch({
+                        type: GETLIST,
+                        payload: res.data
+                    })
                 }
-            }).then(err => {console.log(err.response.data.message)})
+            }).catch (err => {console.log(err.response.data.message)})
         }else {
             await axios.post(`${url}/noticeList`, {
                 page: page
             }, {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then((res) => {
-                if(res.status === 200) {
-                    dispatch({
-                        type: GETLIST,
-                        payload: res.data
-                    })
-                } else if(res.data.code === 400) {
+                if(res.data.code === 400) {
                     dispatch({
                         type: GETLIST,
                         payload: {
@@ -168,9 +163,13 @@ export const getNoticeList = (          //공지사항 목록 가져오기
                             }
                         }
                     })
+                } else if(res.status === 200) {
+                    dispatch({
+                        type: GETLIST,
+                        payload: res.data
+                    })
                 }
-            })
-            .catch (err => {console.log(err.response.data.message)})
+            }).catch (err => {console.log(err.response.data.message)})
         }
 };
 
