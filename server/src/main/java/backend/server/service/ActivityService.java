@@ -3,10 +3,12 @@ package backend.server.service;
 import backend.server.DTO.ActivityDTO;
 import backend.server.DTO.TokenDTO;
 import backend.server.entity.*;
+import backend.server.exception.ApiException;
 import backend.server.repository.*;
 import backend.server.s3.FileUploadService;
 import backend.server.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,11 @@ public class ActivityService {
     // 활동 생성 화면
     @Transactional(readOnly = true)
     public List<ActivityDTO> createActivity(String stdId) {
+
+        boolean doingActivity = activityRepository.findDoingActivity(stdId);
+        if (doingActivity) {
+            throw new ApiException(HttpStatus.CONFLICT, "이미 진행 중인 활동이 있습니다.", 400L);
+        }
 
         List<List<Object>> partnerList = activityRepository.getPartnerList(stdId);
 

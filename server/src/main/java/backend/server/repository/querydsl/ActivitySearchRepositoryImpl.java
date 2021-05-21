@@ -149,4 +149,27 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
 
         return tuple.fetch().get(0);
     }
+
+    // 활동 중인 활동이 있는지 확인
+    @Override
+    public boolean findDoingActivity(String stdId) {
+        QMember member = QMember.member;
+        QActivity activity = QActivity.activity;
+
+        JPQLQuery<Activity> jpqlQuery = from(activity);
+        jpqlQuery.leftJoin(member).on(member.eq(activity.member));
+
+        jpqlQuery.select(activity);
+
+        jpqlQuery.where(activity.activityStatus.eq(1));
+
+        List<Activity> result = jpqlQuery.fetch();
+
+        // 활동중인 활동이 없다면 false를 반환 있다면 true 반환
+        if (result.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

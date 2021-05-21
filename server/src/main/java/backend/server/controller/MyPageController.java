@@ -90,7 +90,7 @@ public class MyPageController {
         List<MyPagePartnerDTO> myPagePartners = myPageService.myPagePartnerInfo(stdId);
 
         if(myPagePartners.isEmpty()) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "파트너가 존재하지 않습니다.", 400L);
+            throw new ApiException(HttpStatus.NO_CONTENT, "파트너가 존재하지 않습니다.", 204L);
         }
 
         List<Map<String,Object>> partnerList = new ArrayList<>();

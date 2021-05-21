@@ -82,7 +82,7 @@ export const deleteNotice = (           //공지글 삭제
         })
         .then((res) => {
             alert(res.data.message);
-        }).catch((err) => console.log(err));
+        }).catch((err) => alert(err.response.data.message));
 
         dispatch({
             type: DELETENOTICE

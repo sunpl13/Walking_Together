@@ -9,6 +9,22 @@ const DELETE_PARTNER = 'DELETE_PARTNER';
 
 const url = process.env.REACT_APP_SERVER;
 
+
+const initialstate = {
+    briefPartner : [],
+    partnerList : [],
+    partnerDetail : {
+        partnerId: '',
+        partnerName: '',
+        partnerDetail: '',
+        partnerPhoto: '',
+        selectionReason: '',
+        relationship: '',
+        gender: '',
+        partnerBirth: ''
+    },
+};
+
 //파트너 생성 액션
 export const createPartnerHandler = (
     formData
@@ -32,12 +48,21 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
     })
     .then(res => {
+        if(res.data.status === 200) {
         dispatch({
             type : GET_PARTNER_BRIEF_INFO,
             payload : res.data
-        });
+        })
+    } else if(res.data.code === 204) {
+        dispatch({
+            type: GET_PARTNER_BRIEF_INFO,
+            payload: {
+                briefPartner: []
+            }
+        })
+    }
     }).catch(err => {
-        if(err.response.data.code === 400) {
+        if(err.response.data.code === 204) {
             alert(err.response.data.message)
         }
     })
@@ -92,20 +117,6 @@ export const deletePartnerHandler = (partnerId) => async(dispatch) => {
 };
 
 
-
-const initialstate = {
-    briefPartner : [],
-    partnerDetail : {
-        partnerId: '',
-        partnerName: '',
-        partnerDetail: '',
-        partnerPhoto: '',
-        selectionReason: '',
-        relationship: '',
-        gender: '',
-        partnerBirth: ''
-    },
-};
 
 //reducer
 export default function partner(state = initialstate, action) {

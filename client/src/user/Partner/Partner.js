@@ -29,8 +29,9 @@ const Partner = () => {
     return (
         <table id="partner_table">
             <tbody>
-                { partner.length!==0 ?
+                { partner !== undefined ?
                 partner.map((res) => {
+                    console.log(res)
                     return (
                         <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
                     )
