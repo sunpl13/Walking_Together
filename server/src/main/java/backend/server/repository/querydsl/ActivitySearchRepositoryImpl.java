@@ -157,10 +157,11 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         QActivity activity = QActivity.activity;
 
         JPQLQuery<Activity> jpqlQuery = from(activity);
-        jpqlQuery.leftJoin(member).on(member.eq(activity.member));
+        jpqlQuery.leftJoin(member).on(member.stdId.eq(activity.member.stdId));
 
         jpqlQuery.select(activity);
 
+        jpqlQuery.where(member.stdId.eq(stdId));
         jpqlQuery.where(activity.activityStatus.eq(1));
 
         List<Activity> result = jpqlQuery.fetch();
