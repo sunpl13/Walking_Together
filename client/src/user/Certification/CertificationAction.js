@@ -16,7 +16,7 @@ const format = (data) => {
     if(data.length===1) {
         return ([
             {text: data[0].activityDate, fontSize: 11, alignment: 'center'},
-            {text: data[0].distance+"km", fontSize: 11, alignment: 'center'},
+            {text: data[0].distance+"m", fontSize: 11, alignment: 'center'},
             {text: data[0].startTime.substring(11, 19), fontSize: 11, alignment: 'center'},
             {text: data[0].endTime.substring(11, 19), fontSize: 11, alignment: 'center'},
             {text: data[0].partnerName, fontSize: 11, alignment: 'center'},
@@ -27,7 +27,7 @@ const format = (data) => {
         return(data.map((item) => {
             return ([
                 {text: item.activityDate, fontSize: 11, alignment: 'center'},
-                {text: item.distance+"km", fontSize: 11, alignment: 'center'},
+                {text: item.distance+"m", fontSize: 11, alignment: 'center'},
                 {text: item.startTime.substring(11, 19), fontSize: 11, alignment: 'center'},
                 {text: item.endTime.substring(11, 19), fontSize: 11, alignment: 'center'},
                 {text: item.partnerName, fontSize: 11, alignment: 'center'},
