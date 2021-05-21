@@ -54,16 +54,6 @@ function UserNotice() {
         dispatch(getNoticeList(1));  //공지사항 목록 받아오기
     }, [dispatch, goBack]);
 
-//화면에 출력하기 위해 map 함수를 활용
-let homeNotice = noticeList.map(
-    item => 
-    {
-       return(
-             <NoticeDetail key = {item.noticeId} noticeId = {item.noticeId} title = {item.title} active = {active} setactive = {setactive} content = {item.content}/>
-        );
-    }
-);
-
     return (
         <div id="noticeListWrap">
             <div id="noticeList">
@@ -73,7 +63,12 @@ let homeNotice = noticeList.map(
                     <FaSearch onClick = {Search}/>
                     </span>
                 </div>
-                {homeNotice}
+                {noticeList.length!==0 ?
+                noticeList.map(item => {
+                    return(
+                        <NoticeDetail key = {item.noticeId} noticeId = {item.noticeId} title = {item.title} active = {active} setactive = {setactive} content = {item.content}/>
+                    )
+                }) : <div id="resMessage">검색 결과가 없습니다.</div> }
                 <ReactPaginate 
                     pageCount={pageInfo.totalPage}  //총 페이지 수
                     pageRangeDisplayed={10}  //한 페이지에 표시할 게시글 수

@@ -169,7 +169,7 @@ const Mypage = () => {
                             </tr>
                             <tr>
                                 <td className="td2">
-                                    {userInfo.totalTime!=null?userInfo.totalTime:0}시간
+                                    {userInfo.totalTime!=null ? userInfo.totalTime : 0}
                                 </td>
                             </tr>
                         </tbody>
