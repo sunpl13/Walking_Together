@@ -10,7 +10,7 @@ const Certification = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     
-    const stdId = useSelector(state => state.user.isLogin.stdId);
+    const stdId = useSelector(state => state.user.authResult.stdId);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
     const url = process.env.REACT_APP_SERVER;

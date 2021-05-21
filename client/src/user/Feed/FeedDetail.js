@@ -46,6 +46,7 @@ function FeedDetail() {
             window.kakao.maps.load(() => {
                 const container = document.getElementById('map');  //지도 담을 div
                 const dot = JSON.parse(feedItem.mapPicture);
+                console.log(dot);
                 const point = [];
                 for(let i = 0 ; i < dot.length ; i++) {
                     point.push(new window.kakao.maps.LatLng(dot[i].lat, dot[i].lon));

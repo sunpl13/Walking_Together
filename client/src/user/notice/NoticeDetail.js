@@ -16,7 +16,7 @@ function NoticeDetail({title, active, setactive, content, noticeId}) {
         if(active === title) {
             setactive("");
         }
-    }, 800);
+    }, 200);
 
     const goDetail = debounce(async(noticeId) => {
         await dispatch(selectNotice(noticeId))
