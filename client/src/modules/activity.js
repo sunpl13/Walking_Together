@@ -41,7 +41,7 @@ export const getPartner = (
             });
             history.push('/user1/createactivity');
         }
-    }).catch((err) => alert(err));
+    }).catch((err) => alert(err.response.data.message));
 };
 
 //활동 생성
@@ -62,13 +62,7 @@ export const createActivity = (
                 }
             });
             alert(res.data.message);
-    }).catch((err) => {
-        if(err.response.status === 404) {
-            alert(err.response.data.message)
-        } else if (err.response.status === 405) {
-            alert(err.response.data.message)
-        }
-    });
+    }).catch((err) => alert(err.response.data.message));
 };
 
 //위치 정보 업데이트
