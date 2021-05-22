@@ -35,7 +35,7 @@ export const createPartnerHandler = (
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
         }
     })
-    .then(res => console.log(res));
+    .then(res => alert(res.data.message));
 
     await dispatch({
         type : CREATE_PARTNER,
@@ -46,8 +46,7 @@ export const createPartnerHandler = (
 export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
     await axios.get(`${url}/mypage/partnerInfo?stdId=${stdId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    })
-    .then(res => {
+    }).then(res => {
         if(res.data.status === 200) {
         dispatch({
             type : GET_PARTNER_BRIEF_INFO,
@@ -73,8 +72,7 @@ export const getPartnerBriefInfo = (stdId) => async(dispatch) => {
 export const getPartnerDetailInfo = (partnerId) => async(dispatch) => {
     await axios.get(`${url}/mypage/partnerInfo/detail?partnerId=${partnerId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    })
-    .then(res => {
+    }).then(res => {
         dispatch({
             type : GET_PARTNER_DETAIL_INFO,
             payload : res.data.data
@@ -91,8 +89,7 @@ export const changePartnerHandler = (
             'content-type': 'multipart/form-data',
             'Authorization' : `Bearer ${localStorage.getItem("token")}`
         }
-    })
-    .then((res) => {
+    }).then((res) => {
         return (res.status);
     });
 
@@ -102,14 +99,18 @@ export const changePartnerHandler = (
 };
 
 //파트너 삭제
-export const deletePartnerHandler = (partnerId) => async(dispatch) => {
-    await axios.post(`${url}/partner/delete`, {
-        partnerId : partnerId
-    }, {
+export const deletePartnerHandler = (
+    partnerId
+) => async(dispatch) => {
+    await axios.get(`${url}/partner/delete?partnerId=${partnerId}`, {
         headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    }).then(res => {
+        if(res.data.status===200) {
+            alert(res.data.message);
+        }
+    }).catch(err => {
+        alert(err.response.data.message)
     })
-    .then(res => res.data)
-    .catch((err) => alert(err.response.data.message));
 
     await dispatch({
         type : DELETE_PARTNER

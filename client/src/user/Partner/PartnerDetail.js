@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { debounce } from "lodash";
 
 import { changeBar } from '../../modules/topbar';
 import { checkPartnerDetail } from "../../utils/Function";
+import { deletePartnerHandler, getPartnerBriefInfo } from '../../modules/partner';
 
 const PartnerDetail = ({match}) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const stdId = useSelector(state => state.user.authResult.stdId);
     const partner = useSelector(state => state.partner.partnerDetail);
 
     //state
@@ -19,6 +21,20 @@ const PartnerDetail = ({match}) => {
     //param function
     const goBack = debounce(() => {
         history.push('/user/partner');
+    }, 800);
+
+    //go partner update
+    const goPartnerUpdate = debounce(() => {
+        history.push(`/user/partner-update/${partnerId}`);
+    }, 800);
+
+    //delete partner
+    const delPartner = debounce(async() => {
+        await dispatch(deletePartnerHandler(partnerId))
+        .then(() => {
+            dispatch(getPartnerBriefInfo(stdId));
+            history.push('/user/partner');
+        })
     }, 800);
 
     //useEffect
@@ -61,7 +77,8 @@ const PartnerDetail = ({match}) => {
             </table>
             
             <div>
-                <Link to={`/user/partner-update/${partnerId}`} className="user_btn_blue">수정</Link>
+                <button onClick={goPartnerUpdate} className="user_btn_blue">수정</button>
+                <button onClick={delPartner} className="user_btn_blue">삭제</button>
             </div>
         </div>
     );
