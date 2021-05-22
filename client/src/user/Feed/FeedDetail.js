@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
@@ -7,11 +7,12 @@ import { changeBar } from '../../modules/topbar';
 
 import '../../styles/feed.scss';
 
-function FeedDetail() {
+const FeedDetail = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const script = document.createElement('script');
+    const container = useRef();
+
     const key = process.env.REACT_APP_MAP;
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
@@ -39,55 +40,47 @@ function FeedDetail() {
         history.push('/user/feed');
     }, 800);
 
-
-    //F-지도 생성
-    const createMap = () => {
-        script.onload = () => {
-            window.kakao.maps.load(() => {
-                const container = document.getElementById('map');  //지도 담을 div
-                const dot = JSON.parse(feedItem.mapPicture);
-                console.log(dot);
-                const point = [];
-                for(let i = 0 ; i < dot.length ; i++) {
-                    point.push(new window.kakao.maps.LatLng(dot[i].lat, dot[i].lon));
-                }
-
-                const options = {
-                    center: new window.kakao.maps.LatLng(dot[0].lat, dot[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
-                    level: 5,  //확대 수준, 작을수록 범위 좁아짐
-                };
-
-                const map = new window.kakao.maps.Map(container, options);  //지도 생성
-
-                const makerPosition = new window.kakao.maps.LatLng(dot[0].lat, dot[0].lon);  //시작 마커 위치
-                const marker = new window.kakao.maps.Marker({   //마커 생성
-                    position: makerPosition
-                });
-
-                marker.setMap(map);  // 마커를 지도 위에 표시
-
-                const polyline = new window.kakao.maps.Polyline({
-                    path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
-                        point
-                    ],
-                    strokeWeight: 4, //두께
-                    strokeColor: '#FFAE00', //색상
-                    strokeOpacity: 0.7, //불투명도
-                    strokeStyle: 'solid', //스타일
-                });
-                polyline.setMap(map);  //경로 지도에 표시
-            })
-        }
-    };
-
     useEffect(() => {
         dispatch(changeBar("back", {title:"활동 상세", data:null}, "null", goBack, "null", "small"));  //상단바 변경
 
-        script.async = true;
+        const script = document.createElement('script');
         script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
         document.head.appendChild(script);
 
-        createMap();
+        script.onload = () => {
+            window.kakao.maps.load(() => {
+                const dot = JSON.parse(feedItem.mapPicture);
+                const point = [];
+                if(feedItem.mapPicture!==null&&feedItem.mapPicture!==undefined) {
+                    for(let i = 0 ; i < dot.length ; i++) {
+                        point.push(new window.kakao.maps.LatLng(dot[i].lat, dot[i].lon));
+                    }
+
+                    const options = {
+                        center: new window.kakao.maps.LatLng(dot[0].lat, dot[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
+                        level: 5,  //확대 수준, 작을수록 범위 좁아짐
+                    };
+
+                    const map = new window.kakao.maps.Map(container.current, options);  //지도 생성
+
+                    const makerPosition = new window.kakao.maps.LatLng(dot[0].lat, dot[0].lon);  //시작 마커 위치
+                    const marker = new window.kakao.maps.Marker({   //마커 생성
+                        position: makerPosition
+                    });
+
+                    marker.setMap(map);  // 마커를 지도 위에 표시
+                    
+                    const polyline = new window.kakao.maps.Polyline({
+                        path: point,  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
+                        strokeWeight: 4, //두께
+                        strokeColor: '#FFAE00', //색상
+                        strokeOpacity: 0.7, //불투명도
+                        strokeStyle: 'solid', //스타일
+                    });
+                    polyline.setMap(map);  //경로 지도에 표시
+                }
+            })
+        }
     }, [dispatch]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
 
     return (
@@ -116,8 +109,11 @@ function FeedDetail() {
                     
                     <tr>
                         <td className="td1">경로</td>
-                        <td className="td2">
-                            <div id="map"/>
+                    </tr>
+
+                    <tr>
+                        <td colSpan="2">
+                            <div id="map" ref={container}/>
                         </td>
                     </tr>
 

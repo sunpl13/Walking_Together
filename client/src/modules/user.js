@@ -18,7 +18,6 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
         password : password
     })
     .then((response) => {
-        console.log(response)
         if(response.data.success) {
         if (response.data.token) {
             localStorage.setItem("token", response.data.token);                         //유저토큰 로컬스토리지에 user로 저장

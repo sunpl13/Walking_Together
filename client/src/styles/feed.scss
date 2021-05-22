@@ -79,6 +79,11 @@
             height: 30px;
             line-height: 30px;
         }
+        #map {
+            width: 90%;
+            height: 280px;
+            border: 1px solid $tableBorder-;
+        }
     }
     #textarea {
         margin: 0px 30px;
