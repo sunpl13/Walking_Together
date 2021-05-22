@@ -59,21 +59,38 @@
     width: 90%;
     margin: 0px 10px 30px 20px;
     input[type="checkbox"] {
+      display: none;
       -ms-transform: scale(1.5);
       -moz-transform: scale(1.5);
       -webkit-transform: scale(1.5);
       -o-transform: scale(1.5);
       padding: 5px;
       margin-left: 5px;
-      outline: none;
+    }
+
+    ul li input[type="checkbox"] + label span {
+      display: inline-block;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      background-image: url("../source/Checkbox_before.svg");
+    }
+
+    ul li input[type="checkbox"]:checked + label {
+      background-image: url("../source/Checkbox_after.svg");
+    }
+
+    ul {
+      list-style: none;
     }
 
     label {
       font-size: large;
-      padding-left: 5px;
+      padding-left: 10px;
     }
     span {
       font-size: large;
+      -webkit-float: right;
       float: right;
     }
 
