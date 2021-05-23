@@ -43,18 +43,12 @@ public class ActivityController {
 
         List<Map<String, Object>> partners = new ArrayList<>();
         activity.forEach(a -> {
-            int partnerDivision;
-            if(a.getPartnerDetail().equals("o")) {
-                partnerDivision = 0;
-            } else {
-                partnerDivision = 1;
-            }
 
             String years = a.getPartnerBirth().substring(2,4);
             Map<String, Object> partner = new HashMap<>();
             partner.put("partnerName", a.getPartnerName());
             partner.put("partnerDetail", a.getPartnerDetail());
-            partner.put("partnerDivision", partnerDivision);
+            partner.put("partnerDivision", a.getActivityDivision());
             partner.put("partnerBirth", years);
             partner.put("partnerId",a.getPartnerId());
 
