@@ -152,7 +152,7 @@ const Activity = () => {
             },
             );
         }).then((coords) => {
-            localStorage.setItem('location'+window.getIndex(), JSON.stringify({lat: coords.latitude, lon: coords.longitude, timestamp: coords.timestamp}));
+            localStorage.setItem('location'+window.getIndex(), JSON.stringify({"lat": coords.latitude, "lon": coords.longitude, "timestamp": coords.timestamp}));
             setIndex(window.getIndex()+1);
             return coords;
         })
@@ -199,8 +199,10 @@ const Activity = () => {
         let map = [];
 
         for(let i = 0 ; i <= lastIndex ; i++) {
-            map.push(localStorage.getItem("location"+i));
-            localStorage.removeItem("location"+i);
+            const key = "location" + i;
+            localStorage.getItem(key)
+            map.push(JSON.parse(localStorage.getItem(key)));
+            localStorage.removeItem(key);
         };
         
         const formData = new FormData();
