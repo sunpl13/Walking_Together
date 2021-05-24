@@ -124,7 +124,7 @@ const NoticeInsert = () => {
 
                 {/*quill editor*/}
                 <ReactQuill 
-                style={{height: "400px"}} 
+                style={{height: "650px"}} 
                 theme="snow" 
                 modules={modules} 
                 formats={formats} 

@@ -40,6 +40,7 @@
     }
     .fileInput {
         position: relative;
+        bottom: 0px;
     }
 }
 
@@ -186,7 +187,7 @@
     }
     #content {
         padding: 0px 10px 10px 10px;
-        height: 400px;
+        height: 600px;
         font-size: $medium;
         text-align: left;
         border-top: 2px solid $tableBack1;
@@ -302,7 +303,7 @@
 #userTableWrap, #partnerTableWrap, #activityTableWrap {
     margin-top: 20px;
     width: 95%;
-    height: 440px;
+    height: 640px;
     overflow-y: scroll;
     overflow-x: auto;
     #userTable, #partnerTable, #activityTable {

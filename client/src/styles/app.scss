@@ -14,7 +14,7 @@ body {
 
 #menu {
     width: 270px;
-    height: 100%;
+    height: 970px;
     left: 130px;
     display: inline-block;
     background: $BackSkyBlue;
@@ -30,7 +30,7 @@ body {
 }
 
 #userInfo {
-    width: 1000px;
+    width: 1400px;
     top: 60px;
     left: 399px;
     position: absolute;
@@ -44,8 +44,8 @@ body {
 }
 
 #route {
-    width: 1000px;
-    height: calc(100% - 150px);
+    width: 1400px;
+    height: 780px;
     padding: 20px 0px;
     background-color: $white;
     display: inline-block;
