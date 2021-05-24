@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import axios from 'axios';
 import { CSVLink } from "react-csv";
 import { debounce } from "lodash";
+import { getAdminActivityDetail } from "../../modules/admin";
 
 
 const UserActivity = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [res,setRes] = useState([]);
     const url = process.env.REACT_APP_SERVER;
 
@@ -49,6 +55,11 @@ const UserActivity = () => {
             }
         }
     }, 800);
+
+    const goDetail = (activityId) => {
+        dispatch(getAdminActivityDetail(activityId))
+        .then(() => history.push('/admin/user-activity-detail'));
+    };
 
     //change action
     const changeKeyword = (e) => {  //keyword change
@@ -105,7 +116,7 @@ const UserActivity = () => {
 
                 <div id="filterWrap">
                     <label>활동 구분</label>
-                    <select onChange={changeActivityDivision} defaultValue='2' value={activityDivision}>
+                    <select onChange={changeActivityDivision} value={activityDivision}>
                         <option value='2'>전체</option>
                         {divisionOption.map((division) => {
                             return <option key={division.code} value={division.code}>{division.name}</option>
@@ -152,7 +163,7 @@ const UserActivity = () => {
                                     </td>
                                     <td>{data.totalDistance}km</td>
                                     <td>{data.partnerName}</td>
-                                    <td><Link to={`/admin/user-activity-detail/${data.activityId}`}>상세보기</Link></td>
+                                    <td onClick={() => goDetail(data.activityId)}>상세보기</td>
                                 </tr>
                             )
                         })

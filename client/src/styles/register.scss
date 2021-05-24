@@ -58,26 +58,33 @@
   .check_container {
     width: 90%;
     margin: 0px 10px 30px 20px;
+
+    input[type="checkbox"]+label {
+      padding-left: 30px;
+      background: url("../source/Checkbox_before.svg") no-repeat 0 0px / contain;
+    }
+    input[type="checkbox"]:checked+label {
+      padding-left: 30px;
+      background: url("../source/Checkbox_after.svg") no-repeat 0 0px / contain;
+    }
     input[type="checkbox"] {
       display: none;
-      -ms-transform: scale(1.5);
-      -moz-transform: scale(1.5);
-      -webkit-transform: scale(1.5);
-      -o-transform: scale(1.5);
-      padding: 5px;
-      margin-left: 5px;
     }
 
-    ul li input[type="checkbox"] + label span {
-      display: inline-block;
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      background-image: url("../source/Checkbox_before.svg");
+    .go_icon {
+      width: 30px;
+      position: relative;
+      float: right;
+      text-align: center;
+      margin: 0;
     }
 
-    ul li input[type="checkbox"]:checked + label {
-      background-image: url("../source/Checkbox_after.svg");
+    #check_ul {
+      padding-left: 25px;
+    }
+
+    .checkbox:focus {
+      box-shadow: none;
     }
 
     ul {
@@ -86,12 +93,6 @@
 
     label {
       font-size: large;
-      padding-left: 10px;
-    }
-    span {
-      font-size: large;
-      -webkit-float: right;
-      float: right;
     }
 
     .total {

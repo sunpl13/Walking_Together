@@ -43,7 +43,6 @@ function Register() {
       axios.get(`${url}/signup/authNum?email=${email}`)
       .then(res => {
               alert("인증번호 전송이 완료되었습니다");
-              console.log(res.data.data.authNum);
               history.push({
                 pathname : '/user1/registerauth',
                 state : {state : res.data.data.authNum,
@@ -97,33 +96,33 @@ function Register() {
         <div className = "check_container">
           <div className = "total">
             <div className = "total_agree">
-            <input id="total" type="checkbox" name="total_agree" value="total_agree" checked={isAgreedAll} onChange={handleCheckAll} />
-            <label for ="total">전체 동의</label>
+            <input id="total" className="checkbox" type="checkbox" name="total_agree" value="total_agree" checked={isAgreedAll} onChange={handleCheckAll} />
+            <label htmlFor ="total">전체 동의</label>
             </div>
             <p>전체동의는 필수 및 선택 정보에 대한 동의도 포함 되어 있으며, 개별적으로도 동의를 선택하실 수 있습니다.
               선택항복에 대한 동의를 거부하시는 경우에도 서비스는 이용이 가능합니다.</p>
           </div>
-          <ul>
+          <ul id="check_ul">
             <li>
-              <div>
-                <input id = "a1" type="checkbox" name="agree1" value="agree1" checked={agree1} onChange={(e) => setAgree1(e.target.checked)} />
-                <label for = "al">회원 약관</label>
+              <div className="check_wrap">
+                <input id = "a1" className="checkbox" type="checkbox" name="agree1" value="agree1" checked={agree1} onChange={(e) => setAgree1(e.target.checked)} />
+                <label htmlFor = "a1">회원 약관</label>
+                <div className="go_icon"><FaAngleRight onClick = {() => {history.push('/user1/memberstipulation')}} size="24"/></div>
               </div>
-              <span><FaAngleRight onClick = {() => {history.push('/user1/memberstipulation')}}/></span>
             </li>
             <li>
-              <div>
-                <input id = "a2" type="checkbox" name="agree2" value="agree2" checked={agree2} onChange={(e) => setAgree2(e.target.checked)} />
-                <label for = "a2">개인정보 수집 및 이용</label>
+              <div className="check_Wrap">
+                <input id = "a2" className="checkbox" type="checkbox" name="agree2" value="agree2" checked={agree2} onChange={(e) => setAgree2(e.target.checked)} />
+                <label htmlFor = "a2">개인정보 수집 및 이용</label>
+                <div className="go_icon"><FaAngleRight onClick = {() => {history.push('/user1/infostipulation')}} size="24"/></div>
               </div>
-              <span><FaAngleRight onClick = {() => {history.push('/user1/infostipulation')}}/></span>
             </li>
             <li>
-              <div>
-                <input id = "a3" type="checkbox" name="agree3" value="agree3" checked={agree3} onChange={(e) => setAgree3(e.target.checked)} />
-                <label for ="a3">위치 정보 이용 동의</label>
+              <div className="check_wrap">
+                <input id = "a3" className="checkbox" type="checkbox" name="agree3" value="agree3" checked={agree3} onChange={(e) => setAgree3(e.target.checked)} />
+                <label htmlFor ="a3">위치 정보 이용 동의</label>
+                <div className="go_icon"><FaAngleRight onClick = {() => {history.push('/user1/locationstipulation')}} size="24"/></div>
               </div>
-              <span><FaAngleRight onClick = {() => {history.push('/user1/locationstipulation')}}/></span>
             </li>
           </ul>
         </div>
