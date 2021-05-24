@@ -27,9 +27,9 @@ function LandingPage() {
             } else {
                 const location = JSON.parse(localStorage.getItem(`location${lastIdx}`));
                 let map = [];
-                for(let i = 0 ; i <= lastIdx ; i++) {
+                for(let i = 0 ; i <= lastIdx; i++) {
                     const key = 'location' + i;
-                    map.push(JSON.parse(localStorage.getItem("location"+i)));
+                    map.push(JSON.parse(localStorage.getItem(key)));
                     localStorage.removeItem("location"+i);
                 };
                         console.log(map)
