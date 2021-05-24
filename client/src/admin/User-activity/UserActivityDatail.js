@@ -1,40 +1,42 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import { debounce } from "lodash";
 
 import { AiFillCloseCircle } from 'react-icons/ai';
 
-const UserActivityDatail = ({match}) => {
+const UserActivityDatail = () => {
     const history = useHistory();
 
-    const script = document.createElement('script');
+    const container = useRef();
 
     const url = process.env.REACT_APP_SERVER;
     const key = process.env.REACT_APP_MAP;
 
-    const [res,setRes] = useState({});
-    const activityId = match.params.activityId;
+    const res = useSelector(state => state.adminReducer.selected_activity);
 
-
-    // //F-지도 생성
-    const createMap = () => {
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
+        document.head.appendChild(script);
+        
         script.onload = () => {
             window.kakao.maps.load(() => {
-                const container = document.getElementById('map');  //지도 담을 div
-                const point = [];
                 if(res.mapPicture!==null&&res.mapPicture!==undefined) {
-                    for(let i = 0 ; i < res.mapPicture.length ; i++) {
-                        point.push(new window.kakao.maps.LatLng(res.mapPicture[i].lat, res.mapPicture[i].lon));
+                    const dot = JSON.parse(res.mapPicture);
+                    const point = [];
+
+                    for(let i = 0 ; i < dot.length ; i++) {
+                        point.push(new window.kakao.maps.LatLng(dot[i].lat, dot[i].lon));
                     }
                     const options = {
-                        center: new window.kakao.maps.LatLng(res.mapPicture[0].lat, res.mapPicture[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
+                        center: new window.kakao.maps.LatLng(dot[0].lat, dot[0].lon),  //지도 중심 X,Y좌표 정보를 가지고 있는 객체 생성
                         level: 5,  //확대 수준, 작을수록 범위 좁아짐
                     }
 
-                    const map = new window.kakao.maps.Map(container, options);  //지도 생성
+                    const map = new window.kakao.maps.Map(container.current, options);  //지도 생성
 
-                    const makerPosition = new window.kakao.maps.LatLng(res.mapPicture[0].lat, res.mapPicture[0].lon);  //시작 마커 위치
+                    const makerPosition = new window.kakao.maps.LatLng(dot[0].lat, dot[0].lon);  //시작 마커 위치
                     const marker = new window.kakao.maps.Marker({   //마커 생성
                         position: makerPosition
                     });
@@ -42,33 +44,17 @@ const UserActivityDatail = ({match}) => {
                     marker.setMap(map);  // 마커를 지도 위에 표시
 
                     const polyline = new window.kakao.maps.Polyline({
-                        path: [  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
-                            point
-                        ],
+                        path: point,  //선을 구성하는 좌표배열 (현재 좌표와 이전 좌표)
                         strokeWeight: 4, //두께
                         strokeColor: '#FFAE00', //색상
                         strokeOpacity: 0.7, //불투명도
                         strokeStyle: 'solid', //스타일
                     });
                     polyline.setMap(map);  //경로 지도에 표시
-                };
+                }
             })
         }
-    };
-
-    useEffect(() => {
-        axios.get(`${url}/admin/activityInfo/detail?activityId=${activityId}`, {
-            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-        }).then((res) => {
-            setRes(res.data.data);
-        }).catch((err) => alert(err.response.data.message));
-
-        script.async = true;
-        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
-        document.head.appendChild(script);
-        
-        createMap();
-    },[activityId, url]);
+    },[url, key, res.mapPicture]);
 
     const goBack = debounce(() => {
         history.goBack();
@@ -125,7 +111,7 @@ const UserActivityDatail = ({match}) => {
             <div id="mapWrap">
                 <p id="mapText">{res.totalDistance}km ({res.totalTime}시간)</p>
                 <div id="imageWrap">
-                    <div id="map"/>
+                    <div id="map" ref={container}/>
                 </div>
             </div>
         </div>

@@ -51,7 +51,7 @@ const Admin = () => {
                     <Route path='/admin/notice-detail/:noticeId' component={NoticeDetail} />
                     <Route path='/admin/user-info' component={UserInfo} />
                     <Route path='/admin/user-activity' component={UserActivity} />
-                    <Route path='/admin/user-activity-detail/:activityId' component={UserActivityDetail} />
+                    <Route path='/admin/user-activity-detail' component={UserActivityDetail} />
                     <Route path='/admin/partner-info' component={PartnerInfo} />
                 </Switch>
             </div>

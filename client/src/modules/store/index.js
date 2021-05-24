@@ -4,6 +4,7 @@ import feedReducer from '../feed';
 import noticeReducer from '../notice';
 import user from '../user';
 import partner from '../partner';
+import adminReducer from '../admin';
 import topbar from '../topbar';
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   noticeReducer,
   user,
   partner,
+  adminReducer,
   topbar
 });
 
