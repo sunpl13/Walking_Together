@@ -28,13 +28,14 @@ function LandingPage() {
                 const location = JSON.parse(localStorage.getItem(`location${lastIdx}`));
                 let map = [];
                 for(let i = 0 ; i <= lastIdx ; i++) {
-                    map.concat(localStorage.getItem("location"+i));
+                    const key = 'location' + i;
+                    map.push(JSON.parse(localStorage.getItem("location"+i)));
                     localStorage.removeItem("location"+i);
                 };
-
+                        console.log(map)
                 const formData = new FormData();
                 formData.append("activityId",localStorage.getItem("activityId"));
-                formData.append("map", map);
+                formData.append("map", JSON.stringify(map));
                 formData.append("distance", Math.ceil(localStorage.getItem("distance")));
                 formData.append("endTime", moment(location.timestamp).format('YYYYMMDDHHmmss'));
                 formData.append("checkNormalQuit", 1); //정상종료시 0, 비정상 종료시 1

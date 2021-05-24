@@ -185,7 +185,7 @@ const Activity = () => {
         const startTime = JSON.parse(localStorage.getItem("location0")).timestamp;
         const endTime = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex"))).timestamp;
         
-        if(endTime-startTime>=180000) {
+        if(endTime-startTime>=1800000) {
             setActivityState(false);
             dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
         } else {
@@ -204,10 +204,12 @@ const Activity = () => {
             map.push(JSON.parse(localStorage.getItem(key)));
             localStorage.removeItem(key);
         };
+
+        console.log(map);
         
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
-        formData.append("map", map);
+        formData.append("map", JSON.stringify(map));
         formData.append("endPhoto", window.getPicture());
         formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
         formData.append("distance", Math.ceil(localStorage.getItem("distance")));
