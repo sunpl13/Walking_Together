@@ -12,12 +12,14 @@ const Activity = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const [endLocation, setendLocation] = useState("");
+    const [lastIndex, setlastIndex] = useState(0);
+
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
     document.head.appendChild(script);
-
 
     //*****states*****
     //active state (true일 때 => loc1에 저장, false일 때 => loc2에 저장)
@@ -182,30 +184,24 @@ const Activity = () => {
 
     //stop function
     const stop = debounce(() => {
-        const startTime = JSON.parse(localStorage.getItem("location0")).timestamp;
-        const endTime = JSON.parse(localStorage.getItem("location"+localStorage.getItem("lastIndex"))).timestamp;
-        
-        if(endTime-startTime>=1800000) {
             setActivityState(false);
             dispatch(changeBar("null", {title:"사진 등록", data:null}, "create", "null", createAction, "small"));
-        } else {
-            alert("활동 시간은 30분 이상이어야 종료 가능합니다.");
-        }
     }, 800);
 
     const submit = debounce(async() => {
-        const lastIndex = localStorage.getItem("lastIndex");
-        const endLocation = JSON.parse(localStorage.getItem("location"+lastIndex));
+        //시간 및 거리 충족 못할 시 값이 변경될 수 있으므로 상태로 관리
+        setlastIndex(localStorage.getItem("lastIndex"));
+        console.log(lastIndex);         //비동기처리라 값 들어오는지 확인
+        setendLocation(JSON.parse(localStorage.getItem("location"+lastIndex)));
+        console.log(endLocation)
         let map = [];
 
         for(let i = 0 ; i <= lastIndex ; i++) {
             const key = "location" + i;
             localStorage.getItem(key)
             map.push(JSON.parse(localStorage.getItem(key)));
-            localStorage.removeItem(key);
         };
 
-        console.log(map);
         
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
@@ -215,14 +211,31 @@ const Activity = () => {
         formData.append("distance", Math.ceil(localStorage.getItem("distance")));
         formData.append("checkNormalQuit", 0);
 
-        //remove at local storage
-        localStorage.removeItem("activityId");
-        localStorage.removeItem("partnerId");
-        localStorage.removeItem("distance");
-        localStorage.removeItem("lastIndex");
+
 
         dispatch(finishActivity(formData))
-        .then(() => history.push('/user/feed'));
+        .then(res => {
+            if(res.status === 200) {        //정상적으로 보내졌을 때
+                console.log(res);
+                alert(res.message);
+                //remove at local storage   
+                localStorage.removeItem("activityId");
+                localStorage.removeItem("partnerId");
+                localStorage.removeItem("distance");
+                localStorage.removeItem("lastIndex");
+
+                for(let i=0; i<= lastIndex; i++){
+                    localStorage.removeItem("location"+i);
+                }
+
+                history.push('/user/feed');
+
+            } else{                         //실패 했을 때
+                console.log(res);
+                alert(res.message);
+                setActivityState(true);
+            }
+        })
     }, 800);
 
 

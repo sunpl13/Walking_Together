@@ -32,7 +32,6 @@ function LandingPage() {
                     map.push(JSON.parse(localStorage.getItem(key)));
                     localStorage.removeItem("location"+i);
                 };
-                        console.log(map)
                 const formData = new FormData();
                 formData.append("activityId",localStorage.getItem("activityId"));
                 formData.append("map", JSON.stringify(map));
