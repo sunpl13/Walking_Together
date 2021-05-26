@@ -35,13 +35,8 @@ const FeedDetail = () => {
         }
     }, 800);
 
-    //param function
-    const goBack = debounce(() => {
-        history.push('/user/feed');
-    }, 800);
-
     useEffect(() => {
-        dispatch(changeBar("back", {title:"활동 상세", data:null}, "null", goBack, "null", "small"));  //상단바 변경
+        dispatch(changeBar("back", {title:"활동 상세", data:null}, "null", debounce(() => history.push('/user/feed'),800), "null", "small"));  //상단바 변경
 
         const script = document.createElement('script');
         script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
@@ -81,7 +76,7 @@ const FeedDetail = () => {
                 }
             })
         }
-    }, [dispatch]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
+    }, [dispatch, feedItem.mapPicture, key, history]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
 
     return (
         <div id="feedDetail">
