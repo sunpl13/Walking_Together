@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import ReactHtmlParser from 'react-html-parser';
 import { debounce } from "lodash";
 
-import { deleteNotice } from '../../modules/notice';
+import { deleteNotice, getNoticeList } from '../../modules/notice';
 import '../../styles/admin.scss';
 
 const NoticeDetail = ({match}) => {
@@ -15,9 +15,12 @@ const NoticeDetail = ({match}) => {
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
     //action
-    const delNotice = debounce(() => {              //공지글 삭제
-        dispatch(deleteNotice(noticeId))
-        .then(()=> history.push('/admin/notice'));
+    const delNotice = debounce(async() => {              //공지글 삭제
+        await dispatch(deleteNotice(noticeId))
+        .then(() => {
+            dispatch(getNoticeList(1));
+            history.push('/admin/notice');
+        });
     },800);
 
     const goUpdate = debounce(() => {
@@ -36,14 +39,14 @@ const NoticeDetail = ({match}) => {
 
             <div id="content">
                 <div id="image">
-                    {notice.imageFiles[0] === undefined ? null
+                    {notice.imageFiles === null ? null
                     : <img src={notice.imageFiles[0]} alt="error"></img>}
                 </div>
                 {ReactHtmlParser(notice.content)}
             </div>
             <div id="attachedFile">
                 <p id="at_title">첨부파일</p>
-                {notice.attachedFiles===null ? <p id="at_none">첨부파일이 없습니다.</p>
+                {notice.attachedFiles === null ? <p id="at_none">첨부파일이 없습니다.</p>
                 : notice.attachedFiles.map((file, index) => {
                     return (
                         <div key={index} className="filedown">

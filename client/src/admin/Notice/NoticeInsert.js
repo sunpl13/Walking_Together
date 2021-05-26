@@ -111,7 +111,7 @@ const NoticeInsert = () => {
 
     return (
         <div id="noticeActionForm">
-            <form action="/admin/createpost" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
+            <form>
             
                 <h4>제목</h4>
                 <input type="text" name="title" id="title" value={title} 
@@ -119,7 +119,7 @@ const NoticeInsert = () => {
 
                 <span id="buttonSet">
                     <button onClick={cancel} className="admin_btn_gray">취소</button>
-                    <button type="submit" className="admin_btn_blue">제출</button>
+                    <button type="button" className="admin_btn_blue" onClick={(e) => submit(e)}>제출</button>
                 </span>
 
                 {/*quill editor*/}
