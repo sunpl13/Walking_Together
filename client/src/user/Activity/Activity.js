@@ -12,9 +12,6 @@ const Activity = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [endLocation, setendLocation] = useState("");
-    const [lastIndex, setlastIndex] = useState(0);
-
     const key = process.env.REACT_APP_MAP;
     const script = document.createElement('script');
     script.async = true;
@@ -190,9 +187,9 @@ const Activity = () => {
 
     const submit = debounce(async() => {
         //시간 및 거리 충족 못할 시 값이 변경될 수 있으므로 상태로 관리
-        setlastIndex(localStorage.getItem("lastIndex"));
+        let lastIndex = localStorage.getItem("lastIndex");
         console.log(lastIndex);         //비동기처리라 값 들어오는지 확인
-        setendLocation(JSON.parse(localStorage.getItem("location"+lastIndex)));
+        let endLocation = JSON.parse(localStorage.getItem(`location${lastIndex}`));
         console.log(endLocation)
         let map = [];
 
@@ -205,7 +202,7 @@ const Activity = () => {
         
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
-        formData.append("map", map);
+        formData.append("map", JSON.stringify(map));
         formData.append("endPhoto", window.getPicture());
         formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
         formData.append("distance", Math.ceil(localStorage.getItem("distance")));
@@ -318,9 +315,9 @@ const Activity = () => {
                     </div>
                 </div>
             </div>
-            }
         </div>
     );
 };
+
 
 export default Activity;
