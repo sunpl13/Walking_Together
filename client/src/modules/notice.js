@@ -45,7 +45,7 @@ export const insertNotice = (       //공지글 등록
             }
         })
         .then((res) => {
-            alert(res.message);
+            alert(res.data.message);
         }).catch((err) => alert(err.response.data.message));
 
         dispatch({

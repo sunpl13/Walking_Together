@@ -186,17 +186,12 @@ const Activity = () => {
     }, 800);
 
     const submit = debounce(async() => {
-        //시간 및 거리 충족 못할 시 값이 변경될 수 있으므로 상태로 관리
-        let lastIndex = localStorage.getItem("lastIndex");
-        console.log(lastIndex);         //비동기처리라 값 들어오는지 확인
-        let endLocation = JSON.parse(localStorage.getItem(`location${lastIndex}`));
-        console.log(endLocation)
+        const lastIndex = localStorage.getItem("lastIndex");
+        const endLocation = JSON.parse(localStorage.getItem(`location${lastIndex}`));
         let map = [];
 
         for(let i = 0 ; i <= lastIndex ; i++) {
-            const key = "location" + i;
-            localStorage.getItem(key)
-            map.push(JSON.parse(localStorage.getItem(key)));
+            map.push(JSON.parse(localStorage.getItem("location"+i)));
         };
 
         
@@ -213,7 +208,6 @@ const Activity = () => {
         dispatch(finishActivity(formData))
         .then(res => {
             if(res.status === 200) {        //정상적으로 보내졌을 때
-                console.log(res);
                 alert(res.message);
                 //remove at local storage   
                 localStorage.removeItem("activityId");
@@ -229,7 +223,6 @@ const Activity = () => {
                 alert(res.message);
                 history.push('/user/feed');
             } else{                         //실패 했을 때
-                console.log(res);
                 alert(res.message);
                 setActivityState(true);
             }
