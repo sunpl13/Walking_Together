@@ -13,7 +13,7 @@ function RegisterPage() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
-    console.log(location)
+
         
     const Email = location.state.email;
     const [Name, setName] = useState("");
@@ -92,9 +92,11 @@ function RegisterPage() {
 
     const pNumHandler = (e) => {
         setpNumber(e.currentTarget.value)
+        console.log(pNumber)
     };
     const stdIdHandler = (e) => {
         setstdId(e.currentTarget.value)
+        console.log(stdId)
     };
     const departmentHandler = (e) => {
         setdepartment(e.currentTarget.value)
