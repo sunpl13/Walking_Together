@@ -279,16 +279,15 @@ const Activity = () => {
 
 
     return (
-        <div>
-            {activityState===true ? 
-            <div className="map">
+        <div> 
+            <div id="mapWrap" className={activityState===false ? "hidden": "visible"}>
                 <div id='map'></div>
                     <div id="buttonWrap">
                     <button onClick={stop} className="user_btn_blue">종료</button>
                 </div>
             </div>
-            :
-            <div id="activityRegisterWrap" >
+            
+            <div id="activityRegisterWrap" className={activityState===true ? "hidden": "visible"}>
                 <p>사진등록</p>
                 <div id="activityRegister">
                     <div className = "picture_container">
