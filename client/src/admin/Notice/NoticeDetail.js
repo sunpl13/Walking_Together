@@ -14,6 +14,7 @@ const NoticeDetail = ({match}) => {
 
     const notice = useSelector(state => state.noticeReducer.selectedNotice);
 
+
     //action
     const delNotice = debounce(async() => {              //공지글 삭제
         await dispatch(deleteNotice(noticeId))
@@ -39,14 +40,14 @@ const NoticeDetail = ({match}) => {
 
             <div id="content">
                 <div id="image">
-                    {notice.imageFiles === null ? null
+                    {notice.imageFiles.length < 1 ? null
                     : <img src={notice.imageFiles[0]} alt="error"></img>}
                 </div>
                 {ReactHtmlParser(notice.content)}
             </div>
             <div id="attachedFile">
                 <p id="at_title">첨부파일</p>
-                {notice.attachedFiles === null ? <p id="at_none">첨부파일이 없습니다.</p>
+                {notice.attachedFiles.length < 1 ? <p id="at_none">첨부파일이 없습니다.</p>
                 : notice.attachedFiles.map((file, index) => {
                     return (
                         <div key={index} className="filedown">

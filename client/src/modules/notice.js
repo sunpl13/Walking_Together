@@ -207,8 +207,8 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     title: '',
                     content: '',
                     createTime: '',
-                    imageFiles: null,
-                    attachedFiles: null
+                    imageFiles: [],
+                    attachedFiles: []
                 }
             };
 
