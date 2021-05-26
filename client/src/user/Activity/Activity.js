@@ -205,7 +205,7 @@ const Activity = () => {
         
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
-        formData.append("map", JSON.stringify(map));
+        formData.append("map", map);
         formData.append("endPhoto", window.getPicture());
         formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
         formData.append("distance", Math.ceil(localStorage.getItem("distance")));

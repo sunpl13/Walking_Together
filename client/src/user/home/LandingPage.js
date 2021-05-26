@@ -34,13 +34,14 @@ function LandingPage() {
                 };
                 const formData = new FormData();
                 formData.append("activityId",localStorage.getItem("activityId"));
-                formData.append("map", JSON.stringify(map));
+                formData.append("map", map);
                 formData.append("distance", Math.ceil(localStorage.getItem("distance")));
                 formData.append("endTime", moment(location.timestamp).format('YYYYMMDDHHmmss'));
                 formData.append("checkNormalQuit", 1); //정상종료시 0, 비정상 종료시 1
 
                 dispatch(finishActivity(formData))
-                .then(() =>{
+                .then((res) =>{
+                    alert(res.message);
                     //로컬스토리지 삭제
                     localStorage.removeItem("distance");
                     localStorage.removeItem("activityId");
