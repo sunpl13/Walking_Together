@@ -227,9 +227,10 @@ const Activity = () => {
                 for(let i=0; i<= lastIndex; i++){
                     localStorage.removeItem("location"+i);
                 }
-
                 history.push('/user/feed');
-
+            } else if(res.code === 404 || res.code === 407) {  //활동 존재하지 않을 때, 이미 종료된 활동일 때
+                alert(res.message);
+                history.push('/user/feed');
             } else{                         //실패 했을 때
                 console.log(res);
                 alert(res.message);
@@ -286,7 +287,7 @@ const Activity = () => {
                     <button onClick={stop} className="user_btn_blue">종료</button>
                 </div>
             </div>
-            
+
             <div id="activityRegisterWrap" className={activityState===true ? "hidden": "visible"}>
                 <p>사진등록</p>
                 <div id="activityRegister">
