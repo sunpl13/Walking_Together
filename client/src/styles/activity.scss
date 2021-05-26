@@ -62,7 +62,7 @@
     }
 }
 
-.map {
+#mapWrap {
     padding-top: 20px;
     padding-bottom: 70px;
     overflow-y: auto;
@@ -78,6 +78,13 @@
         margin: 20px auto;
         font-weight: bold;
     }
+}
+
+.hidden {
+    height: 0 !important;
+    padding: 0 !important;
+    display: hidden;
+    opacity: 0;
 }
 
 //activity start
