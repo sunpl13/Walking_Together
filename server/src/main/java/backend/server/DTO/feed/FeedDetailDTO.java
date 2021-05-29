@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -24,5 +25,5 @@ public class FeedDetailDTO {
 
     private String review;
 
-    private String mapPicture;
+    private ArrayList<Object> mapPicture;
 }

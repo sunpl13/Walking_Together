@@ -6,6 +6,7 @@ import backend.server.DTO.admin.MemberInfoDTO;
 import backend.server.DTO.admin.PartnerInfoDTO;
 import backend.server.entity.Activity;
 import backend.server.repository.ActivityRepository;
+import backend.server.repository.MapCaptureRepository;
 import backend.server.repository.PartnerRepository;
 import backend.server.repository.UserRepository;
 import com.querydsl.core.Tuple;
@@ -26,6 +27,7 @@ public class AdminService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final PartnerRepository partnerRepository;
+    private final MapCaptureRepository mapCaptureRepository;
 
     // 학생정보조회
     public List<MemberInfoDTO> userInfo(String keyword) {
@@ -91,6 +93,10 @@ public class AdminService {
 
         Tuple tuple = tuples.get(0);
 
+        // member.name, member.department, member.stdId, activity.activityDate,
+        //                partner.partnerName, activity.review, activity.distance, activity.startTime, activity.endTime
+
+        ArrayList<Object> mapPicture = mapCaptureRepository.findAllByActivityId(activityId);
         ActivityDetailInfoDTO  result = ActivityDetailInfoDTO.builder()
                 .stdName(tuple.get(0,String.class))
                 .department(tuple.get(1,String.class))
@@ -98,11 +104,11 @@ public class AdminService {
                 .activityDate(tuple.get(3, LocalDate.class))
                 .partnerName(tuple.get(4, String.class))
                 .review(tuple.get(5, String.class))
-                .mapPicture(tuple.get(6, String.class))
-                .totalDistance(tuple.get(7, Long.class))
-                .startTime(tuple.get(8, LocalDateTime.class))
-                .endTime(tuple.get(9, LocalDateTime.class))
+                .totalDistance(tuple.get(6, Long.class))
+                .startTime(tuple.get(7, LocalDateTime.class))
+                .endTime(tuple.get(8, LocalDateTime.class))
                 .totalTime(activity.getActivityDivision() == 0? activity.getOrdinaryTime():activity.getCareTime())
+                .mapPicture(mapPicture)
                 .build();
 
         return result;

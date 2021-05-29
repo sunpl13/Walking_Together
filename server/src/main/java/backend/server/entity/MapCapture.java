@@ -19,8 +19,11 @@ public class MapCapture {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mapCaptureId;
 
-    @Column(columnDefinition = "LONGTEXT")
-    private String map; // 맵 좌표
+    private String lat;
+
+    private String lon;
+
+    private String timestamp;
 
     // join 할 활동 id
     private Long activityId;

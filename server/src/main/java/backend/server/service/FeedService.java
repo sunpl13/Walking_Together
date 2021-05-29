@@ -7,6 +7,7 @@ import backend.server.entity.Activity;
 import backend.server.entity.Certification;
 import backend.server.repository.ActivityRepository;
 import backend.server.repository.CertificationRepository;
+import backend.server.repository.MapCaptureRepository;
 import backend.server.repository.UserRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ import java.util.*;
 public class FeedService {
 
     private final ActivityRepository activityRepository;
-    private final UserRepository userRepository;
     private final CertificationRepository certificationRepository;
+    private final MapCaptureRepository mapCaptureRepository;
 
     // 피드
     public List<FeedDTO> feedMain(String stdId, String sort) {
@@ -58,6 +59,8 @@ public class FeedService {
 
         Tuple result = activityRepository.feedDetail(activityId);
 
+        ArrayList<Object> mapPicture = mapCaptureRepository.findAllByActivityId(activityId);
+
         FeedDetailDTO dto = FeedDetailDTO.builder()
                 .activityDate(result.get(0, LocalDate.class))
                 .partnerName(result.get(1, String.class))
@@ -65,7 +68,7 @@ public class FeedService {
                 .endTime(result.get(3, LocalDateTime.class))
                 .activityDivision(result.get(4, Integer.class))
                 .review(result.get(5, String.class))
-                .mapPicture(result.get(6, String.class))
+                .mapPicture(mapPicture)
                 .build();
 
         return dto;

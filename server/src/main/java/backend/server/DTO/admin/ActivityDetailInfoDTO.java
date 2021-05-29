@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class ActivityDetailInfoDTO {
 
     private String review;
 
-    private String mapPicture;
+    private ArrayList<Object> mapPicture;
 
     private Long totalDistance;
 

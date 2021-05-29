@@ -79,17 +79,14 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         QActivity activity = QActivity.activity;
         QMember member = QMember.member;
         QPartner partner = QPartner.partner;
-        QMapCapture mapCapture = QMapCapture.mapCapture;
 
         JPQLQuery<Activity> jpqlQuery = from(activity);
 
         jpqlQuery.leftJoin(member).on(activity.member.eq(member));
         jpqlQuery.leftJoin(partner).on(activity.partner.eq(partner));
-        jpqlQuery.leftJoin(mapCapture).on(mapCapture.activityId.eq(activity.activityId));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(member.name, member.department, member.stdId, activity.activityDate,
-                partner.partnerName, activity.review, mapCapture.map, activity.distance,
-                activity.startTime, activity.endTime);
+                partner.partnerName, activity.review, activity.distance, activity.startTime, activity.endTime);
 
         tuple.where(activity.activityId.eq(activityId));
 
@@ -143,7 +140,7 @@ public class ActivitySearchRepositoryImpl extends QuerydslRepositorySupport impl
         jpqlQuery.leftJoin(mapCapture).on(activity.activityId.eq(mapCapture.activityId));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(activity.activityDate, activity.partner.partnerName, activity.startTime, activity.endTime,
-                activity.activityDivision, activity.review, mapCapture.map);
+                activity.activityDivision, activity.review);
 
         tuple.where(activity.activityId.eq(activityId));
 

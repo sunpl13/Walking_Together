@@ -1,6 +1,7 @@
 package backend.server.controller;
 
 import backend.server.DTO.ActivityDTO;
+import backend.server.DTO.ActivityEndDTO;
 import backend.server.DTO.TokenDTO;
 import backend.server.exception.ApiException;
 import backend.server.message.Message;
@@ -8,17 +9,14 @@ import backend.server.service.ActivityService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -87,18 +85,22 @@ public class ActivityController {
     }
 
     // 활동 종료
-    @PostMapping("/activity/end")
-    public ResponseEntity<Message> endActivity(@RequestParam(value = "endTime") String endTime,
-                                           @RequestParam(value = "map") @Nullable String map,
-                                           @RequestParam(value = "endPhoto") @Nullable MultipartFile endPhoto,
-                                           @RequestParam(value = "activityId") Long activityId,
-                                           @RequestParam(value = "distance") Long distance,
-                                           @RequestParam(value = "checkNormalQuit") int checkNormalQuit) {
+    @PostMapping(value = "/activity/end",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Message> endActivity(@ModelAttribute ActivityEndDTO activityEndDTO)
+    {
+        ArrayList<String[]> map = new ArrayList<>();
+
+        if (activityEndDTO.getMap() != null) {
+            activityEndDTO.getMap().forEach(array -> {
+                map.add(array.substring(1, array.length() - 1).split(","));
+            });
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime activityEndTime = LocalDateTime.parse(endTime, formatter);
+        LocalDateTime activityEndTime = LocalDateTime.parse(activityEndDTO.getEndTime(), formatter);
 
-        Long result = activityService.endActivity(activityEndTime, endPhoto, activityId, distance, map, checkNormalQuit);
+        Long result = activityService.endActivity(activityEndTime, activityEndDTO.getEndPhoto()
+                , activityEndDTO.getActivityId(), activityEndDTO.getDistance(), map, activityEndDTO.getCheckNormalQuit());
 
         if (result == 404L) {
             throw new ApiException(HttpStatus.NOT_FOUND, "활동이 존재하지 않습니다.", 404L);

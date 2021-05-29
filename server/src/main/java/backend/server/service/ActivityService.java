@@ -9,19 +9,17 @@ import backend.server.s3.FileUploadService;
 import backend.server.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.HOURS;
 
@@ -127,13 +125,13 @@ public class ActivityService {
                 .build();
     }
 
-    // 활동 종료
+     // 활동 종료
     @Transactional
     public Long endActivity(LocalDateTime endTime,
                             MultipartFile endPhoto,
                             Long activityId,
                             Long distance,
-                            String map,
+                            ArrayList<String[]> map,
                             int checkNormalQuit) {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
@@ -188,15 +186,26 @@ public class ActivityService {
         }
 
         if (map != null) {
-            MapCapture mapCapture = MapCapture.builder()
-                    .activityId(activityId)
-                    .map(map)
-                    .build();
+            HashMap<String, String> latLonTime = new HashMap<>();
+            for (String[] array : map) {
+                for (String data : array) {
+                    System.out.println("array : " + Arrays.toString(array));
 
-            mapCaptureRepository.save(mapCapture);
+                    String[] splitResult = data.split(":");
+                    System.out.println("splitResult : " + Arrays.toString(splitResult));
+                    latLonTime.put(splitResult[0].trim(), splitResult[1].trim());
+                }
+
+                MapCapture mapCapture = MapCapture.builder()
+                        .activityId(activityId)
+                        .lat(latLonTime.get("lat"))
+                        .lon(latLonTime.get("lon"))
+                        .timestamp(latLonTime.get("timestamp"))
+                        .build();
+
+                mapCaptureRepository.save(mapCapture);
+            }
         }
-
-
         Member member = activity.getMember();
 
         totalDistanceCalculator(member.getStdId(), distance);   // 활동 거리 계산
