@@ -56,7 +56,7 @@ function Login() {
                         <button className = "signup_btn" onClick = {goFindPw}>비밀번호 찾기</button>
                 </form>
             </div>
-            <div className = "download" hidden><FaDownload/></div>
+            <div id ="install-button" className = "download" hidden><FaDownload/></div>
         </div>
     );
 };
