@@ -86,15 +86,9 @@ public class ActivityController {
 
     // 활동 종료
     @PostMapping(value = "/activity/end",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Message> endActivity(@ModelAttribute ActivityEndDTO activityEndDTO)
-    {
-        ArrayList<String[]> map = new ArrayList<>();
+    public ResponseEntity<Message> endActivity(@ModelAttribute ActivityEndDTO activityEndDTO) {
 
-        if (activityEndDTO.getMap() != null) {
-            activityEndDTO.getMap().forEach(array -> {
-                map.add(array.substring(1, array.length() - 1).split(","));
-            });
-        }
+        String[] map = activityEndDTO.getMap().substring(1, activityEndDTO.getMap().length() - 1).replace("{", "").replace("}", "").split(",");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime activityEndTime = LocalDateTime.parse(activityEndDTO.getEndTime(), formatter);

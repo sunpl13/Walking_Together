@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ActivityEndDTO {
 
     @Nullable
-    private ArrayList<String> map;
+    private String map;
 
     @Nullable
     private MultipartFile endPhoto;

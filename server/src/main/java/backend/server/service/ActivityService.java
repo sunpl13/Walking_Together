@@ -14,12 +14,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.List;
 
 import static java.time.temporal.ChronoUnit.HOURS;
 
@@ -131,7 +136,7 @@ public class ActivityService {
                             MultipartFile endPhoto,
                             Long activityId,
                             Long distance,
-                            ArrayList<String[]> map,
+                            String[] map,
                             int checkNormalQuit) {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
@@ -185,25 +190,32 @@ public class ActivityService {
             return 405L;
         }
 
+//["lat":37.5477517, "lon":127.02928809999999, "timestamp":1622384391414, "lat":37.5477517, "lon":127.02928809999999, "timestamp":1622387421459]
         if (map != null) {
+
             HashMap<String, String> latLonTime = new HashMap<>();
-            for (String[] array : map) {
-                for (String data : array) {
-                    System.out.println("array : " + Arrays.toString(array));
 
-                    String[] splitResult = data.split(":");
-                    System.out.println("splitResult : " + Arrays.toString(splitResult));
-                    latLonTime.put(splitResult[0].trim(), splitResult[1].trim());
+            int count = 0;
+            for (String data : map) {
+
+                System.out.println("array : " + Arrays.toString(map));
+
+                String[] splitResult = data.split(":");
+                System.out.println("splitResult : " + Arrays.toString(splitResult));
+                latLonTime.put(splitResult[0].trim(), splitResult[1].trim());
+
+                count++;
+                if (count == 3) {
+                    MapCapture mapCapture = MapCapture.builder()
+                            .activityId(activityId)
+                            .lat(latLonTime.get("\"la t\""))
+                            .lon(latLonTime.get("\"lon\""))
+                            .timestamp(latLonTime.get("\"timestamp\""))
+                            .build();
+
+                    mapCaptureRepository.save(mapCapture);
+                    count = 0;
                 }
-
-                MapCapture mapCapture = MapCapture.builder()
-                        .activityId(activityId)
-                        .lat(latLonTime.get("lat"))
-                        .lon(latLonTime.get("lon"))
-                        .timestamp(latLonTime.get("timestamp"))
-                        .build();
-
-                mapCaptureRepository.save(mapCapture);
             }
         }
         Member member = activity.getMember();
@@ -226,7 +238,6 @@ public class ActivityService {
         if (result == 501L) {
             return 501L;
         }
-
 
         return activityId;
     }
@@ -344,5 +355,20 @@ public class ActivityService {
         Authentication authentication = tokenProvider.getAuthentication(tokenDTO.getToken());
 
         return authentication.getName();
+    }
+
+    // 이미지 파일 리사이즈
+    public BufferedImage resizingImageFile(MultipartFile image) throws IOException {
+
+        BufferedImage originalImage = ImageIO.read(image.getInputStream());
+        BufferedImage resizedImage = new BufferedImage(500, 500, BufferedImage.SCALE_FAST);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, 500, 500, null);
+        graphics2D.dispose();
+
+        File outputfile = new File("image.jpg");
+        ImageIO.write(resizedImage, "jpg", outputfile);
+
+        return resizedImage;
     }
 }
