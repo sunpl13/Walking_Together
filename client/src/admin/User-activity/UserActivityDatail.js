@@ -23,7 +23,7 @@ const UserActivityDatail = () => {
         script.onload = () => {
             window.kakao.maps.load(() => {
                 if(res.mapPicture!==null&&res.mapPicture!==undefined) {
-                    const dot = JSON.parse(res.mapPicture);
+                    const dot = res.mapPicture;
                     const point = [];
 
                     for(let i = 0 ; i < dot.length ; i++) {

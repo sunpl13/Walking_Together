@@ -194,7 +194,7 @@ const Activity = () => {
             map.push(JSON.parse(localStorage.getItem("location"+i)));
         };
 
-        
+        console.log(JSON.stringify(map))
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
         formData.append("map", JSON.stringify(map));

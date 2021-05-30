@@ -16,6 +16,7 @@ const FeedDetail = () => {
     const key = process.env.REACT_APP_MAP;
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
+    console.log(feedItem);
 
     const [reviewState, setReviewState] = useState(false);
     const [review, setReview] = useState("");
@@ -44,7 +45,7 @@ const FeedDetail = () => {
 
         script.onload = () => {
             window.kakao.maps.load(() => {
-                const dot = JSON.parse(feedItem.mapPicture);
+                const dot = feedItem.mapPicture;
                 const point = [];
                 if(feedItem.mapPicture!==null&&feedItem.mapPicture!==undefined) {
                     for(let i = 0 ; i < dot.length ; i++) {
