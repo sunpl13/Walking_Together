@@ -73,3 +73,21 @@
     }
   }
 }
+
+.download {
+  margin: 70px auto;
+  -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+  animation: heartbeat 1.5s ease-in-out infinite both;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background-color: $BackSkyBlue-;
+  color: $white;
+  font-size: 22px;
+  text-align: center;
+  font-weight: bolder;
+  border: 5px solid #fff;
+  box-shadow: 0 0 16px rgb(221, 221, 221);
+  text-shadow: 0px 0px 5px $BackSkyBlue;
+}

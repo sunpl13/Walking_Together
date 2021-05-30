@@ -90,11 +90,11 @@ public class ActivityController {
         String[] map = activityEndDTO.getMap().substring(1, activityEndDTO.getMap().length() - 1).replace("{", "")
                 .replace("}", "").split(",");
 
+        System.out.println(map);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime activityEndTime = LocalDateTime.parse(activityEndDTO.getEndTime(), formatter);
 
-        System.out.println("11111" + map);
-        System.out.println("11111" + map.toString());
         Long result = activityService.endActivity(activityEndTime, activityEndDTO.getEndPhoto(),
                 activityEndDTO.getActivityId(), activityEndDTO.getDistance(), map, activityEndDTO.getCheckNormalQuit());
 

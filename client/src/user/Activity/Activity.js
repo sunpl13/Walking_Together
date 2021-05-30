@@ -191,13 +191,12 @@ const Activity = () => {
         let map = [];
 
         for(let i = 0 ; i <= lastIndex ; i++) {
-            map.push(JSON.parse(localStorage.getItem("location"+i)));
+            map.push(localStorage.getItem("location"+i));
         };
 
-        console.log(JSON.stringify(map))
         const formData = new FormData();
         formData.append("activityId", localStorage.getItem("activityId"));
-        formData.append("map", JSON.stringify(map));
+        formData.append("map", map);
         formData.append("endPhoto", window.getPicture());
         formData.append("endTime", moment(endLocation.timestamp).format('YYYYMMDDHHmmss'));
         formData.append("distance", Math.ceil(localStorage.getItem("distance")));

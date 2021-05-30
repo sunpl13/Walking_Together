@@ -33,6 +33,18 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 
+      <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/Service-Worker.js')
+            .then((reg) => {
+              console.log('서비스워커 등록 성공', reg);
+            })
+          })
+    }
+  </script>
+
+    <script src = "Install.js"></script>
 
     <title>Walking Together</title>
   </head>
@@ -50,15 +62,5 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-    <script>
-          if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-              navigator.serviceWorker.register('/Service-Worker.js')
-              .then((reg) => {
-                console.log('서비스워커 등록 성공', reg);
-              })
-            })
-      }
-    </script>
   </body>
 </html>

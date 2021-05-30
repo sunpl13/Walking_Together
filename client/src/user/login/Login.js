@@ -2,6 +2,7 @@ import {React,useState} from 'react';
 import {useDispatch} from 'react-redux';
 import { useHistory } from 'react-router';
 import { debounce } from "lodash";
+import {FaDownload} from 'react-icons/fa'
 
 import {loginHandler} from '../../modules/user';
 import '../../styles/login.scss';
@@ -55,6 +56,7 @@ function Login() {
                         <button className = "signup_btn" onClick = {goFindPw}>비밀번호 찾기</button>
                 </form>
             </div>
+            <div className = "download" hidden><FaDownload/></div>
         </div>
     );
 };
