@@ -1,25 +1,51 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "WT!",
+  "name": "Walking Together",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "thumbnail16.png",
+      "sizes": "16x16",
+      "type": "image/svg"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
+      "src": "thumbnail32.png",
+      "sizes": "32x32",
+      "type": "image/svg"
+    },
+    {
+      "src": "thumbnail64.png",
+      "sizes": "64x64",
+      "type": "image/svg"
+    },
+    {
+      "src": "thumbnail128.png",
+      "sizes": "128x128",
+      "type": "image/svg"
+    },
+    {
+      "src": "thumbnail192.png",
+      "type": "image/svg",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "thumbnail512.png",
+      "type": "image/svg",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "shortcuts": [
+    {
+      "name": "Walking Together",
+      "short_name": "WT!",
+      "description": "Walking Together",
+      "url": "./",
+      "icons": [{ "src": "thumbnail192.png", "sizes": "192x192" }]
+    }
+  ],
+  "start_url": "./",
+  "scope": ".",
   "display": "standalone",
+  "orientation" : "portrait",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

@@ -29,7 +29,7 @@ function LandingPage() {
                 let map = [];
                 for(let i = 0 ; i <= lastIdx; i++) {
                     const key = 'location' + i;
-                    map.push(JSON.parse(localStorage.getItem(key)));
+                    map.push(localStorage.getItem(key));
                     localStorage.removeItem("location"+i);
                 };
                 const formData = new FormData();

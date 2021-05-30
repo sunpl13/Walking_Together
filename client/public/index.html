@@ -9,7 +9,15 @@
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- CODELAB : ADD iOS meta tag and icons-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Walking Together">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/thumbnail192.png" />
+
+    <!-- CODELAB : Add description here-->
+    <meta name="description" content="삼육대 학생들을 위한 봉사활동 어플리케이션">
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -24,6 +32,20 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+
+      <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/Service-Worker.js')
+            .then((reg) => {
+              console.log('서비스워커 등록 성공', reg);
+            })
+          })
+    }
+  </script>
+
+    <script src = "Install.js"></script>
+
     <title>Walking Together</title>
   </head>
   <body>
@@ -39,5 +61,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
   </body>
 </html>
