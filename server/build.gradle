@@ -32,7 +32,10 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'mysql:mysql-connector-java'
+//    compile 'mysql:mysql-connector-java'
+    implementation 'org.springframework.boot:spring-boot-starter'
+//    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -40,6 +43,10 @@ dependencies {
     compile group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    //fileupload
+    compile 'commons-io:commons-io:2.9.0'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
     // aws
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws',version: '2.2.6.RELEASE'
