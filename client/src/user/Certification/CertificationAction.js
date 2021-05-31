@@ -108,7 +108,7 @@ const CertificationAction = () => {
                             {text: '돌봄활동', fontSize: 12, bold: true, alignment: 'center'},
                             {text: '일반활동', fontSize: 12, bold: true, alignment: 'center'}
                         ],
-                        ...formatData
+                        formatData
                     ],
                     alignment: "center"
                 },
@@ -121,7 +121,11 @@ const CertificationAction = () => {
     };
 
 	const func = debounce(() => {
-        pdfMake.createPdf(documentDefinition).download();  //please change to "download" open
+        const doc = pdfMake.createPdf(documentDefinition); 
+        doc.getBase64((data) => { 
+            window.location.href = 'data:application/pdf;base64,' + data; 
+        });
+        doc.download();
     }, 800);
 
     useEffect(() => {
