@@ -155,13 +155,13 @@ const UserActivity = () => {
                                     <td>{data.stdId}</td>
                                     <td>{data.department}</td>
                                     <td>{data.activityDate}</td>
-                                    <td>{data.startTime.slice(6,8)+":"+data.startTime.slice(8,10)+":"+data.startTime.slice(10,12)}</td>
+                                    <td>{data.startTime.slice(8,10)+"시"+data.startTime.slice(10,12)+"분"}</td>
                                     <td>
                                         {data.endTime!==null ? 
-                                        data.endTime.slice(6,8)+":"+data.endTime.slice(8,10)+":"+data.endTime.slice(10,12)
+                                        data.endTime.slice(8,10)+"시"+data.endTime.slice(10,12)+"분"
                                         : "-"}
                                     </td>
-                                    <td>{data.totalDistance}km</td>
+                                    <td>{data.totalDistance}m</td>
                                     <td>{data.partnerName}</td>
                                     <td onClick={() => goDetail(data.activityId)}>상세보기</td>
                                 </tr>
