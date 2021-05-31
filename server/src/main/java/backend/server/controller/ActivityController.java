@@ -87,8 +87,11 @@ public class ActivityController {
     @PostMapping(value = "/activity/end", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Message> endActivity(@ModelAttribute ActivityEndDTO activityEndDTO) {
 
-        String[] map = activityEndDTO.getMap().substring(1, activityEndDTO.getMap().length() - 1).replace("{", "")
-                .replace("}", "").split(",");
+        String[] map = null;
+        if (activityEndDTO.getMap() != null) {
+            map = activityEndDTO.getMap().substring(1, activityEndDTO.getMap().length() - 1).replace("{", "")
+                    .replace("}", "").split(",");
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime activityEndTime = LocalDateTime.parse(activityEndDTO.getEndTime(), formatter);
