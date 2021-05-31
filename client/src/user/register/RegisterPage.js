@@ -92,11 +92,9 @@ function RegisterPage() {
 
     const pNumHandler = (e) => {
         setpNumber(e.currentTarget.value)
-        console.log(pNumber)
     };
     const stdIdHandler = (e) => {
         setstdId(e.currentTarget.value)
-        console.log(stdId)
     };
     const departmentHandler = (e) => {
         setdepartment(e.currentTarget.value)

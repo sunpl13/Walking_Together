@@ -11,7 +11,6 @@ const RegisterAuth = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    console.log(location.state.state)
 
     const [authNum, setauthNum] = useState("");
 
