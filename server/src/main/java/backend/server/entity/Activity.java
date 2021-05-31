@@ -22,9 +22,6 @@ public class Activity extends BaseEntity {
     @JoinColumn(name = "std_id")
     private Member member;  // member
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "activity")
-    private Map map;    // map
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "partner_id")
     private Partner partner;

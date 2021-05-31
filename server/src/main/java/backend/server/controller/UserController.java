@@ -35,11 +35,14 @@ public class UserController {
 
         if (userService.signup(userDto) == null) {
             throw new ApiException(HttpStatus.CONFLICT, "중복된 회원입니다.", 409L);
-//            return new ResponseEntity<>(message,null, HttpStatus.CONFLICT);
         }
 
         if (userService.signup(userDto) == "emailDup") {
             throw new ApiException(HttpStatus.CONFLICT, "중복된 이메일입니다.", 409L);
+        }
+
+        if (userService.signup(userDto) == "phoneNumberDup") {
+            throw new ApiException(HttpStatus.CONFLICT, "중복된 휴대폰번호 입니다.", 409L);
         }
 
         userService.signup(userDto);

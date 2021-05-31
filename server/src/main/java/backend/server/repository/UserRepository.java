@@ -24,6 +24,9 @@ public interface UserRepository extends JpaRepository<Member, Long>, MemberSearc
     // 이메일로 회원 찾기
     Optional<Member> findMemberByEmail(String email);
 
+    // 휴대폰 번호로 회원 찾기
+    Optional<Member> findMemberByPhoneNumber(String phoneNumber);
+
     Optional<Member> findMemberByStdId(String stdId);
 
     @Query("SELECT p.partnerName, p.partnerDetail, p.partnerBirth, p.partnerId FROM Partner p LEFT JOIN p.member WHERE p.member.stdId = :stdId")

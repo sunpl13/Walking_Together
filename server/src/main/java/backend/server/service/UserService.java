@@ -34,6 +34,10 @@ public class UserService {
             return "emailDup";
         }
 
+        if (userRepository.findMemberByPhoneNumber(userDto.getPhoneNumber()).orElse(null) != null) {
+            return "phoneNumberDup";
+        }
+
         Member member = Member.builder()
                 .stdId(userDto.getStdId())
                 .name(userDto.getName())
@@ -43,7 +47,7 @@ public class UserService {
                 .totalTime(LocalTime.of(0,0))
                 .activate(true)
                 .department(userDto.getDepartment())
-                .pNumber(userDto.getPNumber())
+                .phoneNumber(userDto.getPhoneNumber())
                 .distance(0L)
                 .build();
 

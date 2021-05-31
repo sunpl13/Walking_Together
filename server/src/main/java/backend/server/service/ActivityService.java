@@ -7,18 +7,22 @@ import backend.server.exception.ApiException;
 import backend.server.repository.*;
 import backend.server.s3.FileUploadService;
 import backend.server.security.jwt.TokenProvider;
+import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -123,7 +127,7 @@ public class ActivityService {
     // 활동 종료
     @Transactional
     public Long endActivity(LocalDateTime endTime, MultipartFile endPhoto, Long activityId, Long distance, String[] map,
-            int checkNormalQuit) {
+                            int checkNormalQuit) {
 
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
 
@@ -330,20 +334,5 @@ public class ActivityService {
         Authentication authentication = tokenProvider.getAuthentication(tokenDTO.getToken());
 
         return authentication.getName();
-    }
-
-    // 이미지 파일 리사이즈
-    public BufferedImage resizingImageFile(MultipartFile image) throws IOException {
-
-        BufferedImage originalImage = ImageIO.read(image.getInputStream());
-        BufferedImage resizedImage = new BufferedImage(500, 500, BufferedImage.SCALE_FAST);
-        Graphics2D graphics2D = resizedImage.createGraphics();
-        graphics2D.drawImage(originalImage, 0, 0, 500, 500, null);
-        graphics2D.dispose();
-
-        File outputfile = new File("image.jpg");
-        ImageIO.write(resizedImage, "jpg", outputfile);
-
-        return resizedImage;
     }
 }

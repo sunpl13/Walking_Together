@@ -26,7 +26,7 @@ public class MemberSearchRepositoryImpl extends QuerydslRepositorySupport implem
         JPQLQuery<Member> jpqlQuery = from(member);
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(member.name, member.stdId, member.department,
-                member.email, member.birth, member.pNumber);
+                member.email, member.birth, member.phoneNumber);
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression expression = member.stdId.isNotNull();

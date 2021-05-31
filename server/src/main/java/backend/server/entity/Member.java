@@ -34,7 +34,7 @@ public class Member extends BaseEntity {
 
     private String department;  // 학과
 
-    private String pNumber; // 연락처
+    private String phoneNumber; // 연락처
 
     private Long distance;    // 총거리
 

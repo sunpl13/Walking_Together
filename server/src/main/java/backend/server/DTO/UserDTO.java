@@ -28,12 +28,11 @@ public class UserDTO {
     private String email;
 
     @NotNull
+    private String phoneNumber;
+
+    @NotNull
     private String birth;
 
     @NotNull
     private String department;
-
-    @NotNull
-    private String pNumber;
-
 }
