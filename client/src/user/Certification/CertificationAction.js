@@ -121,7 +121,7 @@ const CertificationAction = () => {
     };
 
 	const func = debounce(() => {
-        pdfMake.createPdf(documentDefinition).open();  //please change to "download" open
+        pdfMake.createPdf(documentDefinition).download();  //please change to "download" open
     }, 800);
 
     useEffect(() => {
