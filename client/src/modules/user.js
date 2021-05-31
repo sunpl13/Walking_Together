@@ -71,7 +71,7 @@ export const signupHanlder = (
         name : name,
         password : password,
         stdId: stdId,
-        pNumber : pNumber,
+        phoneNumber : pNumber,
         birth : birth,
         department : department
     })
