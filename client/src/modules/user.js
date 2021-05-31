@@ -47,7 +47,10 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
     const data = await axios.post(`${url}/returnId`, {
          token : token
      })
-     .then(res => res.data.stdId);
+     .then(res => res.data)
+     .catch(err => console.log(err.response));
+
+     console.log(data);
 
      dispatch({
         type : RELOGIN_USER,

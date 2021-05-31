@@ -3,33 +3,39 @@
   "name": "Walking Together",
   "icons": [
     {
-      "src": "thumbnail16.png",
+      "src": "images/thumbnail16.png",
       "sizes": "16x16",
       "type": "image/svg"
     },
     {
-      "src": "thumbnail32.png",
+      "src": "images/thumbnail32.png",
       "sizes": "32x32",
-      "type": "image/svg"
+      "type": "image/png"
     },
     {
-      "src": "thumbnail64.png",
+      "src": "images/thumbnail64.png",
       "sizes": "64x64",
-      "type": "image/svg"
+      "type": "image/png"
     },
     {
-      "src": "thumbnail128.png",
+      "src": "images/thumbnail128.png",
       "sizes": "128x128",
-      "type": "image/svg"
+      "type": "image/png"
+    }, 
+    {
+      "src": "images/thumbnail144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "thumbnail192.png",
-      "type": "image/svg",
+      "src": "images/thumbnail192.png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "thumbnail512.png",
-      "type": "image/svg",
+      "src": "images/thumbnail512.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],
@@ -39,7 +45,7 @@
       "short_name": "WT!",
       "description": "Walking Together",
       "url": "./",
-      "icons": [{ "src": "thumbnail192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "images/thumbnail192.png", "sizes": "192x192" }]
     }
   ],
   "start_url": "./",

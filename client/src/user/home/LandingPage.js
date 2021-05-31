@@ -21,6 +21,7 @@ function LandingPage() {
                 if(token === null) {
                     history.push('/login');
                 } else {
+                    console.log(token);
                     dispatch(returnStdid(token));
                     history.push('/user/home');
                     }
