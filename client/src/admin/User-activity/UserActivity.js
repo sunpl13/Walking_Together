@@ -45,7 +45,6 @@ const UserActivity = () => {
                 axios.get(`${url}/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
                     headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
                 }).then((response) => {
-                    console.log(response)
                     if(response.data.data.length!==0) {
                         setRes(response.data.data);
                     }
