@@ -109,7 +109,7 @@ const UserActivityDatail = () => {
                 </tbody>
             </table>
             <div id="mapWrap">
-                <p id="mapText">{res.totalDistance}km ({res.totalTime}시간)</p>
+                <p id="mapText">{res.totalDistance}m ({res.totalTime}시간)</p>
                 <div id="imageWrap">
                     <div id="map" ref={container}/>
                 </div>
