@@ -325,4 +325,17 @@ public class ActivityService {
 
         return authentication.getName();
     }
+
+    // 활동 삭제
+    public Long deleteActivity(Long activityId) {
+
+        Optional<Activity> findActivity = activityRepository.findById(activityId);
+        if(findActivity.isEmpty()) {
+            return 404L;
+        }
+
+        activityRepository.delete(findActivity.get());
+
+        return activityId;
+    }
 }

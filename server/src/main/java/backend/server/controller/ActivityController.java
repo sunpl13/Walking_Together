@@ -131,6 +131,24 @@ public class ActivityController {
         return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
 
+    // 활동 삭제
+    @PostMapping("/activity/delete")
+    public ResponseEntity<Message> deleteActivity(@RequestParam(value = "activityId") Long activityId) {
+
+        Long result = activityService.deleteActivity(activityId);
+
+        if (result == 404L) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 활동입니다.", 404L);
+        }
+
+        Message resBody = new Message();
+        resBody.setMessage("삭제 성공");
+        resBody.setData(activityId);
+        resBody.setStatus(200L);
+
+        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
+    }
+
     // 활동 비정상 종료시 학번 리턴
     @PostMapping("/returnId")
     public String tokenToStdId(@RequestBody TokenDTO tokenDTO) {
