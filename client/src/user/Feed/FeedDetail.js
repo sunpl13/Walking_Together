@@ -16,7 +16,6 @@ const FeedDetail = () => {
     const key = process.env.REACT_APP_MAP;
 
     const feedItem = useSelector(state => state.feedReducer.selectedFeed);
-    console.log(feedItem);
 
     const [reviewState, setReviewState] = useState(false);
     const [review, setReview] = useState("");
