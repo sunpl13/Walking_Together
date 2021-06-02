@@ -21,18 +21,17 @@ function LandingPage() {
                 if(token === null) {
                     history.push('/login');
                 } else {
-                    console.log(token);
                     dispatch(returnStdid(token));
                     history.push('/user/home');
                     }
             } else {
                 const location = JSON.parse(localStorage.getItem(`location${lastIdx}`));
                 let map = [];
+
                 for(let i = 0 ; i <= lastIdx; i++) {
-                    const key = 'location' + i;
-                    map.push(localStorage.getItem(key));
-                    localStorage.removeItem("location"+i);
+                    map.push(localStorage.getItem("location"+i));
                 };
+
                 const formData = new FormData();
                 formData.append("activityId",localStorage.getItem("activityId"));
                 formData.append("map", map);
@@ -48,15 +47,18 @@ function LandingPage() {
                     localStorage.removeItem("activityId");
                     localStorage.removeItem("lastIndex");
                     localStorage.removeItem("partnerId");
-                  
+
+                    for(let i=0; i<= lastIdx; i++){
+                        localStorage.removeItem("location"+i);
+                    }
+
                     if(token === null) {
                         history.push('/login');
                     } else {
                         history.push('/user/home');
                     }
                 })
-            }
-            
+            }     
         }, 5000);
     }, [history,dispatch]);
 

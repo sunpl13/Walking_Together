@@ -125,7 +125,6 @@ const Mypage = () => {
                     .then(() => {
                         setUpdateState(false);
                         dispatch(changeBar("null", {title:"마이페이지", data:null}, "null", "null", "null", "small"));  //상단바 변경
-                        console.log(res)
                     })
                     .catch(err => {
                         if(err.response.data.code === 400){
