@@ -56,6 +56,12 @@ const TopBar = () => {
             return(
                 <div className="null"></div>
             );
+        } else if(topbar.right ==="delete") {
+            return (
+                <div className="delete" onClick={topbar.rfunc}>
+                    <p>삭제</p>
+                </div>
+            )
         }
     }
     

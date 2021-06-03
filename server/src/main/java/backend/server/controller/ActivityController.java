@@ -77,7 +77,7 @@ public class ActivityController {
         response.put("activityId", result);
 
         Message resBody = new Message();
-        resBody.setMessage("저장 완료");
+        resBody.setMessage("저장이 완료 되었습니다.");
         resBody.setData(response);
 
         return new ResponseEntity<>(resBody, null, HttpStatus.OK);
@@ -126,7 +126,7 @@ public class ActivityController {
         }
 
         Message resBody = new Message();
-        resBody.setMessage("저장 성공");
+        resBody.setMessage("저장이 완료 되었습니다.");
 
         return new ResponseEntity<>(resBody, null, HttpStatus.OK);
     }
@@ -142,7 +142,7 @@ public class ActivityController {
         }
 
         Message resBody = new Message();
-        resBody.setMessage("삭제 성공");
+        resBody.setMessage("성공적으로 삭제 되었습니다.");
         resBody.setData(activityId);
         resBody.setStatus(200L);
 

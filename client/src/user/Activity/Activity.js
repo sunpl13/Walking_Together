@@ -278,7 +278,7 @@ const Activity = () => {
 
 
     return (
-        <div> 
+        <div>
             <div id="mapWrap" className={activityState===false ? "hidden": "visible"}>
                 <div id='map'></div>
                 <div id="activityInfo">

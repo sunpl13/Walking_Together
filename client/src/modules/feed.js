@@ -21,7 +21,7 @@ const INIT_FEED_STATE = {
         startTime: "",
         endTime: "",
         review: '',
-        mapPicture: ""
+        mapPicture: []
     }
 };
 
@@ -31,6 +31,7 @@ const GETFEEDLIST = "GETFEEDLIST";
 const GETCERTIFICATION = "GETCERTIFICATION";
 const UPDATEFEED = "UPDATEFEED";
 const SELECTFEED = "SELECTFEED";
+const SELECTERROR = "SELECTERROR"
 
 const url = process.env.REACT_APP_SERVER;
 
@@ -91,6 +92,21 @@ export const selectFeed = (activityId) => async(dispatch) => {
     });
 };
 
+//activitystatus ==1 일때
+export const selectErrorFeed = (activityId) => async(dispatch) => {
+    const res = await axios.get(`${url}/feed/detail?activityId=${activityId}`, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    })
+    .then((res) => res.data)
+    .catch((err) => alert(err.response.data.message));
+
+    dispatch({
+        type: SELECTERROR,
+        activityId,
+        payload: res.data
+    });
+};
+
 const feedReducer = (state = INIT_FEED_STATE, action) => {
     switch(action.type) {
         
@@ -128,6 +144,20 @@ const feedReducer = (state = INIT_FEED_STATE, action) => {
                     mapPicture: action.payload.mapPicture
                 }
             };
+        
+        case SELECTERROR:
+            return {
+                ...state,
+                selectedFeed: {
+                    activityId: action.activityId,
+                    activityDate: action.payload.activityDate,
+                    partnerName: action.payload.partnerName,
+                    startTime: action.payload.startTime,
+                    endTime: "알 수 없음",
+                    review: action.payload.review,
+                    mapPicture: []
+                }
+            }
 
         default:
             return state;

@@ -20,6 +20,7 @@ const CREATEACTIVITY = "CREATEACTIVITY";
 const UPDATEPHOTO = "UPDATEPHOTO";
 const GETLOCATION = "GETLOCATION";
 const FINISHACTIVITY = "FINISHACTIVITY";
+const DLELTEACTIVITY = "DLELTEACTIVITY";
 
 const url = process.env.REACT_APP_SERVER;
 
@@ -64,6 +65,20 @@ export const createActivity = (
             alert(res.data.message);
     }).catch((err) => alert(err.response.data.message));
 };
+
+//활동 삭제
+export const deleteActivity = (activityId) => async(dispatch) => {
+    const data = await axios.post(`${url}/activity/delete?activityId=${activityId}`,null,{
+        headers: {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+    })
+    .then(res => res.data)
+    .catch(err => err.response.data.data);
+
+    dispatch({
+        type : DLELTEACTIVITY
+    })
+return data;
+}
 
 //위치 정보 업데이트
 export const getLocation = (
@@ -148,6 +163,11 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
                     startTime: action.payload,
                     activity: 1
                 }
+            };
+
+        case DLELTEACTIVITY:
+            return {
+                ...state
             };
         
         case GETLOCATION:

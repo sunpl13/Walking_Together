@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {sort} from '../../utils/options';
-import {getFeedList, selectFeed} from '../../modules/feed';
+import {getFeedList, selectFeed, selectErrorFeed} from '../../modules/feed';
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
 
@@ -13,6 +13,8 @@ function Feed() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [sor, setsor] = useState("asc");             // 정렬을 위한 state 지정
+    
+
 
 
     useEffect(() => {
@@ -21,6 +23,9 @@ function Feed() {
     },[sor,ID,dispatch]);
 
     let myFeed = useSelector(state => state.feedReducer.list);
+
+
+
 
 
     const sortList = sort.map(
@@ -33,14 +38,17 @@ function Feed() {
         setsor(e.currentTarget.value);
     };
 
+
     const goDetail = debounce((activityId, activityStatus) => {
         if(activityStatus=== 0) {
             dispatch(selectFeed(activityId))
             .then(() => history.push('/user/feeddetail'));
-        } else {
-            alert("활동 종료 후 상세 정보를 확인할 수 있습니다.");
+        } else if(activityStatus === 1) {
+            dispatch(selectErrorFeed(activityId))
+            .then(() => history.push('/user/feeddetail'));
         }
     }, 800);
+
 
     return (
         <div id="feedWrap">
@@ -48,7 +56,9 @@ function Feed() {
             <div id="feedItemsWrap">
                 {myFeed.length!==0 ? 
                 myFeed.map(
-                    (item,index) => (
+                    (item,index) => {
+
+                        return (
                         <table key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>
                             <tbody>
                             <tr id="tr1">
@@ -61,7 +71,7 @@ function Feed() {
                             </tr>
                             </tbody>
                         </table>
-                    )
+                        )}
                 ) : <p id="notice">피드 정보가 없습니다.</p>
             }
             </div>

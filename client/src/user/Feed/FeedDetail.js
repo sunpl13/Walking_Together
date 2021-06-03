@@ -2,12 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {updateFeed} from '../../modules/feed';
+import {deleteActivity} from '../../modules/activity'
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
+
 
 import '../../styles/feed.scss';
 
 const FeedDetail = () => {
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -35,8 +38,30 @@ const FeedDetail = () => {
         }
     }, 800);
 
+
+    const deleteHandler = debounce(() => {
+        if(window.confirm("위 피드의 인정된 시간 및 거리가 영구 삭제되며 복구할 수 없습니다. \n 삭제하시겠습니까?")) {
+            dispatch(deleteActivity(feedItem.activityId))
+            .then(res => {
+                alert(res.message);
+                const lastIdx = localStorage.getItem("lastIndex");
+
+                localStorage.removeItem("distance");
+                localStorage.removeItem("activityId");
+                localStorage.removeItem("lastIndex");
+                localStorage.removeItem("partnerId");
+
+                for(let i=0; i<= lastIdx; i++){
+                    localStorage.removeItem("location"+i);
+                }
+
+                history.push('/user/feed')
+            });
+        }
+    }, 800);
+
     useEffect(() => {
-        dispatch(changeBar("back", {title:"활동 상세", data:null}, "null", debounce(() => history.push('/user/feed'),800), "null", "small"));  //상단바 변경
+        dispatch(changeBar("back", {title:"활동 상세", data:null}, "delete", debounce(() => history.push('/user/feed'),800), deleteHandler, "small"));  //상단바 변경
 
         const script = document.createElement('script');
         script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
@@ -46,7 +71,7 @@ const FeedDetail = () => {
             window.kakao.maps.load(() => {
                 const dot = feedItem.mapPicture;
                 const point = [];
-                if(feedItem.mapPicture!==null&&feedItem.mapPicture!==undefined) {
+                if(dot.length > 0) {
                     for(let i = 0 ; i < dot.length ; i++) {
                         point.push(new window.kakao.maps.LatLng(dot[i].lat, dot[i].lon));
                     }
@@ -76,7 +101,7 @@ const FeedDetail = () => {
                 }
             })
         }
-    }, [dispatch, feedItem.mapPicture, key, history]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
+    }, [dispatch, feedItem.mapPicture, key, history, deleteHandler]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
 
     return (
         <div id="feedDetail">
@@ -99,7 +124,7 @@ const FeedDetail = () => {
 
                     <tr>
                         <td className="td1">종료 시간</td>
-                        <td className="td2">{(feedItem.endTime).substring(11,19)}</td>
+                        <td className="td2">{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,19)}</td>
                     </tr>
                     
                     <tr>
@@ -107,9 +132,14 @@ const FeedDetail = () => {
                     </tr>
 
                     <tr>
-                        <td colSpan="2">
-                            <div id="map" ref={container}/>
-                        </td>
+                        {feedItem.mapPicture.length > 0  ?
+                            <td colSpan="2">
+                                <div style= {{zIndex:'0'}} id="map" ref={container}/>
+                            </td>
+                            :
+                                <td colSpan = "2" style ={{textAlign : "center"}}>경로를 표시할 수 없습니다.</td>
+                        }
+
                     </tr>
 
                     <tr>

@@ -18,15 +18,15 @@
       "type": "image/png"
     },
     {
-      "src": "images/thumbnail128.png",
+      "src": "images/maskable_icon.png",
       "sizes": "128x128",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }, 
     {
       "src": "images/thumbnail144.png",
       "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
       "src": "images/thumbnail192.png",
