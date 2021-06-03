@@ -50,6 +50,12 @@ const Activity = () => {
         return index;
     };
 
+    const [distance, setDistance] = useState(0);
+    const [startTime] = useState(new Date().getTime()+32400000);
+    window.getStartTime = function() {  //get function
+        return startTime;
+    };
+    const [time, setTime] = useState(0);
     
 
     //F-지도에 표시할 선 생성
@@ -66,8 +72,9 @@ const Activity = () => {
               strokeOpacity: 0.7, //불투명도
               strokeStyle: 'solid', //스타일
           });
-          const length = parseFloat(localStorage.getItem('distance'));
-          localStorage.setItem('distance',length + polyline.getLength());  //총 거리 update (m 단위)
+          const length = parseFloat(localStorage.getItem('distance'))+polyline.getLength();
+          localStorage.setItem('distance',length);  //총 거리 update (m 단위)
+          setDistance(length);
 
           polyline.setMap(map);  //지도에 표시
       } else {
@@ -118,7 +125,7 @@ const Activity = () => {
 
     //F-지도 중심 이동
     const panTo = (map, lat, lon) => {
-        var moveLatLon = new window.kakao.maps.LatLng(lat, lon);  //이동할 위치 좌표 생성
+        const moveLatLon = new window.kakao.maps.LatLng(lat, lon);  //이동할 위치 좌표 생성
         map.panTo(moveLatLon); //부드럽게 move
     };
 
@@ -134,9 +141,11 @@ const Activity = () => {
                 });
                 if (window.getLoc1State()===true) {  //true: loc1에 업데이트, false: loc2에 업데이트
                     setLoc1({lat: position.coords.latitude, lon: position.coords.longitude}); //speed: coords.speed, timestamp: coords.timestamp})
+                    setTime(moment(position.coords.timestamp).diff(moment(window.getStartTime())));
                     setLoc1State(false);
                 } else {
                     setLoc2({lat: position.coords.latitude, lon: position.coords.longitude}); //speed: coords.speed, timestamp: coords.timestamp})
+                    setTime(moment(position.coords.timestamp).diff(moment(window.getStartTime())));
                     setLoc1State(true);
                 }
                 localStorage.setItem('lastIndex',window.getIndex()); //로컬스토리지에 마지막 인덱스 업데이트
@@ -272,13 +281,16 @@ const Activity = () => {
         <div> 
             <div id="mapWrap" className={activityState===false ? "hidden": "visible"}>
                 <div id='map'></div>
-                    <div id="buttonWrap">
+                <div id="activityInfo">
+                    · 시간 : {moment(time).format('HH:mm:ss')}<br/>
+                    · 거리 : {distance}m
+                </div>
+                <div id="buttonWrap">
                     <button onClick={stop} className="user_btn_blue">종료</button>
                 </div>
             </div>
 
             <div id="activityRegisterWrap" className={activityState===true ? "hidden": "visible"}>
-                <p>사진등록</p>
                 <div id="activityRegister">
                     <div className = "picture_container">
                         {picture.length===0?
