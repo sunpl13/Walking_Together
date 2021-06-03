@@ -13,7 +13,7 @@ public class MailService {
 
     private final JavaMailSender mailSender;
     @Value("${spring.mail.username}")
-    private static final String FROM_ADDRESS = "rhdtn311@gmail.com";
+    private static final String FROM_ADDRESS = "admin@walking2gether.com";
 
     public void mailSend(MailDTO mailDto) {
         SimpleMailMessage message = new SimpleMailMessage();
