@@ -177,7 +177,7 @@ const Activity = () => {
                 creation();
             });
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const creation = () => {  //좌표 받아와서 맵 생성
         getLocation()
