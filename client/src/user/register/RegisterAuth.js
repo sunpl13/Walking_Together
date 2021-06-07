@@ -20,7 +20,7 @@ const RegisterAuth = () => {
     const identificationHandler = debounce(() => {
         if(location.state.state === authNum) {
             alert("본인 인증이 완료 되었습니다.");
-            history.push({
+            history.replace({
                 pathname : '/user1/register',
                 state : {email : location.state.email}
             });

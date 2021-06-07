@@ -28,7 +28,7 @@ const CreateActivity = () => {
             const res = window.confirm("등록하시겠습니까?");
             if(res) {
                 localStorage.setItem('partnerId', partnerId);
-                history.push('/user1/activity-register');
+                history.replace('/user1/activity-register');
             } else {
                 return;
             }

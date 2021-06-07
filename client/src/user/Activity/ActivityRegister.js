@@ -62,7 +62,7 @@ const ActivityRegister = () => {
         formData.append("startPhoto", picture);
 
         await dispatch(createActivity(formData))
-        .then(() => history.push('/user1/activity'));
+        .then(() => history.replace('/user1/activity'));
     };
 
     useEffect(() => {

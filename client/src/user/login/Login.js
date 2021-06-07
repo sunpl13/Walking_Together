@@ -33,11 +33,11 @@ function Login() {
     }, 800);
 
     const goSignup = debounce(() => {
-        history.push('/user1/signup');
+        history.replace('/user1/signup');
     }, 800);
 
     const goFindPw = debounce(() => {
-        history.push('/user1/findpassword');
+        history.replace('/user1/findpassword');
     }, 800);
 
     return (

@@ -12,7 +12,7 @@ const FindPasswordResult = () => {
     const location = useLocation();
 
     const goLogin = debounce(() => {
-        history.push('/login')        
+        history.replace('/login')        
     }, 800);
 
     useEffect(() => {

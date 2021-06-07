@@ -21,7 +21,7 @@ const PartnerItem = ({state}) => {
     const itemClick = debounce(async() => {
         await dispatch(getPartnerDetailInfo(state.partnerId))
         .then(() => {
-            history.push(`/user/partner-datail/${state.partnerId}`);
+            history.replace(`/user/partner-datail/${state.partnerId}`);
         });
     }, 800);
 

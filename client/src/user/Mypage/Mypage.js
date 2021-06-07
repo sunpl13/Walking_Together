@@ -68,7 +68,7 @@ const Mypage = () => {
         if(window.confirm("로그아웃 하시겠습니까?")) {            
             dispatch(logoutHandler());
             if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                history.push('/login');
+                history.replace('/login');
             }
         }
     }, 800);
@@ -76,7 +76,7 @@ const Mypage = () => {
     //파트너로 이동
     const goPartner = debounce(async() => {
         await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-        .then(() => history.push('/user/partner'));
+        .then(() => history.replace('/user/partner'));
     }, 800);
 
     //업데이트 상태 리셋
@@ -216,7 +216,7 @@ const Mypage = () => {
                         <td>파트너 정보</td>
                         <td><IoIosArrowForward/></td>
                     </tr>
-                    <tr onClick={() => history.push('/user/certification')}>
+                    <tr onClick={() => history.replace('/user/certification')}>
                         <td>인증서 발급</td>
                         <td><IoIosArrowForward/></td>
                     </tr>

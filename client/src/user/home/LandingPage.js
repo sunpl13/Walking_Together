@@ -19,10 +19,10 @@ function LandingPage() {
 
             if(lastIdx === null) {      //로컬스토리지에 활동 index가 없다면, 활동 내역이 없다면
                 if(token === null) {
-                    history.push('/login');
+                    history.replace('/login');
                 } else {
                     dispatch(returnStdid(token));
-                    history.push('/user/home');
+                    history.replace('/user/home');
                     }
             } else {
                 const location = JSON.parse(localStorage.getItem(`location${lastIdx}`));
@@ -53,9 +53,9 @@ function LandingPage() {
                     }
 
                     if(token === null) {
-                        history.push('/login');
+                        history.replace('/login');
                     } else {
-                        history.push('/user/home');
+                        history.replace('/user/home');
                     }
                 })
             }     

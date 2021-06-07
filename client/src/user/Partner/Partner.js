@@ -15,11 +15,11 @@ const Partner = () => {
 
     //param function
     const goBack = debounce(() => {
-        history.push('/user/mypage');
+        history.replace('/user/mypage');
     }, 800);
 
     const goCreatePartner = debounce(() => {
-        history.push(`/user/partner-insert`);
+        history.replace(`/user/partner-insert`);
     }, 800);
 
     useEffect(() => {

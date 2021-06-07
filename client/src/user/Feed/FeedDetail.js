@@ -55,13 +55,13 @@ const FeedDetail = () => {
                     localStorage.removeItem("location"+i);
                 }
 
-                history.push('/user/feed')
+                history.replace('/user/feed')
             });
         }
     }, 800);
 
     useEffect(() => {
-        dispatch(changeBar("back", {title:"활동 상세", data:null}, "delete", debounce(() => history.push('/user/feed'),800), deleteHandler, "small"));  //상단바 변경
+        dispatch(changeBar("back", {title:"활동 상세", data:null}, "delete", debounce(() => history.replace('/user/feed'),800), deleteHandler, "small"));  //상단바 변경
 
         const script = document.createElement('script');
         script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
