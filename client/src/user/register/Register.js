@@ -43,7 +43,7 @@ function Register() {
       axios.get(`${url}/signup/authNum?email=${email}`)
       .then(res => {
               alert("인증번호 전송이 완료되었습니다");
-              history.push({
+              history.replace({
                 pathname : '/user1/registerauth',
                 state : {state : res.data.data.authNum,
                   email : email
@@ -107,21 +107,21 @@ function Register() {
               <div className="check_wrap">
                 <input id = "a1" className="checkbox" type="checkbox" name="agree1" value="agree1" checked={agree1} onChange={(e) => setAgree1(e.target.checked)} />
                 <label htmlFor = "a1">회원 약관</label>
-                <div className="go_icon"><FaAngleRight onClick = {() => {history.push('/user1/memberstipulation')}} size="24"/></div>
+                <div className="go_icon"><FaAngleRight onClick = {() => {history.replace('/user1/memberstipulation')}} size="24"/></div>
               </div>
             </li>
             <li>
               <div className="check_Wrap">
                 <input id = "a2" className="checkbox" type="checkbox" name="agree2" value="agree2" checked={agree2} onChange={(e) => setAgree2(e.target.checked)} />
                 <label htmlFor = "a2">개인정보 수집 및 이용</label>
-                <div className="go_icon"><FaAngleRight onClick = {() => {history.push('/user1/infostipulation')}} size="24"/></div>
+                <div className="go_icon"><FaAngleRight onClick = {() => {history.replace('/user1/infostipulation')}} size="24"/></div>
               </div>
             </li>
             <li>
               <div className="check_wrap">
                 <input id = "a3" className="checkbox" type="checkbox" name="agree3" value="agree3" checked={agree3} onChange={(e) => setAgree3(e.target.checked)} />
                 <label htmlFor ="a3">위치 정보 이용 동의</label>
-                <div className="go_icon"><FaAngleRight onClick = {() => {history.push('/user1/locationstipulation')}} size="24"/></div>
+                <div className="go_icon"><FaAngleRight onClick = {() => {history.replace('/user1/locationstipulation')}} size="24"/></div>
               </div>
             </li>
           </ul>

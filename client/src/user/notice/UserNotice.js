@@ -46,7 +46,7 @@ function UserNotice() {
 
     //param function
     const goBack = useCallback(() => {
-        history.push('/user/home');
+        history.replace('/user/home');
     }, [history]);
 
     useEffect(() => {

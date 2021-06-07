@@ -26,7 +26,7 @@ const Certification = () => {
                 headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
             }).then(async(res) => {
                 if(res.data.data.length!==0) {
-                    history.push({
+                    history.replace({
                         pathname: '/user/certification-action',
                         state: {
                             res: res.data,

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Link, useHistory} from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 import {  AiFillTrophy } from "react-icons/ai";
 import { BiWalk, BiListCheck } from "react-icons/bi";
@@ -13,11 +13,27 @@ function Nav() {
 
     const goActivity = useCallback(() => {
         if(activityId===null||activityId===0) {
-            history.push('/user/activitystart');
+            history.replace('/user/activitystart');
         } else {
-            history.push('/user1/activity');
+            history.replace('/user1/activity');
         }
     }, [activityId, history]);
+
+    const goFeed = useCallback(() => {
+        history.replace('/user/feed');
+    }, [history]);
+
+    const goHome = useCallback(() => {
+        history.replace('/user/home');
+    }, [history]);
+
+    const goRanking = useCallback(() => {
+        history.replace('/user/ranking');
+    }, [history]);
+
+    const goMypage = useCallback(() => {
+        history.replace('/user/mypage');
+    }, [history]);
 
     return (
         <nav>
@@ -29,31 +45,31 @@ function Nav() {
             </div>
 
             <div className="navItem">
-                <Link to = '/user/feed' className="navItem">
+                <span onClick={goFeed}>
                     <BiListCheck size="30"/><br/>
                     <p>피드</p>
-                </Link>
+                </span>
             </div>
 
             <div className="navItem">
-                <Link to = '/user/home' className="navItem">
+                <span onClick={goHome}>
                     <MdHome size="30"/><br/>
                     <p>홈</p>
-                </Link>
+                </span>
             </div>
 
             <div className="navItem">
-                <Link to = '/user/ranking' className="navItem">
+                <span onClick={goRanking}>
                     <AiFillTrophy size="30"/><br/>
                     <p>랭킹</p>
-                </Link>
+                </span>
             </div>
 
             <div className="navItem">
-                <Link to = '/user/mypage' className="navItem">
+                <span onClick={goMypage}>
                     <RiAccountCircleFill size="30"/><br/>
                     <p>마이페이지</p>
-                </Link>
+                </span>
             </div>
         </nav>
     );

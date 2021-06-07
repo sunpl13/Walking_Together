@@ -20,12 +20,12 @@ const PartnerDetail = ({match}) => {
 
     //param function
     const goBack = debounce(() => {
-        history.push('/user/partner');
+        history.replace('/user/partner');
     }, 800);
 
     //go partner update
     const goPartnerUpdate = debounce(() => {
-        history.push(`/user/partner-update/${partnerId}`);
+        history.replace(`/user/partner-update/${partnerId}`);
     }, 800);
 
     //delete partner
@@ -33,7 +33,7 @@ const PartnerDetail = ({match}) => {
         await dispatch(deletePartnerHandler(partnerId))
         .then(() => {
             dispatch(getPartnerBriefInfo(stdId));
-            history.push('/user/partner');
+            history.replace('/user/partner');
         })
     }, 800);
 

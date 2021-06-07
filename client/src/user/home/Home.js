@@ -27,7 +27,7 @@ function Home() {
     const goDetail = debounce(async(noticeId) => {
         await dispatch(selectNotice(noticeId))
         .then(() => {
-            history.push({
+            history.replace({
                 pathname : '/user/viewdetail',
                 state : {noticeId : noticeId}
             })
@@ -35,7 +35,7 @@ function Home() {
     }, 800);
 
     const goNotice = debounce(() => {
-        history.push('/user/noticelist');
+        history.replace('/user/noticelist');
     }, 800);
 
 

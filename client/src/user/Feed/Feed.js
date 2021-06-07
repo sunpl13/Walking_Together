@@ -42,10 +42,10 @@ function Feed() {
     const goDetail = debounce((activityId, activityStatus) => {
         if(activityStatus=== 0) {
             dispatch(selectFeed(activityId))
-            .then(() => history.push('/user/feeddetail'));
+            .then(() => history.replace('/user/feeddetail'));
         } else if(activityStatus === 1) {
             dispatch(selectErrorFeed(activityId))
-            .then(() => history.push('/user/feeddetail'));
+            .then(() => history.replace('/user/feeddetail'));
         }
     }, 800);
 

@@ -32,7 +32,7 @@ const FindPassword = () => {
             birth : birth
         }).then(res => {
             alert(res.data.message)
-            history.push({
+            history.replace({
                 pathname : '/user1/findresult',
                 state : {email : res.data.data.email}
             })
