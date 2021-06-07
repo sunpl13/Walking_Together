@@ -18,7 +18,7 @@ const CreateActivity = () => {
 
     //param function
     const goBack = debounce(() => {
-        history.goBack();
+        history.replace('/user/activitystart');
     }, 800);
 
     const createActivity = debounce((partnerId) => {  //사진과 한 번에 보내야 하므로 일단 로컬스토리지에 저장

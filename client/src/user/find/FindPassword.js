@@ -44,7 +44,7 @@ const FindPassword = () => {
     }, 800);
 
     const goBack = debounce(() => {
-        history.goBack();
+        history.replace('/login');
     }, 800);
 
     useEffect(() => {

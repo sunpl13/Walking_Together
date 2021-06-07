@@ -126,7 +126,7 @@ export const authHandler = (option, adminRoute, history) => async(dispatch) => {
             if(data.isAuth === false) {                 // 토큰이 일치하지 않을 때
                 if(option) {
                     alert("로그인을 해주시기 바랍니다.");
-                    history.push('/login')
+                    history.replace('/login')
                 } else {
                     return ;
                 }
@@ -136,14 +136,14 @@ export const authHandler = (option, adminRoute, history) => async(dispatch) => {
                     return;
                 } else if(option === false) {
                     alert("접근 권한이 없습니다.")
-                    history.push('/user/home');
+                    history.replace('/user/home');
                 }
             }
         } else if(adminRoute === true) {
             if(data.role[0].authority === "ROLE_ADMIN") {
                 return ;
             } else {
-                history.push('/login');
+                history.replace('/login');
                 alert("접근이 제한되었습니다.")
             }
         }

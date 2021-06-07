@@ -41,7 +41,7 @@ const ActivityRegister = () => {
     const goBack = debounce(() => {
         localStorage.removeItem('partnerId');
         localStorage.removeItem('activityId');
-        history.goBack();
+        history.replace('/user1/activity-register');
     }, 800);
 
     const createAction = debounce((e) => {
