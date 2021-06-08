@@ -64,12 +64,12 @@
 
 #mapWrap {
     padding-top: 20px;
-    padding-bottom: 70px;
+    padding-bottom: 10px;
     overflow-y: auto;
     #map {
         width:90%;
         height:400px;
-        z-index: 1;
+        z-index: 0;
         margin-top: 40px;
         margin-bottom: 30px;
     }            
@@ -87,8 +87,8 @@
 .hidden {
     height: 0 !important;
     padding: 0 !important;
-    display: hidden;
-    opacity: 0;
+    display: hidden !important;
+    opacity: 0 !important;
 }
 
 //activity start
