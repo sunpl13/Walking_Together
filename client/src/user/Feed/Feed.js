@@ -66,7 +66,7 @@ function Feed() {
                                 <td id="state">{item.activityStatus ? "진행중" : "종료"}</td>
                             </tr>
                             <tr id="tr2">
-                                <td id="distance">{item.distance}m</td>
+                                <td id="distance">{item.distance}{item.distance === null ? "" : "m"}</td>
                                 <td id="name">파트너 {item.partnerName}</td>
                             </tr>
                             </tbody>

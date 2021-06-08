@@ -288,6 +288,9 @@ const Activity = () => {
                 <div id="buttonWrap">
                     <button onClick={stop} className="user_btn_blue">종료</button>
                 </div>
+                <p>※ 뒤로가기 버튼을 누르면 활동이 비정상적으로 종료되어 봉사 실적으로 인정되지 않습니다. 뒤로가기 버튼이 눌리지 않도록 주의해주세요.<br/><br/>
+                ※ 화면 꺼지면 경로가 정상적으로 나오지 않을 수 있으니 화면이 켜진 상태에서 진행해 주시기 바랍니다.
+                </p>
             </div>
 
             <div id="activityRegisterWrap" className={activityState===true ? "hidden": "visible"}>
