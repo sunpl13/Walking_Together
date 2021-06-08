@@ -25,7 +25,7 @@ const PartnerInsert = () => {
     const cancel = debounce(() => {
         const res = window.confirm("취소하시겠습니까?");
         if(res===true) {
-            history.goBack();
+            history.replace('/user/partner');
         }
         else {
             return;

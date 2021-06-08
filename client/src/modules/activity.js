@@ -34,13 +34,13 @@ export const getPartner = (
     .then((res) => {
         if(res.data.status===400) {
             alert("파트너 정보가 존재하지 않습니다.");
-            history.push('/user/partner');
+            history.replace('/user/partner');
         } else {
             dispatch({
                 type: GETPARTNER,
                 payload: res.data.partners
             });
-            history.push('/user1/createactivity');
+            history.replace('/user1/createactivity');
         }
     }).catch((err) => alert(err.response.data.message));
 };

@@ -9,7 +9,7 @@ const LocationStipulation = () => {
     const dispatch = useDispatch();
 
     const goBack = useCallback(() => {
-        history.goBack();
+        history.replace('/user1/signup');
     }, [history]);
 
     useEffect(() => {
