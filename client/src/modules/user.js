@@ -28,9 +28,9 @@ export const loginHandler = (stdId, password, history) => async(dispatch) => {
             
             if(window.confirm("환영합니다!")) {
                 if(stdId === "00000") {
-                    history.push('/admin/user-info');
+                    history.replace('/admin/user-info');
                 } else{
-                    history.push('/user/home');
+                    history.replace('/user/home');
                 }
             }
         } 
@@ -81,7 +81,7 @@ export const signupHanlder = (
                 type : SIGNUP_USER
             })
             if (window.confirm(res.data.message)){
-                history.push("/login");
+                history.replace("/login");
             }
     }
     )
