@@ -291,19 +291,19 @@ const Activity = () => {
             </div>
 
             <div id="activityRegisterWrap" className={activityState===true ? "hidden": "visible"}>
-                <div id="activityRegister">
+                <div id="activityRegister" className={activityState===true ? "hidden": "visible"}>
                     <div className = "picture_container">
                         {picture.length===0?
-                        <div className="preview"></div>
+                        <div className={activityState===true ? "hidden": "priview"}></div>
                         :
-                        <div className="preview">
+                        <div className={activityState===true ? "hidden": "priview"}>
                             <img ref={frame} alt="none"/>
                         </div>
                         }
                     </div>
 
                     <div id="pictureInput">
-                        <form action="/activity/createActivity" className="imageForm" encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
+                        <form action="/activity/createActivity" className={activityState===true ? "hidden": "imageForm"} encType="multipart/form-data" method="post" onSubmit={(e) => createAction(e)}>
                             <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
 
                             {buttonFirst===true ? 
