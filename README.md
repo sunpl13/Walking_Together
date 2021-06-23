@@ -37,6 +37,7 @@
 - redux-thunk
 - sass
 ### 2.1.2. 백엔드
+- spring boot v2.4.3
 - spring security jwt - 로그인 시 인증 및 보안
 - spring data jpa - 엔티티 구성
 - querydsl - 쿼리 작성
