@@ -93,13 +93,13 @@ const UserActivityDatail = () => {
                     <tr>
                         <td id="td1">시작시간</td>
                         <td id="td2">
-                            { res.startTime!==null ? res.startTime : "-" }
+                            { res.startTime!==null ? res.startTime.slice(11,19) : "-" }
                         </td>
                     </tr>
                     <tr>
                         <td id="td1">종료시간</td>
                         <td id="td2">
-                            { res.endTime!==null ? res.endTime : "-" }
+                            { res.endTime!==null ? res.endTime.slice(11,19) : "-" }
                         </td>
                     </tr>
                     <tr>

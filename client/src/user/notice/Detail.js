@@ -16,7 +16,7 @@ const Detail = () => {
 
     //param function
     const goBack = useCallback(() => {
-        history.goBack();
+        history.replace("/user/home");
     }, [history]);
 
     const dispatchTopbar = useCallback(() => {

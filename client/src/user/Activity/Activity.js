@@ -275,15 +275,13 @@ const Activity = () => {
         }
     }, 800);
 
-
-
     return (
         <div>
             <div id="mapWrap" className={activityState===false ? "hidden": "visible"}>
                 <div id='map'></div>
                 <div id="activityInfo">
                     · 시간 : {moment(time).format('HH:mm:ss')}<br/>
-                    · 거리 : {distance}m
+                    · 거리 : {parseInt(distance)}m
                 </div>
                 <div id="buttonWrap">
                     <button onClick={stop} className="user_btn_blue">종료</button>
@@ -297,10 +295,10 @@ const Activity = () => {
                 <div id="activityRegister" className={activityState===true ? "hidden": "visible"}>
                     <div className = "picture_container">
                         {picture.length===0?
-                        <div className={activityState===true ? "hidden": "priview"}></div>
+                        <div className={activityState===true ? "hidden": "preview"}></div>
                         :
-                        <div className={activityState===true ? "hidden": "priview"}>
-                            <img ref={frame} alt="none"/>
+                        <div className={activityState===true ? "hidden": "preview"}>
+                            <img id="preview_img" ref={frame} alt="none"/>
                         </div>
                         }
                     </div>
