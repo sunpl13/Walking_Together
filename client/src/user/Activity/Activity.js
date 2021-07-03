@@ -275,15 +275,13 @@ const Activity = () => {
         }
     }, 800);
 
-
-
     return (
         <div>
             <div id="mapWrap" className={activityState===false ? "hidden": "visible"}>
                 <div id='map'></div>
                 <div id="activityInfo">
                     · 시간 : {moment(time).format('HH:mm:ss')}<br/>
-                    · 거리 : {distance}m
+                    · 거리 : {parseInt(distance)}m
                 </div>
                 <div id="buttonWrap">
                     <button onClick={stop} className="user_btn_blue">종료</button>
