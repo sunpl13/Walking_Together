@@ -294,10 +294,10 @@ const Activity = () => {
                 <div id="activityRegister" className={activityState===true ? "hidden": "visible"}>
                     <div className = "picture_container">
                         {picture.length===0?
-                        <div className={activityState===true ? "hidden": "priview"}></div>
+                        <div className={activityState===true ? "hidden": "preview"}></div>
                         :
-                        <div className={activityState===true ? "hidden": "priview"}>
-                            <img ref={frame} alt="none"/>
+                        <div className={activityState===true ? "hidden": "preview"}>
+                            <img id="preview_img" ref={frame} alt="none"/>
                         </div>
                         }
                     </div>
