@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 import pdfMake from 'pdfmake';
 import '../../../node_modules/pdfmake/build/vfs_fonts.js';
 import { useLocation } from "react-router";
+import { useHistory } from 'react-router-dom';
 import '../../styles/certification.scss';
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
@@ -14,7 +15,7 @@ import { certificationDefault } from '../../source/certificationDefault';
 
 const format = (data) => {
     if(data.length===1) {
-        return ([
+        return ([[
             {text: data[0].activityDate, fontSize: 11, alignment: 'center'},
             {text: data[0].distance+"m", fontSize: 11, alignment: 'center'},
             {text: data[0].startTime.substring(11, 19), fontSize: 11, alignment: 'center'},
@@ -22,9 +23,9 @@ const format = (data) => {
             {text: data[0].partnerName, fontSize: 11, alignment: 'center'},
             {text: data[0].careTime, fontSize: 11, alignment: 'center'},
             {text: data[0].ordinaryTime, fontSize: 11, alignment: 'center'}
-        ]);
+        ]]);
     } else {
-        return(data.map((item) => {
+        return (data.map((item) => {
             return ([
                 {text: item.activityDate, fontSize: 11, alignment: 'center'},
                 {text: item.distance+"m", fontSize: 11, alignment: 'center'},
@@ -33,12 +34,13 @@ const format = (data) => {
                 {text: item.partnerName, fontSize: 11, alignment: 'center'},
                 {text: item.careTime, fontSize: 11, alignment: 'center'},
                 {text: item.ordinaryTime, fontSize: 11, alignment: 'center'}
-            ])
+            ]);
         }));
     }
 };
 
 const CertificationAction = () => {
+    const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
 
@@ -47,6 +49,7 @@ const CertificationAction = () => {
     const to = location.state.to;
 
     const formatData = format(data.data);
+    console.log(formatData);
 
     const documentDefinition = {
 		pageSize: 'A4',
@@ -108,7 +111,7 @@ const CertificationAction = () => {
                             {text: '돌봄활동', fontSize: 12, bold: true, alignment: 'center'},
                             {text: '일반활동', fontSize: 12, bold: true, alignment: 'center'}
                         ],
-                        formatData
+                        ...formatData,
                     ],
                     alignment: "center"
                 },
@@ -121,10 +124,7 @@ const CertificationAction = () => {
     };
 
 	const func = debounce(() => {
-        const doc = pdfMake.createPdf(documentDefinition); 
-        doc.getBase64((data) => { 
-            window.location.href = 'data:application/pdf;base64,' + data; 
-        });
+        const doc = pdfMake.createPdf(documentDefinition);
         doc.download();
     }, 800);
 
