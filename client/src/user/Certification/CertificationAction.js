@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux';
 import pdfMake from 'pdfmake';
 import '../../../node_modules/pdfmake/build/vfs_fonts.js';
 import { useLocation } from "react-router";
-import { useHistory } from 'react-router-dom';
 import '../../styles/certification.scss';
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
@@ -40,7 +39,6 @@ const format = (data) => {
 };
 
 const CertificationAction = () => {
-    const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
 
