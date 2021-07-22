@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from 'react';
+import { React, useState, useEffect } from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import { useHistory } from 'react-router';
@@ -13,7 +13,6 @@ const FindPassword = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const ref = useRef();
     const [birth, setbirth] = useState("");
     const [stdId, setstdId] = useState("");
     const [Name, setName] = useState("");
@@ -53,18 +52,22 @@ const FindPassword = () => {
     }, [dispatch, goBack])
 
     return (
-        <div className="find" >
-            <form className="find_input">
-                <input type="text" value={stdId} onChange={stdIdHandler} placeholder="학번" />
-                <input type="text" value={Name} onChange={NameHandler} placeholder="이름" />
-                <input type="text" 
-                onChange={(e) => { setbirth(moment(e.target.value).format('YYYYMMDD')) }} 
-                ref = {ref}
-                placeholder="생년월일" 
-                onFocus={() => (ref.current.type = "date")} 
-                onBlur={() => (ref.current.type = "text")} />
+        <div className = "find" >
+            <form className = "find_input">
+                <div id="formDiv">
+                    <label htmlFor="stdId" id="label">학번</label>
+                    <input type = "text" value = {stdId} onChange = {stdIdHandler} id="input" className="stdId"/>
+                </div>
+                <div id="formDiv">
+                    <label htmlFor="name" id="label">이름</label>
+                    <input type = "text" value = {Name} onChange = {NameHandler} id="input" className="name"/>
+                </div>
+                <div id="formDiv">
+                    <label htmlFor="birth" id="label">생년월일</label>
+                    <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} data-placeholder="생년월일" id="input" className="birth"/>
+                </div>
             </form>
-            <button onClick={findpasswordHandler}>임시 비밀번호 발송</button>
+            <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
         </div>
     );
 };
