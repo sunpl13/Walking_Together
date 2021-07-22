@@ -79,7 +79,7 @@ function Register() {
     };
 
     const goBack = debounce(() => {
-      history.replace('/user1/signup');
+      history.replace('/login');
     }, 800);
 
     useEffect(() => {
