@@ -29,6 +29,14 @@
       width: 90%;
     }
   }
+
+ /* input[type ="date"]::before {
+    content: attr(data-placeholder);
+    width: calc(96% - 5px);
+  }
+  input[type ="date"]:focus::before
+  input[type ="date"]:valid::before {display: none}
+*/
 }
 
 .find_auth {
