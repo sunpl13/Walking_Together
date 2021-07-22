@@ -43,7 +43,7 @@ const Ranking = () => {
                                 
                                     <span id="name">{(item.name).slice(0, 1)+"O"+(item.name).slice(2, 3)}</span><br/>
                                     <span id="dept">{item.department}</span><br/>
-                                    <span id="stdId">{item.stdId}</span><br/>
+                                    <span id="stdId">{(item.stdId).slice(0, 4)+"*****"+(item.stdId).slice(9,10)}</span><br/>
                                     <span id="distance">{item.totalDistance}m</span><br/>
                                 </span>
                             )
@@ -60,7 +60,7 @@ const Ranking = () => {
                                             <td id="dept">{item.department}</td>
                                         </tr>
                                         <tr>
-                                            <td id="stdId">{item.stdId}</td>
+                                            <td id="stdId">{(item.stdId).slice(0, 4)+"*****"+(item.stdId).slice(9,10)}</td>
                                         </tr>
                                         <tr>
                                             <td id="distance">{item.totalDistance}m</td>
