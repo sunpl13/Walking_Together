@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import persistReducer from '../src/modules/store/index';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import './styles/index.scss';
 
@@ -7,17 +10,20 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import rootReducer from './modules/store/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ReduxThunk from "redux-thunk";
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
+const store = createStore(persistReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
+
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PersistGate persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );
