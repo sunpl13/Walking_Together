@@ -27,14 +27,9 @@ public class UserService {
     @Transactional
     public String signup(UserDTO userDto) {
 
-
-
-
-
-        int i = 0;
-//        if (userRepository.findOneWithAuthoritiesByStdId(userDto.getStdId()).orElse(null) != null) {
-//            return null;
-//        }
+        if (userRepository.findOneWithAuthoritiesByStdId(userDto.getStdId()).orElse(null) != null) {
+            return null;
+        }
 
         if (userRepository.findMemberByEmail(userDto.getEmail()).orElse(null)!=null) {
             return "emailDup";
