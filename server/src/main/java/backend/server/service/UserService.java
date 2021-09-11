@@ -26,9 +26,9 @@ public class UserService {
     // 회원가입
     @Transactional
     public String signup(UserDTO userDto) {
-        if (userRepository.findOneWithAuthoritiesByStdId(userDto.getStdId()).orElse(null) != null) {
-            return null;
-        }
+//        if (userRepository.findOneWithAuthoritiesByStdId(userDto.getStdId()).orElse(null) != null) {
+//            return null;
+//        }
 
         if (userRepository.findMemberByEmail(userDto.getEmail()).orElse(null)!=null) {
             return "emailDup";
