@@ -33,6 +33,9 @@ public class ActivityService {
     private final ActivityCheckImagesRepository activityCheckImagesRepository;
     private final CertificationRepository certificationRepository;
     private final MapCaptureRepository mapCaptureRepository;
+    private final CertificationDeleteService certificationDeleteService;
+    private final MapCaptureDeleteService mapCaptureDeleteService;
+    private final ActivityCheckImagesDeleteService activityCheckImagesDeleteService;
 
     private final TokenProvider tokenProvider;
 
@@ -263,33 +266,12 @@ public class ActivityService {
         Member member = activity.getMember();
 
         if (activity.getActivityDivision() == 0) {
-            int hours = activity.getOrdinaryTime().getHour();
-            int minutes = activity.getOrdinaryTime().getMinute();
-            int totalActivityTime = hours * 60 + minutes;
 
-            int memberHours = member.getTotalTime().getHour();
-            int memberMinutes = member.getTotalTime().getMinute();
-            int totalMemberTime = memberHours * 60 + memberMinutes;
-
-            int changeTime = totalActivityTime + totalMemberTime;
-
-            LocalTime totalTime = LocalTime.of(changeTime / 60, changeTime % 60);
-            member.changeTotalTime(totalTime);
+            member.changeTotalTime(activity, "plus");
 
         } else if (activity.getActivityDivision() == 1) {
 
-            int hours = activity.getCareTime().getHour();
-            int minutes = activity.getCareTime().getMinute();
-            int totalActivityTime = hours * 60 + minutes;
-
-            int memberHours = member.getTotalTime().getHour();
-            int memberMinutes = member.getTotalTime().getMinute();
-            int totalMemberTime = memberHours * 60 + memberMinutes;
-
-            int changeTime = totalActivityTime + totalMemberTime;
-
-            LocalTime totalTime = LocalTime.of(changeTime / 60, changeTime % 60);
-            member.changeTotalTime(totalTime);
+            member.changeTotalTime(activity, "plus");
 
         }
     }
@@ -329,12 +311,21 @@ public class ActivityService {
     // 활동 삭제
     public Long deleteActivity(Long activityId) {
 
-        Optional<Activity> findActivity = activityRepository.findById(activityId);
-        if(findActivity.isEmpty()) {
+        Optional<Activity> activityOptional = activityRepository.findById(activityId);
+        if(activityOptional.isEmpty()) {
             return 404L;
         }
 
-        activityRepository.delete(findActivity.get());
+        Activity activity = activityOptional.get();
+        Member member = activity.getMember();
+        member.minusDistance(activity.getDistance());
+        member.changeTotalTime(activity, "minus");
+
+        certificationDeleteService.deleteCertification(activityId);
+        mapCaptureDeleteService.deleteMapCaptures(activityId);
+        activityCheckImagesDeleteService.deleteActivityCheckImages(activityId);
+        activityRepository.delete(activity);
+
 
         return activityId;
     }

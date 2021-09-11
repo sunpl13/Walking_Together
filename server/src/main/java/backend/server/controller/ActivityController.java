@@ -3,6 +3,7 @@ package backend.server.controller;
 import backend.server.DTO.ActivityDTO;
 import backend.server.DTO.ActivityEndDTO;
 import backend.server.DTO.TokenDTO;
+import backend.server.DTO.response.ResponseDTO;
 import backend.server.exception.ApiException;
 import backend.server.message.Message;
 import backend.server.service.ActivityService;
@@ -133,20 +134,14 @@ public class ActivityController {
 
     // 활동 삭제
     @PostMapping("/activity/delete")
-    public ResponseEntity<Message> deleteActivity(@RequestParam(value = "activityId") Long activityId) {
+    public ResponseEntity<ResponseDTO> deleteActivity(@RequestParam(value = "activityId") Long activityId) {
 
         Long result = activityService.deleteActivity(activityId);
 
-        if (result == 404L) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "존재하지 않는 활동입니다.", 404L);
-        }
-
-        Message resBody = new Message();
-        resBody.setMessage("성공적으로 삭제 되었습니다.");
-        resBody.setData(activityId);
-        resBody.setStatus(200L);
-
-        return new ResponseEntity<>(resBody, null, HttpStatus.OK);
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("성공적으로 삭제 되었습니다.")
+                .data(result)
+                .build());
     }
 
     // 활동 비정상 종료시 학번 리턴
