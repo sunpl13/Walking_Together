@@ -26,6 +26,12 @@ public class UserService {
     // 회원가입
     @Transactional
     public String signup(UserDTO userDto) {
+
+
+
+
+
+        int i = 0;
 //        if (userRepository.findOneWithAuthoritiesByStdId(userDto.getStdId()).orElse(null) != null) {
 //            return null;
 //        }
