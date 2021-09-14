@@ -59,11 +59,11 @@
     width: 90%;
     margin: 0px 10px 30px 20px;
 
-    input[type="checkbox"]+label {
+    input[type="checkbox"] + label {
       padding-left: 30px;
       background: url("../source/Checkbox_before.svg") no-repeat 0 0px / contain;
     }
-    input[type="checkbox"]:checked+label {
+    input[type="checkbox"]:checked + label {
       padding-left: 30px;
       background: url("../source/Checkbox_after.svg") no-repeat 0 0px / contain;
     }
@@ -158,6 +158,8 @@
 }
 
 .register_page {
+  position: relative;
+  display: block !important;
   @include box-default;
   animation: fadein 1s;
   -webkit-animation: fadein 1s;
@@ -169,6 +171,7 @@
   }
 
   form {
+    position: absolute !important;
     width: 90%;
     padding: 5%;
     margin-top: 40px;
