@@ -188,8 +188,6 @@ public class ActivityService {
             return 405L;
         }
 
-        // ["lat":37.5477517, "lon":127.02928809999999, "timestamp":1622384391414,
-        // "lat":37.5477517, "lon":127.02928809999999, "timestamp":1622387421459]
         if (map != null) {
 
             HashMap<String, String> latLonTime = new HashMap<>();
@@ -333,8 +331,11 @@ public class ActivityService {
 
         Activity activity = activityOptional.get();
         Member member = activity.getMember();
-        member.minusDistance(activity.getDistance());
-        member.changeTotalTime(activity, "minus");
+        if (activity.getActivityStatus() == 0) {
+            member.minusDistance(activity.getDistance());
+            member.changeTotalTime(activity, "minus");
+        }
+
 
         certificationDeleteService.deleteCertification(activityId);
         mapCaptureDeleteService.deleteMapCaptures(activityId);
