@@ -27,7 +27,7 @@ export const loginHandler = (stdId, password, history) => async (dispatch) => {
           });
 
           if (window.confirm("환영합니다!")) {
-            if (stdId === "00000") {
+            if (stdId === "000000") {
               history.replace("/admin/user-info");
             } else {
               history.replace("/user/home");
