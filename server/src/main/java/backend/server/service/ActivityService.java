@@ -135,11 +135,6 @@ public class ActivityService {
 
         long minutes = ChronoUnit.MINUTES.between(activity.getStartTime(), endTime);
         if (minutes < 30 && checkNormalQuit == 0) {
-            activity.changeActivityStatus(0);
-            activity.changeEndTime(endTime);
-            activity.changeOrdinaryTime(LocalTime.of(0, 0));
-            activity.changeCareTime(LocalTime.of(0, 0));
-            activity.changeDistance(0L);
             return 500L;
         } else if (minutes < 30 && checkNormalQuit == 1) {
             activity.changeActivityStatus(0);
@@ -152,32 +147,20 @@ public class ActivityService {
 
         if (activity.getActivityDivision() == 0) {
             if (distance < 4000 && checkNormalQuit == 0) {
-                activity.changeActivityStatus(0);
-                activity.changeEndTime(endTime);
-                activity.changeOrdinaryTime(LocalTime.of(0, 0));
-                activity.changeCareTime(LocalTime.of(0, 0));
-                activity.changeDistance(0L);
                 return 501L;
             } else if (distance < 4000 && checkNormalQuit == 1) {
                 activity.changeActivityStatus(0);
                 activity.changeEndTime(endTime);
                 activity.changeOrdinaryTime(LocalTime.of(0, 0));
-                activity.changeCareTime(LocalTime.of(0, 0));
                 activity.changeDistance(0L);
                 return 503L;
             }
         } else if (activity.getActivityDivision() == 1) {
             if (distance < 2000 && checkNormalQuit == 0) {
-                activity.changeActivityStatus(0);
-                activity.changeEndTime(endTime);
-                activity.changeOrdinaryTime(LocalTime.of(0, 0));
-                activity.changeCareTime(LocalTime.of(0, 0));
-                activity.changeDistance(0L);
                 return 501L;
             } else if (distance < 2000 && checkNormalQuit == 1) {
                 activity.changeActivityStatus(0);
                 activity.changeEndTime(endTime);
-                activity.changeOrdinaryTime(LocalTime.of(0, 0));
                 activity.changeCareTime(LocalTime.of(0, 0));
                 activity.changeDistance(0L);
                 return 503L;
