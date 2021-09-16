@@ -14,6 +14,7 @@ const ActivityRegister = () => {
     const stdId = useSelector(state => state.user.authResult.stdId);
     const partnerId = localStorage.getItem('partnerId');
     localStorage.setItem('activityId',useSelector(state => state.activityReducer.activity.activityId));
+    const [state, setState] = useState(true)  //제어
 
     const [picture, setPicture] = useState([]);
     const [buttonFirst, setButtonFirst] = useState(true);
@@ -21,6 +22,7 @@ const ActivityRegister = () => {
     const camera = useRef();
     const frame = useRef();
 
+    //사진 촬영
     const takePhoto = (e) => {
         let reader = new FileReader();
 
@@ -38,17 +40,21 @@ const ActivityRegister = () => {
     };
 
     //param function
-    const goBack = debounce(() => {
-        localStorage.removeItem('partnerId');
-        localStorage.removeItem('activityId');
-        history.replace('/user1/createactivity');
+    const goBack = debounce(() => {  //뒤로가기
+        if(window.confirm("취소하시겠습니까?")) {
+            localStorage.removeItem('partnerId');
+            localStorage.removeItem('activityId');
+            history.replace('/user1/createactivity');
+        }
     }, 800);
 
-    const createAction = debounce((e) => {
+    const createAction = debounce((e) => {  //등록
         e.preventDefault();
+        setState(false);
 
         if(picture.length===0) {
             alert("사진 촬영 후 활동 등록이 가능합니다.");
+            setState(true);
         } else {
             submit();
         }
@@ -66,8 +72,12 @@ const ActivityRegister = () => {
     };
 
     useEffect(() => {
-        dispatch(changeBar("cancel", {title:"사진 등록", data:null}, "create", goBack, createAction, "small"));
-    }, [goBack, createAction, dispatch]);
+        if(state===true) {
+            dispatch(changeBar("cancel", {title:"사진 등록", data:null}, "create", goBack, createAction, "small"));
+        } else {
+            dispatch(changeBar("cancel", {title:"사진 등록", data:null}, "create", goBack, null, "small"));
+        }
+    }, [goBack, createAction, dispatch, state]);
 
 
     return (
