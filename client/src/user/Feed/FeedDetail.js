@@ -101,7 +101,7 @@ const FeedDetail = () => {
                 }
             })
         }
-    }, [dispatch, feedItem.mapPicture, key, history, deleteHandler]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
+    }, []);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
 
     return (
         <div id="feedDetail">
@@ -109,22 +109,22 @@ const FeedDetail = () => {
                 <tbody>
                     <tr>
                         <td className="td1">활동일</td>
-                        <td className="td2">{feedItem.activityDate}</td>
+                        <td className="td2" colSpan="2">{feedItem.activityDate}</td>
                     </tr>
 
                     <tr>
                         <td className="td1">파트너</td>
-                        <td className="td2">{feedItem.partnerName}</td>
+                        <td className="td2" colSpan="2">{feedItem.partnerName}</td>
                     </tr>
 
                     <tr>
                         <td className="td1">시작 시간</td>
-                        <td className="td2">{(feedItem.startTime).substring(11,19)}</td>
+                        <td className="td2" colSpan="2">{(feedItem.startTime).substring(11,19)}</td>
                     </tr>
 
                     <tr>
                         <td className="td1">종료 시간</td>
-                        <td className="td2">{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,19)}</td>
+                        <td className="td2" colSpan="2">{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,19)}</td>
                     </tr>
                     
                     <tr>
@@ -133,7 +133,7 @@ const FeedDetail = () => {
 
                     <tr>
                         {feedItem.mapPicture.length > 0  ?
-                            <td colSpan="2">
+                            <td colSpan="3">
                                 <div style= {{zIndex:'0'}} id="map" ref={container}/>
                             </td>
                             :
@@ -149,6 +149,9 @@ const FeedDetail = () => {
                         {reviewState===false && feedItem.review===null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
                         {reviewState===false && feedItem.review!==null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
                         </td>
+                        <td>
+                            {review.length!==0 ? review.length+"/800" : "?/800"}
+                        </td>
                     </tr>       
                 </tbody>
             </table>
@@ -156,10 +159,12 @@ const FeedDetail = () => {
                 {reviewState===false ?
                     feedItem.review
                 :
+                <div>
                     <textarea className="inputText" onChange={reviewChange} 
                     placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
-                    minLength="100" maxLength="800" defaultValue={feedItem.review}></textarea>
-                }     
+                    minLength="100" maxLength="800" defaultValue={feedItem.review||''}></textarea>
+                </div>
+                }
             </div>
         </div>
     );
