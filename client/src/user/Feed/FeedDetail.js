@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {updateFeed} from '../../modules/feed';
-import {deleteActivity} from '../../modules/activity'
+import { updateFeed } from '../../modules/feed';
+import { deleteActivity } from '../../modules/activity'
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
 
@@ -39,26 +39,28 @@ const FeedDetail = () => {
     }, 800);
 
 
-    const deleteHandler = debounce(() => {
-        if(window.confirm("위 피드의 인정된 시간 및 거리가 영구 삭제되며 복구할 수 없습니다. \n 삭제하시겠습니까?")) {
-            dispatch(deleteActivity(feedItem.activityId))
-            .then(res => {
-                alert(res.message);
-                const lastIdx = localStorage.getItem("lastIndex");
+    const deleteHandler = useMemo(
+        () => debounce(() => {
+            if(window.confirm("위 피드의 인정된 시간 및 거리가 영구 삭제되며 복구할 수 없습니다. \n 삭제하시겠습니까?")) {
+                dispatch(deleteActivity(feedItem.activityId))
+                .then(res => {
+                    alert(res.message);
+                    const lastIdx = localStorage.getItem("lastIndex");
 
-                localStorage.removeItem("distance");
-                localStorage.removeItem("activityId");
-                localStorage.removeItem("lastIndex");
-                localStorage.removeItem("partnerId");
+                    localStorage.removeItem("distance");
+                    localStorage.removeItem("activityId");
+                    localStorage.removeItem("lastIndex");
+                    localStorage.removeItem("partnerId");
 
-                for(let i=0; i<= lastIdx; i++){
-                    localStorage.removeItem("location"+i);
-                }
+                    for(let i=0; i<= lastIdx; i++){
+                        localStorage.removeItem("location"+i);
+                    }
 
-                history.replace('/user/feed')
-            });
-        }
-    }, 800);
+                    history.replace('/user/feed')
+                });
+            }
+        }, 800)
+    , [dispatch, feedItem.activityId, history]);
 
     useEffect(() => {
         dispatch(changeBar("back", {title:"활동 상세", data:null}, "delete", debounce(() => history.replace('/user/feed'),800), deleteHandler, "small"));  //상단바 변경
@@ -101,7 +103,7 @@ const FeedDetail = () => {
                 }
             })
         }
-    }, []);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
+    }, [feedItem.mapPicture, deleteHandler, dispatch, history, key]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
 
     return (
         <div id="feedDetail">
