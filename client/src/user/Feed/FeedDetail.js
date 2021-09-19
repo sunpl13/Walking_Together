@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {updateFeed} from '../../modules/feed';
-import {deleteActivity} from '../../modules/activity'
+import { updateFeed } from '../../modules/feed';
+import { deleteActivity } from '../../modules/activity'
 import { debounce } from "lodash";
 import { changeBar } from '../../modules/topbar';
 
@@ -39,26 +39,28 @@ const FeedDetail = () => {
     }, 800);
 
 
-    const deleteHandler = debounce(() => {
-        if(window.confirm("위 피드의 인정된 시간 및 거리가 영구 삭제되며 복구할 수 없습니다. \n 삭제하시겠습니까?")) {
-            dispatch(deleteActivity(feedItem.activityId))
-            .then(res => {
-                alert(res.message);
-                const lastIdx = localStorage.getItem("lastIndex");
+    const deleteHandler = useMemo(
+        () => debounce(() => {
+            if(window.confirm("위 피드의 인정된 시간 및 거리가 영구 삭제되며 복구할 수 없습니다. \n 삭제하시겠습니까?")) {
+                dispatch(deleteActivity(feedItem.activityId))
+                .then(res => {
+                    alert(res.message);
+                    const lastIdx = localStorage.getItem("lastIndex");
 
-                localStorage.removeItem("distance");
-                localStorage.removeItem("activityId");
-                localStorage.removeItem("lastIndex");
-                localStorage.removeItem("partnerId");
+                    localStorage.removeItem("distance");
+                    localStorage.removeItem("activityId");
+                    localStorage.removeItem("lastIndex");
+                    localStorage.removeItem("partnerId");
 
-                for(let i=0; i<= lastIdx; i++){
-                    localStorage.removeItem("location"+i);
-                }
+                    for(let i=0; i<= lastIdx; i++){
+                        localStorage.removeItem("location"+i);
+                    }
 
-                history.replace('/user/feed')
-            });
-        }
-    }, 800);
+                    history.replace('/user/feed')
+                });
+            }
+        }, 800)
+    , [dispatch, feedItem.activityId, history]);
 
     useEffect(() => {
         dispatch(changeBar("back", {title:"활동 상세", data:null}, "delete", debounce(() => history.replace('/user/feed'),800), deleteHandler, "small"));  //상단바 변경
@@ -101,7 +103,7 @@ const FeedDetail = () => {
                 }
             })
         }
-    }, [dispatch, feedItem.mapPicture, key, history, deleteHandler]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
+    }, [feedItem.mapPicture, deleteHandler, dispatch, history, key]);  //dependency에 goBack 추가 시 소감문 state 바뀔 때마다 changeBar dispatch 일어남
 
     return (
         <div id="feedDetail">
@@ -109,22 +111,22 @@ const FeedDetail = () => {
                 <tbody>
                     <tr>
                         <td className="td1">활동일</td>
-                        <td className="td2">{feedItem.activityDate}</td>
+                        <td className="td2" colSpan="2">{feedItem.activityDate}</td>
                     </tr>
 
                     <tr>
                         <td className="td1">파트너</td>
-                        <td className="td2">{feedItem.partnerName}</td>
+                        <td className="td2" colSpan="2">{feedItem.partnerName}</td>
                     </tr>
 
                     <tr>
                         <td className="td1">시작 시간</td>
-                        <td className="td2">{(feedItem.startTime).substring(11,19)}</td>
+                        <td className="td2" colSpan="2">{(feedItem.startTime).substring(11,19)}</td>
                     </tr>
 
                     <tr>
                         <td className="td1">종료 시간</td>
-                        <td className="td2">{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,19)}</td>
+                        <td className="td2" colSpan="2">{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,19)}</td>
                     </tr>
                     
                     <tr>
@@ -133,7 +135,7 @@ const FeedDetail = () => {
 
                     <tr>
                         {feedItem.mapPicture.length > 0  ?
-                            <td colSpan="2">
+                            <td colSpan="3">
                                 <div style= {{zIndex:'0'}} id="map" ref={container}/>
                             </td>
                             :
@@ -149,6 +151,9 @@ const FeedDetail = () => {
                         {reviewState===false && feedItem.review===null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
                         {reviewState===false && feedItem.review!==null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
                         </td>
+                        <td>
+                            {review.length!==0 ? review.length+"/800" : "?/800"}
+                        </td>
                     </tr>       
                 </tbody>
             </table>
@@ -156,10 +161,12 @@ const FeedDetail = () => {
                 {reviewState===false ?
                     feedItem.review
                 :
+                <div>
                     <textarea className="inputText" onChange={reviewChange} 
                     placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
-                    minLength="100" maxLength="800" defaultValue={feedItem.review}></textarea>
-                }     
+                    minLength="100" maxLength="800" defaultValue={feedItem.review||''}></textarea>
+                </div>
+                }
             </div>
         </div>
     );
