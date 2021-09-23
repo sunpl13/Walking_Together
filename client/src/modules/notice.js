@@ -30,6 +30,7 @@ const DELETENOTICE = 'DELETENOTICE';
 const SELECTNOTICE = 'SELECTNOTICE';
 const GETLIST = 'GETLIST';
 const INITSELECTEDNOTICE = 'INITSELECTEDNOTICE';
+const RESETNOTICE = 'RESETNOTICE';
 
 const url = process.env.REACT_APP_SERVER;
 
@@ -179,6 +180,13 @@ export const initSelectedNotice = () => async(dispatch) => {        //redux sele
     });
 };
 
+//로그아웃 시 리셋
+export const resetNotice = () => async(dispatch) => {
+    dispatch({
+        type: RESETNOTICE
+    });
+};
+
 
 //reducer
 const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
@@ -236,6 +244,13 @@ const noticeReducer = (state = INIT_NOTICE_STATE, action) => {
                     imageFiles: null,
                     attachedFiles: null
                 }
+            };
+
+        case RESETNOTICE:
+            return {
+                pageInfo: INIT_NOTICE_STATE.pageInfo,
+                list: INIT_NOTICE_STATE.list,
+                selectedNotice: INIT_NOTICE_STATE.selectedNotice
             };
             
         default:

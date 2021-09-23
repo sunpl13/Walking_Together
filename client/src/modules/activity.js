@@ -21,6 +21,7 @@ const UPDATEPHOTO = "UPDATEPHOTO";
 const GETLOCATION = "GETLOCATION";
 const FINISHACTIVITY = "FINISHACTIVITY";
 const DLELTEACTIVITY = "DLELTEACTIVITY";
+const RESETACTIVITY = "RESETACTIVITY";
 
 const url = process.env.REACT_APP_SERVER;
 
@@ -136,6 +137,13 @@ export const quitActivity = (
     });
 };
 
+//로그아웃 시 리셋
+export const resetActivity = () => async(dispatch) => {
+    dispatch({
+        type: RESETACTIVITY
+    });
+};
+
 
 //reducer
 const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
@@ -192,6 +200,13 @@ const activityReducer = (state = INIT_ACTIVITY_STATE, action) => {
                     startTime: 0,
                 },
                 location: {}
+            };
+
+        case RESETACTIVITY:
+            return {
+                partner: INIT_ACTIVITY_STATE.partner,
+                activity: INIT_ACTIVITY_STATE.activity,
+                location: INIT_ACTIVITY_STATE.location
             };
 
         default:

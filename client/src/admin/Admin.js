@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { debounce } from "lodash";
 
 import { logoutHandler } from '../modules/user';
+import { resetAdmin } from '../modules/admin';
 
 import Menu from './Menu/Menu';
 import UserInfo from './User-info/UserInfo';
@@ -23,11 +24,11 @@ const Admin = () => {
 
     //function
     const logout = debounce(() => {  //logout
-            if(window.confirm("로그아웃 하시겠습니까?")) {
-                
-                dispatch(logoutHandler());
-                if(window.confirm("로그아웃이 완료 되었습니다.")) {
-                    history.push('/login');
+        if(window.confirm("로그아웃 하시겠습니까?")) {
+            dispatch(resetAdmin());
+            dispatch(logoutHandler());
+            if(window.confirm("로그아웃이 완료 되었습니다.")) {
+                history.push('/login');
             }
         }
     }, 800);

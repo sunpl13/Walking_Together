@@ -185,7 +185,9 @@ export default function user(state = initialstate, action) {
       };
     case LOGOUT_USER:
       return {
-        ...state,
+        isLogin: {},
+        result: {},
+        authResult: {},
         isAuth: false,
       };
     case AUTH_USER_PANDING:

@@ -9,6 +9,7 @@ const INIT_ADMIN_STATE = {
 
 //action type
 const GETACTIVITYDETAIL = "GETACTIVITYDETAIL";
+const RESETADMIN = "RESETADMIN";
 
 
 //활동 세부사항 받아오기
@@ -25,6 +26,13 @@ export const getAdminActivityDetail = (
     }).catch((err) => alert(err.response.data.message));
 };
 
+//로그아웃 시 리셋
+export const resetAdmin = () => async(dispatch) => {
+    dispatch({
+        type: RESETADMIN
+    });
+};
+
 
 //reducer
 const adminReducer = (state = INIT_ADMIN_STATE, action) => {
@@ -33,6 +41,11 @@ const adminReducer = (state = INIT_ADMIN_STATE, action) => {
             return {
                 ...state,
                 selected_activity: action.payload
+            };
+
+        case RESETADMIN:
+            return {
+                selected_activity: {}
             };
 
         default:
