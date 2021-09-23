@@ -53,6 +53,7 @@ function Register() {
       .catch((err) => {
         if (err.response.data.code === 409) {
           alert(err.response.data.message);
+          settoggle(false);
         }
       });
   }, 800);
