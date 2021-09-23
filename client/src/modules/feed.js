@@ -31,7 +31,8 @@ const GETFEEDLIST = "GETFEEDLIST";
 const GETCERTIFICATION = "GETCERTIFICATION";
 const UPDATEFEED = "UPDATEFEED";
 const SELECTFEED = "SELECTFEED";
-const SELECTERROR = "SELECTERROR"
+const SELECTERROR = "SELECTERROR";
+const RESETFEED = "RESETFEED";
 
 const url = process.env.REACT_APP_SERVER;
 
@@ -107,6 +108,13 @@ export const selectErrorFeed = (activityId) => async(dispatch) => {
     });
 };
 
+//로그아웃 시 리셋
+export const resetFeed = () => async(dispatch) => {
+    dispatch({
+        type: RESETFEED
+    });
+};
+
 const feedReducer = (state = INIT_FEED_STATE, action) => {
     switch(action.type) {
         
@@ -157,7 +165,14 @@ const feedReducer = (state = INIT_FEED_STATE, action) => {
                     review: action.payload.review,
                     mapPicture: []
                 }
-            }
+            };
+
+        case RESETFEED:
+            return {
+                list: INIT_FEED_STATE.list,
+                certification: INIT_FEED_STATE.certification,
+                selectedFeed: INIT_FEED_STATE.selectedFeed
+            };
 
         default:
             return state;

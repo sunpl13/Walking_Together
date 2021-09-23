@@ -9,7 +9,10 @@ import { CgProfile } from "react-icons/cg";
 import { IoIosArrowForward } from "react-icons/io";
 
 import { department } from "../../utils/options";
-import { getPartnerBriefInfo } from '../../modules/partner';
+import { resetActivity } from "../../modules/activity";
+import { resetFeed } from "../../modules/feed";
+import { resetNotice } from "../../modules/notice";
+import { getPartnerBriefInfo, resetPartner } from '../../modules/partner';
 import { changeBar } from '../../modules/topbar';
 
 import '../../styles/mypage.scss';
@@ -65,7 +68,11 @@ const Mypage = () => {
 
     //로그아웃 구현
     const logout = debounce(() => { 
-        if(window.confirm("로그아웃 하시겠습니까?")) {            
+        if(window.confirm("로그아웃 하시겠습니까?")) {    
+            dispatch(resetPartner());
+            dispatch(resetActivity());
+            dispatch(resetFeed());   
+            dispatch(resetNotice());     
             dispatch(logoutHandler());
             if(window.confirm("로그아웃이 완료 되었습니다.")) {
                 history.replace('/login');
@@ -74,9 +81,9 @@ const Mypage = () => {
     }, 800);
 
     //파트너로 이동
-    const goPartner = debounce(async() => {
-        await dispatch(getPartnerBriefInfo(stdId))  //GET PARTNER-LIST
-        .then(() => history.replace('/user/partner'));
+    const goPartner = debounce(() => {
+        dispatch(getPartnerBriefInfo(stdId));  //GET PARTNER-LIST
+        history.replace('/user/partner');
     }, 800);
 
     //업데이트 상태 리셋

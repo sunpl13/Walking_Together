@@ -6,6 +6,7 @@ const GET_PARTNER_DETAIL_INFO = 'GET_PARTNER_DETAIL_INFO';
 const CREATE_PARTNER = 'CREATE_PARTNER';
 const CHANGE_PARTNER = 'CHANGE_PARTNER';
 const DELETE_PARTNER = 'DELETE_PARTNER';
+const RESET_PARTNER = "RESET_PARTNER";
 
 const url = process.env.REACT_APP_SERVER;
 
@@ -117,6 +118,13 @@ export const deletePartnerHandler = (
     });
 };
 
+//로그아웃 시 리셋
+export const resetPartner = () => async(dispatch) => {
+    dispatch({
+        type: RESET_PARTNER
+    });
+};
+
 
 
 //reducer
@@ -143,7 +151,13 @@ export default function partner(state = initialstate, action) {
         case DELETE_PARTNER :
             return {
                 ...state
-            }
+            };
+        case RESET_PARTNER :
+            return {
+                briefPartner : [],
+                partnerList : [],
+                partnerDetail : initialstate.partnerDetail
+            };
         default :
         return state;
     };
