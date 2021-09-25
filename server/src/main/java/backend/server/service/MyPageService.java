@@ -88,11 +88,7 @@ public class MyPageService {
             if(memberProfilePicturesRepository.findMemberProfilePicturesByStdId(stdId) == null) {
                 fileUploadService.uploadProfilePictures(profilePicture, stdId);
             } else {
-                MemberProfilePictures profilePictures =
-                        memberProfilePicturesRepository.findMemberProfilePicturesByStdId(stdId);
-
                 fileUploadService.deleteProfilePictures(stdId);
-                memberProfilePicturesRepository.delete(profilePictures);
                 fileUploadService.uploadProfilePictures(profilePicture, stdId);
             }
         }
@@ -237,8 +233,6 @@ public class MyPageService {
             PartnerPhotos partnerPhotos = partnerPhotosRepository.findPartnerPhotosByPartnerId(partnerDTO.getPartnerId());
 
             fileUploadService.deletePartnerPhoto(partnerDTO.getPartnerId());
-            partnerPhotosRepository.delete(partnerPhotos);
-
             fileUploadService.uploadPartnerPhoto(partnerPhoto, partnerDTO.getPartnerId());
         }
 
