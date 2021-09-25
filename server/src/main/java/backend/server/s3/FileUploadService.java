@@ -117,16 +117,20 @@ public class FileUploadService {
 
     // 프로필 사진을 DB에 저장
     public void saveProfilePictures(String fileName, String stdId) {
-
         String fileUrl = s3Service.getFileUrl(fileName);
+        if (memberProfilePicturesRepository.existsMemberProfilePicturesByStdId(stdId)) {
+            MemberProfilePictures memberProfilePicture = memberProfilePicturesRepository.findMemberProfilePicturesByStdId(stdId);
+            memberProfilePicture.changeFileName(fileName);
+            memberProfilePicture.changeFileUrl(fileUrl);
+        } else {
+            MemberProfilePictures entity = MemberProfilePictures.builder()
+                    .profilePictureName(fileName)
+                    .profilePictureUrl(fileUrl)
+                    .stdId(stdId)
+                    .build();
 
-        MemberProfilePictures entity = MemberProfilePictures.builder()
-                .profilePictureName(fileName)
-                .profilePictureUrl(fileUrl)
-                .stdId(stdId)
-                .build();
-
-        memberProfilePicturesRepository.save(entity);
+            memberProfilePicturesRepository.save(entity);
+        }
     }
 
     // 프로필 사진을 S3서버에 업로드
@@ -156,16 +160,20 @@ public class FileUploadService {
 
     // 파트너 사진 파일을 DB에 저장
     public void savePartnerPhoto(String fileName, Long partnerId) {
-
         String fileUrl = s3Service.getFileUrl(fileName);
+        if (partnerPhotosRepository.existsPartnerPhotosByPartnerId(partnerId)) {
+            PartnerPhotos partnerPhoto = partnerPhotosRepository.findPartnerPhotosByPartnerId(partnerId);
+            partnerPhoto.changeFileName(fileName);
+            partnerPhoto.changeFileUrl(fileUrl);
+        } else {
+            PartnerPhotos entity = PartnerPhotos.builder()
+                    .partnerId(partnerId)
+                    .partnerPhotoUrl(fileUrl)
+                    .partnerPhotoName(fileName)
+                    .build();
 
-        PartnerPhotos entity = PartnerPhotos.builder()
-                .partnerId(partnerId)
-                .partnerPhotoUrl(fileUrl)
-                .partnerPhotoName(fileName)
-                .build();
-
-        partnerPhotosRepository.save(entity);
+            partnerPhotosRepository.save(entity);
+        }
     }
 
     // 파트너 사진 파일을 S3서버에 업로드

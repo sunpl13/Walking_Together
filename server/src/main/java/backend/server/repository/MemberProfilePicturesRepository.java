@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface MemberProfilePicturesRepository extends JpaRepository<MemberProfilePictures, Long> {
 
     public MemberProfilePictures findMemberProfilePicturesByStdId(String stdId);
+
+    boolean existsMemberProfilePicturesByStdId(String stdId);
 }
