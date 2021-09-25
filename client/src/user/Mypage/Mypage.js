@@ -21,7 +21,7 @@ const Mypage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_SERVER;
-
+  
   const stdId = useSelector((state) => state.user.authResult.stdId);
   const [updateState, setUpdateState] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -32,17 +32,15 @@ const Mypage = () => {
     password2: "",
     profilePicture: "",
   });
+  const [fileUrl, setFileUrl] = useState("");
 
   //state
   const [dept, setDept] = useState("");
   window.getDept = function () {
     return dept;
   };
-  const [profilePicture, setProfilePicture] = useState([
-    userInfo.profilePicture,
-  ]);
+  const [profilePicture, setProfilePicture] = useState([]);
   window.getProfilePicture = function () {
-    console.log(profilePicture);
     return profilePicture[0];
   };
   const [password1, setPassword1] = useState("");
@@ -53,7 +51,7 @@ const Mypage = () => {
   window.getPassword2 = function () {
     return password2;
   };
-  console.log(userInfo);
+  
   //회원 정보 가져오기
   const getMypage = useCallback(async () => {
     await axios
@@ -89,6 +87,17 @@ const Mypage = () => {
     dispatch(getPartnerBriefInfo(stdId)); //GET PARTNER-LIST
     history.replace("/user/partner");
   }, 800);
+
+  //프로필 사진 업데이트
+  const changeImg = (files) => {
+    const reader = new FileReader();
+    const file = files[0];
+    setProfilePicture(files);
+    reader.onloadend = () => {
+      setFileUrl(reader.result);
+    }
+    reader.readAsDataURL(file);
+  };
 
   //업데이트 상태 리셋
   const reset = useCallback(async () => {
@@ -139,7 +148,7 @@ const Mypage = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
-        .then(async (res) => {
+        .then(async () => {
           alert("회원 정보 수정 완료");
           await getMypage()
             .then(() => {
@@ -225,7 +234,6 @@ const Mypage = () => {
         </div>
       ) : (
         <div id="mypageUpdate">
-          {" "}
           {/* update */}
           <form
             action="/mypage/change"
@@ -235,16 +243,27 @@ const Mypage = () => {
             onSubmit={(e) => submit(e)}
           >
             <div className="mypageInputWrap" id="profileImage">
-              <label>프로필 이미지</label>
-              <input
-                className="inputFile"
-                type="file"
-                name="profilePicture"
-                accept="image/*"
-                onChange={(e) => {
-                  setProfilePicture(e.target.files);
-                }}
-              ></input>
+              <div id="preview">
+                <p>프로필 이미지</p>
+                {fileUrl||userInfo.profilePicture != null ? (
+                  <img src={fileUrl||userInfo.profilePicture} alt="프로필 이미지" />
+                ) : (
+                  <CgProfile size={100} color="#9a9a9a" />
+                )}
+              </div>
+              <div id="inputDiv">
+                <label id="fileBtn" htmlFor="inputFile">새로운 이미지 선택</label>
+                <input
+                  className="inputFile"
+                  id="inputFile"
+                  type="file"
+                  name="profilePicture"
+                  accept="image/*"
+                  onChange={(e) => {
+                    changeImg(e.target.files)
+                  }}
+                ></input>
+              </div>
             </div>
             <br />
 
