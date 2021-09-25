@@ -253,8 +253,10 @@ public class MyPageService {
             return 404L;
         }
 
-        Partner partner = partnerOptional.get();
+        fileUploadService.deletePartnerPhoto(partnerId);
+        partnerPhotosRepository.delete(partnerPhotosRepository.findPartnerPhotosByPartnerId(partnerId));
 
+        Partner partner = partnerOptional.get();
         partnerRepository.delete(partner);
 
         return partnerId;
