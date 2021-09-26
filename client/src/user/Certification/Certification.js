@@ -15,38 +15,31 @@ const Certification = () => {
   const [to, setTo] = useState();
   const url = process.env.REACT_APP_SERVER;
 
-  const submit = debounce(async () => {
-    if (from === undefined || to === undefined) {
-      alert("기간을 지정해주세요.");
-    } else {
-      const replaceFrom = from.replaceAll("-", "/");
-      const replaceTo = to.replaceAll("-", "/");
+  const submit = debounce(async() => {
+        if(from===undefined||to===undefined) {
+            alert("기간을 지정해주세요.");
+        } else {
+            const replaceFrom = from.replaceAll("-","/");
+            const replaceTo = to.replaceAll("-","/");
 
-      await axios
-        .get(
-          `${url}/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then(async (res) => {
-          if (res.data.data.length !== 0) {
-            history.replace({
-              pathname: "/user/certification-action",
-              state: {
-                res: res.data,
-                from: replaceFrom,
-                to: replaceTo,
-              },
-            });
-          } else {
-            alert("검색 결과가 없습니다.");
-          }
-        });
-    }
-  }, 800);
+            await axios.post(`${url}/feed/certification?stdId=${stdId}&from=${replaceFrom}&to=${replaceTo}`, {}, {
+                headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+            }).then(async(res) => {
+                if(res.data.data.length!==0) {
+                    history.replace({
+                        pathname: '/user/certification-action',
+                        state: {
+                            res: res.data,
+                            from: replaceFrom,
+                            to: replaceTo
+                        }
+                    });
+                } else {
+                    alert("검색 결과가 없습니다.");
+                }
+            })
+        }
+    }, 800);
 
   useEffect(() => {
     dispatch(
