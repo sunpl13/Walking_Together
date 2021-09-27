@@ -126,8 +126,7 @@ public class MyPageService {
             return null;
         }
         Partner partner = partnerInformation.get();
-
-        return MyPagePartnerDTO.builder()
+        MyPagePartnerDTO partnerDTO = MyPagePartnerDTO.builder()
                 .partnerName(partner.getPartnerName())
                 .partnerDetail(partner.getPartnerDetail())
                 .partnerBirth(partner.getPartnerBirth())
@@ -135,6 +134,13 @@ public class MyPageService {
                 .selectionReason(partner.getSelectionReason())
                 .relationship(partner.getRelationship())
                 .build();
+
+        if (partnerPhotosRepository.existsPartnerPhotosByPartnerId(partnerId)) {
+            PartnerPhotos partnerPhoto = partnerPhotosRepository.findPartnerPhotosByPartnerId(partnerId);
+            partnerDTO.setPartnerImage(partnerPhoto.getPartnerPhotoUrl());
+        }
+
+        return partnerDTO;
     }
 
     // 마이페이지 - 파트너 생성

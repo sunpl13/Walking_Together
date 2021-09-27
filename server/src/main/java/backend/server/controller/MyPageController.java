@@ -127,6 +127,7 @@ public class MyPageController {
         data.put("gender", myPagePartnerInfo.getGender());
         data.put("selectionReason", myPagePartnerInfo.getSelectionReason());
         data.put("relationship", myPagePartnerInfo.getRelationship());
+        data.put("partnerImage", myPagePartnerInfo.getPartnerImage());
 
         Message resBody = new Message();
         resBody.setMessage("파트너 세부 조회 완료");

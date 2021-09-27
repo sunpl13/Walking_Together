@@ -1,6 +1,7 @@
 package backend.server.DTO.myPage;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -25,4 +26,10 @@ public class MyPagePartnerDTO {
     private String relationship;    // 파트너와의 관계
 
     private String stdId;   // 학번
+
+    private String partnerImage;
+
+    public void setPartnerImage(String partnerImage) {
+        this.partnerImage = partnerImage;
+    }
 }
