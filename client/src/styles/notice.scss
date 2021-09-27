@@ -92,4 +92,17 @@
             //object-fit: scale-down;
         }
     }
+    .filedown {
+        width: 180px;
+        height: 30px;
+        line-height: 30px;
+        margin: 10px auto;
+        text-align: center;
+        background-color: $BackSkyBlue;
+        border-radius: 5px;
+        * {
+            text-decoration: none;
+            color: $white;
+        }
+    }
 }
