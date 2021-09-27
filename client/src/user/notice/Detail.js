@@ -40,7 +40,7 @@ const Detail = () => {
   return (
     <div id="notice">
       <div className = "thumbnail">
-        {view.imageFiles.length!==0 ?
+        {view.imageFiles.length !== 0 ?
         <img src = {view.imageFiles} alt="noticeImage"/>
         : null }
       </div>
@@ -52,7 +52,7 @@ const Detail = () => {
       <div className = "files">
         {view.attachedFiles.length < 1 ? 
           <p id="at_none">첨부파일이 없습니다.</p>
-          : 
+        :
           view.attachedFiles.map((file, index) => {
             return (
               <div key={index} className="filedown">

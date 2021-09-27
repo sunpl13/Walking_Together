@@ -23,10 +23,8 @@ const NoticeInsert = () => {
     e.preventDefault();
 
     const res = window.confirm("취소하시겠습니까?")
-    if(res === true) {
+    if (res === true) {
       history.goBack();
-    }else{
-      console.log("cancel");
     }
   },800);
 
@@ -42,10 +40,10 @@ const NoticeInsert = () => {
   const submit = debounce((e) => {
     e.preventDefault();
 
-    if(title===""||content==="") {
+    if (title === "" || content === "") {
       return(alert("제목과 내용을 모두 입력해주세요."));
     }
-    if(content.length>250) {
+    if (content.length > 250) {
       return(alert("250자 이내로 작성해주세요."));
     }
 
@@ -55,8 +53,8 @@ const NoticeInsert = () => {
     formData.append("content", content);
 
     //files null check
-    if(attachedFiles.length!==0) {
-      if(attachedFiles.length===1) {
+    if (attachedFiles.length !== 0) {
+      if (attachedFiles.length === 1) {
         formData.append("attachedFiles", attachedFiles[0]);
       }
       else {
@@ -65,7 +63,7 @@ const NoticeInsert = () => {
         }
       }
     }
-    if(imageFiles.length!==0) {
+    if (imageFiles.length !== 0) {
       formData.append("imageFiles", imageFiles[0]);
     }
 

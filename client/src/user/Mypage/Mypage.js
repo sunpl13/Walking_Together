@@ -56,7 +56,9 @@ const Mypage = () => {
   const getMypage = useCallback(async () => {
     await axios
       .get(`${url}/mypage?stdId=${stdId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("token")}` 
+        },
       })
       .then((res) => {
         if (res.data.status === 200) {
