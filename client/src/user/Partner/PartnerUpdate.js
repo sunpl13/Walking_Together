@@ -30,8 +30,17 @@ const PartnerUpdate = ({ match }) => {
   const [relationship, setRelationship] = useState(partner.relationship);
   const [gender, setGender] = useState(partner.gender);
   const [partnerBirth, setPartnerBirth] = useState(partner.partnerBirth);
+  const [fileUrl, setfileUrl] = useState("");
 
-  console.log(partner.partnerImage);
+  const changeImg = (files) => {
+    const reader = new FileReader();
+    const file = files[0];
+    setPartnerPhoto(files);
+    reader.onloadend = () => {
+      setfileUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   //submit function
   const submit = debounce((e) => {
@@ -40,7 +49,6 @@ const PartnerUpdate = ({ match }) => {
     if (
       partnerName === "" ||
       partnerDetail === "" ||
-      partnerPhoto[0] === undefined ||
       selectionReason === "" ||
       relationship === "" ||
       gender === "" ||
@@ -133,8 +141,8 @@ const PartnerUpdate = ({ match }) => {
     >
       <div className="mypageInputWrap" id="profileImage">
         <div id="preview">
-          {partner.partnerImage !== null ? (
-            <img src={partner.partnerImage} alt="프로필 이미지" />
+          {fileUrl || partner.partnerImage !== null ? (
+            <img src={fileUrl || partner.partnerImage} alt="프로필 이미지" />
           ) : (
             <CgProfile size={100} color="#9a9a9a" />
           )}
@@ -146,10 +154,12 @@ const PartnerUpdate = ({ match }) => {
           </label>
           <input
             className="inputFile"
+            id="inputFile"
             type="file"
             accept="image/*"
+            name="partnerPicture"
             src={partnerPhoto || ""}
-            onChange={(e) => setPartnerPhoto(e.target.files)}
+            onChange={(e) => changeImg(e.target.files)}
           ></input>
         </div>
       </div>
