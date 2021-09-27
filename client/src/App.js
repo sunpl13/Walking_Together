@@ -1,17 +1,17 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 //인증 가능할 시에 인증
-import Auth from './hoc/Auth';
-import './styles/app.scss';
+import Auth from "./hoc/Auth";
+import "./styles/app.scss";
 
 //admin
-import Admin from './admin/Admin';
+import Admin from "./admin/Admin";
 
 //user
-import Login from './user/login/Login';
-import LandingPage from './user/home/LandingPage';
-import User from './user/User';
-import User1 from './user/User1';
+import Login from "./user/login/Login";
+import LandingPage from "./user/home/LandingPage";
+import User from "./user/User";
+import User1 from "./user/User1";
 
 function App() {
 

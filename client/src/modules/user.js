@@ -11,7 +11,11 @@ const RELOGIN_USER = "RELOGIN_USER";
 const url = process.env.REACT_APP_SERVER;
 
 //로그인
-export const loginHandler = (stdId, password, history) => async (dispatch) => {
+export const loginHandler = (
+  stdId, 
+  password, 
+  history
+) => async (dispatch) => {
   await axios
     .post(`${url}/login`, {
       stdId: stdId,
@@ -43,7 +47,9 @@ export const loginHandler = (stdId, password, history) => async (dispatch) => {
 };
 
 //비정상종료 학번 리턴
-export const returnStdid = (token) => async (dispatch) => {
+export const returnStdid = (
+  token
+) => async (dispatch) => {
   const data = await axios
     .post(`${url}/returnId`, {
       token: token,
@@ -58,8 +64,7 @@ export const returnStdid = (token) => async (dispatch) => {
 };
 
 //회원가입
-export const signupHanlder =
-  (
+export const signupHanlder = (
     name,
     email,
     password,
@@ -69,37 +74,36 @@ export const signupHanlder =
     department,
     history,
     settogle
-  ) =>
-  async (dispatch) => {
-    await axios
-      .post(`${url}/signup`, {
-        email: email,
-        name: name,
-        password: password,
-        stdId: stdId,
-        phoneNumber: pNumber,
-        birth: birth,
-        department: department,
-      })
-      .then((res) => {
-        dispatch({
-          type: SIGNUP_USER,
-        });
-        if (window.confirm(res.data.message)) {
-          settogle(false);
-          history.replace("/login");
-        }
-      })
-      .catch((err) => {
-        if (err.response.status === 409) {
-          settogle(false);
-          alert(err.response.data.message);
-        } else if (err.response.status === 410) {
-          settogle(false);
-          alert(err.response.data.message);
-        }
+) => async (dispatch) => {
+  await axios
+    .post(`${url}/signup`, {
+      email: email,
+      name: name,
+      password: password,
+      stdId: stdId,
+      phoneNumber: pNumber,
+      birth: birth,
+      department: department,
+    })
+    .then((res) => {
+      dispatch({
+        type: SIGNUP_USER,
       });
-  };
+      if (window.confirm(res.data.message)) {
+        settogle(false);
+        history.replace("/login");
+      }
+    })
+    .catch((err) => {
+      if (err.response.status === 409) {
+        settogle(false);
+        alert(err.response.data.message);
+      } else if (err.response.status === 410) {
+        settogle(false);
+        alert(err.response.data.message);
+      }
+    });
+};
 
 //로그아웃
 export const logoutHandler = () => async (dispatch) => {
@@ -111,58 +115,61 @@ export const logoutHandler = () => async (dispatch) => {
 };
 
 //페이지간 인증
-export const authHandler =
-  (option, adminRoute, history) => async (dispatch) => {
-    const data = await axios
-      .post(`${url}/auth`, { token: localStorage.getItem("token") })
-      .then((res) => res.data)
-      .catch((err) => console.log(err));
+export const authHandler = (
+  option, 
+  adminRoute, 
+  history
+) => async (dispatch) => {
+  const data = await axios
+  .post(`${url}/auth`, { token: localStorage.getItem("token") })
+  .then((res) => res.data)
+  .catch((err) => console.log(err));
 
+  dispatch({
+    type: AUTH_USER_PANDING,
+    payload: data,
+  });
+
+  try {
     dispatch({
-      type: AUTH_USER_PANDING,
+      type: AUTH_USER_SUCCESS,
       payload: data,
     });
-
-    try {
-      dispatch({
-        type: AUTH_USER_SUCCESS,
-        payload: data,
-      });
-      if (adminRoute === null) {
-        if (data.isAuth === false) {
-          // 토큰이 일치하지 않을 때
-          if (option) {
-            alert("로그인을 해주시기 바랍니다.");
-            history.replace("/login");
-          } else {
-            return;
-          }
-        } else if (data.isAuth === true) {
-          // 로그인이 되었을 때
-          if (option) {
-            return;
-          } else if (option === false) {
-            alert("접근 권한이 없습니다.");
-            history.replace("/user/home");
-          }
-        }
-      } else if (adminRoute === true) {
-        if (data.role[0].authority === "ROLE_ADMIN") {
-          return;
-        } else {
+    if (adminRoute === null) {
+      if (data.isAuth === false) {
+        // 토큰이 일치하지 않을 때
+        if (option) {
+          alert("로그인을 해주시기 바랍니다.");
           history.replace("/login");
-          alert("접근이 제한되었습니다.");
+        } else {
+          return;
+        }
+      } else if (data.isAuth === true) {
+        // 로그인이 되었을 때
+        if (option) {
+          return;
+        } else if (option === false) {
+          alert("접근 권한이 없습니다.");
+          history.replace("/user/home");
         }
       }
-    } catch (err) {
-      console.log(err);
-      dispatch({
-        type: AUTH_USER_FAIL,
-        payload: err,
-      });
-      throw err;
+    } else if (adminRoute === true) {
+      if (data.role[0].authority === "ROLE_ADMIN") {
+        return;
+      } else {
+        history.replace("/login");
+        alert("접근이 제한되었습니다.");
+      }
     }
-  };
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: AUTH_USER_FAIL,
+      payload: err,
+    });
+    throw err;
+  }
+};
 
 const initialstate = {
   isLogin: {}, //로그인 정보를 저장
@@ -184,12 +191,7 @@ export default function user(state = initialstate, action) {
         isAuth: false,
       };
     case LOGOUT_USER:
-      return {
-        isLogin: {},
-        result: {},
-        authResult: {},
-        isAuth: false,
-      };
+      return initialstate;
     case AUTH_USER_PANDING:
       return {
         ...state,
