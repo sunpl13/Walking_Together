@@ -42,12 +42,11 @@ const CertificationAction = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const data = location.state.res;
-  const from = location.state.from;
-  const to = location.state.to;
+  const { data, careTimes, ordinaryTimes, totalTime } = location.state.res;
 
-  const formatData = format(data.data);
-  console.log(formatData);
+  const formatData = format(data);
+  const startDate = (data[0]).activityDate;  //조회 시작일
+  const endDate = (data[data.length-1]).activityDate;  //조회 종료일
 
   const documentDefinition = {
 		pageSize: 'A4',
@@ -83,15 +82,15 @@ const CertificationAction = () => {
       },
 
       //USER INFO
-      {text: data.data[0].name, fontSize: 15, absolutePosition: { x: 237, y: 289 }},
-      {text: data.data[0].department, fontSize: 15, absolutePosition: { x: 237, y: 325 }},
-      {text: data.data[0].stdId, fontSize: 15, absolutePosition: { x: 237, y: 362 }},
+      {text: data[0].name, fontSize: 15, absolutePosition: { x: 237, y: 289 }},
+      {text: data[0].department, fontSize: 15, absolutePosition: { x: 237, y: 325 }},
+      {text: data[0].stdId, fontSize: 15, absolutePosition: { x: 237, y: 362 }},
 
       //TOTAL INFO
-      {text: from+'~'+to,  fontSize: 12, absolutePosition: { x: 237, y: 423.6 }},  //*******바꾸기 */
-      {text: data.careTimes, fontSize: 12, absolutePosition: { x: 237, y: 445.8 }},
-      {text: data.ordinaryTimes, fontSize: 12, absolutePosition: { x: 237, y: 467.5 }},
-      {text: data.totalTime, fontSize: 12, absolutePosition: { x: 237, y: 489.5 }, pageBreak: 'after'},
+      {text: startDate+'~'+endDate,  fontSize: 12, absolutePosition: { x: 237, y: 423.6 }},  //*******바꾸기 */
+      {text: careTimes, fontSize: 12, absolutePosition: { x: 237, y: 445.8 }},
+      {text: ordinaryTimes, fontSize: 12, absolutePosition: { x: 237, y: 467.5 }},
+      {text: totalTime, fontSize: 12, absolutePosition: { x: 237, y: 489.5 }, pageBreak: 'after'},
       
       //activity table
       {  
