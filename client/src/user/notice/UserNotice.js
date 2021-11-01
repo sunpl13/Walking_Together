@@ -14,11 +14,11 @@ function UserNotice() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  let noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
+  const noticeList = useSelector(state => state.noticeReducer.list); //현재 페이지에 띄워질 공지 리스트
 
   //page
   const [current, setCurrent] = useState(0);  //현재 페이지
-  const pageInfo = useSelector(state => state.noticeReducer.pageInfo);  //전체 페이지 정보
+  const { totalPage } = useSelector(state => state.noticeReducer.pageInfo);  //전체 페이지 정보
   const [keyword, setkeyword] = useState(null);     //키워드 state
   const [active, setactive] = useState("");
 
@@ -60,8 +60,8 @@ function UserNotice() {
         "small"
       )
     );  //상단바 변경
-    dispatch(getNoticeList(1));  //공지사항 목록 받아오기
-  }, [dispatch, goBack]);
+    dispatch(getNoticeList(current+1));  //공지사항 목록 받아오기
+  }, [dispatch, goBack, current]);
 
   return (
     <div id="noticeListWrap">
@@ -73,9 +73,13 @@ function UserNotice() {
           </span>
         </div>
         { noticeList.length !== 0 ?
-          noticeList.map(item => {
+          noticeList.map(({
+            noticeId,
+            title,
+            content
+          }) => {
             return(
-              <NoticeDetail key = {item.noticeId} noticeId = {item.noticeId} title = {item.title} active = {active} setactive = {setactive} content = {item.content}/>
+              <NoticeDetail key = {noticeId} noticeId = {noticeId} title = {title} active = {active} setactive = {setactive} content = {content}/>
             )
           }) 
         : 
@@ -83,7 +87,7 @@ function UserNotice() {
         }
         
         <ReactPaginate 
-          pageCount={pageInfo.totalPage}  //총 페이지 수
+          pageCount={totalPage}  //총 페이지 수
           pageRangeDisplayed={10}  //한 페이지에 표시할 게시글 수
           initialPage={current}  //선택한 초기 페이지
           previousLabel={"이전"}  //이전 라벨
