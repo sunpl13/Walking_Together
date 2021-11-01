@@ -10,9 +10,15 @@ import ReactHtmlParser from "react-html-parser";
 const Detail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const { state } = useLocation();
 
-  let view = useSelector(state => state.noticeReducer.selectedNotice);
+  let { 
+    title, 
+    content,
+    createTime,
+    imageFiles,
+    attachedFiles
+  } = useSelector(state => state.noticeReducer.selectedNotice);
 
   //param function
   const goBack = useCallback(() => {
@@ -23,37 +29,35 @@ const Detail = () => {
     dispatch(
       changeBar(
         "null", 
-        { title:view.title, data:view.createTime }, 
+        { title: title, data: createTime }, 
         "cancel", 
         "null", 
         goBack, 
         "big"
       )
     );  //상단바 변경
-  }, [dispatch, view.title, view.createTime, goBack]);
+  }, [dispatch, title, createTime, goBack]);
   
   useEffect(() => {
     dispatchTopbar();
-    dispatch(selectNotice(location.state.noticeId));
-  },[dispatch, location.state.noticeId, dispatchTopbar]);
+    dispatch(selectNotice(state.noticeId));
+  },[dispatch, state.noticeId, dispatchTopbar]);
 
   return (
     <div id="notice">
       <div className = "thumbnail">
-        {view.imageFiles.length !== 0 ?
-        <img src = {view.imageFiles} alt="noticeImage"/>
-        : null }
+        {imageFiles.length !== 0 && <img src = {imageFiles} alt="noticeImage"/> }
       </div>
 
       <div className = "content">
-        {ReactHtmlParser(view.content)}
+        {ReactHtmlParser(content)}
       </div>
       
       <div className = "files">
-        {view.attachedFiles.length < 1 ? 
+        {attachedFiles.length < 1 ? 
           <p id="at_none">첨부파일이 없습니다.</p>
         :
-          view.attachedFiles.map((file, index) => {
+          attachedFiles.map((file, index) => {
             return (
               <div key={index} className="filedown">
                 <a href={file} download>첨부파일{index+1} Download</a>
