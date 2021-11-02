@@ -12,10 +12,9 @@ import "../../styles/home.scss";
 function Home() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const pages = 1; //공지사항 최근 페이지를 불러옴
 
   useEffect(() => {
-    dispatch(getNoticeList(pages, null));
+    dispatch(getNoticeList(1, null));  //공지사항 최근 페이지를 불러옴
     dispatch(
       changeBar(
         "null",
@@ -34,11 +33,10 @@ function Home() {
   const mainNotice = notice.slice(0, 4); //4개만 보여주기 위해 자름
 
   const goDetail = debounce(async (noticeId) => {
-    await dispatch(selectNotice(noticeId)).then(() => {
-      history.replace({
-        pathname: "/user/viewdetail",
-        state: { noticeId: noticeId },
-      });
+    await dispatch(selectNotice(noticeId))
+    history.replace({
+      pathname: "/user/viewdetail",
+      state: { noticeId: noticeId },
     });
   }, 800);
 
@@ -47,21 +45,25 @@ function Home() {
   }, 800);
 
   //화면에 출력하기 위해 map 함수를 활용
-  const homeNotice = mainNotice.map((item, index) => {
+  const homeNotice = mainNotice.map(({ 
+    noticeId, 
+    title, 
+    date 
+  }, index) => {
     return (
       <tbody
         id={"body" + index}
-        key={item.noticeId}
-        onClick={() => goDetail(item.noticeId)}
+        key={noticeId}
+        onClick={() => goDetail(noticeId)}
       >
         <tr>
           <td id="title" colSpan="2">
-            {item.title}
+            {title}
           </td>
         </tr>
         <tr>
           <td id="writer">사회봉사단</td>
-          <td id="date">{item.date.substring(0, 10)}</td>
+          <td id="date">{date.substring(0, 10)}</td>
         </tr>
       </tbody>
     );

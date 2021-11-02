@@ -30,7 +30,7 @@ function LandingPage() {
 
         for(let i = 0 ; i <= lastIdx; i++) {
           map.push(localStorage.getItem("location"+i));
-        };
+        }
 
         const formData = new FormData();
         formData.append("activityId",localStorage.getItem("activityId"));
@@ -60,13 +60,13 @@ function LandingPage() {
         })
       }   
     }, 5000);
-  }, [history,dispatch]);
+  }, [history, dispatch]);
 
   return (
     <div id="landing_back">
       <img src={logowhite} id="landing_logo" alt="logo"/>
     </div>
   );
-};
+}
 
 export default LandingPage;
