@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { debounce } from "lodash";
 import { CgProfile } from "react-icons/cg";
 
+import Comment from "../../utils/Comment";
 import { changeBar } from "../../modules/topbar";
 import { checkPartnerDetail } from "../../utils/Function";
 import {
@@ -49,7 +50,7 @@ const PartnerDetail = ({ match }) => {
         "cancel",
         "null",
         goBack,
-        "small"
+        "h550"
       )
     ); //상단바 변경
     setDetail(checkPartnerDetail(partner.partnerDetail));
@@ -57,53 +58,33 @@ const PartnerDetail = ({ match }) => {
 
   return (
     <div id="partner_detail">
-      <table id="partner_detail_table">
-        <tbody>
-          <tr>
-            <td colSpan="2" className="td4">
-              {partner.partnerImage != null ? (
-                <img src={partner.partnerImage} alt="프로필 이미지" />
-              ) : (
-                <CgProfile size={100} color="#9a9a9a" />
-              )}
-            </td>
-          </tr>
-          <tr>
-            <td className="td1">파트너 구분</td>
-            <td className="td2">{detail}</td>
-          </tr>
-          <tr>
-            <td className="td1">성별</td>
-            <td className="td2">{partner.gender}</td>
-          </tr>
-          <tr>
-            <td className="td1">생년월일</td>
-            <td className="td2">{partner.partnerBirth}</td>
-          </tr>
-          <tr>
-            <td className="td1">관계</td>
-            <td className="td2">{partner.relationship}</td>
-          </tr>
-          <tr>
-            <td className="td1">선정이유</td>
-            <td className="td2">{partner.selectionReason}</td>
-          </tr>
-          {/* <tr>
-                        <td className="td1">파트너 사진</td>
-                        <td className="td2">
-                        {partner.partnerPhoto!==null?<img src={partner.partnerPhoto} alt="파트너 이미지"/>:null}
-                        </td>
-                    </tr> */}
-        </tbody>
-      </table>
+      <Comment sub="P a r t n e r" main={detail+"이고,\n"+partner.gender+"이며,\n"+
+      partner.partnerBirth.slice(0,4)+"년"+partner.partnerBirth.slice(5,7)+"월"+partner.partnerBirth.slice(8,10)+"일\n생이에요.\n"}/>
+      <div className="partnerImage">
+        {partner.partnerImage != null ? (
+          <img src={partner.partnerImage} alt="파트너 이미지" />
+        ) : (
+          <CgProfile size={200} color="#ffffff" />
+        )}
+      </div>
+      <div className="sets">
+        <div className="set">
+          <p className="title">파트너와의 관계?</p>
+          <p className="content">{partner.relationship}</p>
+        </div>
+        <div className="set">
+          <p className="title">파트너를 선정한 이유?</p>
+          <p className="content">{partner.selectionReason}</p>
+        </div>
 
-      <div>
-        <button onClick={goPartnerUpdate} className="user_btn_blue">
+        <div id="buttons">
+        <button onClick={goPartnerUpdate} className="updateBtn">
           수정
         </button>
-        <button onClick={delPartner} className="user_btn_blue">
+        <button onClick={delPartner} className="deleteBtn">
           삭제
         </button>
+      </div>
       </div>
     </div>
   );

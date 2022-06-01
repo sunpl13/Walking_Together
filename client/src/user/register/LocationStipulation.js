@@ -3,6 +3,7 @@ import "../../styles/stipulation.scss";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 const LocationStipulation = () => {
   const history = useHistory();
@@ -20,13 +21,15 @@ const LocationStipulation = () => {
         "null", 
         goBack, 
         "null", 
-        "small"
+        "h270"
       )
     );  //상단바 변경
   }, [dispatch, goBack]);
 
   return (
-    <div style = {{marginTop : "50px"}}>
+    <div id="stipulation">
+      <Comment sub="S t i p u l a t i o n" main={"SU-Walk\n위치 정보 이용"}/>
+      
       <h3>제1조(목적)</h3>
       <p className = "a">이 약관은 회사가 온라인으로 제공하는 디지털콘텐츠(이하 "콘텐츠"라고 한다) 및 제반서비스의 이용과 관련하여 회사와 이용자와의 권리, 
       의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>

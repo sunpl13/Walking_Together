@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPartner } from "../../modules/activity";
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 const ActivityStart = () => {
   const stdId = useSelector(state => state.user.authResult.stdId);
@@ -30,7 +31,7 @@ const ActivityStart = () => {
         "null", 
         "null", 
         "null", 
-        "small"
+        "h300"
       )
     );  //상단바 변경
   }, [dispatch])
@@ -38,9 +39,14 @@ const ActivityStart = () => {
 
   return (
     <div id="activityStart">
-      <button className = "circle" onClick = {onclickHandler}>Start</button>
+      <Comment sub="A c t i v i t y" main={"활동을\n시작해요!\n"}/>
       <div id="message">
-        ※ 활동 생성 후, 바로 활동이 시작됩니다. ※
+        <p>활동을 시작하기 전에</p>
+        <p>먼저 파트너를 등록해주세요.</p>
+        <button onClick={() => history.replace("/user/partner")}>파트너 등록하러 가기</button>
+      </div>
+      <div id="buttonWrap">
+        <button className = "circle" onClick = {onclickHandler}>S T A R T</button>
       </div>
     </div>
   );

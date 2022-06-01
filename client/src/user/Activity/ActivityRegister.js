@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 import "../../styles/activity.scss";
 
@@ -80,7 +81,7 @@ const ActivityRegister = () => {
           "create", 
           goBack, 
           createAction, 
-          "small"
+          "h400"
         )
       );
     } else {
@@ -94,7 +95,7 @@ const ActivityRegister = () => {
           "create", 
           goBack, 
           null, 
-          "small"
+          "h400"
         )
       );
     }
@@ -103,6 +104,8 @@ const ActivityRegister = () => {
 
   return (
     <div id="activityRegisterWrap" >
+      <Comment sub="S t a r t" main={"파트너와\n사진을 찍어요!"}/>
+
       <div id="activityRegister">
         <div className = "picture_container">
           { picture.length === 0 ?
@@ -119,15 +122,15 @@ const ActivityRegister = () => {
             <input type="file" accept="image/*" capture="camera" ref={camera} id="inputFile" onChange={takePhoto}/>
 
             { buttonFirst===true ? 
-              <label htmlFor="inputFile" className="user_btn_blue">사진 촬영</label>
+              <label htmlFor="inputFile" className="btn" id="btn1">사진 촬영</label>
             : 
-              <label htmlFor="inputFile" className="user_btn_blue">다시 촬영</label>
+              <label htmlFor="inputFile" className="btn" id="btn2">다시 촬영</label>
             }
             <br/>
             { picture.length === 0 ?
-              <span id="fileName">선택된 사진 없음</span>
+              <span className="filename" id="fileName1">선택된 사진 없음</span>
             : 
-              <span id="fileName">{picture.name}</span>
+              <span className="filename" id="fileName2">{picture.name}</span>
             }
           </form>
         </div>

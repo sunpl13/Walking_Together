@@ -1,184 +1,220 @@
-@import './valiables.scss';
+@import "./valiables.scss";
 
 body {
-    background-color: $white;
+  background-color: $white;
 }
 
 #app {
-    width: 100%;
-    height: 100%;
-    padding: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  .sub_comment {
+    font-size: $SuperSmall;
+    color: $White;
+    top: 115px;
+    left: 10%;
     position: absolute;
-    background-color: $white;
+  }
+  .main_comment {
+    .mainWrap {
+      top: 130px;
+      left: 10%;
+      position: absolute;
+      p {
+        font-size: $SuperLarge;
+        color: $White;
+      }
+    }
+  }
+  .message {
+    font-size: $Small;
+  }
 }
 
 #menu {
-    width: 270px;
-    height: 970px;
-    left: 130px;
-    display: inline-block;
-    background: $BackSkyBlue;
+  width: 270px;
+  height: 970px;
+  left: 130px;
+  display: inline-block;
+  background: $BackSkyBlue;
+  position: absolute;
+  box-shadow: 4px 0px 2px $shadowGray;
+  #copy {
     position: absolute;
-    box-shadow: 4px 0px 2px $shadowGray;
-    #copy {
-        position: absolute;
-        bottom: 15px;
-        left: 15px;
-        font-size: x-small;
-        color: $fontWhite;
-    }
+    bottom: 15px;
+    left: 15px;
+    font-size: x-small;
+    color: $fontWhite;
+  }
 }
 
 #userInfo {
-    width: 1400px;
-    top: 60px;
-    left: 399px;
-    position: absolute;
-    p, button {
-        float: right;
-        margin-right: 7px;
-    }
-    p {
-        line-height: 28px;
-    }
+  width: 1400px;
+  top: 60px;
+  left: 399px;
+  position: absolute;
+  p,
+  button {
+    float: right;
+    margin-right: 7px;
+  }
+  p {
+    line-height: 28px;
+  }
 }
 
 #route {
-    width: 1400px;
-    height: 780px;
-    padding: 20px 0px;
-    background-color: $white;
-    display: inline-block;
-    top: 90px;
-    left: 399px;
-    position: absolute;
-    border-radius: 0px 10px 10px 0px;
-    border: 1px solid $shadowGray;
-    box-shadow: 4px 4px 2px $shadowGray;
+  width: 1400px;
+  height: 780px;
+  padding: 20px 0px;
+  background-color: $white;
+  display: inline-block;
+  top: 90px;
+  left: 399px;
+  position: absolute;
+  border-radius: 0px 10px 10px 0px;
+  border: 1px solid $shadowGray;
+  box-shadow: 4px 4px 2px $shadowGray;
 }
 
 .user_btn_blue {
-    @include button( $BackSkyBlue-, $white, $BackSkyBlue-, 80px, 40px );
-    font-size: $medium;
-    text-decoration: none;
-    display: inline-block;
+  //@include button( $BackSkyBlue-, $white, $BackSkyBlue-, 80px, 40px );
+  font-size: $medium;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .user_btn_gray {
-    @include button( $BackGray, $fontGray, $tableBorder, 80px, 40px );
-    font-size: $medium;
-    text-decoration: none;
-    display: inline-block;
+  // @include button( $BackGray, $fontGray, $tableBorder, 80px, 40px );
+  font-size: $medium;
+  text-decoration: none;
+  display: inline-block;
 }
-
 
 //input
 .input {
-    font-family:"Helvetica Neue", Helvetica, sans-serif; 
-    box-sizing: border-box;
-       -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0px;
-    padding-left: 5px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0px;
+  padding-left: 5px;
 }
 
-.inputSelect, .inputDate {
-    font-family:"Helvetica Neue", Helvetica, sans-serif; 
-	display: inline-block;
-	font-size: $medium;
-	line-height: 20px;
-	width: 160px;
-    height: 28px;
-    padding-left: 5px;
-	box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-	border: none;
-	border-radius: 0px;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
-	background-color: #fff;
-	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-	background-repeat: no-repeat, repeat;
-	background-position: right .3em top 50%, 0 0;
-	background-size: .65em auto, 100%;
+.inputSelect,
+.inputDate {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  display: inline-block;
+  font-size: $medium;
+  line-height: 20px;
+  width: 160px;
+  height: 28px;
+  padding-left: 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: none;
+  border-radius: 0px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.3em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
 }
 
-.inputSelect::-ms-expand, .inputDate::-ms-expand {
-	display: none;
+.inputSelect::-ms-expand,
+.inputDate::-ms-expand {
+  display: none;
 }
 
-.inputSelect:hover, .inputDate:hover {
-	border-color: $BorderGray;
+.inputSelect:hover,
+.inputDate:hover {
+  border-color: $BorderGray;
 }
 
-input:focus, .inputSelect:focus, .inputDate:focus {
-	border-color: none;
-	box-shadow: 0 0 1px 3px $BackSkyBlue;
-	box-shadow: 0 0 0 3px $BackSkyBlue;
-	color: #222; 
-	outline: none;
+input:focus,
+.inputSelect:focus,
+.inputDate:focus {
+  border-color: none;
+  box-shadow: 0 0 1px 3px $BackSkyBlue;
+  box-shadow: 0 0 0 3px $BackSkyBlue;
+  color: #222;
+  outline: none;
 }
 
-*[dir="rtl"] .inputSelect, :root:lang(ar) .inputSelect, :root:lang(iw) .inputSelect {
-	background-position: left .7em top 50%, 0 0;
-	padding: .6em .8em .5em 1.4em;
+*[dir="rtl"] .inputSelect,
+:root:lang(ar) .inputSelect,
+:root:lang(iw) .inputSelect {
+  background-position: left 0.7em top 50%, 0 0;
+  padding: 0.6em 0.8em 0.5em 1.4em;
 }
 
-.inputSelect:disabled, .inputSelect[aria-disabled=true], .inputDate:disabled, .inputDate[aria-disabled=true] {
-	color: $fontGray;
-	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
-	  linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+.inputSelect:disabled,
+.inputSelect[aria-disabled="true"],
+.inputDate:disabled,
+.inputDate[aria-disabled="true"] {
+  color: $fontGray;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"),
+    linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
 }
 
-.inputSelect:disabled:hover, .inputSelect[aria-disabled=true], .inputDate:disabled:hover, .inputDate[aria-disabled=true] {
-	border-color: $BorderGray;
+.inputSelect:disabled:hover,
+.inputSelect[aria-disabled="true"],
+.inputDate:disabled:hover,
+.inputDate[aria-disabled="true"] {
+  border-color: $BorderGray;
 }
-
-
 
 .inputFile {
-    width: 160px;
-    height: 28px;
-    font-size: $medium;
+  width: 160px;
+  height: 28px;
+  font-size: $medium;
 }
 
-.input, .inputSelect, .inputDate {
-    height: 28px;
-    border: none;
-    font-size: $medium;
-    position: relative;
+.input,
+.inputSelect,
+.inputDate {
+  height: 28px;
+  border: none;
+  font-size: $medium;
+  position: relative;
 }
 
 .input {
-    width: 160px;
+  width: 160px;
 }
 
 .inputSelect {
-    width: 160px;
+  width: calc(80% + 2px);
+  height: 40px;
+  padding-left: 18px;
+  border: 1px solid $Gray;
 }
 
 .inputText {
-            box-sizing: border-box;
-       -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    width: 160px;
-    min-height: 60px;
-    font-size: $medium;
-    resize: vertical;
-    border: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0px;
-    padding-left: 5px;
-    font-family:"Helvetica Neue", Helvetica, sans-serif;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  width: 160px;
+  min-height: 60px;
+  font-size: $medium;
+  resize: vertical;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0px;
+  padding-left: 5px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .inputDate {
-    font-size: $medium;
+  font-size: $medium;
 }

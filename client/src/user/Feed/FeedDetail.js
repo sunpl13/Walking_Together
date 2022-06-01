@@ -5,6 +5,7 @@ import { updateFeed } from "../../modules/feed";
 import { deleteActivity } from "../../modules/activity"
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 
 import "../../styles/feed.scss";
@@ -69,7 +70,7 @@ const FeedDetail = () => {
         "delete", 
         debounce(() => history.replace("/user/feed"),800), 
         deleteHandler, 
-        "small"
+        "h350"
       )
     );  //상단바 변경
 
@@ -115,66 +116,47 @@ const FeedDetail = () => {
 
   return (
     <div id="feedDetail">
-      <table id="activity_detail_table">
-        <tbody>
-          <tr>
-            <td className="td1">활동일</td>
-            <td className="td2" colSpan="2">{feedItem.activityDate}</td>
-          </tr>
+      <Comment sub="D e t a i l e d" main={feedItem.activityDate.slice(0,4)+"년\n"+feedItem.activityDate.slice(5,7)+"월 "+feedItem.activityDate.slice(8,10)+"일"}/>
 
-          <tr>
-            <td className="td1">파트너</td>
-            <td className="td2" colSpan="2">{feedItem.partnerName}</td>
-          </tr>
+      <div id="activity_detail">
+        <div className="headerInfo">
+          <p>{feedItem.partnerName} 파트너와</p>
+          <p>{(feedItem.startTime).substring(11,13)+"시 "+(feedItem.startTime).substring(17,19)+"분"}부터</p>
+          <p>{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,13)+"시 "+(feedItem.endTime).substring(17,19)+"분"}까지 활동했어요.</p>
+        </div>
 
-          <tr>
-            <td className="td1">시작 시간</td>
-            <td className="td2" colSpan="2">{(feedItem.startTime).substring(11,19)}</td>
-          </tr>
+        <div>
+          {feedItem.mapPicture.length > 0  ?
+            <div style= {{zIndex:'0'}} id="map" ref={container}/>
+          :
+            <div style ={{textAlign : "center"}} id="map">경로를 표시할 수 없습니다.</div>
+          }
+        </div>
 
-          <tr>
-            <td className="td1">종료 시간</td>
-            <td className="td2" colSpan="2">{feedItem.endTime === "알 수 없음" ? feedItem.endTime : (feedItem.endTime).substring(11,19)}</td>
-          </tr>
-          
-          <tr>
-            <td className="td1">경로</td>
-          </tr>
+        <div id="review">
+          <p id="header">소감문</p>
+          <p>
+            { review.length !== 0 ? review.length+"/800" : null}
+          </p>
 
-          <tr>
-            {feedItem.mapPicture.length > 0  ?
-              <td colSpan="3">
-                <div style= {{zIndex:'0'}} id="map" ref={container}/>
-              </td>
+          <div id="textarea">
+            { reviewState === false ?
+              <div id="text">{feedItem.review}</div>
             :
-              <td colSpan = "2" style ={{textAlign : "center"}}>경로를 표시할 수 없습니다.</td>
+              <div>
+                <textarea className="inputText" onChange={reviewChange} 
+                placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
+                minLength="100" maxLength="800" defaultValue={feedItem.review || ''}></textarea>
+              </div>
             }
-
-          </tr>
-
-          <tr>
-            <td className="td1">소감문</td>
-            <td className="td2">
-            { reviewState === true && <button className="user_btn_blue" onClick={() => updateReview()}>완료</button>}
-            { reviewState === false && feedItem.review === null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>작성</button>}
-            { reviewState === false && feedItem.review !== null && <button className="user_btn_blue" onClick={() => setReviewState(!reviewState)}>수정</button>}
-            </td>
-            <td>
-              { review.length !== 0 ? review.length+"/800" : "?/800"}
-            </td>
-          </tr>     
-        </tbody>
-      </table>
-      <div id="textarea">
-        { reviewState === false ?
-          feedItem.review
-        :
-          <div>
-            <textarea className="inputText" onChange={reviewChange} 
-            placeholder="활동을 통해 배운 점, 느낀 점 등을 100자 이상 작성해주세요." 
-            minLength="100" maxLength="800" defaultValue={feedItem.review || ''}></textarea>
           </div>
-        }
+
+          <p id="button">
+            { reviewState === true && <button id="blueBtn" onClick={() => updateReview()}>완료</button>}
+            { reviewState === false && feedItem.review === null && <button id="blueBtn" onClick={() => setReviewState(!reviewState)}>작성</button>}
+            { reviewState === false && feedItem.review !== null && <button id="blueBtn" onClick={() => setReviewState(!reviewState)}>수정</button>}
+          </p>
+        </div>
       </div>
     </div>
   );

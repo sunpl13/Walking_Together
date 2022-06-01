@@ -6,7 +6,8 @@ import axios from "axios";
 import { debounce } from "lodash";
 
 import { CgProfile } from "react-icons/cg";
-import { IoIosArrowForward } from "react-icons/io";
+import { ImProfile } from "react-icons/im";
+import { CgFileDocument } from "react-icons/cg";
 
 import { department } from "../../utils/options";
 import { resetActivity } from "../../modules/activity";
@@ -14,6 +15,7 @@ import { resetFeed } from "../../modules/feed";
 import { resetNotice } from "../../modules/notice";
 import { getPartnerBriefInfo, resetPartner } from "../../modules/partner";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 import "../../styles/mypage.scss";
 
@@ -120,7 +122,7 @@ const Mypage = () => {
         "null",
         "null",
         "null",
-        "small"
+        "h300"
       )
     ); //상단바 변경
   }, 800);
@@ -162,7 +164,7 @@ const Mypage = () => {
                   "null",
                   "null",
                   "null",
-                  "small"
+                  "h300"
                 )
               ); //상단바 변경
             })
@@ -184,7 +186,7 @@ const Mypage = () => {
         "create",
         cancel,
         (e) => submit(e),
-        "small"
+        "h250"
       )
     ); //상단바 변경
     setUpdateState(true);
@@ -198,7 +200,7 @@ const Mypage = () => {
         "null",
         "null",
         "null",
-        "small"
+        "h350"
       )
     ); //상단바 변경
     getMypage();
@@ -207,36 +209,26 @@ const Mypage = () => {
   return (
     <div id="profileWrap">
       {updateState === false ? (
-        <div>
-          <table id="profileTable">
-            <tbody>
-              <tr>
-                <td rowSpan="4" className="td1">
-                  {userInfo.profilePicture != null ? (
-                    <img src={userInfo.profilePicture} alt="프로필 이미지" />
-                  ) : (
-                    <CgProfile size={100} color="#9a9a9a" />
-                  )}
-                </td>
-                <td className="td2">{userInfo.name}</td>
-              </tr>
-              <tr>
-                <td className="td2">{userInfo.department}</td>
-              </tr>
-              <tr>
-                <td className="td2">{stdId}</td>
-              </tr>
-              <tr>
-                <td className="td2">
-                  {userInfo.totalTime != null ? userInfo.totalTime : 0}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div id="profile">
+          <div id="profileImage">
+            {userInfo.profilePicture != null ? (
+              <img src={userInfo.profilePicture} alt="프로필 이미지" />
+            ) : (
+              <CgProfile size={120} color="#ffffff" />
+            )}
+          </div>
+          <Comment sub="" main={userInfo.name+"\n"+userInfo.department+"\n"+stdId}/>
+          <button id="updateInfo" onClick={() => setState(true)}>회원 정보 수정</button>
+          <div id="time">
+            {userInfo.totalTime !== 0 ? 
+              "총 "+userInfo.totalTime+"분 활동했어요!"
+              : "아직 기록이 없어요!"}
+          </div>
         </div>
       ) : (
         <div id="mypageUpdate">
           {/* update */}
+          <Comment sub="P r o f i l e" main={"내 정보를\n수정해요."}/>
           <form
             action="/mypage/change"
             id="mypageForm"
@@ -246,11 +238,10 @@ const Mypage = () => {
           >
             <div className="mypageInputWrap" id="profileImage">
               <div id="preview">
-                <p>프로필 이미지</p>
                 {fileUrl||userInfo.profilePicture != null ? (
                   <img src={fileUrl||userInfo.profilePicture} alt="프로필 이미지" />
                 ) : (
-                  <CgProfile size={100} color="#9a9a9a" />
+                  <CgProfile size={150} color="#9a9a9a" />
                 )}
               </div>
               <div id="inputDiv">
@@ -270,17 +261,16 @@ const Mypage = () => {
             <br />
 
             <div className="mypageInputWrap">
-              <label>학과</label>
               <select
                 className="inputSelect"
                 value={dept}
                 name="department"
                 onChange={(e) => setDept(e.target.value)}
               >
-                {department.map((dept) => {
+                {department.map(({ label, value }) => {
                   return (
-                    <option key={dept.label} value={dept.value}>
-                      {dept.label}
+                    <option key={label} value={value}>
+                      {label}
                     </option>
                   );
                 })}
@@ -289,24 +279,24 @@ const Mypage = () => {
             <br />
 
             <div className="mypageInputWrap">
-              <label>비밀번호</label>
               <input
-                className="input"
+                className="pass1"
                 type="password"
                 name="password1"
                 value={password1}
+                placeholder="비밀번호"
                 onChange={(e) => setPassword1(e.target.value)}
               ></input>
             </div>
             <br />
 
             <div className="mypageInputWrap">
-              <label>비밀번호 확인</label>
               <input
-                className="input"
+                className="pass2"
                 type="password"
                 name="password2"
                 value={password2}
+                placeholder="비밀번호 확인"
                 onChange={(e) => setPassword2(e.target.value)}
               ></input>
             </div>
@@ -316,34 +306,19 @@ const Mypage = () => {
       )}
 
       {updateState === false ? (
-        <table id="mypageList">
-          <tbody>
-            <tr onClick={goPartner}>
-              <td>파트너 정보</td>
-              <td>
-                <IoIosArrowForward />
-              </td>
-            </tr>
-            <tr onClick={() => history.replace("/user/certification")}>
-              <td>인증서 발급</td>
-              <td>
-                <IoIosArrowForward />
-              </td>
-            </tr>
-            <tr onClick={() => setState(true)}>
-              <td>회원 정보 수정</td>
-              <td>
-                <IoIosArrowForward />
-              </td>
-            </tr>
-            <tr id="logout" onClick={logout}>
-              <td>로그아웃</td>
-              <td>
-                <IoIosArrowForward />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="mypageList">
+          <table onClick={goPartner} id="partner">
+            <tbody>
+              <tr><td><ImProfile id="icon" size={40} color="#477ac7"/></td><td id="right">파트너<br/>정보</td></tr>
+            </tbody>
+          </table>
+          <table onClick={() => history.replace("/user/certification")} id="certification">
+           <tbody>
+              <tr><td><CgFileDocument id="icon" size={40} color="#477ac7"/></td><td id="right">인증서<br/>발급</td></tr>
+            </tbody>
+          </table>
+          <p id="logout" onClick={()=>logout()}>로그아웃</p>
+        </div>
       ) : null}
     </div>
   );

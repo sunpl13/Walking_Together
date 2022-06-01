@@ -1,69 +1,81 @@
-@import './valiables.scss';
+@import "./valiables.scss";
 
-#homeWrap {
-    width: 100%;
-    text-align: center;
-    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-    #logo {
-        width: 80%;
-        height: 50px;
-        line-height: 50px;
-        display: inline-block;
-        margin: 0px auto;
-        margin-top: 90px;
-        font-size: $xx-large;
-    }
+#home {
+  .btn {
+    @include button($White, $Main1, 80px, 30px);
+    float: right;
+    position: relative;
+    top: -160px;
+    margin-right: 10%;
+  }
+  #homeWrap {
     #noticeWrap {
-        width: 80%;
-        margin: 30px auto;
-        padding-bottom: 100px;
-        #noticeTop {
-            width: 100%;
-            height: max-content;
-            position: relative;
-            display: inline-block;
-            padding: 5px 0px;
-            border-bottom: 3px solid $tableBorder-;
-            #noticeTitle {
-                float: left;
-                font-size: $x-large;
-                font-weight: bold;
+        width: 90%;
+        height: 250px;
+        position: relative;
+        top: -100px;
+        background-image: url('../source/Sample1.jpg');
+        filter: brightness(110%);
+        background-size: cover;
+        border: 1px solid $Gray;
+        border-radius: 20px;
+        box-shadow: 1px 1px 2px 1px $Gray;
+        .notice {
+            #title {
+                position: absolute;
+                top: 180px;
+                left: 5%;
+                font-size: $Large;
+                font-weight: 600;
+                z-index: 3;
             }
-            .user_btn_blue {
-                float: right;
-                font-size: $small;
-                width: 60px;
-                height: 28px;
-                line-height: 28px;
-                padding: 0%;
+            #date {
+                position: absolute;
+                top: 210px;
+                right: 5%;
+                z-index: 3;
             }
         }
-        #noticeTable {
+        #back {
             width: 100%;
-            position: relative;
-            tbody {
-                display:block;
-                border-collapse: separate;
-                
-                tr {
-                    width: 100%;
-                    display: inline-block;
-                    #title {
-                        float: left;
-                        font-weight: bold;
-                    }
-                    #writer {
-                        float: left;
-                    }
-                    #date {
-                        float: right;
-                    }
-                }
-            }
-            #body1, #body2, #body3 {
-                border-top: 1px solid $tableBorder-;
-            }
+            height: 80px;
+            position: absolute;
+            top: 170px;
+            background-color: rgba(#ffffff, 0.7);
+            border-radius: 0 0 20px 20px;
         }
     }
+    .arrowBtn {
+        @include button($White, $Main1);
+        opacity: 0.7;
+        position: absolute;
+        z-index: 2;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+    }
+    #left {
+        top: 300px;
+        left: 5%;
+    }
+    #right {
+        top: 300px;
+        right: 5%;
+    }
+    #imageWrap {
+        margin: 0 auto;
+        position: relative;
+        top: -70px;
+        text-align: center;
+        img {
+            width: 80%;
+        }
+    }
+  }
+  .hidden {
+    height: 0 !important;
+    padding: 0 !important;
+    display: hidden !important;
+    opacity: 0 !important;
+  }
 }

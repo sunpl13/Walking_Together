@@ -8,6 +8,7 @@ import {
   changePartnerHandler,
   getPartnerBriefInfo,
 } from "../../modules/partner";
+import Comment from "../../utils/Comment";
 import { changeBar } from "../../modules/topbar";
 import { lim_kor, lim_al, lim_Specialc } from "../../utils/options";
 
@@ -114,7 +115,7 @@ const PartnerUpdate = ({ match }) => {
         "create",
         cancel,
         submit,
-        "small"
+        "h250"
       )
     ); //상단바 변경
   }, [
@@ -139,7 +140,9 @@ const PartnerUpdate = ({ match }) => {
       method="post"
       onSubmit={(e) => submit(e)}
     >
-      <div className="mypageInputWrap" id="profileImage">
+      <Comment sub="P a r t n e r" main={"파트너 정보를\n수정해요."}/>
+
+      <div className="partnerInputWrap" id="profileImage">
         <div id="preview">
           {fileUrl || partner.partnerImage !== null ? (
             <img src={fileUrl || partner.partnerImage} alt="프로필 이미지" />
@@ -149,9 +152,7 @@ const PartnerUpdate = ({ match }) => {
         </div>
 
         <div id="inputDiv">
-          <label id="fileBtn" htmlFor="inputFile">
-            새로운 이미지 선택
-          </label>
+          <label className="btn" htmlFor="inputFile">새로운 이미지 선택</label>
           <input
             className="inputFile"
             id="inputFile"
@@ -163,13 +164,12 @@ const PartnerUpdate = ({ match }) => {
           ></input>
         </div>
       </div>
-      <label>파트너 구분</label>
       <select
         className="inputSelect"
         value={partnerDetail || ""}
         onChange={(e) => setPartnerDetail(e.target.value)}
       >
-        <option>선택</option>
+        <option>파트너 구분</option>
         <option value="d">장애인</option>
         <option value="p">임산부</option>
         <option value="c">아동</option>
@@ -178,18 +178,17 @@ const PartnerUpdate = ({ match }) => {
       </select>
       <br />
 
-      <label>이름</label>
       <input
         className="input"
         type="text"
         value={partnerName || ""}
         onChange={(e) => setPartnerName(e.target.value)}
+        placeholder="파트너 이름"
       />
       <br />
 
-      <label>성별</label>
       <span id="form_gender">
-        <label htmlFor="man" id="small_label">
+        <label htmlFor="man" id={gender==="남성"?"genderChecked":"noneChecked"}>
           남성
         </label>
         <input
@@ -201,7 +200,7 @@ const PartnerUpdate = ({ match }) => {
           onChange={(e) => setGender(e.target.value)}
           checked={gender === "남성" ? "checked" : ""}
         />
-        <label htmlFor="woman" id="small_label">
+        <label htmlFor="woman" id={gender==="여성"?"genderChecked":"noneChecked"}>
           여성
         </label>
         <input
@@ -216,7 +215,6 @@ const PartnerUpdate = ({ match }) => {
       </span>
       <br />
 
-      <label>생년월일</label>
       <input
         className="inputDate"
         type="date"
@@ -225,27 +223,23 @@ const PartnerUpdate = ({ match }) => {
       ></input>
       <br />
 
-      <label>관계</label>
       <input
         className="input"
         type="text"
         value={relationship || ""}
         onChange={(e) => setRelationship(e.target.value)}
+        placeholder="파트너와의 관계"
       />
       <br />
 
       <div id="reason_wrap">
-        <label>선정이유</label>
         <textarea
           className="inputText"
           onChange={(e) => setSelectionReason(e.target.value)}
           value={selectionReason || ""}
+          placeholder="파트너 선정 이유"
         ></textarea>
       </div>
-      <br />
-
-      <br />
-
       <input type="hidden" name="partnerId" value={partnerId} />
     </form>
   );

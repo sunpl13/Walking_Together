@@ -6,8 +6,6 @@ import { debounce } from "lodash";
 import { checkPartnerDetail } from "../../utils/Function";
 import { getPartnerDetailInfo } from "../../modules/partner";
 
-import { IoIosArrowForward } from "react-icons/io";
-
 const PartnerItem = ({state}) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -26,17 +24,11 @@ const PartnerItem = ({state}) => {
   }, 800);
 
   return (
-    <tr id="partner_item" onClick={itemClick}>
-      <td className="tdName">
-        {state.partnerName}
-      </td>
-      <td className="tdInfo">
-        ({detail}/{(state.partnerBirth).replaceAll("/","-")})
-      </td>
-      <td className="tdGo">
-        <IoIosArrowForward size="18"/>
-      </td>
-    </tr>
+    <span id="partner_item" onClick={itemClick}>
+      <p className="name">{state.partnerName}</p>
+      <p className="detail">{detail}</p>
+      <p className="birth">{(state.partnerBirth).replaceAll("/","-")}</p>
+    </span>
   );
 };
 

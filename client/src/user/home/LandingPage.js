@@ -5,7 +5,7 @@ import "../../styles/landing.scss";
 import { finishActivity } from "../../modules/activity";
 import { returnStdid } from "../../modules/user";
 import moment from "moment";
-import logowhite from "../../source/logo-white.png";
+import logowhite from "../../source/New-logo-white.png";
 
 
 function LandingPage() {

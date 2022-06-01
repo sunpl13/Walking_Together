@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 
 import "../../styles/activity.scss";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 import Notifications_Flatline from "../../source/Notifications_Flatline.svg";
 
@@ -43,7 +44,7 @@ const CreateActivity = () => {
         "create", 
         goBack, 
         () => createActivity(partnerId),
-        "small"
+        "h400"
       )
     );  //상단바 변경
   }, [partnerId, createActivity, dispatch, goBack])
@@ -55,15 +56,11 @@ const CreateActivity = () => {
 
   return (
     <div id="create_activity">
+      <Comment sub="T o d a y" main={year+"년\n"+month+"월 "+date+"일"}/>
+
       <form className="create_activity_form">
+      <p id="comment">어떤 파트너와 활동할까요?</p>
         <div id="create_activity_wrap">
-          <label className="tdActTitle">활동일</label>
-          <span className="tdActCon">{year+"/"+month+"/"+date}</span>
-        </div>
-        <br />
-        
-        <div id="create_activity_wrap">
-          <label className="tdActTitle">파트너</label>
           <select className="inputSelect" onChange={(e) => setPartnerId(e.target.value)}>
             <option value={0}>선택</option>
             { partners.length !== 0 ?
@@ -80,7 +77,6 @@ const CreateActivity = () => {
           </select>
         </div>
       </form>
-
       <img src={Notifications_Flatline} height="250" width="250" id="bottom_svg" alt="walking"></img>
     </div>
   );

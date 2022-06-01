@@ -8,12 +8,13 @@ import { lim_email } from "../../utils/options";
 import "../../styles/register.scss";
 import { changeBar } from "../../modules/topbar";
 import Loader from "react-loader-spinner";
+import Comment from "../../utils/Comment";
 
 function Register() {
   const history = useHistory();
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_SERVER;
-
+  
   const [agree1, setAgree1] = useState(false); //회원정보 동의
   const [agree2, setAgree2] = useState(false); //개인정보 수집 및 이용동의
   const [agree3, setAgree3] = useState(false); //위치정보 동의
@@ -89,18 +90,14 @@ function Register() {
         "null",
         goBack,
         "null",
-        "small"
+        "h270"
       )
     ); //상단바 변경
   }, [dispatch, goBack]);
 
   return (
     <div className="register">
-      <div className="register_coment">
-        Walking Together
-        <br />
-        서비스 약관에 동의해 주세요.
-      </div>
+      <Comment sub="S i g n - u p" main={"서비스 약관에\n동의해주세요."}/>
 
       <div className="check_container">
         <div className="total">
@@ -116,9 +113,9 @@ function Register() {
             />
             <label htmlFor="total">전체 동의</label>
           </div>
-          <p>
+          <p id="explanation">
             전체동의는 필수 및 선택 정보에 대한 동의도 포함 되어 있으며,
-            개별적으로도 동의를 선택하실 수 있습니다. 선택항복에 대한 동의를
+            개별적으로도 동의를 선택하실 수 있습니다. 선택항목에 대한 동의를
             거부하시는 경우에도 서비스는 이용이 가능합니다.
           </p>
         </div>
@@ -146,7 +143,7 @@ function Register() {
             </div>
           </li>
           <li>
-            <div className="check_Wrap">
+            <div className="check_wrap">
               <input
                 id="a2"
                 className="checkbox"
@@ -195,7 +192,7 @@ function Register() {
         <input
           type="email"
           onChange={EmailHandler}
-          placeholder="이메일"
+          placeholder="이메일 주소를 입력해주세요."
           onBlur={checkEmail}
         />
         <div style={{ fontSize: "0.8rem", color: "red" }}>
@@ -218,7 +215,7 @@ function Register() {
             "인증코드 발송"
           )}
         </button>
-        <p>입력해주신 이메일 정보는 회원가입 시 이메일로 설정됩니다.</p>
+        <p className="message">입력해주신 이메일 정보는<br/>회원 이메일 정보로 등록됩니다.</p>
       </div>
     </div>
   );

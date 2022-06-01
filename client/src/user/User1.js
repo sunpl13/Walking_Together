@@ -30,7 +30,6 @@ const User1 = () => {
           <Route path="/user1/memberstipulation" component={Auth(MemberStipulation,false)}/>
           <Route path="/user1/infostipulation" component={Auth(InfoStipulation,false)}/>
           <Route path="/user1/locationstipulation" component={Auth(LocationStipulayion,false)}/>
-          <Route path="/user1/memberstipulation" component={Auth(MemberStipulation,false)}/>
           <Route path="/user1/activity" component={Auth(Activity,true)}/>
           <Route path="/user1/createactivity" component={Auth(CreateActivity,true)}/>
           <Route path="/user1/activity-register" component={Auth(ActivityRegister, true)}/>
