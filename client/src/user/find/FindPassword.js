@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 import "../../styles/find.scss";
 import { debounce } from "lodash";
 
@@ -62,28 +63,26 @@ const FindPassword = () => {
         "null", 
         goBack, 
         "null", 
-        "small"
+        "h250"
       )
     );  //상단바 변경
   }, [dispatch, goBack])
 
   return (
     <div className = "find" >
+      <Comment sub="F i n d P w" main={"SU-Walk\n비밀번호 찾기"}/>
       <form className = "find_input">
         <div id="formDiv">
-          <label htmlFor="stdId" id="label">학번</label>
-          <input type = "text" value = {stdId} onChange = {stdIdHandler} id="input" className="stdId"/>
+          <input type = "text" value = {stdId} onChange = {stdIdHandler} id="input" className="stdId" name="stdId" placeholder="학번"/>
         </div>
         <div id="formDiv">
-          <label htmlFor="name" id="label">이름</label>
-          <input type = "text" value = {Name} onChange = {NameHandler} id="input" className="name"/>
+          <input type = "text" value = {Name} onChange = {NameHandler} id="input" className="name" name="name" placeholder="이름"/>
         </div>
         <div id="formDiv">
-          <label htmlFor="birth" id="label">생년월일</label>
           <input type = "date" onChange = {(e)=> {setbirth(moment(e.target.value).format('YYYYMMDD'))}} data-placeholder="생년월일" id="input" className="birth"/>
         </div>
+        <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
       </form>
-      <button onClick ={findpasswordHandler}>임시 비밀번호 발송</button>
     </div>
   );
 };

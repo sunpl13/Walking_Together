@@ -1,215 +1,123 @@
 @import "./valiables.scss";
 
-@mixin box-default {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 96%;
-  height: 70vh;
-}
-
-@mixin input-default {
-  margin-bottom: 10px;
-  height: 40px;
-  width: calc(96% - 5px);
-  border: 1px solid $BorderGray;
-  padding-left: 10px;
-  outline: none;
-  &:focus {
-    box-shadow: 1px 1px 10px $BackSky-;
-  }
-  @content;
-}
-
-@mixin button-default {
-  width: 100%;
-  height: 40px;
-  border: none;
-  outline: none;
-  background-color: $BackSkyBlue;
-  color: $fontWhite;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 2px;
-  margin-bottom: 10px;
-  @content;
+#topBarContainer {
+  height: 300px;
 }
 
 .register {
-  @include box-default;
-  margin-top: 50px;
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-
-  header {
-    position: fixed;
-    left: 0px;
-  }
-
-  .register_coment {
-    text-align: center;
-    font-size: large;
-    font-weight: bold;
-    margin: 80px 10px 30px 10px;
-    color: $fontGray;
-  }
-
   .check_container {
-    width: 90%;
-    margin: 0px 10px 30px 20px;
-
-    input[type="checkbox"] + label {
-      padding-left: 30px;
-      background: url("../source/Checkbox_before.svg") no-repeat 0 0px / contain;
-    }
-    input[type="checkbox"]:checked + label {
-      padding-left: 30px;
-      background: url("../source/Checkbox_after.svg") no-repeat 0 0px / contain;
-    }
-    input[type="checkbox"] {
-      display: none;
-    }
-
-    .go_icon {
-      width: 30px;
-      position: relative;
-      float: right;
-      text-align: center;
-      margin: 0;
-    }
-
-    #check_ul {
-      padding-left: 25px;
-    }
-
-    .checkbox:focus {
-      box-shadow: none;
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    label {
-      font-size: large;
-    }
-
+    width: 80%;
+    margin: 30px auto;
+    text-align: justify;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid $Gray;
+    @include checkBox();
     .total {
-      padding-bottom: 10px;
-      border-bottom: 3px $fontGray solid;
-      margin-bottom: 10px;
-      p {
-        text-align: justify;
-        font-size: small;
-        color: #b6b6b6;
-        padding: 10px 15px 5px 15px;
+      .total_agree {
+        font-size: large;
+        font-weight: 600;
+      }
+      #explanation {
+        width: 90%;
+        margin-top: 10px;
+        font-size: $Small;
+        color: $Black;
       }
     }
+    #check_ul {
+      list-style: none;
+      label {
+        font-weight: 600;
+      }
+      .check_wrap {
+        width: 92%;
+        .go_icon {
+          width: 30px;
+          position: relative;
+          float: right;
+          text-align: center;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .email_container {
+    text-align: center;
+    input[type=email] {
+      @include inputTextBoth();
+      border: 1px solid $Gray;
+      margin-bottom: 20px;
+    }
+    .button1 {
+      @include button();
+    }
+    .button2 {
+      @include button($Gray, $White);
+    }
+    .message {
+      margin: 20px auto;
+    }
+  }
+}
+
+#stipulation {
+  width: 80%;
+  text-align: justify;
+  padding-bottom: 70px;
+  .a {
+    margin-top: 10px;
   }
 }
 
 .register_auth {
-  @include box-default;
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-
   .e_container {
-    line-height: 40px;
-    width: 70%;
-    height: auto;
-    border: 1px solid none;
-    margin-bottom: 5%;
+    color: $White;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    text-align: center
+  }
+  .email_container {
     text-align: center;
-    span {
-      color: $fontGray;
-      font-style: italic;
-      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    input[type=number] {
+      @include inputTextBoth();
+      margin-bottom: 30px;
+      border: 1px solid $Gray;
+      text-align: center
     }
-  }
-
-  p {
-    margin-bottom: 5%;
-    font-weight: bold;
-  }
-}
-.email_container {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-
-  input {
-    @include input-default;
-  }
-
-  .button1 {
-    @include button-default;
-  }
-  .button2 {
-    @include button-default {
-      background-color: #5f5f5f;
+    .button1 {
+      @include button();
     }
-  }
-
-  p {
-    color: $fontGray;
-    text-align: justify;
+    .button2 {
+      @include button($Gray, $White);
+    }
   }
 }
 
 .register_page {
-  position: relative;
-  display: block !important;
-  @include box-default;
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-
   form {
-    position: absolute !important;
-    width: 90%;
-    padding: 5%;
-    margin-top: 40px;
-  }
-
-  input {
-    @include input-default {
-      height: 30px;
-      padding: 0 0 0 10px;
-      border-width: 0;
+    text-align: center;
+    input[name="name"] {
+      @include inputTextTop();
+      border: 1px solid $Gray;
     }
-  }
-
-  .inputSelect {
-    height: 30px;
-    margin-bottom: 10px;
-    font: 400 13.3333px Arial;
-    color: #434343;
-    width: calc(96% + 5px);
-    border: none;
-    padding-left: 10px;
-    outline: none;
-    &:focus {
-      box-shadow: 1px 1px 10px $BackSky-;
+    input[type=text],input[type=number],input[type=date],input[type=password],input[type=select] {
+      @include inputText();
+      border: 1px solid $Gray;
+      font-size: $Normal;
+      margin: 5px auto;
     }
-  }
-  .button1 {
-    @include button-default;
-  }
-  .button2 {
-    @include button-default {
-      background-color: #5f5f5f;
+    input[name="passwordCheck"] {
+      @include inputTextBottom();
+      border: 1px solid $Gray;
+      margin: 0 auto;
     }
-  }
-}
-
-.find_button {
-  @include button-default {
-    width: 200px;
+    .button1 {
+      @include button();
+    }
+    .button2 {
+      @include button($Gray, $White);
+    }
   }
 }

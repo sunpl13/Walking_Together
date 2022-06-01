@@ -5,6 +5,7 @@ import { sort } from "../../utils/options";
 import { getFeedList, selectFeed, selectErrorFeed } from "../../modules/feed";
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 import "../../styles/feed.scss";
 
@@ -22,7 +23,7 @@ function Feed() {
         "null", 
         "null", 
         "null", 
-        "small"
+        "h400"
       )
     );  //상단바 변경
     dispatch(getFeedList(ID, sor));
@@ -54,23 +55,22 @@ function Feed() {
 
   return (
     <div id="feedWrap">
-      <select className="inputSelect" selectedvalue="desc" onChange = {(e) => sortHandler(e)}>{sortList}</select>
+      <Comment sub="F e e d" main={"활동 피드를\n확인해요!"}/>
+
+      <div id="arrange">
+        <p id="selectDesc">어떤 순서로 정렬할까요?</p>
+        <select className="inputSelect" selectedvalue="desc" onChange = {(e) => sortHandler(e)}>{sortList}</select>
+      </div>
       <div id="feedItemsWrap">
         { myFeed.length !== 0 ? 
             myFeed.map((item,index) => {
-                return (
-                    <table key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>
-                        <tbody>
-                            <tr id="tr1">
-                                <td id="date">{item.activityDate}</td>
-                                <td id="state">{item.activityStatus ? "진행중" : "종료"}</td>
-                            </tr>
-                            <tr id="tr2">
-                                <td id="distance">{item.distance}{item.distance === null ? "" : "m"}</td>
-                                <td id="name">파트너 {item.partnerName}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+              return (
+                <div className={item.activityStatus?"active":"none"} id="feedItem" key = {index} onClick = {() => goDetail(item.activityId, item.activityStatus)}>
+                  <div id="date">{item.activityDate}</div>
+                  <div id="state">{item.activityStatus ? "진행중" : item.distance === null ? item.distance : item.distance+"m"}</div>
+                  <div id="name1">{item.partnerName} 파트너와</div>
+                  <div id="name2">함께 한 활동</div>
+                </div>
                 )
             }) 
         : 

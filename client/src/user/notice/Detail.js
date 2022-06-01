@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectNotice } from "../../modules/notice";
 import { changeBar } from "../../modules/topbar";
 
+import  "../../styles/notice.scss";
 import ReactHtmlParser from "react-html-parser";
 
 const Detail = () => {
@@ -12,7 +13,7 @@ const Detail = () => {
   const history = useHistory();
   const { state } = useLocation();
 
-  let { 
+  const { 
     title, 
     content,
     createTime,
@@ -33,7 +34,7 @@ const Detail = () => {
         "cancel", 
         "null", 
         goBack, 
-        "big"
+        "h100"
       )
     );  //상단바 변경
   }, [dispatch, title, createTime, goBack]);
@@ -51,21 +52,21 @@ const Detail = () => {
 
       <div className = "content">
         {ReactHtmlParser(content)}
-      </div>
-      
-      <div className = "files">
-        {attachedFiles.length < 1 ? 
-          <p id="at_none">첨부파일이 없습니다.</p>
-        :
-          attachedFiles.map((file, index) => {
-            return (
-              <div key={index} className="filedown">
-                <a href={file} download>첨부파일{index+1} Download</a>
-                <br />
-              </div>
-            )
-          })
-        }
+
+        <div className = "files">
+          {attachedFiles.length < 1 ? 
+            <p id="at_none">첨부파일이 없습니다.</p>
+          :
+            attachedFiles.map((file, index) => {
+              return (
+                <div key={index} className="filedown">
+                  <a href={file} download>첨부파일{index+1} Download</a>
+                  <br />
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
     </div>
   );

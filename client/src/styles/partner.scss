@@ -1,121 +1,90 @@
 @import "./valiables.scss";
 
-#partner_table {
-  -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1)
-    both;
-  animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-
-  width: 100%;
-  margin: 30px auto;
-  margin-top: 60px;
-  border-collapse: collapse;
-  text-align: center;
-  #partner_item {
-    //background-color: $white-;
-    border-top: 1px solid $tableBorder-;
-    border-bottom: 1px solid $tableBorder-;
-    line-height: 30px;
+#partnerWrap {
+  #partner_table {
     text-align: center;
-    height: 60px;
-    td {
-      color: $fontGray;
-      padding: 20px 0px;
-    }
-    .tdName {
-      font-weight: bold;
-      padding-left: 20px;
-    }
-    .tdGo {
-      padding-right: 20px;
-    }
   }
-}
-
-#partner_detail {
-  margin-top: 50px;
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-  text-align: center;
-  color: $fontGray;
-  #partner_detail_table {
-    width: 90%;
-    margin: 20px auto;
-    border-collapse: separate;
-    border-spacing: 0px 15px;
-    tr {
-      .td1 {
-        width: 40%;
-        text-align: right;
-        padding-right: 10px;
-        font-weight: bold;
-      }
-      .td4 {
-        width: 40%;
-        padding-right: 10px;
-        font-weight: bold;
-        margin: 0 auto;
-        img {
-          width: 100px;
-          height: 100px;
-          object-fit: cover;
-          border-radius: 100px;
-          display: block;
-        }
-      }
-      .td2 {
-        width: box-sizing;
-        text-align: left;
-      }
+  #partner_item {
+    width: 40%;
+    margin: 4.7%;
+    text-align: center;
+    display: inline-block;
+    background-color: $Main2;
+    border-radius: 20px;
+    border: 1px solid $Gray;
+    box-shadow: 1px 1px 5px 1px $Gray;
+    .name {
+      line-height: 30px;
+      font-weight: 600;
+      color: $White;
+    }
+    .detail {
+      line-height: 30px;
+      padding-bottom: 5px;
+      color: $White;
+    }
+    .birth {
+      line-height: 50px;
+      background-color: $White;
+      border-radius: 0 0 20px 20px;
     }
   }
 }
 
 .partner_form {
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-  width: 90%;
-  margin-top: 60px;
-  padding-bottom: 80px;
   text-align: center;
-  position: relative;
+  padding-bottom: 70px;
   * {
-    margin: 10px auto;
+    margin-bottom: 10px;
   }
-  label {
-    width: 90px;
-    text-align: right;
+  .main_comment {
+    text-align: left;
+  }
+  select {
+    width: 70%;
+    border: 1px solid $Gray;
+    border-radius: 10px 10px 0 0;
+  }
+  input[type="text"],
+  input[type="date"] {
+    @include inputText();
+    border: 1px solid $Gray;
+  }
+  input[type="radio"] {
+    display: none;
+  }
+  #genderChecked {
+    @include button($Main1, $White, 30%, 40px);
+    margin-bottom: 10px;
     display: inline-block;
-    margin-right: 10px;
-    font-weight: bold;
   }
-  #reason_wrap {
-    * {
-      vertical-align: middle;
-    }
-    height: auto;
+  #noneChecked {
+    @include button($White, $Main1, 30%, 40px);
+    margin-bottom: 10px;
+    display: inline-block;
   }
-  #form_gender {
-    width: 170px;
+  textarea {
+    width: 70%;
+    border: 1px solid $Gray;
+    padding: 10px 20px 10px 20px;
+    border-radius: 0 0 10px 10px;
+  }
+  .btn {
+    @include button();
+    width: 70%;
+    display: block;
     text-align: center;
-    #small_label {
-      width: 55px;
-      font-weight: normal;
-    }
-    .radio {
-      width: 14px;
-      height: 14px;
-    }
+    margin: 0 auto;
   }
 }
-
-.mypageInputWrap {
+.partnerInputWrap {
   #preview {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     margin-bottom: 10px;
     p {
       display: inline-block;
-      width: 200px;
+      width: 150px;
       font-weight: bold;
       text-align: center;
       padding-bottom: 20px;
@@ -124,29 +93,69 @@
       width: 150px;
       height: 150px;
       object-fit: cover;
+      border-radius: 150px;
+    }
+  }
+}
+
+#partner_detail {
+  .partnerImage {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto 10px auto;
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
       border-radius: 200px;
     }
   }
-  #inputDiv {
-    line-height: 30px;
-    input[type="file"] {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
+  .sets {
+    width: 80%;
+    margin: 70px auto;
+    padding-bottom: 90px;
+    .set {
+      color: $Main0;
+      margin: 20px auto;
+      .title {
+        font-weight: 600;
+        font-size: $SemiLarge;
+      }
+      .content {
+        font-size: $Large;
+      }
     }
-    #fileBtn {
-      width: 150px;
-      height: 30px;
-      margin: 0px 10px;
-      border-radius: 8px;
+    #buttons {
       text-align: center;
-      background-color: $BackSkyBlue;
-      color: $white;
+      * {
+        width: 40% !important;
+      }
+      .updateBtn {
+        @include button();
+      }
+      .deleteBtn {
+        @include button($White, $Main1);
+      }
     }
   }
+}
+
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#fileBtn {
+  width: 150px;
+  height: 30px;
+  margin: 0px 10px;
+  border-radius: 8px;
+  text-align: center;
+  background-color: $BackSkyBlue;
+  color: $white;
 }

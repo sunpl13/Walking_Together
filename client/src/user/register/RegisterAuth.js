@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 import "../../styles/register.scss";
 import Loader from "react-loader-spinner";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 const RegisterAuth = () => {
   const location = useLocation();
@@ -44,16 +45,18 @@ const RegisterAuth = () => {
         "null",
         "null",
         "null",
-        "small"
+        "h400"
       )
     ); //상단바 변경
   }, [dispatch]);
 
   return (
     <div className="register_auth">
-      <p>메일로 발송된 인증 코드를 입력해 주세요.</p>
+      <Comment sub="S i g n - u p" main={"메일로 발송된\n인증코드를\n입력해주세요."}/>
+
       <div className="e_container">
-        <span>" {location.state.email} "</span>
+        <span>" {location.state.email}"</span>
+        <span><br/>발송된 메일을 확인해주세요.</span>
       </div>
 
       <div className="email_container">

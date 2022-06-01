@@ -1,242 +1,300 @@
-//Background
-$white : #f9f9f9;
-$white- : #f5f5f5;
+//new
+$Main0: #477ac7;
+$Main1: #77a8ef;
+$Main2: #7aadf7;
+$Main3: #90bcfb;
+$Main4: #e8f0fe;
+$White: #ffffff;
+$Black: #777777;
+$Gray: #cccccc;
+$Green: #00b700;
 
-$BackBlue : #0078FF;
-$BackSkyBlue : #449eec;
-$BackSkyBlue- : #5FC3E4;
-$BackSky : #14D3FF;
-$BackSky- : #9de5f5;
-$BackWhiteGray : #e3e3e3;
-$BackGray : #c2c2c2;
-$BackDarkGray : #999999;
-$BackExcel : #1DDB16;
+$SuperSmall: 11px;
+$Small: 14px;
+$Normal: 16px;
+$Large: 18px;
+$SemiLarge: 24px;
+$SuperLarge: 32px;
+
+//Background
+$white: #f9f9f9;
+$white-: #f5f5f5;
+
+$BackBlue: #0078ff;
+$BackSkyBlue: #449eec;
+$BackSkyBlue-: #5fc3e4;
+$BackSky: #14d3ff;
+$BackSky-: #9de5f5;
+$BackWhiteGray: #e3e3e3;
+$BackGray: #c2c2c2;
+$BackDarkGray: #999999;
+$BackExcel: #1ddb16;
 
 //border
-$BorderGray : #a2a2a2;
-$BorderExcel : #00B700;
+$BorderGray: #a2a2a2;
+$BorderExcel: #00b700;
 
 //input
-$inputWhite : #fcfcfc;
-$inputGray : #9d9d9d;
+$inputWhite: #fcfcfc;
+$inputGray: #9d9d9d;
 
 //font color
-$fontGray : #434343;
-$fontGray- : #878787;
-$fontWhite : #fcfcfc;
-$fontOrange : #FD8242;
+$fontGray: #434343;
+$fontGray-: #878787;
+$fontWhite: #fcfcfc;
+$fontOrange: #fd8242;
 
 //table
-$tableBorder : #878787;
-$tableBorder- : #e3e3e3;
-$tableBack1 : #f2f2f2;
-$tableBack2 : #f6f6f6;
+$tableBorder: #878787;
+$tableBorder-: #e3e3e3;
+$tableBack1: #f2f2f2;
+$tableBack2: #f6f6f6;
 
 //shadow
-$shadowGray : #bdbdbd;
+$shadowGray: #bdbdbd;
 
 //size
-$xxx-small : 0.80em;
-$xx-small : 0.85em;
-$x-small : 0.9em;
-$small : 0.95em;
-$medium : 1.0em;
-$large : 1.05em;
-$x-large : 1.1em;
-$xx-large : 1.15em;
-
+$xxx-small: 0.8em;
+$xx-small: 0.85em;
+$x-small: 0.9em;
+$small: 0.95em;
+$medium: 1em;
+$large: 1.05em;
+$x-large: 1.1em;
+$xx-large: 1.15em;
 
 //fadein
 @keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @-webkit-keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 //fadein bottom
 @-webkit-keyframes fade-in-bottom {
-    0% {
-      -webkit-transform: translateY(50px);
-              transform: translateY(50px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-transform: translateY(0);
-              transform: translateY(0);
-      opacity: 1;
-    }
+  0% {
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 @keyframes fade-in-bottom {
-    0% {
-      -webkit-transform: translateY(50px);
-              transform: translateY(50px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-transform: translateY(0);
-              transform: translateY(0);
-      opacity: 1;
-    }
+  0% {
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
-  
-  
 
 //좌우 합치기
 @-webkit-keyframes trackingInExpand {
-    0% {
-      letter-spacing: -0.5em;
-      opacity: 0;
-    }
-    40% {
-      opacity: 0.6;
-    }
-    100% {
-      opacity: 1;
-    }
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
   }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes trackingInExpand {
-    0% {
-        letter-spacing: -0.5em;
-        opacity: 0;
-    }
-    40% {
-        opacity: 0.6;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 //focus-in
 @-webkit-keyframes text-focus-in {
-    0% {
-      -webkit-filter: blur(12px);
-              filter: blur(12px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-filter: blur(0px);
-              filter: blur(0px);
-      opacity: 1;
-    }
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
 }
-  @keyframes text-focus-in {
-    0% {
-      -webkit-filter: blur(12px);
-              filter: blur(12px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-filter: blur(0px);
-              filter: blur(0px);
-      opacity: 1;
-    }
+@keyframes text-focus-in {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
 }
 
 //shake
 @-webkit-keyframes heartbeat {
   from {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     -webkit-transform-origin: center center;
-            transform-origin: center center;
+    transform-origin: center center;
     -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
   10% {
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
     -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
   }
   17% {
     -webkit-transform: scale(0.98);
-            transform: scale(0.98);
+    transform: scale(0.98);
     -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
   33% {
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
     -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
   }
   45% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
 }
 @keyframes heartbeat {
   from {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     -webkit-transform-origin: center center;
-            transform-origin: center center;
+    transform-origin: center center;
     -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
   10% {
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
     -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
   }
   17% {
     -webkit-transform: scale(0.98);
-            transform: scale(0.98);
+    transform: scale(0.98);
     -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
   33% {
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
     -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
   }
   45% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
 }
-  
-
 
 //mixin
-@mixin button( $back-color, $font-color, $border-color, $width, $height ) {
-    width: $width;
-    height: $height;
-    line-height: $height;
-    border-radius: 5px;
-    margin: 0px 3px;
-    cursor: pointer;
-    background-color: $back-color;
-    color: $font-color;
-    border: 1px solid $border-color;
-  }
+@mixin animation() {
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
+}
 
-  @mixin buttonGR( $back-color-top, $back-color-bottom, $font-color, $border-color, $width, $height ) {
-    width: $width;
-    height: $height;
-    line-height: $height;
-    border-radius: 5px;
-    margin: 0px 3px;
-    cursor: pointer;
-    background: linear-gradient( 180deg, $back-color-top, $back-color-bottom);
-    color: $font-color;
-    border: 1px solid $back-color-bottom;
+@mixin header($size) {
+  width: 100%;
+  height: $size;
+  text-align: center;
+  margin: 0 auto;
+  display: inline-block !important;
+  font-size: $x-large;
+  #topBarContainer {
+    height: $size;
   }
+}
+
+@mixin inputText($width: 70%, $height: 40px) {
+  width: $width;
+  height: $height;
+  padding: 0 5%;
+  border: none;
+}
+@mixin inputTextTop($width: 80%, $height: 40px) {
+  @include inputText();
+  border-radius: 10px 10px 0 0;
+}
+@mixin inputTextBottom($width: 80%, $height: 40px) {
+  @include inputText();
+  border-radius: 0 0 10px 10px;
+}
+@mixin inputTextBoth($width: 80%, $height: 40px) {
+  @include inputText();
+  border-radius: 10px;
+}
+
+@mixin button(
+  $back-color: $Main1,
+  $font-color: $White,
+  $width: 80%,
+  $height: 50px
+) {
+  width: $width;
+  height: $height;
+  font-size: $Normal;
+  line-height: $height;
+  border-radius: 25px;
+  border: none;
+  margin: 0px 3px;
+  cursor: pointer;
+  background-color: $back-color;
+  color: $font-color;
+  box-shadow: 1px 1px 3px 1px $Gray;
+}
+
+@mixin checkBox() {
+  input[type="checkbox"] + label {
+    padding-left: 30px;
+    background: url("../source/Checkbox_before.svg") no-repeat 0 0px / contain;
+  }
+  input[type="checkbox"]:checked + label {
+    padding-left: 30px;
+    background: url("../source/Checkbox_after.svg") no-repeat 0 0px / contain;
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+}

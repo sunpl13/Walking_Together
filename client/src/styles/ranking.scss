@@ -3,31 +3,29 @@
 #ranking {
     width: 100%;
     height: 100%;
-}
-
-#items {
-    padding-bottom: 130px;
-    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-    * {
+    .svg_wrapper {
+        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+                animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        margin-top: 20px;
         text-align: center;
-        position: relative;
     }
-    #rank, #name, #distance {
-        font-weight: bold;
+    #items {
+        padding-bottom: 130px;
+        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+                animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        * {
+            text-align: center;
+            position: relative;
+        }
+        #rank, #name, #distance {
+            font-weight: bold;
+        }
     }
-}
-
-.svg_wrapper {
-    -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-    margin-top: 20px;
-    text-align: center;
 }
 
 #p1, #p2, #p3 {
     #rank {
-        font-size: $medium;
+        font-size: $Normal;
         width: 25px;
         height: 25px;
         line-height: 24px;
@@ -36,13 +34,13 @@
         border-radius: 25px;
     }
     #name {
-        font-size: $medium;
+        font-size: $Normal;
     }
     #dept {
-        font-size: $x-small;
+        font-size: $SuperSmall;
     }
     #stdId {
-        font-size: $small;
+        font-size: $Small;
     }
     #distance {
         font-size: $large;
@@ -53,7 +51,8 @@
     width: 90px;
     height: max-content;
     display: inline;
-    top: 10px;
+    position: absolute;
+    top: -80px;
     margin: 10px auto;
 }
 
@@ -61,10 +60,6 @@
     #rank {
         background-color: #FFE400;
     }
-    width: 110px;
-    left: calc(50% - 55px);
-    position: absolute;
-    display: inline;
     z-index: 1;
 }
 
@@ -88,32 +83,25 @@
     width: 90%;
     margin: 20px auto;
     position: relative;
-    top: 40px;
+    top: -50px;
     background-color: #ffffff;
     padding: 10px 0px;
     border-radius: 15px;
     box-shadow: 1px 1px 5px $shadowGray;
     #rank {
         width: 15%;
-        font-size: $x-small;
+        font-size: $Large;
     }
-    #profile {
-        width: 25%;
-    }
-    #name {
-        width: 60%;
-        font-size: $small;
+    #name, #distance {
+        width: 30%;
+        font-size: $Normal;
     }
     #dept {
-        width: 60%;
-        font-size: $xx-small;
+        width: 55%;
+        font-size: $Normal;
     }
     #stdId {
-        width: 60%;
-        font-size: $x-small;
-    }
-    #distance {
-        width: 60%;
-        font-size: $medium;
+        width: 55%;
+        font-size: $Normal;
     }
 }

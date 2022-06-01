@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { IoAddSharp, IoChevronBackSharp, IoCloseSharp } from "react-icons/io5";
 import { HiOutlineRefresh } from "react-icons/hi";
+import Circles from "../source/Circles.svg";
 import "../styles/top_bar.scss";
 
 const TopBar = () => {
@@ -66,31 +67,35 @@ const TopBar = () => {
   }
   
   return (
-    <header className="topBar" id={topbar.size}>  {/* size param(small or big)에 따라서 css결정 */}
-      
-      {/* left option : {back, null, cancel} */}
-      <div className="left">
-        {getLeft()}
-      </div>
+    <div id="topBarContainer">
+      <header className="topBar">      
+        {/* left option : {back, null, cancel} */}
+        <div className="left">
+          {getLeft()}
+        </div>
 
-      {/* center option : {title}, {date, null} */}
-      <div className="center">
-        <p>{topbar.center.title}</p>
-        {topbar.center.data !== null ?
-          <p className="data">
-            {topbar.center.data}
-          </p>
-        : 
-          null
-        }
-      </div>
+        {/* center option : {title}, {date, null} */}
+        <div className="center">
+          <p>{topbar.center.title}</p>
+          {topbar.center.data !== null ?
+            <p className="data">
+              {topbar.center.data}
+            </p>
+          : 
+            null
+          }
+        </div>
 
-      {/* right option : {cancel, plus, create, null} */}
-      <div className="right">
-        {getRight()}
-      </div>
+        {/* right option : {cancel, plus, create, null} */}
+        <div className="right">
+          {getRight()}
+        </div>
 
-    </header>
+      </header>
+      <div className="top" id={topbar.size}>
+          <img src={Circles} alt="circles" id="circles"/>
+      </div>
+    </div>
   );
 };
 

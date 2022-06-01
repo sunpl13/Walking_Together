@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 
 import PartnerItem from "../Partner/PartnerItem";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 import "../../styles/partner.scss";
 
@@ -12,7 +13,7 @@ const Partner = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const partner = useSelector(state => state.partner.briefPartner.partnerList);  //PARTNER-LIST
-
+  
   //param function
   const goBack = debounce(() => {
     history.replace("/user/mypage");
@@ -30,27 +31,27 @@ const Partner = () => {
         "plus", 
         goBack, 
         goCreatePartner, 
-        "small"
+        "h250"
       )
     );  //상단바 변경
   },[dispatch, goBack, goCreatePartner]);
 
   return (
-    <table id="partner_table">
-      <tbody>
-        { partner !== undefined ?
-          partner.map((res) => {
-            return (
-              <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
-            )
-          })
-        : 
-          <tr>
-            <td>파트너 정보가 없습니다.</td>
-          </tr>
-        }
-      </tbody>
-    </table>
+    <div id="partnerWrap">
+      <Comment sub="P a r t n e r" main={"내 파트너를\n확인해요!"}/>
+      
+      <div id="partner_table">
+          { partner !== undefined ?
+            partner.map((res) => {
+              return (
+                <PartnerItem state={res} key={res.partnerId}/>  //PARTNER-INFO-ITEM
+              )
+            })
+          : 
+            <p>파트너 정보가 없습니다.</p>
+          }
+      </div>
+    </div>
   );
 };
 

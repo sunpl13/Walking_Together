@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 
 import { createPartnerHandler, getPartnerBriefInfo } from "../../modules/partner";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 import { lim_kor, lim_al, lim_Specialc } from "../../utils/options";
 
 const PartnerInsert = () => {
@@ -94,53 +95,43 @@ const PartnerInsert = () => {
         "create", 
         cancel, 
         submit, 
-        "small"
+        "h250"
       )
     );  //상단바 변경
   }, [cancel, dispatch, submit, partnerName,partnerDetail,partnerPhoto,selectionReason,relationship,gender,partnerBirth]);
   
   return (      
     <form action="/partner/create" className="partner_form" encType="multipart/form-data" method="post" onSubmit={(e) => submit(e)}>
-      <label>파트너 구분</label>
+      <Comment sub="P a r t n e r" main={"파트너를\n등록해요!"}/>
+
       <select className="inputSelect" name="partnerDetail" value={partnerDetail||''} onChange={(e) => setPartnerDetail(e.target.value)}>
-        <option>선택</option>
+        <option>파트너 구분</option>
         <option value="d">장애인</option>
         <option value="p">임산부</option>
         <option value="c">아동</option>
         <option value="e">노인</option>
         <option value="o">일반인</option>
       </select>
-      <br/>
 
-      <label>이름</label>
-      <input className="input" type="text" name="partnerName" value={partnerName||''} onChange={(e) => setPartnerName(e.target.value)}/>
-      <br/>
+      <input className="input" type="text" name="partnerName" value={partnerName||''} onChange={(e) => setPartnerName(e.target.value)} placeholder="파트너 이름"/>
 
-      <label>성별</label>
       <span id="form_gender">
-        <label htmlFor="man" id="small_label">남성</label>
+        <label htmlFor="man" id={gender==="남성"?"genderChecked":"noneChecked"}>남성</label>
         <input type="radio" className="radio" name="gender" id="man" value="남성" onChange={(e) => setGender(e.target.value)} defaultChecked="true"/>
-        <label htmlFor="woman" id="small_label">여성</label>
+        <label htmlFor="woman" id={gender==="여성"?"genderChecked":"noneChecked"}>여성</label>
         <input type="radio" className="radio" name="gender" id="woman" value="여성" onChange={(e) => setGender(e.target.value)}/>
       </span>
-      <br/>
 
-      <label>생년월일</label>
       <input className="inputDate" type="date" name="partnerBirth" value={partnerBirth||''} onChange={(e) => setPartnerBirth(e.target.value)}></input>
-      <br/>
 
-      <label>관계</label>
-      <input className="input" type="text" name="relationship" value={relationship||''} onChange={(e) => setRelationship(e.target.value)}/>
-      <br/>
+      <input className="input" type="text" name="relationship" value={relationship||''} onChange={(e) => setRelationship(e.target.value)} placeholder="파트너와의 관계"/>
 
       <div id="reason_wrap">
-        <label>선정이유</label>
-        <textarea className="inputText" name="selectionReason" onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
+        <textarea className="inputText" name="selectionReason" placeholder="선정 이유" onChange={(e) => setSelectionReason(e.target.value)} value={selectionReason||''}></textarea>
       </div>
-      <br/>
 
-      <label>파트너 사진</label>
-      <input className="inputFile" type="file" name="partnerPhoto" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
+      <label className="btn" htmlFor="partnerPhoto">파트너 사진 등록</label>
+      <input className="inputFile" type="file" id="partnerPhoto" accept="image/*" src={partnerPhoto||''} onChange={(e) => setPartnerPhoto(e.target.files)}></input>
     </form>
   );
 };

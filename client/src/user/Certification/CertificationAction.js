@@ -11,6 +11,7 @@ import Files_And_Folder_Flatline from "../../source/Files_And_Folder_Flatline.sv
 
 import { certificationBack } from "../../source/certification";
 import { certificationDefault } from "../../source/certificationDefault";
+import Comment from "../../utils/Comment";
 
 const format = (data) => {
   if (data.length === 1) {
@@ -133,13 +134,15 @@ const CertificationAction = () => {
         "null", 
         "null", 
         "null", 
-        "small"
+        "h350"
       )
     );  //상단바 변경
   }, [dispatch])
     
   return (
     <div id="certificationAction">
+      <Comment sub="D o w n l o a d" main={"인증서 PDF\n다운로드"}/>
+
       <div id="buttonWrap">
         <button id="pdfmake" className="user_btn_blue" onClick={func}>인증서 다운로드</button>
       </div>

@@ -1,99 +1,112 @@
-@import './valiables.scss';
+@import "./valiables.scss";
 
-//feed
 #feedWrap {
-    width: 90%;
-    margin-top: 70px;
-    padding-bottom: 100px;
-   
+  #arrange {
+    text-align: center;
+    #selectDesc {
+      position: relative;
+      top: -30px;
+      color: $White;
+      font-size: $Large;
+      text-align: center;
+      margin-bottom: 10px;
+    }
     .inputSelect {
-        width: 100px !important;
-        height: 40px !important;
-        font-size: $medium;
+      width: 50%;
+      position: relative;
+      top: -30px;
+      border-radius: 10px;
     }
-    #feedItemsWrap {
-        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-        #notice {
-            text-align: center;
-        }
-        table {
-            color: $fontGray;
-            width: 100%;
-            border-top: 1px solid $tableBorder-;
-            border-bottom: 1px solid $tableBorder-;
-            margin: 20px auto;
-            border-collapse: collapse;
-            border-spacing: 0px;
-            #tr1 {
-                background-color: $BackWhiteGray;
-                line-height: 40px;
-                font-weight: bold;
-                #date {
-                    padding-left: 10px;
-                }
-                #state {
-                    text-align: right;
-                    padding-right: 10px;
-                }
-            }
-            #tr2 {
-                line-height: 30px;
-                #distance {
-                    padding-left: 10px;
-                }
-                #name {
-                    text-align: right;
-                    padding-right: 10px;
-                }
-            }
-        }
+  }
+  #feedItemsWrap {
+    margin-top: 50px;
+    .active {
+      background-color: $Green;
     }
+    .none {
+      background-color: $Gray;
+    }
+    #feedItem {
+      width: 40%;
+      margin: 4.7%;
+      text-align: center;
+      border-radius: 20px;
+      border: 1px solid $Gray;
+      display: inline-block;
+      #date {
+        line-height: 30px;
+      }
+      #state {
+        line-height: 30px;
+      }
+      #distance {
+        line-height: 30px;
+      }
+      #name1 {
+        background-color: $White;
+        border: 1px solid $White;
+        line-height: 20px;
+        padding-top: 10px;
+      }
+      #name2 {
+        background-color: $White;
+        border: 1px solid $White;
+        border-radius: 0 0 20px 20px;
+        line-height: 20px;
+        padding-bottom: 10px;
+      }
+    }
+  }
 }
 
-//feedDetail
 #feedDetail {
-    margin-top: 60px;
-    padding-bottom: 100px;
-    animation: fadein 1s;
-    -webkit-animation: fadein 1s;
-    #activity_detail_table {
-        width: 90%;
-        margin-top: 20px;
-        border-collapse: separate;
-        border-spacing: 0px 15px;
-        tr {
-            .td1 {
-                width: 40%;
-                text-align: right;
-                padding-right: 10px;
-                font-weight: bold;
-            }
-            .td2 {
-                width: box-sizing;
-                text-align: left;
-            }
-        }
-        .user_btn_blue {
-            width: 72px;
-            height: 30px;
-            line-height: 30px;
-        }
-        #map {
-            width: 90%;
-            height: 280px;
-            border: 1px solid $tableBorder-;
-        }
+  padding-bottom: 40px;
+  #activity_detail {
+    .headerInfo {
+      position: relative;
+      top: -60px;
+      margin-left: 10%;
+      p {
+        font-size: $Large;
+        color: $White;
+      }
     }
-    #textarea {
-        margin: 0px 30px 20px 30px;
-        height: 150px;
-        align-items: center;
-        text-align: center;
+    #map {
+      width: 80%;
+      height: 300px;
+      background-color: $White;
+      border: 1px solid $Gray;
+      line-height: 300px;
+    }
+    #review {
+      width: 80%;
+      border-radius: 20px;
+      border: 1px solid $Gray;
+      background-color: $White;
+      margin-top: 30px;
+      margin-bottom: 70px;
+      text-align: center;
+      #header {
+        font-size: $Normal;
+        font-weight: 600;
+        margin: 20px auto 5px auto;
+      }
+      #textarea {
+        margin: 30px auto;
+        #text {
+          width: 96%;
+          height: max-content;
+          text-align: justify;
+        }
         .inputText {
-            position: relative;
-            width: 100%;
-            height: 150px;
+          width: 96%;
+          height: 250px;
         }
+      }
+      #blueBtn {
+        @include button();
+        margin-bottom: 20px;
+      }
     }
+  }
 }

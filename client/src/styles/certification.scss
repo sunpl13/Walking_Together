@@ -1,60 +1,44 @@
 @import './valiables.scss';
 
 #certificationWrap {
-    width: 100%;
     #certification {
-        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-        width: 90%;
-        margin: 70px auto;
-        padding-top: 30px;
+        width: 100%;
+        position: absolute;
+        top: 290px;
         text-align: center;
-        p {
-            margin-bottom: 10px;
-        }
-        #pSet {
-            margin-bottom: 60px;
-        }
         #inputSet {
-            margin: 10px auto;
-            input {
-                height: 28px;
-                border: 1px solid $tableBorder;
-                border-radius: 5px;
+            .inputSelect {
+                width: 60%;
             }
             label {
-                padding-left: 5px;
+                margin-left: 5px;
+                color: $White;
             }
         }
-        #buttonSet {
-            margin-top: 60px;
+        #messages {
+            margin: 20px auto;
+            color: $White;
+        }
+        .btn {
+            @include button($White, $Main1, 70%);
         }
     }
 }
 
 #certificationAction {
-    width: 100%;
     #buttonWrap {
-        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-        margin-top: 130px;
-        margin-bottom: 50px;
         text-align: center;
-        button {
-            font-weight: bold;
-            width: 160px;
-            box-shadow: 1px 1px 1px 1px $BackGray;
+        #pdfmake {
+            @include button($White, $Main1);
+            position: relative;
+            top: -40px;
         }
     }
     #imageWrap {
-        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-        width: 80%;
-        height: max-content;
-        text-align: center;
+        width: 70%;
+        margin: 50px auto;
         img {
-            width: 200px;
-            height: 200px;
+            width: 100%;
         }
     }
 }

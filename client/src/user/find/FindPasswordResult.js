@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import "../../styles/find.scss";
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 const FindPasswordResult = () => {
 
@@ -23,16 +24,17 @@ const FindPasswordResult = () => {
         "null", 
         "null", 
         "null", 
-        "small"
+        "h400"
       )
     );  //상단바 변경
   }, [dispatch]);
 
   return (
     <div className = "find_auth">
+      <Comment sub="F i n d P w" main={"임시 비밀번호가\n발송되었습니다."}/>
+      
       <div className = "coment">
-        <span>메일로 발송된 임시비밀번호로 로그인 해주세요.
-        로그인 후 반드시 비밀번호를 변경해주세요!</span>
+        <p>로그인 후 반드시 비밀번호를 변경해주세요!</p>
       </div>
       <div className = "e_container">
         <span>" {location.state.email} "</span>

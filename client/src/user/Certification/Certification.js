@@ -5,6 +5,7 @@ import axios from "axios";
 import "../../styles/certification.scss";
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 const Certification = () => {
   const history = useHistory();
@@ -53,19 +54,16 @@ const Certification = () => {
         "null",
         "null",
         "null",
-        "small"
+        "h550"
       )
     ); //상단바 변경
   }, [dispatch]);
 
   return (
     <div id="certificationWrap">
+      <Comment sub="C e r t i f i c a t i o n" main={"인증서를\n발급받아요!"}/>
+      
       <div id="certification">
-        <div id="pSet">
-          <p>활동 기간을 선택한 후</p>
-          <p>조회 버튼을 눌러주세요.</p>
-        </div>
-
         <div id="inputSet">
           <input
             className="inputSelect"
@@ -89,11 +87,12 @@ const Certification = () => {
           <label htmlFor="fromInput">까지</label>
         </div>
 
-        <div id="buttonSet">
-          <button onClick={submit} className="user_btn_blue">
-            조회
-          </button>
+        <div id="messages">
+          <p>활동 기간을 선택한 후</p>
+          <p>조회 버튼을 눌러주세요.</p>
         </div>
+
+        <button onClick={submit} className="btn">조회</button>
       </div>
     </div>
   );

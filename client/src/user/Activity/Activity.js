@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { finishActivity } from "../../modules/activity";
 import { debounce } from "lodash";
 import { changeBar } from "../../modules/topbar";
+import Comment from "../../utils/Comment";
 
 import "../../styles/activity.scss";
 
@@ -208,7 +209,7 @@ const Activity = () => {
         "null",
         "null",
         "null",
-        "small"
+        "h600"
       )
     ); //상단바 변경
     script.onload = () => {
@@ -236,7 +237,7 @@ const Activity = () => {
         "create",
         "null",
         createAction,
-        "small"
+        "h600"
       )
     );
   }, 800);
@@ -333,43 +334,35 @@ const Activity = () => {
   }, 800);
 
   return (
-    <div>
+    <div className="activityMapWrap">
       <div
         id="mapWrap"
         className={activityState === false ? "hidden" : "visible"}
       >
         <div id="map"></div>
         <div id="activityInfo">
-          · 시간 : {moment(time).format("HH:mm:ss")}
-          <br />· 거리 : {parseInt(distance)}m
+          {moment(time).format("HH")}시간 {moment(time).format("mm")}분 동안
+          <br/>{parseInt(distance)}m를 걸었어요!
         </div>
+        <p id="message">30초마다 갱신됩니다.</p>
         <div id="buttonWrap">
-          <button onClick={stop} className="user_btn_blue">
-            종료
-          </button>
+          <button onClick={stop} className="btn">활동 종료</button>
         </div>
-        <p>
-          ※ 뒤로가기 버튼을 누르면 활동이 비정상적으로 종료되어 봉사 실적으로
-          인정되지 않습니다. 뒤로가기 버튼이 눌리지 않도록 주의해주세요.
-          <br />
-          <br />※ 화면 꺼지면 경로가 정상적으로 나오지 않을 수 있으니 화면이
-          켜진 상태에서 진행해 주시기 바랍니다.
-        </p>
       </div>
 
       <div
         id="activityRegisterWrap"
         className={activityState === true ? "hidden" : "visible"}
       >
+        <Comment sub="F i n i s h" main={"파트너와\n사진을 찍어요!\n"}/>
         <div
           id="activityRegister"
           className={activityState === true ? "hidden" : "visible"}
         >
           <div className="picture_container">
             {picture.length === 0 ? (
-              <div
-                className={activityState === true ? "hidden" : "preview"}
-              ></div>
+              <div className={activityState === true ? "hidden" : "preview"}>
+              </div>
             ) : (
               <div className={activityState === true ? "hidden" : "preview"}>
                 <img id="preview_img" ref={frame} alt="none" />
@@ -392,18 +385,18 @@ const Activity = () => {
                 ref={camera}
                 id="inputFile"
                 onChange={takePhoto}
+                disabled={activityState === true ? true : false}
               />
 
               {buttonFirst === true ? (
-                <label htmlFor="inputFile" className="user_btn_blue">
+                <label htmlFor="inputFile" className="btn" disabled={activityState === true ? true : false}>
                   사진 촬영
                 </label>
               ) : (
-                <label htmlFor="inputFile" className="user_btn_blue">
+                <label htmlFor="inputFile" className="btn" disabled={activityState === true ? true : false}>
                   다시 촬영
                 </label>
               )}
-              <br />
               {picture.length === 0 ? (
                 <span id="fileName">선택된 사진 없음</span>
               ) : (

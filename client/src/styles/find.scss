@@ -1,98 +1,42 @@
 @import "./valiables.scss";
-@import "./register.scss";
 
 .find {
-  @include box-default;
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-
-  header {
-    position: fixed;
-    left: 0;
-    top: 0;
-  }
-
   .find_input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 90%;
-
-    input {
-      @include input-default;
+    text-align: center;
+    * {
+      font-size: $Normal;
     }
-
-    #formDiv {
-      width: 100%;
-      margin: 0;
-      #label {
-        width: 30%;
-        text-align: left;
-        display: inline;
-        line-height: 40px;
-        margin-left: 10px;
-      }
-      #input {
-        height: 40px;
-        float: right;
-        width: 70%;
-        margin-right: 2px;
-        border: 1px solid $BorderGray;
-        padding-left: 10px;
-        margin-bottom: 10px;
-        outline: none;
-                box-sizing: border-box;
-           -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-           -moz-appearance: none;
-        -webkit-appearance: none;
-                appearance: none;
-      }
+    input[name="stdId"] {
+      @include inputTextTop();
+      border: 1px solid $Gray;
+      margin: 0 auto;
     }
-  }
-
-  button {
-    margin-top: 40px;
-    @include button-default {
-      width: 90%;
+    input[name="name"] {
+      @include inputText();
+      border: 1px solid $Gray;
+      font-size: $Normal;
+      margin: 5px auto;
+    }
+    input[type=date] {
+      @include inputTextBottom();
+      border: 1px solid $Gray;
+      margin: 0 auto;
+    }
+    button {
+      @include button();
+      margin: 70px auto;
     }
   }
 }
 
 .find_auth {
-  @include box-default;
-  animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-
-  header {
-    position: fixed;
-    left: 0;
-    top: 0;
-  }
-
+  color: $White;
+  text-align: center;
   .coment {
-    width: 80%;
-    margin: 10px 0 30px 0;
-    text-indent: 3%;
-    opacity: 0.7;
+    margin-bottom: 10px;
   }
-
-  .e_container {
-    line-height: 10vh;
-    width: 70%;
-    border: 1px solid none;
-    border-radius: 6px;
-    margin-bottom: 10%;
-    text-align: center;
-    span {
-      color: $fontGray;
-      font-style: italic;
-      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-    }
-  }
-
   .find_button {
-    width: 90%;
+    @include button();
+    margin: 70px auto;
   }
 }

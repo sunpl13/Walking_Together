@@ -7,6 +7,7 @@ import { debounce } from "lodash";
 import { option, lim_Specialc } from "../../utils/options";
 import { changeBar } from "../../modules/topbar";
 import Loader from "react-loader-spinner";
+import Comment from '../../utils/Comment';
 import "../../styles/register.scss";
 
 function RegisterPage() {
@@ -35,7 +36,7 @@ function RegisterPage() {
   const [checkpwd, setcheckpwd] = useState({
     //비밀번호 정규식 체크할 상태
     bool: false,
-    text: "비밀번호는 영문,숫자, 특수문자를 조합한 8자 이상입니다.",
+    text: "영문,숫자,특수문자 조합 8자 이상 입력해주세요.",
   });
   const [pwdCheck, setpwdCheck] = useState("");
 
@@ -152,31 +153,31 @@ function RegisterPage() {
         "null",
         "null",
         "null",
-        "small"
+        "h270"
       )
     ); //상단바 변경
   }, [dispatch]);
 
   return (
     <div className="register_page">
+      <Comment sub="S i g n - u p" main={"회원 정보를\n입력해주세요."}/>
+
       <form onSubmit={register}>
-        <label>이름</label>
         <input
           type="text"
           value={Name}
+          name="name"
           onChange={NameHandler}
           placeholder="이름"
           onBlur={Nameblur}
         />
-        <div style={{ fontSize: "0.8rem", color: "red" }}>{checkName.text}</div>
-        <label>학번</label>
+        <div style={{ fontSize: "14px", color: "orange" }}>{checkName.text}</div>
         <input
           type="number"
           value={stdId}
           onChange={stdIdHandler}
           placeholder="학번"
         />
-        <label>휴대폰번호</label>
         <input
           type="text"
           value={pNumber}
@@ -184,7 +185,6 @@ function RegisterPage() {
           placeholder="휴대폰번호"
           onBlur={pnumcheckHandler}
         />
-        <label>생년월일</label>
         <input
           type="date"
           onChange={(e) => {
@@ -192,7 +192,6 @@ function RegisterPage() {
           }}
           placeholder="생년월일"
         />
-        <label>학과</label>
         <select
           className="inputSelect"
           onChange={departmentHandler}
@@ -200,7 +199,6 @@ function RegisterPage() {
         >
           {depList}
         </select>
-        <label>비밀번호</label>
         <input
           type="password"
           value={Password}
@@ -208,18 +206,18 @@ function RegisterPage() {
           placeholder="비밀번호"
           onBlur={Passwordblur}
         />
-        <div style={{ fontSize: "0.8rem", color: "red", marginBottom: "5px" }}>
+        <div style={{ fontSize: "14px", color: "orange", marginBottom: "5px" }}>
           {checkpwd.text}
         </div>
-        <label>비밀번호 확인</label>
         <input
           type="Password"
           value={PasswordConfrim}
+          name="passwordCheck"
           onChange={PasswordConfrimHandler}
           placeholder="비밀번호 확인"
           onBlur={pwdCheckHandler}
         />
-        <div style={{ fontSize: "0.8rem", color: "red" }}>{pwdCheck}</div>
+        <div style={{ fontSize: "14px", color: "orange" }}>{pwdCheck}</div>
         <br />
         <button
           className={isDisabled ? "button2" : "button1"}

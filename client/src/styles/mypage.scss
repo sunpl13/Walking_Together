@@ -1,115 +1,134 @@
-@import './valiables.scss';
+@import "./valiables.scss";
 
 #profileWrap {
-    text-align: center;
-    padding-bottom: 100px;
-
-    #profileTable, #mypageList {
-        -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	            animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  #profile {
+    width: 80%;
+    #profileImage {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 120px;
+      position: absolute;
+      left: 10%;
+      top: 140px;
     }
-    #profileTable {
-        margin: 0 auto;
-        margin-top: 40px;
-        margin-bottom: 10px;
+    .mainWrap {
+      height: max-content;
+      display: block;
+      position: absolute;
+      right: 10%;
+      float: right;
+      p {
         width: 100%;
-        padding: 40px 0px;
-        .td1 {
-            width: 40%;
-            img {
-                width: 100px;
-                height: 100px;
-                object-fit: cover;
-                border-radius: 100px;
-            }   
-        }
-        .td2 {
-            width: 60%;
-            padding-left: 10px;
-            text-align: left;
-        }
+        display: block !important;
+        text-align: right;
+        font-size: $SemiLarge;
+      }
     }
-    #mypageList {
-        text-align: left;
-        width: 100%;
-        border-collapse: collapse;
-        tr{
-            //background-color: $tableBack2;
-            font-size: medium;
+    #updateInfo {
+      @include button($White, $Main1, 120px, 30px);
+      font-size: $Small;
+      position: absolute;
+      right: 10%;
+      top: 240px;
+    }
+    #time {
+      color: $White;
+      font-size: large;
+      text-align: center;
+    }
+  }
+  #mypageUpdate {
+    #mypageForm {
+      .mypageInputWrap {
+        * {
+          font-size: $Normal;
+        }
+        text-align: center;
+        #preview {
+          width: 150px;
+          height: 150px;
+          margin-bottom: 10px;
+          p {
+            display: inline-block;
+            width: 150px;
             font-weight: bold;
-            border-top: 1px solid $tableBorder-;
-            * {
-                padding: 20px 35px;
-                text-decoration: none;
-                color: $fontGray;
-            }
-        }
-        #logout {
-            border-bottom: 1px solid $tableBorder-;
-        }
-        svg {
-            float: right;
-            padding-right: 0px;
-        }
-    }
-    #mypageUpdate {
-        #mypageForm {
-                    animation: fadein 1s;
-            -webkit-animation: fadein 1s;
-            padding-top: 80px;
-            width: 90%;
-            color: $fontGray;
-            font-size: $small;
             text-align: center;
-            .mypageInputWrap {
-                #preview {
-                    width: 200px;
-                    height: 200px;
-                    margin-bottom: 10px;
-                    p {
-                        display: inline-block;
-                        width: 200px;
-                        font-weight: bold;
-                        text-align: center;
-                        padding-bottom: 20px;
-                    }
-                    img {
-                        width: 150px;
-                        height: 150px;
-                        object-fit: cover;
-                        border-radius: 200px;
-                    }
-                }
-                #inputDiv {
-                    line-height: 30px;
-                    input[type="file"] { 
-                        position: absolute; 
-                        width: 1px; 
-                        height: 1px; 
-                        padding: 0; 
-                        margin: -1px; 
-                        overflow: hidden; 
-                        clip:rect(0,0,0,0); 
-                        border: 0; 
-                    }
-                    #fileBtn {
-                        width: 150px;
-                        height: 30px;
-                        margin: 0px 10px;
-                        border-radius: 8px;
-                        text-align: center;
-                        background-color: $BackSkyBlue;
-                        color: $white;
-                    }
-                }
-            }
-            label {
-                display: inline-block;
-                width: 110px;
-                font-weight: bold;
-                text-align: right;
-                padding-right: 5px;
-            }
+            padding-bottom: 20px;
+          }
+          img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 150px;
+          }
         }
+        #fileBtn {
+          @include button($Main1, $White, 80%, 40px);
+          display: block;
+          margin: 0 auto;
+        }
+        #inputDiv {
+          line-height: 30px;
+          input[type="file"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+          }
+        }
+        .pass1 {
+          @include inputText();
+          border: 1px solid $Gray;
+        }
+        .pass2 {
+          @include inputTextBottom();
+          border: 1px solid $Gray;
+        }
+      }
     }
+  }
+  #mypageList {
+    text-align: center;
+    margin: 70px auto;
+    table {
+      width: 40%;
+      height: 80px;
+      border: 1px solid $Gray;
+      background-color: $White;
+      display: inline-block;
+      box-shadow: 3px 5px 5px 1px $Gray;
+      padding: 5px 0;
+      line-height: 30px;
+      #icon {
+        padding-top: 10px;
+        padding-left: 20px;
+      }
+      #right {
+        text-align: right;
+        position: relative;
+        right: -15px;
+        color: $Main0;
+        font-weight: 600;
+        font-size: $Large;
+      }
+    }
+    #partner {
+      border-radius: 10px 0 0 10px;
+    }
+    #certification {
+      border-radius: 0 10px 10px 0;
+    }
+    #logout {
+      margin: 70px auto;
+      text-decoration: underline;
+      font-size: $Normal;
+      color: $Main1;
+      font-weight: 600;
+    }
+  }
 }
