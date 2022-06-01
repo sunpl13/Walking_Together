@@ -126,5 +126,7 @@
 ### 2.3.3. 백엔드 - [rhdtn311](https://github.com/rhdtn311)
 
 ## 2.4. 사용법
-매뉴얼 : [WT_manual.pdf](https://github.com/sunpl13/Walking_Together/files/6645239/WT_manual.pdf)
+매뉴얼 : [매뉴얼-SU-Walk.pdf]
+(https://github.com/sunpl13/Walking_Together/files/8813662/-SU-Walk.pdf)
+
 <br></br>
