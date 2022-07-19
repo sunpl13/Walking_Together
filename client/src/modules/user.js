@@ -16,51 +16,57 @@ export const loginHandler = (
   password, 
   history
 ) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .post(`${url}/login`, {
       stdId: stdId,
       password: password,
     })
-    .then((response) => {
-      if (response.data.success) {
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token); //유저토큰 로컬스토리지에 user로 저장
-          dispatch({
-            type: LOGIN_USER,
-            payload: response.data,
-          });
 
-          if (window.confirm("환영합니다!")) {
-            if (stdId === "000000") {
-              history.replace("/admin/user-info");
-            } else {
-              history.replace("/user/home");
-            }
+    if (res.data.success) {
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token); //유저토큰 로컬스토리지에 user로 저장
+        dispatch({
+          type: LOGIN_USER,
+          payload: res.data,
+        });
+
+        if (window.confirm("환영합니다!")) {
+          if (stdId === "000000") {
+            history.replace("/admin/user-info");
+          } else {
+            history.replace("/user/home");
           }
         }
-        return response.data;
-      } else {
-        alert("로그인 정보가 일치하지 않습니다.");
       }
-    })
-    .catch((err) => console.log(err));
+      return res.data;
+    } else {
+      alert("로그인 정보가 일치하지 않습니다.");
+    }
+
+  } catch (err) {
+    console.log(err)
+  }
 };
 
 //비정상종료 학번 리턴
 export const returnStdid = (
   token
 ) => async (dispatch) => {
-  const data = await axios
+  try {
+    const res = await axios
     .post(`${url}/returnId`, {
       token: token,
     })
-    .then((res) => res.data)
-    .catch((err) => console.log(err.response));
 
-  dispatch({
-    type: RELOGIN_USER,
-    payload: data,
-  });
+    dispatch({
+      type: RELOGIN_USER,
+      payload: res,
+    });
+
+  } catch(err) {
+    console.log(err.response)
+  }
 };
 
 //회원가입
@@ -75,7 +81,8 @@ export const signupHanlder = (
     history,
     settogle
 ) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .post(`${url}/signup`, {
       email: email,
       name: name,
@@ -85,24 +92,24 @@ export const signupHanlder = (
       birth: birth,
       department: department,
     })
-    .then((res) => {
-      dispatch({
-        type: SIGNUP_USER,
-      });
-      if (window.confirm(res.data.message)) {
-        settogle(false);
-        history.replace("/login");
-      }
-    })
-    .catch((err) => {
-      if (err.response.status === 409) {
-        settogle(false);
-        alert(err.response.data.message);
-      } else if (err.response.status === 410) {
-        settogle(false);
-        alert(err.response.data.message);
-      }
+
+    dispatch({
+      type: SIGNUP_USER,
     });
+    if (window.confirm(res.data.message)) {
+      settogle(false);
+      history.replace("/login");
+    }
+
+  } catch(err) {
+    if (err.response.status === 409) {
+      settogle(false);
+      alert(err.response.data.message);
+    } else if (err.response.status === 410) {
+      settogle(false);
+      alert(err.response.data.message);
+    }
+  }
 };
 
 //로그아웃

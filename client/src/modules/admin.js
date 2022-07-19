@@ -16,19 +16,21 @@ const RESETADMIN = "RESETADMIN";
 export const getAdminActivityDetail = (
   activityId
 ) => async(dispatch) => {
-  await axios
-  .get(`${url}/admin/activityInfo/detail?activityId=${activityId}`, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => {
+  try {
+    const res = await axios
+    .get(`${url}/admin/activityInfo/detail?activityId=${activityId}`, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+
     dispatch({
       type: GETACTIVITYDETAIL,
       payload: res.data.data
     });
-  })
-  .catch((err) => alert(err.response.data.message));
+  } catch(err) {
+    alert(err.response.data.message)
+  };
 };
 
 //로그아웃 시 리셋

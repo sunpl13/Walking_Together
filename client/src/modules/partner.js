@@ -28,112 +28,121 @@ const INIT_PARTNER_STATE = {
 export const createPartnerHandler = (
   formData
 ) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .post(`${url}/partner/create`, formData, {
       headers: {
         "content-type": "multipart/form-data",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-    .then((res) => alert(res.data.message));
 
-  await dispatch({
-    type: CREATE_PARTNER,
-  });
+    alert(res.data.message)
+
+    await dispatch({
+      type: CREATE_PARTNER,
+    });
+
+  } catch(err) {
+
+  }
 };
 
 //파트너 간단한 정보 받아오는 액션
 export const getPartnerBriefInfo = (
   stdId
 ) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .get(`${url}/mypage/partnerInfo?stdId=${stdId}`, {
       headers: { 
         Authorization: `Bearer ${localStorage.getItem("token")}` 
       },
     })
-    .then((res) => {
-      if (res.data.status === 200) {
-        dispatch({
-          type: GET_PARTNER_BRIEF_INFO,
-          payload: res.data,
-        });
-      } else if (res.data.code === 204) {
-        dispatch({
-          type: GET_PARTNER_BRIEF_INFO,
-          payload: {
-            briefPartner: [],
-          },
-        });
-      }
-    })
-    .catch((err) => {
-      if (err.response.data.code === 204) {
-        alert(err.response.data.message);
-      }
-    });
+    if (res.data.status === 200) {
+      dispatch({
+        type: GET_PARTNER_BRIEF_INFO,
+        payload: res.data,
+      });
+    } else if (res.data.code === 204) {
+      dispatch({
+        type: GET_PARTNER_BRIEF_INFO,
+        payload: {
+          briefPartner: [],
+        },
+      });
+    }
+
+  } catch(err) {
+    if (err.response.data.code === 204) {
+      alert(err.response.data.message);
+    }
+  };
 };
 
 //파트너의 상세정보 받아오기
 export const getPartnerDetailInfo = (
   partnerId
 ) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .get(`${url}/mypage/partnerInfo/detail?partnerId=${partnerId}`, {
       headers: { 
         Authorization: `Bearer ${localStorage.getItem("token")}` 
       },
     })
-    .then((res) => {
-      dispatch({
-        type: GET_PARTNER_DETAIL_INFO,
-        payload: res.data.data,
-      });
-    })
-    .catch((err) => alert(err.response.data.message));
+    dispatch({
+      type: GET_PARTNER_DETAIL_INFO,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    alert(err.response.data.message)
+  };
 };
 
 //파트너 정보 변경
 export const changePartnerHandler = (
   formData
 ) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .post(`${url}/partner/change`, formData, {
       headers: {
         "content-type": "multipart/form-data",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-    .then((res) => {
-      return res.status;
-    })
-    .catch((err) => alert(err.response.data.message));
+    await dispatch({
+      type: CHANGE_PARTNER,
+    });
+    return res.status;
 
-  await dispatch({
-    type: CHANGE_PARTNER,
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 //파트너 삭제
 export const deletePartnerHandler = (partnerId) => async (dispatch) => {
-  await axios
+  try {
+    const res = await axios
     .get(`${url}/partner/delete?partnerId=${partnerId}`, {
       headers: { 
         Authorization: `Bearer ${localStorage.getItem("token")}` 
       },
     })
-    .then((res) => {
-      if (res.data.status === 200) {
-        alert(res.data.message);
-      }
-    })
-    .catch((err) => {
-      alert(err.response.data.message);
-    });
 
-  await dispatch({
-    type: DELETE_PARTNER,
-  });
+    if (res.data.status === 200) {
+      alert(res.data.message);
+    }
+
+    await dispatch({
+      type: DELETE_PARTNER,
+    });
+    
+  } catch(err) {
+    alert(err.response.data.message);
+  }
 };
 
 //로그아웃 시 리셋

@@ -44,19 +44,22 @@ export const getFeedList = (
   stdId, 
   sort
 ) => async(dispatch) => {
-  const res = await axios
-  .get(`${url}/feed?stdId=${stdId}&sort=${sort}`, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((response) => response.data)
-  .catch((err) => alert(err.response.data.message));
+  try {
+    const res = await axios
+    .get(`${url}/feed?stdId=${stdId}&sort=${sort}`, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+  
+    dispatch({
+      type: GETFEEDLIST,
+      payload: res.data
+    });
 
-  dispatch({
-    type: GETFEEDLIST,
-    payload: res.data
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const getCertification = (
@@ -64,79 +67,92 @@ export const getCertification = (
   from, 
   to
 ) => async(dispatch) => {
-  const res = await axios
-  .post(`${url}/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => res)
-  .catch((err) => alert(err.response.data.message));
+  try {
+    const res = await axios
+    .post(`${url}/feed/certification?stdId=${stdId}&from=${from}&to=${to}`, {}, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+  
+    dispatch({
+      type: GETCERTIFICATION,
+      payload: res.data
+    });
 
-  dispatch({
-    type: GETCERTIFICATION,
-    payload: res.data
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const updateFeed = (
   activityId, 
   review
 ) => async(dispatch) => {
-  await axios
-  .post(`${url}/feed/detail/review?activityId=${activityId}&review=${review}`, {}, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  }).then((res) => res)
-  .catch((err) => alert(err.response.data.message));
+  try {
+    axios
+    .post(`${url}/feed/detail/review?activityId=${activityId}&review=${review}`, {}, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+  
+    dispatch({
+      type: UPDATEFEED,
+      payload: {
+        activityId: activityId,
+        review: review
+      }
+    });
 
-  dispatch({
-    type: UPDATEFEED,
-    payload: {
-      activityId: activityId,
-      review: review
-    }
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const selectFeed = (
   activityId
 ) => async(dispatch) => {
-  const res = await axios
-  .get(`${url}/feed/detail?activityId=${activityId}`, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => res.data)
-  .catch((err) => alert(err.response.data.message));
+  try {
+    const res = await axios
+    .get(`${url}/feed/detail?activityId=${activityId}`, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+  
+    dispatch({
+      type: SELECTFEED,
+      activityId,
+      payload: res.data
+    });
 
-  dispatch({
-    type: SELECTFEED,
-    activityId,
-    payload: res.data
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 //activitystatus ==1 일때
 export const selectErrorFeed = (
   activityId
 ) => async(dispatch) => {
-  const res = await axios
-  .get(`${url}/feed/detail?activityId=${activityId}`, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => res.data)
-  .catch((err) => alert(err.response.data.message));
-
-  dispatch({
-    type: SELECTERROR,
-    activityId,
-    payload: res.data
-  });
+  try {
+    const res = await axios
+    .get(`${url}/feed/detail?activityId=${activityId}`, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+  
+    dispatch({
+      type: SELECTERROR,
+      activityId,
+      payload: res.data
+    });
+    
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 //로그아웃 시 리셋

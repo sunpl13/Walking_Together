@@ -26,45 +26,34 @@ const UserActivity = () => {
     {code: 1, name: "돌봄 걷기" }
   ];
 
-  const search = debounce(() => {
-    if (from === "" || to === "") {
-      alert("조회 기간을 지정해주세요.");
-    } else {
-      if (keyword === "") {
-        axios
-        .get(`${url}/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
-          headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-        })
-        .then((response) => {
-          if (response.data.data.length !== 0) {
-            setRes(response.data.data);
-          }
-          else {
-            setRes([]);
-          }
-        })
-        .catch((err) => console.log(err));
+  const search = debounce(async() => {
+    try {
+      if (from === "" || to === "") {
+        alert("조회 기간을 지정해주세요.");
       } else {
-        axios
-        .get(`${url}/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
-          headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-        })
-        .then((response) => {
-          if (response.data.data.length !== 0) {
-            setRes(response.data.data);
-          }
-          else {
-            setRes([]);
-          }
-        })
-        .catch((err) => console.log(err));
+        if (keyword === "") {
+          const res = await axios
+          .get(`${url}/admin/activityInfo?from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+          })
+          res.data.data.length!==0 ? setRes(res.data.data) : setRes([]);
+
+        } else {
+          const res = await axios
+          .get(`${url}/admin/activityInfo?keyword=${keyword}&from=${from.replaceAll("-","/")}&to=${to.replaceAll("-","/")}&activityDivision=${activityDivision}`, {
+            headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+          })
+          res.data.data.length!==0 ? setRes(res.data.data) : setRes([])
+        }
       }
+    } catch(err) {
+      console.log(err)
     }
   }, 800);
 
   const goDetail = (activityId) => {
     dispatch(getAdminActivityDetail(activityId))
-    .then(() => history.push("/admin/user-activity-detail"));
+    history.push("/admin/user-activity-detail")
   };
 
   //change action

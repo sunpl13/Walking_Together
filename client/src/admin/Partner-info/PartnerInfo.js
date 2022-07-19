@@ -22,20 +22,24 @@ const PartnerInfo = () => {
   ];
 
   //button
-  const search = debounce(() => {
-    axios
-    .get(`${url}/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
-      headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    })
-    .then((res) => {
+  const search = debounce(async() => {
+    try {
+      const res = await axios
+      .get(`${url}/admin/partnerInfo?keyword=${keyword}&partnerDetail=${partnerDetail}`, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+      })
+  
       if (res.data.data.length === 0) {
         alert("조회 결과가 없습니다.");
         setRes([]);
       } else {
         setRes(res.data.data);
       }
-    })
-    .catch((err) => console.log(err));
+
+    } catch(err) {
+      console.log(err)
+    }
+
   }, 800);
 
   //change action

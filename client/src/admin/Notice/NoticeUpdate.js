@@ -64,14 +64,12 @@ const NoticeUpdate = () => {
 
     //action dispatch
     dispatch(updateNotice(formData))
-    .then(() => getNotice());
+    getNotice()
   }, 800);
 
-  const getNotice = async() => {
-    await dispatch(getNoticeList(1,null))
-    .then(() => {
-      history.push("/admin/notice");
-    });
+  const getNotice = () => {
+    dispatch(getNoticeList(1,null))
+    history.push("/admin/notice");
   };
 
   //editor module and formats

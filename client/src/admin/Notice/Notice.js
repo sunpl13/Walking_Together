@@ -31,12 +31,12 @@ const Notice = () => {
   //go action
   const goDetail = debounce((noticeId) => {  //공지사항 세부로 이동
     dispatch(selectNotice(noticeId))
-    .then(() => history.push(`/admin/notice-detail/${noticeId}`));
+    history.push(`/admin/notice-detail/${noticeId}`);
   },800);
 
   const goAction = debounce(() => {  //공지사항 삽입으로 이동
     dispatch(initSelectedNotice())
-    .then(() => history.push("/admin/notice-insert"));
+    history.push("/admin/notice-insert");
   }, 800);
 
   //useEffect

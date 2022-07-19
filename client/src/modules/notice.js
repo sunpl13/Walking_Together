@@ -39,92 +39,106 @@ const url = process.env.REACT_APP_SERVER;
 export const insertNotice = (     //공지글 등록
   formData
 ) => async(dispatch) => {
-  await axios
-  .post(`${url}/admin/createpost`, formData, {
-    headers: {
-      'content-type': 'multipart/form-data',
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => alert(res.data.message))
-  .catch((err) => alert(err.response.data.message));
+  try {
+    const res = await axios
+    .post(`${url}/admin/createpost`, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    alert(res.data.message)
+  
+    dispatch({
+      type: INSERTNOTICE
+    });
 
-  dispatch({
-    type: INSERTNOTICE
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const updateNotice = (     //공지글 수정
   formData
 ) => async(dispatch) => { 
-  await axios
-  .post(`${url}/admin/update`, formData, {
-    headers: {
-      'content-type': 'multipart/form-data',
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => alert(res.data.message))
-  .catch((err) => alert(err.response.data.message));
+  try {
+    const res = await axios
+    .post(`${url}/admin/update`, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    alert(res.data.message)
+  
+    dispatch({
+      type: UPDATENOTICE,
+      title: formData.get("title"),
+      content: formData.get("content"),
+      imageFiles: formData.get("imageFiles"),
+      attachedFiles: formData.get("attachedFiles")
+    });
 
-  dispatch({
-    type: UPDATENOTICE,
-    title: formData.get("title"),
-    content: formData.get("content"),
-    imageFiles: formData.get("imageFiles"),
-    attachedFiles: formData.get("attachedFiles")
-  });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const deleteNotice = (       //공지글 삭제
   noticeId
-) => async(dispatch) => {   
-  await axios
-  .get(`${url}/admin/delete?noticeId=${noticeId}`, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => alert(res.data.message))
-  .catch((err) => alert(err.response.data.message));
-
-  dispatch({
-    type: DELETENOTICE
-  });
+) => async(dispatch) => {  
+  try {
+    const res = await axios
+    .get(`${url}/admin/delete?noticeId=${noticeId}`, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    alert(res.data.message)
+  
+    dispatch({
+      type: DELETENOTICE
+    });
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const selectNotice = (      //공지글 세부내용 조회
   noticeId
 ) => async(dispatch) => { 
-  await axios
-  .get(`${url}/notice?noticeId=${noticeId}`, {
-    headers: {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => {
+  try {
+    const res = await axios
+    .get(`${url}/notice?noticeId=${noticeId}`, {
+      headers: {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+
     dispatch({
       type: SELECTNOTICE,
       payload: res.data.data
     })
-  })
-  .catch((err) => alert(err.response.data.message));
+
+  } catch(err) {
+    alert(err.response.data.message)
+  }
 };
 
 export const getNoticeList = (      //공지사항 목록 가져오기
   page,
   keyword
 ) => async(dispatch) => {
-  if (keyword != null) {
-    await axios
-    .post(`${url}/noticeList`, {
-      page, keyword
-    }, {
-      headers : {
-        'Authorization' : `Bearer ${localStorage.getItem("token")}`
-      }
-    })
-    .then((res) => {
+  try {
+    if (keyword != null) {
+      const res = await axios
+      .post(`${url}/noticeList`, {
+        page, keyword
+      }, {
+        headers : {
+          'Authorization' : `Bearer ${localStorage.getItem("token")}`
+        }
+      })
       if (res.data.code === 400) {
         dispatch({
           type: GETLIST,
@@ -139,18 +153,16 @@ export const getNoticeList = (      //공지사항 목록 가져오기
           payload: res.data
         })
       }
-    })
-    .catch (err => {console.log(err.response.data.message)})
-  }else {
-    await axios
-    .post(`${url}/noticeList`, {
-      page
-    }, {
-      headers : {
-        'Authorization' : `Bearer ${localStorage.getItem("token")}`
-      }
-    })
-    .then((res) => {
+
+    } else {
+      const res = await axios
+      .post(`${url}/noticeList`, {
+        page
+      }, {
+        headers : {
+          'Authorization' : `Bearer ${localStorage.getItem("token")}`
+        }
+      })
       if (res.data.code === 400) {
         dispatch({
           type: GETLIST,
@@ -165,7 +177,9 @@ export const getNoticeList = (      //공지사항 목록 가져오기
           payload: res.data
         })
       }
-    }).catch (err => {console.log(err.response.data.message)})
+    }
+  } catch(err) {
+    console.log(err.response.data.message)
   }
 };
 

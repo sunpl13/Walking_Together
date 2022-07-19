@@ -12,20 +12,16 @@ const UserInfo = () => {
   const [keyword, setKeyword] = useState("");
 
   //button
-  const search = debounce(() => {
-    axios
-    .get(`${url}/admin/userinfo?keyword=${keyword}`, {
-      headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
-    })
-    .then((response) => {
-      if (response.data.length !== 0) {
-        setRes(response.data.data);
-      }
-      else {
-        setRes([]);
-      }
-    })
-    .catch((err) => console.log(err));
+  const search = debounce(async() => {
+    try {
+      const res = await axios
+      .get(`${url}/admin/userinfo?keyword=${keyword}`, {
+        headers : {'Authorization' : `Bearer ${localStorage.getItem("token")}`}
+      })
+      res.data.length!==0 ? setRes(res.data.data) : setRes([])
+    } catch(err) {
+      console.log(err)
+    }
   }, 800);
 
   //change action
