@@ -32,68 +32,74 @@ export const getPartner = (
   stdId, 
   history
 ) => async(dispatch) => {
-  await axios
-  .get(`${url}/activity/create?stdId=${stdId}`, {
-    headers : {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
+  try {
+    const res = await axios
+    .get(`${url}/activity/create?stdId=${stdId}`, {
+      headers : {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+
+    if (res.data.status === 400) {
+      alert("파트너 정보가 존재하지 않습니다.");
+      history.replace("/user/partner");
+    } else {
+      dispatch({
+      type: GETPARTNER,
+      payload: res.data.partners
+      });
+      history.replace("/user1/createactivity");
     }
-  })
-  .then((res) => {
-  if (res.data.status === 400) {
-    alert("파트너 정보가 존재하지 않습니다.");
-    history.replace("/user/partner");
-  } else {
-    dispatch({
-    type: GETPARTNER,
-    payload: res.data.partners
-    });
-    history.replace("/user1/createactivity");
+  } catch(err) {
+    alert(err.response.data.message)
   }
-  })
-  .catch((err) => alert(err.response.data.message));
 };
 
 //활동 생성
 export const createActivity = (
   formData
 ) => async(dispatch) => {
-  await axios
-  .post(`${url}/activity/createActivity`, formData, {
-    headers: {
-      'content-type': 'multipart/form-data',
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => {
+  try {
+    const res = await axios
+    .post(`${url}/activity/createActivity`, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
     dispatch({
-    type: CREATEACTIVITY,
-    payload: {
-      partnerId: formData.get('partnerId'),
-      activityId: res.data.data.activityId
-    }
+      type: CREATEACTIVITY,
+      payload: {
+        partnerId: formData.get('partnerId'),
+        activityId: res.data.data.activityId
+      }
     });
     alert(res.data.message);
-  })
-  .catch((err) => alert(err.response.data.message));
+  } catch(err) { 
+    alert(err.response.data.message)
+  };
 };
 
 //활동 삭제
 export const deleteActivity = (
   activityId
 ) => async(dispatch) => {
-  const data = await axios
-  .post(`${url}/activity/delete?activityId=${activityId}`, null, {
-    headers: {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then(res => res.data)
-  .catch(err => err.response.data.data);
+  try {
+    const data = await axios
+    .post(`${url}/activity/delete?activityId=${activityId}`, null, {
+      headers: {
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
 
-  dispatch({
-  type : DLELTEACTIVITY
-  })
-  return data;
+    dispatch({
+      type : DLELTEACTIVITY
+    })
+    return data;
+
+  } catch(err) {
+    alert(err.response.data.data)  //console
+  }
 }
 
 //위치 정보 업데이트
@@ -116,21 +122,24 @@ export const getLocation = (
 export const finishActivity = (
   formData
 ) => async(dispatch) => {
-  const data = await axios
-  .post(`${url}/activity/end`, formData, {
-    headers: {
-      'content-type': 'multipart/form-data',
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then(res => res.data)
-  .catch(err => err.response.data);
+  try {
+    const data = await axios
+    .post(`${url}/activity/end`, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Authorization' : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+  
+    dispatch({
+      type: FINISHACTIVITY
+    });
+  
+    return data;
 
-  dispatch({
-  type: FINISHACTIVITY
-  });
-
-  return data;
+  } catch(err) {
+    console.log(err.response.data)
+  }
 };
 
 //강제종료된 활동 처리
@@ -139,30 +148,33 @@ export const quitActivity = (
   endTime, 
   distance
   ) => async(dispatch) => {
-  await axios
-  .post(`${url}/activity/quit`, {
-    activityId,
-    endTime,
-    distance
-  }, {
-    headers: {
-      'Authorization' : `Bearer ${localStorage.getItem("token")}`
-    }
-  })
-  .then((res) => {
-    alert(res.data.message);
-  })
-  .catch((err) => alert(err));
+    try {
+      const res = await axios
+      .post(`${url}/activity/quit`, {
+        activityId,
+        endTime,
+        distance
+      }, {
+        headers: {
+          'Authorization' : `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      
+      alert(res.data.message);
 
-  dispatch({
-  type: FINISHACTIVITY
-  });
+      dispatch({
+        type: FINISHACTIVITY
+      });
+
+    } catch(err) {
+      alert(err)
+    }
 };
 
 //로그아웃 시 리셋
 export const resetActivity = () => async(dispatch) => {
   dispatch({
-  type: RESETACTIVITY
+    type: RESETACTIVITY
   });
 };
 

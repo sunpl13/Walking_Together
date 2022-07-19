@@ -16,12 +16,10 @@ const NoticeDetail = ({match}) => {
 
 
   //action
-  const delNotice = debounce(async() => {        //공지글 삭제
-    await dispatch(deleteNotice(noticeId))
-    .then(() => {
-      dispatch(getNoticeList(1));
-      history.push("/admin/notice");
-    });
+  const delNotice = debounce(() => {        //공지글 삭제
+    dispatch(deleteNotice(noticeId))
+    dispatch(getNoticeList(1));
+    history.push("/admin/notice");
   },800);
 
   const goUpdate = debounce(() => {
